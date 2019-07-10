@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Running SmartOS on OmniOS KVM</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Running SmartOS on OmniOS KVM
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Dec 26, 2014 by <font color="#0050B2">sjorge</font>.
+				    </div>
+
+				    <div>
+<ul>
+    <li><a href='#RunningSmartOSonOmniOSKVM-Whywouldyoudothat%3F'>Why would you do that?</a></li>
+    <li><a href='#RunningSmartOSonOmniOSKVM-Caveats'>Caveats</a></li>
+    <li><a href='#RunningSmartOSonOmniOSKVM-Setup'>Setup</a></li>
+<ul>
+    <li><a href='#RunningSmartOSonOmniOSKVM-Prerequisites'>Prerequisites</a></li>
+    <li><a href='#RunningSmartOSonOmniOSKVM-Addingtheadditionalrepository'>Adding the additional repository</a></li>
+    <li><a href='#RunningSmartOSonOmniOSKVM-Installingrequiredpackages'>Installing required packages</a></li>
+    <li><a href='#RunningSmartOSonOmniOSKVM-CreatingtheVMwithkvmadm'>Creating the VM with kvmadm</a></li>
+    <li><a href='#RunningSmartOSonOmniOSKVM-Gettingnetworkingtoworkinyourzones'>Getting networking to work in your zones</a></li>
+<ul>
+    <li><a href='#RunningSmartOSonOmniOSKVM-Retrievethemacfromyourrecentlycreatedzone'>Retrieve the mac from your recently created zone</a></li>
+    <li><a href='#RunningSmartOSonOmniOSKVM-UpdatingsecondarymacslinkpropertyforyourSmartOSVM'>Updating secondary-macs link property for your SmartOS VM</a></li>
+</ul>
+    <li><a href='#RunningSmartOSonOmniOSKVM-ManagingtheVM'>Managing the VM</a></li>
+<ul>
+    <li><a href='#RunningSmartOSonOmniOSKVM-StartingtheVM'>Starting the VM</a></li>
+    <li><a href='#RunningSmartOSonOmniOSKVM-StoppingtheVM'>Stopping the VM</a></li>
+    <li><a href='#RunningSmartOSonOmniOSKVM-ConnectingtotheVGAconsole'>Connecting to the VGA console</a></li>
+    <li><a href='#RunningSmartOSonOmniOSKVM-ConnectingtotheSerialconsole'>Connecting to the Serial console</a></li>
+    <li><a href='#RunningSmartOSonOmniOSKVM-Connectingtothemonitorconsole'>Connecting to the monitor console</a></li>
+</ul>
+</ul>
+</ul></div>
+
+<h1><a name="RunningSmartOSonOmniOSKVM-Whywouldyoudothat%3F"></a>Why would you do that?</h1>
+
+<p>In all honestly, if you have the choice, don't&#33; VMware Fusion / Workstation / ESXi is a far better platform to run a SmartOS VM on.</p>
+
+<p>In my case, I am away from home a lot and I do not have access to my normal workstation. I do have a NAS running OmniOS which is on all the time. I tried it before but always abandoned the idea. But I recently got it to work with a few caveats.</p>
+
+<h1><a name="RunningSmartOSonOmniOSKVM-Caveats"></a>Caveats</h1>
+
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> caveat </th>
+<th class='confluenceTh'> more information </th>
+</tr>
+<tr>
+<td class='confluenceTd'> <del>no ipv6</del> </td>
+<td class='confluenceTd'> <del>due to a bug in upstream illumos vnic loop back broadcast traffic, this included ipv6 neighbor discovery</del> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> no complex cpu topology </td>
+<td class='confluenceTd'> passing ''-smp 4'' works, passing ''-smp 4,sockets=1,cores=2,threads=2'' makes illumos kernel barf </td>
+</tr>
+<tr>
+<td class='confluenceTd'> no vioif </td>
+<td class='confluenceTd'> we're stuck with e1000 nic emulation which is not the fastest </td>
+</tr>
+</tbody></table>
+</div>
+
+
+<h1><a name="RunningSmartOSonOmniOSKVM-Setup"></a>Setup</h1>
+
+<h2><a name="RunningSmartOSonOmniOSKVM-Prerequisites"></a>Prerequisites</h2>
+
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> prereq </th>
+<th class='confluenceTh'> notes </th>
+</tr>
+<tr>
+<td class='confluenceTd'> OmniOS r151012 </td>
+<td class='confluenceTd'> other versions should work too, but untested by me </td>
+</tr>
+<tr>
+<td class='confluenceTd'> kvmadm </td>
+<td class='confluenceTd'> available in <a href="http://omnios.blackdot.be/en/index.shtml">obd</a> repository (mostly to make things easier to manage) </td>
+</tr>
+</tbody></table>
+</div>
+
+
+<h2><a name="RunningSmartOSonOmniOSKVM-Addingtheadditionalrepository"></a>Adding the additional repository</h2>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Midnight; brush: bash; gutter: false">pfexec pkg set-publisher -g http://omnios.blackdot.be omnios.blackdot.be
+pfexec pkg refresh --full</pre>
+		</div>
+</div></div>
+
+<h2><a name="RunningSmartOSonOmniOSKVM-Installingrequiredpackages"></a>Installing required packages</h2>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Midnight; brush: bash; gutter: false">pfexec pkg install -nv system/kvm obd/system/kvmadm obd/system/kvmcon
+pfexec pkg install -v system/kvm obd/system/kvmadm obd/system/kvmcon</pre>
+		</div>
+</div></div>
+
+<h2><a name="RunningSmartOSonOmniOSKVM-CreatingtheVMwithkvmadm"></a>Creating the VM with kvmadm</h2>
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>substitude your own pool and paths below (my VM is called <b>muon</b>)</td></tr></table></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Midnight; brush: bash; gutter: false">pfexec create -o quota=25G core/vms/hosts/muon
+pfexec create -V 20G -o compression=lz4 core/vms/hosts/muon/disk0</pre>
+		</div>
+</div></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>muon.json</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Midnight; brush: bash; gutter: false">{
+   "muon" : {
+      "nics" : [
+         {
+            "index" : "0",
+            "over" : "trunk0",
+            "nic_name" : "vmuon0",
+            "model" : "e1000",
+            "vlan_id" : "0"
+         }
+      ],
+      "cpu_type" : "qemu64,+aes,+sse4.2,+sse4.1,+ssse3",
+      "vnc" : "sock",
+      "hpet" : "true",
+      "disks" : [
+         {
+            "index" : "0",
+            "disk_path" : "/vms/hosts/muon/smartos-latest.iso",
+            "media": "cdrom",
+            "model" : "ide"
+         },
+         {
+            "index" : "1",
+            "disk_path" : "core/vms/hosts/muon/disk0",
+            "model" : "virtio"
+         }
+      ],
+      "boot_order" : "dc",
+      "shutdown" : "kill",
+      "vcpus" : "4",
+      "serials" : [
+         {
+            "index" : "0",
+            "serial_name" : "console"
+         }
+      ],
+      "cleanup" : "true",
+      "ram" : "4096",
+      "time_base" : "utc"
+   }
+}</pre>
+		</div>
+</div></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Midnight; brush: bash; gutter: false">pfexec kvmadm import /vms/hosts/muon/muon.json</pre>
+		</div>
+</div></div>
+
+<h2><a name="RunningSmartOSonOmniOSKVM-Gettingnetworkingtoworkinyourzones"></a>Getting networking to work in your zones</h2>
+
+<p>This is the real critical part, if you simple boot the VM as is, you will have networking in SmartOS's Global Zone.<br/>
+Networking in zones will not work&#33;</p>
+
+<p>This is because a vnic only allows traffic form it's MAC to make it up the stack.</p>
+
+<h3><a name="RunningSmartOSonOmniOSKVM-Retrievethemacfromyourrecentlycreatedzone"></a>Retrieve the mac from your recently created zone</h3>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>If you have more than one NIC in a zone, make sure to get all the MACs.</td></tr></table></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>SmartOS Global Zone</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Midnight; brush: bash; gutter: false">vmadm get UUID | json nics.0.mac</pre>
+		</div>
+</div></div>
+
+<h3><a name="RunningSmartOSonOmniOSKVM-UpdatingsecondarymacslinkpropertyforyourSmartOSVM"></a>Updating secondary-macs link property for your SmartOS VM</h3>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>Make sure to include all MACs here.</td></tr></table></div>
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>OmniOS Global Zone</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Midnight; brush: bash; gutter: false">pfexec dladm set-linkprop -p secondary-macs=aa:bb:cc:dd:ee:01,aa:bb:cc:dd:ee:02,aa:bb:cc:dd:ee:03,aa:bb:cc:dd:ee:04 vmuon0</pre>
+		</div>
+</div></div>
+
+<p>Your zones should now have network connectivity.</p>
+
+<h2><a name="RunningSmartOSonOmniOSKVM-ManagingtheVM"></a>Managing the VM</h2>
+
+<h3><a name="RunningSmartOSonOmniOSKVM-StartingtheVM"></a>Starting the VM</h3>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Midnight; brush: bash; gutter: false">pfexec svcadm enable svc:/system/kvm:muon</pre>
+		</div>
+</div></div>
+
+<h3><a name="RunningSmartOSonOmniOSKVM-StoppingtheVM"></a>Stopping the VM</h3>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Midnight; brush: bash; gutter: false">pfexec svcadm disable svc:/system/kvm:muon</pre>
+		</div>
+</div></div>
+
+<h3><a name="RunningSmartOSonOmniOSKVM-ConnectingtotheVGAconsole"></a>Connecting to the VGA console</h3>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Midnight; brush: bash; gutter: false">pfexec kvmcon vnc muon</pre>
+		</div>
+</div></div>
+
+<h3><a name="RunningSmartOSonOmniOSKVM-ConnectingtotheSerialconsole"></a>Connecting to the Serial console</h3>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Midnight; brush: bash; gutter: false">pfexec kvmcon console muon</pre>
+		</div>
+</div></div>
+
+
+<h3><a name="RunningSmartOSonOmniOSKVM-Connectingtothemonitorconsole"></a>Connecting to the monitor console</h3>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>Normal there is no need to view this, but it can be handy for debugging</td></tr></table></div>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Midnight; brush: bash; gutter: false">pfexec kvmcon monitor muon</pre>
+		</div>
+</div></div>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

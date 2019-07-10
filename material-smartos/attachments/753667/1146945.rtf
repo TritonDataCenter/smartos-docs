@@ -1,0 +1,134 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf320
+{\fonttbl\f0\fmodern\fcharset0 CourierNewPSMT;\f1\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red26\green26\blue26;}
+\margl1440\margr1440\vieww28600\viewh14880\viewkind0
+\deftab720
+\pard\pardeftab720
+
+\f0\fs26 \cf2 Conceptual
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 ----------
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 If you're familiar with other *nixes, there are a few differences with SmartOS to be aware of.
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 Zones are lightweight containers for software. Unlike VMs, there is no additional overhead from another OS. You'll usually get better performance, density, and observability by using a zone over a VM. However, VMs are necessary if you want to run a different operating system on top (e.g. Windows).
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 Services are a system for running daemons in the background. They start up processes, monitor them, restart them if necessary, provide logging from stderr/stdout, etc. They are a superior alternative to init startup scripts (e.g. /etc/rc.d), and are used thoroughly by SmartOS. If you're putting scripts in /etc/rc5.d, you're doing it wrong.
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 ...
+\f1\fs24 \cf0 \
+\
+\
+
+\f0\fs26 \cf2 Command \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0Example \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0Notes
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 -------------------------------------------------------------
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 Software package handling (not available in global zone)
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 pkgin list
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 pkgin search <x> \'a0\'a0\'a0\'a0pkgin search postgres
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 pkgin install <x> \'a0\'a0\'a0pkgin install postgres
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 Zone or server life
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 init 5 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0Halt a zone (from inside) or server
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 init 6 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0Restart a zone (from inside) or server
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 Control running services
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 svcadm enable <x> \'a0\'a0\'a0pkgin enable postgres
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 svcadm disable <x> \'a0\'a0pkgin disable postgres
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 svcadm clear <x> \'a0\'a0\'a0\'a0pkgin clear postgres \'a0\'a0\'a0\'a0\'a0\'a0\'a0Resets a failed service
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 Monitor services
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 svcs -a \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0Lists all services
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 svcs -vx \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0Lists failed services, and why
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 svcs -vxZ \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0Same as above, but for all zones
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 svcs -L <x> \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0Shows location of a service's logfile
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 Runtime linking environment
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 crle \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0Lists details (defaults to 32-bit)
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 crle -l <x> \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0crle -64 -l /lib:/usr/lib \'a0\'a0Example sets library paths for 64-bit
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 VM and zone handling
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 vmadm list
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 vmadm reboot <x> \'a0\'a0\'a0\'a0vmadm reboot d474225-9a47-68d4-b532-d5b234e26ba5
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 ...
+\f1\fs24 \cf0 \
+\
+\
+
+\f0\fs26 \cf2 Useful locations
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 ----------------
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 /var/svc/log \'a0\'a0\'a0\'a0\'a0\'a0Logfiles for all services
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 /opt/local \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0Many of the pkgin packages will install here
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 /opt/local/etc/pkgin/repositories.conf
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2  \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0Path to pkgin's repositories configuration
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 ...}

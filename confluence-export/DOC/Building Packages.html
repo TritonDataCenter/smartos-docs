@@ -1,0 +1,382 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Building Packages</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Building Packages
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Sep 06, 2015 by <font color="#0050B2">rm</font>.
+				    </div>
+
+				    <div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>This page documents building an older way to build packages. It has been superseded by: <a href="https://pkgsrc.joyent.com/docs/building/">https://pkgsrc.joyent.com/docs/building/</a></td></tr></table></div>
+
+
+<h1><a name="BuildingPackages-ThePKFramework"></a>The PK Framework</h1>
+
+<p>The pk framework helps manage daily tasks related to pkgsrc binary packages. The config files included with the pk framework plug into the pkgsrc configuration to aid in building on SmartOS when using standard pkgsrc workflows. However, you can also wrap them around pkgsrc tools and use them to repeatedly manage predefined sets of packages.</p>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>The pk framework does currently support full bulk builds. In other words, build the complete pkgsrc tree.</td></tr></table></div>
+
+<h2><a name="BuildingPackages-SettingUpthePKFramework"></a>Setting Up the PK Framework</h2>
+
+<p>The best way to build pkgsrc packages on SmartOS and/or the Joyent Public Cloud, is to start with a machine provisioned using a 'base' or 'base64' image (these very previously known as 'smartos' and 'smartos64'). Other images will also work but will include extra packages you may or may not need (as far as pkgsrc is concerned).</p>
+
+<p>Note: if you use the previous (smartos/smartos64) images, the GCC compiler available there cannot automatically build 32bit or 64bit objects as needed, and need to build something manually (outside of pkgsrc control), make sure to pass&nbsp;<tt>&#45;m64</tt>&nbsp;to GCC in order to get 64bit objects. The base64 image uses GCC 4.7, which finally supports a default 64bit target, so you don't need to do that. (Also, building through pkgsrc automatically adjusts the flags as needed too, regardless of the GCC version.)</p>
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>For these instructions, the parent path is arbitrary. However, you will need to adjust a config file if you do not plan to use the default path of&nbsp;<tt>/opt/pkgsrc</tt>.</td></tr></table></div>
+<p><br class="atl-forced-newline" /></p>
+<ol>
+	<li>Ensure git is installed and install the GNU Compiler Collection (gcc) from the repository.<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">pkgin in scmgit-base gcc47</pre>
+		</div>
+</div></div>
+<br class="atl-forced-newline" /></li>
+	<li>Clone the main pkgsrc tree from github.
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>This will take several minutes to complete.</td></tr></table></div>
+<p><br class="atl-forced-newline" />  <div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">cd /opt &amp;&amp; git clone -b pkgsrc_2013Q1 git://github.com/joyent/pkgsrc.git</pre>
+		</div>
+</div></div>
+<br class="atl-forced-newline" /></p></li>
+	<li>Install pkgsrc modules.&nbsp;<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">cd /opt/pkgsrc &amp;&amp; git submodule init &amp;&amp; git submodule update</pre>
+		</div>
+</div></div><br/>
+This is optional but recommended. Joyent uses both repositories as submodules when building out the standard package set for SmartOS. If you only care about packages available in the main pkgsrc repository, you can safely ignore these submodules.</li>
+	<li>Clone the pk framework from github.<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">cd /opt &amp;&amp; git clone -b pkgsrc_2012Q1 git://github.com/mamash/pk.git</pre>
+		</div>
+</div></div>
+<br class="atl-forced-newline" /></li>
+	<li>Add the pk framework path to your&nbsp;<tt>PATH</tt>&nbsp;environment variable.<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">sed -i'.bac' '\,^PATH,s,$,:/opt/pk/bin,' ~/.profile &amp;&amp; source ~/.profile</pre>
+		</div>
+</div></div>
+<br class="atl-forced-newline" /></li>
+	<li>Open&nbsp;<tt>/opt/local/etc/mk.conf</tt>&nbsp;and ensure all values are set correctly. You do not need to change anything unless you install pk framework in a path other than the default. If you install pk framework in a different directory, adjust the&nbsp;<tt>OVERLAY</tt>&nbsp;path accordingly.
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>This ensures the pk configuration files are sourced properly by pkgsrc.</td></tr></table></div>
+<p><br class="atl-forced-newline" /></p></li>
+</ol>
+
+
+<p>You can test the install by running this command:<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">pk info</pre>
+		</div>
+</div></div><br/>
+If successful, you will see something similar to the following:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>Output of pk info</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">Current setup:
+
+  pkgsrc release   : 2013Q1
+  prefix           : /opt/local
+  prefix mounted   : n/a
+  architecture     : 64bit
+
+  compiler type    : gcc
+  compiler path    : /opt/local/bin/gcc
+  compiler version : 4.7.2
+
+  repository dest  : pkgsrc@pkgsrc.joyent.com:2013Q1/
+  repository URL   : http://pkgsrc.joyent.com/2013Q1/</pre>
+		</div>
+</div></div>
+
+<h2><a name="BuildingPackages-ConfiguringthepkFramework"></a>Configuring the pk Framework</h2>
+
+<p>You can define many of the variables internally used in pk through a simple config file. This allows you to avoid passing in an unwieldy number of options on the command line if you are running the pk framework in a non-standard way.&nbsp;Use the configuration file found at&nbsp;<tt>config/pkrc.example</tt>&nbsp;as a template. You can create a similar file at&nbsp;<tt>/.pkrc</tt>&nbsp;or copy the example file as&nbsp;<tt>@/.pkrc@</tt>&nbsp;and change as needed.&nbsp;</p>
+
+<h1><a name="BuildingPackages-BuildingaSinglePackage"></a>Building a Single Package</h1>
+
+<p>Here is an example of building a simple package with no dependencies.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>Example of building a single package</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[root@62f1b818-caa7-4cfa-b439-cfda2c67cea4 ~]# pk build archivers/unzip
+20120327-103105: this is 2011Q4, gcc 4.6.2, 32bit ABI, for /opt/local
+20120327-103105: skipping 'zfs rollback' functionality, ZFS not delegated properly
+20120327-103105: * archivers/unzip
+20120327-103106: * archivers/unzip: start
+20120327-103336: archivers/unzip: BUILD_OK
+20120327-103336: archivers/unzip: changed package files: unzip-6.0.tgz gmake-3.82nb3.tgz</pre>
+		</div>
+</div></div>
+<p><br class="atl-forced-newline" /></p>
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>For now, you can safely ignore the warning about the&nbsp;availability&nbsp;of ZFS rollback. See below for more information.</td></tr></table></div>
+<p>The proper way to pass packages to the&nbsp;<tt>pk build</tt>&nbsp;command is to use full&nbsp;<tt>PKGPATH</tt>&nbsp;notation. In other words, the relative category/package_name path under the pkgsrc tree. Look under&nbsp;<tt>/opt/pkgsrc</tt>.</p>
+
+<p>In the above example, the first thing pkgsrc does is to determine that gmake is needed to build this particular package. At that point, it builds the package and installs it, resulting in a binary for each package. Packages are stored in a&nbsp;<tt>PACKAGES</tt>&nbsp;directory, which is a variable based on the current pkgsrc release and the compiler chosen. In this example, packages are stored in&nbsp;<tt>/opt/pk/packages/2012Q1/i386/All/</tt>.</p>
+<div class='panelMacro'><table class='tipMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/check.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>You can see the&nbsp;<tt>PACKAGES</tt>&nbsp;path by using&nbsp;<tt>pk info</tt>. See the above&nbsp;<tt>pk info</tt>&nbsp;example.</td></tr></table></div>
+
+<h2><a name="BuildingPackages-UsingBinaryPackages"></a>Using Binary Packages</h2>
+
+<p>Once the build completes, nothing is installed except package dependencies. You can use packages that you build by adding the path to your packages in your pkgin setup. For example:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">echo 'file:///opt/pk/packages/2012Q1/i386/All' &gt;&gt; /opt/local/etc/pkgin/repositories.conf
+pkgin -f update</pre>
+		</div>
+</div></div>
+<p><br class="atl-forced-newline" /></p>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>If more than one version of a package exists across all registered repositories,&nbsp;pkgin will default to the latest version.</td></tr></table></div>
+<p>If you need to install an earlier version of a package, specify the full version binary or use the "greater than" (&gt;) or "less than" (&lt;) symbols to install an earlier version than what you specify. The following commands will install PHP 5.2 before the current version of PHP 5.3:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">pkgin in php-5.2.17
+pkgin in php-5.2
+pkgin in 'php&lt;5.3'</pre>
+		</div>
+</div></div>
+<p>You can also use&nbsp;<tt>pkg_add</tt>&nbsp;with an absolute path to the package binary files or set&nbsp;<tt>PKG_PATH</tt>&nbsp;to the repository path before you call&nbsp;<tt>pkg_add</tt>. The following lines perform the same action:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">pkg_add /opt/pk/packages/2011Q4/gcc46/All/unzip-6.0.tgz
+pkg_add /opt/pk/packages/2011Q4/gcc46/All/unzip
+PKG_PATH=/opt/pk/packages/2011Q4/gcc46/All pkg_add unzip</pre>
+		</div>
+</div></div>
+<p><br class="atl-forced-newline" /></p>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>If ZFS delegation (TBD) is not available, anything installed explicitly or as a dependency will stay in place until you remove it yourself.</td></tr></table></div>
+
+<h2><a name="BuildingPackages-ServingBinaryPackages"></a>Serving Binary Packages</h2>
+
+<p>The packages built by pkgsrc are just files on disk. So, you can use the web server of your choice to serve up the packages you build. The pk script can rsync the binary packages over to a different system.</p>
+
+<h3><a name="BuildingPackages-JoyentCloudSpecificNotes"></a>Joyent Cloud Specific Notes</h3>
+
+<p>When using Joyent Public Cloud use the base[64] 1.7.x image. You can upgrade previous smartos[64] JoyentCloud machines to 2012Q1 by installing the 'smtools' package from the 2012Q1 package set, and calling the 'sm-rebuild-pkgsrc' script contained in the package. Pick the package set that matches the architecture you need (i.e. 'i386' for the 32bit smartos/base image, and 'x86_64' for the 64bit smartos64/base64 image):</p>
+
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">PKG_PATH=http://pkgsrc.joyent.com/sdc6/2012Q1/i386/All pkg_add smtools</pre>
+		</div>
+</div></div>
+<p>or</p>
+
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">PKG_PATH=http://pkgsrc.joyent.com/sdc6/2012Q1/x86_64/All pkg_add smtools</pre>
+		</div>
+</div></div>
+<p>then</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">sm-rebuild-pkgsrc</pre>
+		</div>
+</div></div>
+<p>and follow the instructions.</p>
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-755497"></a>
+                                    <font class="smallfont"><p>I tried following the instructions and when building <tt>archivers/unzip</tt> (or any other package) it abruptly ends with an error like this:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[root@mail /opt/pkgsrc]# pk build archivers/unzip
+20120429-051541: this is 2011Q4, gcc 4.6.2, 64bit ABI, for /opt/local
+20120429-051541: skipping 'zfs rollback' functionality, ZFS not delegated properly
+20120429-051541: * archivers/unzip
+20120429-051542:   * archivers/unzip: start
+20120429-051548:     archivers/unzip: BUILD_REJECTED in pkgtools/digest</pre>
+		</div>
+</div></div>
+
+<p>And for the sake of documentation:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[root@mail /opt/pkgsrc]# pk info                 
+
+Current setup:
+
+  pkgsrc release   : 2011Q4
+  prefix           : /opt/local
+  prefix mounted   : n/a
+  architecture     : 64bit
+
+  compiler type    : gcc
+  compiler path    : /opt/local/bin/gcc
+  compiler version : 4.6.2
+
+  repository dest  : pkgsrc@pkgsrc.joyent.com:2011Q4/gcc46_64
+  repository URL   : http://pkgsrc.joyent.com/2011Q4/gcc46_64</pre>
+		</div>
+</div></div>
+
+<p>Suggestions?</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by magnus at Apr 29, 2012 05:18
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-755633"></a>
+                                    <font class="smallfont"><p>Suggested by Filip:</p>
+
+<p><font color="#222222">"can you checkout the 'pkgsrc_2011Q4' branch of the 'pk' repository instead of master? I'm making some compiler related changes in pk as I work on 2012Q1, and it's my guess those are the reason the build is getting rejected. Btw. if you look under /opt/pk/logs you should fine more clues as to why the build failed. If a package fails, pk leaves the respective log file around (likely something like /opt/pk/logs/&lt;date-time-stamp&gt;</font><font color="#222222">/common/archivers_unzip.log)."</font></p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by jason.davis@joyent.com at May 11, 2012 15:23
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-755653"></a>
+                                    <font class="smallfont"><p>I needed to add two packages. &nbsp;digest and nbpatch ie</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">pkgin in digest nbpatch</pre>
+		</div>
+</div></div>
+<p>This goes a little further it uncovers the issue that it believe gcc is not installed and is trying to bootstrap gcc. &nbsp;&nbsp;</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>Log Output - pk build archivers/unzip</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; collapse: true; gutter: false">=&gt; Bootstrap dependency digest&gt;=20010302: found digest-20080510
+=&gt; Bootstrap dependency tnftp-[0-9]*: found tnftp-20070806
+===&gt; Checking for vulnerabilities in unzip-6.0
+=&gt; Checksum SHA1 OK for unzip60.tgz
+=&gt; Checksum RMD160 OK for unzip60.tgz
+===&gt; Installing dependencies for unzip-6.0
+=&gt; Build dependency gmake&gt;=3.81: found gmake-3.82nb2
+=&gt; Build dependency nbpatch-[0-9]*: found nbpatch-20100124
+=&gt; Full dependency gcc46&gt;=4.6.1: NOT found
+=&gt; Verifying package-install for ../../lang/gcc46
+=&gt; Bootstrap dependency digest&gt;=20010302: found digest-20080510
+=&gt; Bootstrap dependency tnftp-[0-9]*: found tnftp-20070806
+===&gt; Checking for vulnerabilities in gcc46-4.6.2
+=&gt; Checksum SHA1 OK for gcc-4.6.2.tar.bz2
+=&gt; Checksum RMD160 OK for gcc-4.6.2.tar.bz2
+===&gt; Installing dependencies for gcc46-4.6.2</pre>
+		</div>
+</div></div>
+<p>This fails due to not being able to build some of the&nbsp;dependencies. &nbsp;Considering gcc is installed (using pkgin in) I'm not sure it should be doing this. &nbsp;It then builds the first few&nbsp;dependencies&nbsp;for gcc46 being gtextinfo and libtoo-base but fails on mpfr due to libgmp due to a different ABI.&nbsp;</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by ags@sdx.com.au at May 14, 2012 00:29
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-755662"></a>
+                                    <font class="smallfont"><p>Angus, I'm confused. I just repeated the steps on this page on a clean SmartMachine, and I haven't hit the issue. Can you make sure you're on the 'pkgsrc_2011Q4' branch on the &#42;pk&#42; repository please? I had started making some changes earlier in preparation for 2012Q1, and forgot to make the 'pkgsrc_2011Q4' branch the default on Github, so you might have gotten 'master' instead.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by filip@joyent.com at May 15, 2012 19:46
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-755751"></a>
+                                    <font class="smallfont"><p>Okay, it looks like these instructions only work on a smartos[64] 1.6.x image, which (as of this writing) only appear to be available in eu-ams-1 and (as of very recently) us-west-1. 1.5.4, the most widely deployed, is on 2011Q3, which looks to be be why we've been struggling<font color="#493f2d">.&nbsp;</font></p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by atl at May 25, 2012 08:43
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-755752"></a>
+                                    <font class="smallfont"><p>Uh. You're right in that there seems to be an inconsistency amongst image versions available across the data centers. I'll see to bringing them into sync. Meanwhile, you could use the update.sh script from the 2011Q4 package set URL to update your SmartMachine to 2011Q4.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by filip@joyent.com at May 25, 2012 08:49
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-755753"></a>
+                                    <font class="smallfont"><p>oh, I hadn't really appreciated that update.sh was there. thanks for the pointer&#33;</p>
+
+<p>and I just took it for granted that the image versions were inconsistent across DCs. Had I known that other people didn't see it, I would've brought it up earlier&#33;</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by atl at May 25, 2012 10:29
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-756716"></a>
+                                    <font class="smallfont"><p>I suspect that the default value for tmpfs is not enough in a base64 image (60a3b1fa-0674-11e2-abf5-cb82934a8e24) to build gettext-tools. &nbsp;I tried using a base64 image, having not set anything special when I created the VM. &nbsp;I'm trying to build things for a mail system. &nbsp;I started with clamav and it stopped in gettext-tools. &nbsp;Checking the build log it said not enough space in /tmp/.... I then changed in the GZ, tmpfs (512), and max_physical_memory (1GB). &nbsp;restarted zone and gettext-tools now builds.</p>
+
+<p>My bare metal server is a Sun X2100M2 with 4GB of RAM. &nbsp;Not speedy by today's standards but it runs SmartOS just fine.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by chad at Oct 16, 2012 19:35
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-1441794"></a>
+                                    <font class="smallfont"><p>It appears that if you want SMF support built with your package, you have to use <a href="http://github.com/mamash/pkgsrc">http://github.com/mamash/pkgsrc</a> instead of <a href="http://github.com/joyent/pkgsrc">http://github.com/joyent/pkgsrc</a> .</p>
+
+<p>Unfortunately mamash/pkgsrc is now 5 months out of date (forked from 2011Q4). Will mamash/pkgsrc be merged back into joyent/pkgsrc anytime soon?</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by wohali at Nov 30, 2012 20:50
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-2326809"></a>
+                                    <font class="smallfont"><p>A number of things here are a little tough to figure out. &nbsp;I have a fork of pkgsrc, particularly wip, with an updated version of one package. &nbsp;I can build it happily with bmake. &nbsp;I'm coming to this from lots of experience with Gentoo Portage, so my expectations may be a little skewed.</p>
+
+<p>It seemed sane to use a custom prefix, so I added one to &#126;/.pkrc (BTW, the scripts in pk appear to look for &#126;/.pkgsrc.conf - I created a symlink for it, but is this doc out of date?). &nbsp;But using the custom prefix fails, since it attempts to find binaries of all a project's dependencies under that new (empty) prefix. &nbsp;I really just want to package the one modified package - linking against existing binaries is fine for the rest. &nbsp;But it appears that if I want that one package, I also need to compile all of its prerequisites from source - ? &nbsp;Or is there a way to instruct pk "build this thing to this prefix, but use this other prefix for resolving dependencies (copying them if necessary)"</p>
+
+<p>It's not clear how one should set up zfs delegation for this purpose (I did read the vmadm page about it - but it's not obvious how having a mount called /data would solve anything) - this page notes that, for example, clean will not work without it (and indeed it doesn't).</p>
+
+<p>Also not obvious that running 'pk build' by itself will try to build the universe. &nbsp;I stopped this after it had been running for a day, after reading the note above that says "The pk framework does currently support full bulk builds" which suggests this would have just gone on for a long time before dying eventually. &nbsp;Since it appears that that's what you have to do if you want to use a custom prefix, &#42;and&#42; pk will fail at that, how &#42;do&#42; you do it?</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by timboudreau at Jul 27, 2013 19:00
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

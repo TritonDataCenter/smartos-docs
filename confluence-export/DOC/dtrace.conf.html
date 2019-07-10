@@ -1,0 +1,926 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : dtrace.conf</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : dtrace.conf
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on May 18, 2016 by <font color="#0050B2">matt.fitzsimmons@joyent.com</font>.
+				    </div>
+
+				    <h2><a name="dtrace.conf-dtrace.conf2016registrationnowopenhttps%3A%2F%2Fwww.eventbrite.com%2Fe%2Fdtraceconf2016tickets24940883855"></a>dtrace.conf 2016 <a href="https://www.eventbrite.com/e/dtraceconf-2016-tickets-24940883855">registration now open</a></h2>
+
+<h3><a name="dtrace.conf-"></a></h3>
+
+<p>The original (and only) dtrace.conf in 2008 was a smash hit-&#45; even the <a href="http://redmonk.com/sogrady/2008/03/16/dtraceconf-and-the-dumbest-guy-in-the-room/">analysts were raving</a>&#33; In pace with the Olympiad, it's time once again to bring the community together for dtrace.conf 2012&#33; This Joyent-sponsored community event will be held on Tuesday, April 3rd <b>at the</b> <b><a href="http://creativity.org/">Children's Creativity Museum</a></b><b>, 4th and Howard (entrance behind the carousel) in downtown San Francisco</b>.&nbsp;</p>
+
+<p>As with the inaugural dtrace.conf, this will be a technical conference for people who are using DTrace, expanding its boundaries, and contributing to its growth and health. If you're ready to talk about what you found in technical detail &#8211; and how DTrace helped you (or didn't&#33;) &#8211; we would love for you to join us at dtrace.conf.</p>
+
+<p>A few short, rough video clips from the 2008 edition are <a href="http://smartos.org/2012/02/10/dtrace-conf-2012/">here</a>.</p>
+
+<p>The 2012 edition will be streamed live. Sign up on <a href="http://www.ustream.tv/channel/dtrace-conf">the UStream channel</a> to be reminded before the stream starts.</p>
+
+<h1><a name="dtrace.conf-SpeakerInfo"></a>Speaker Info</h1>
+
+<p><b>Remember: If you're in the room, you're potentially a speaker.</b>&nbsp;This will be done in unconference style, so every attendee should come prepared to present or otherwise lead a discussion or session of&nbsp;<b>about 45 minutes</b>. Note that "just using DTrace" is more than sufficient for leading a discussion or session.</p>
+
+<p>Equipment available:</p>
+
+<ul>
+	<li>projector</li>
+	<li>NO whiteboard</li>
+</ul>
+
+
+<h1><a name="dtrace.conf-Sponsorship"></a>Sponsorship</h1>
+
+<p>If you are interested in joining Joyent in sponsoring dtrace.conf, contact <a href="mailto:smartos@joyent.com">Deirdré</a>.</p>
+
+<p>Sponsorship opportunities include:</p>
+
+<ul>
+	<li>Dedicated Internet/wifi for the conference: $1200</li>
+	<li>coffee breaks - sponsored by <a href="http://www.stonecobra.com/">Stone Cobra</a></li>
+	<li>donuts - sponsored by DEY for <a href="https://www.illumos.org/">illumos</a></li>
+	<li>lunch - sponsored by <a href="http://nexenta.com/corp/">Nexenta</a></li>
+	<li>after-conference beer - sponsored by <a href="http://basho.com/">Basho</a></li>
+	<li>ad-free video streaming on UStream - sponsored by <a href="http://www.joyentcloud.com/">Joyent Cloud</a></li>
+	<li>plain old cash is useful, too&#33;&nbsp;</li>
+</ul>
+
+
+<p>(Everything not otherwise covered is sponsored by <a href="http://www.joyent.com/">Joyent</a>.)</p>
+
+<p>What you get for sponsoring:</p>
+
+<ul>
+	<li>your name/link on conference pages like this one.</li>
+	<li>thank-you mention during opening and closing ceremonies</li>
+	<li>logo on final conference video pre-roll/post-roll</li>
+	<li>space to put up your pop-up banner at the conference venue</li>
+	<li>an opportunity to be known as a DTrace supporter in a very talented and influential community</li>
+</ul>
+
+
+
+<h1><a name="dtrace.conf-Register"></a>Register</h1>
+
+<p>To register for the conference, just edit this page and add yourself&#33; (Or email <a href="mailto:smartos@joyent.com">Deirdré</a>).</p>
+
+<p><span class="image-wrap" style=""><img src="attachments/754347/1146935.png" style="border: 1px solid black"/></span></p>
+
+<p>^ This is what the front of the shirt will actually look like, design by <a href="https://twitter.com/#!/substack">substack</a>.</p>
+
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>&nbsp;</th>
+<th class='confluenceTh'> Name </th>
+<th class='confluenceTh'> Affiliation </th>
+<th class='confluenceTh'> Proposed Session Topic </th>
+<th class='confluenceTh'> DTrace Claim to Fame (or: "Why I'm Coming") </th>
+<th class='confluenceTh'> <a href="http://store.americanapparel.net/bb401.html">T-shirt</a> size </th>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/bcantrill">Bryan Cantrill</a> </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Team DTrace </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/ahl">Adam Leventhal</a> </td>
+<td class='confluenceTd'> Delphix </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Team DTrace </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/brendangregg">Brendan Gregg</a> </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'> Visualizations </td>
+<td class='confluenceTd'> DTraceToolkit, <a href="http://dtrace.org/blogs/brendan/2011/02/23/dtrace-book-sample-chapter-file-systems/">DTrace book</a>, some DTrace providers <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/rmustacc">Robert Mustacchi</a> <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Joyent <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> DTrace/KVM integration, Meta-D <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/dapsays">Dave Pacheco</a> </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'> Building a ustack helper </td>
+<td class='confluenceTd'> Node.js ustack helper, Apache mod_usdt, USDT docs </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/pijewski">Bill Pijewski</a> </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> File and block I/O providers </td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/slfritchie">Scott Lystig Fritchie</a> </td>
+<td class='confluenceTd'> Basho </td>
+<td class='confluenceTd'> Instrumenting the Erlang virtual machine <a href="http://www.snookles.com/scott/publications/dtrace.conf-2012.erlang-vm.pdf">pdf</a> </td>
+<td class='confluenceTd'> 2nd/3rd? round of USDT probes for the Erlang virtual machine </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Matt Amdur </td>
+<td class='confluenceTd'> Delphix </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="https://twitter.com/#!/bcantrill/status/124255417521029120">DTrace pornstar</a>. Can spell drtace most of the time </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/sogrady">Stephen O'Grady</a> </td>
+<td class='confluenceTd'> RedMonk </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> An analyst who knows what DTrace is </td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 10 </td>
+<td class='confluenceTd'> <a href="http://twitter.com/harschness">Mike Harsch</a> </td>
+<td class='confluenceTd'> <del>Sun Microsystems</del> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> I typed in all the DTrace Book <a href="http://dtracebook.com/images/dtbook_scripts.tar.gz">example scripts</a> (all 243 of them) </td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Jonathan Adams <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Snoracle <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Code reviewed uts/common/dtrace/dtrace.c <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> M <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/postwait">Theo Schlossnagle</a> </td>
+<td class='confluenceTd'> OmniTI/Circonus </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Project DTrace (probes in Apache 2.2/2.4 and PostgreSQL) </td>
+<td class='confluenceTd'> L <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/alexr">Alex Rosenberg</a> </td>
+<td class='confluenceTd'> Sony Computer Entertainment Worldwide Studios </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> wearing a ribbon that says "Participant" </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/craigmorgan">Craig Morgan</a> </td>
+<td class='confluenceTd'> Nexenta Systems </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> DTrace integration into local toolsets </td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/richardelling">Richard Elling</a> </td>
+<td class='confluenceTd'> Richard Elling Consulting </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Wages war on bad performance with a DTrace arsenal </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/ampledata">Greg Albrecht</a> </td>
+<td class='confluenceTd'> Splunk </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> HATES SLOW </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Kyle Hailey <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Delphix <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> NFS and ZFS&nbsp; monitoring with DTrace <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> John Thompson </td>
+<td class='confluenceTd'> Sony Computer Entertainment Worldwide Studios </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Experimenting with making Clang a DTrace frontend. </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/gedamore">Garrett D'Amore</a> </td>
+<td class='confluenceTd'> illumos </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Inserts DTrace probes into painful places. </td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 20 </td>
+<td class='confluenceTd'> <a href="http://twitter.com/dlsspy">Dustin Sallings</a> </td>
+<td class='confluenceTd'> Couchbase </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Abducted erlang vm. Probed it. Learned stuff. </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/mast3rof0">Chris Johnson</a><br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Juniper Networks </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Using DTrace for performance testing and optimization </td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/jasonh">Jason Hoffman</a> </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'> Pathology and You </td>
+<td class='confluenceTd'> I've never lost faith </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> ﻿<a href="http://twitter.com/psanford">Peter Sanford</a> </td>
+<td class='confluenceTd'> Nearbuy Systems </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Attempting to use DTrace on linux (Paul Fox's port). </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/nate_mueller">Nate Mueller</a> </td>
+<td class='confluenceTd'> Nearbuy Systems </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Totally DTrace ruby all the time </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/Graftolistic">John Grafton</a> </td>
+<td class='confluenceTd'> None </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Receives blank looks from other OS admins when proselytizing probes&#33; </td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Ben Rockwood <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Joyent <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> User Thereof <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> XXL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Eric Schrock </td>
+<td class='confluenceTd'> Delphix </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> print(), baby, print() </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Jordan Schwartz <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Media Temple / <a href="http://uuasc.org">﻿UUASC.org</a><br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Just Another Dtrace AbUser <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> XXL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Mark Cavage </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'> DTrace and node.js </td>
+<td class='confluenceTd'> Rescued from the abyss of Linux. </td>
+<td class='confluenceTd'> XXL </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 30 </td>
+<td class='confluenceTd'> <a href="http://twitter.com/ddrdrive">Christopher George </a> </td>
+<td class='confluenceTd'> <a href="http://ddrdrive.com">DDRdrive</a> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> ZFS Intent Log (ZIL) Telemetry </td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Keith Wesolowski </td>
+<td class='confluenceTd'> Joyent, Sun Microsystems </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Once survived 201 days without DTrace </td>
+<td class='confluenceTd'> XXL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <font color="#000000">Sam Zaydel</font> </td>
+<td class='confluenceTd'> Nexenta </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <font color="#000000">Still working on it&#33;</font><br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/ph7">Philippe Hanrigou</a> </td>
+<td class='confluenceTd'> Braintree </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> DTrace Aficionado </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Louis Kowolowski </td>
+<td class='confluenceTd'> None </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Jennifer Davis </td>
+<td class='confluenceTd'> Yahoo </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Revisiting the awesomeness of trace. </td>
+<td class='confluenceTd'> XXL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Romain Lenglet </td>
+<td class='confluenceTd'> Nicira </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> DTrace newbie, using a home-made system for probing and trying to move to DTrace </td>
+<td class='confluenceTd'> XXL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Paul Baumgart </td>
+<td class='confluenceTd'> ProxV </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Very interested in SmartOS, mostly because of DTrace. Kinda scared to leave Linux. </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Wences Michel </td>
+<td class='confluenceTd'> Dell, Sun Microsystems </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Hriday Balachandran </td>
+<td class='confluenceTd'> USC </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Solved some problems with DTrace. Many more remain. </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 40 </td>
+<td class='confluenceTd'> Ananda Bhattacharya <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Monkey Controls Robot <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> DTrace fun to make computers work <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/kebesays">Dan McDonald</a> </td>
+<td class='confluenceTd'> Nexenta </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://memegenerator.net/instance/15428586">I may not always have tricky race conditions,&nbsp;peformance issues, or just plain bugs... &nbsp;</a> </td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Christopher Siden <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Delphix </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Antonello Cruz </td>
+<td class='confluenceTd'> <font color="#000000">Oracle Solaris SMF team</font> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <font color="#000000">I appreciate instrumentation&#33; ;-)</font> </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Ben Laws </td>
+<td class='confluenceTd'> Ben Laws &amp; Associates, Inc. </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Lots of performance issues, dtrace is invaluable. </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <font color="#000000">Rich Larrabee</font><br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> <font color="#000000">Composite Software</font> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <font color="#000000">Learning more about DTrace</font><br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Stephen Braswell <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> University of North Carolina <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> I can spell DTrace and list probes. Hoping to learn more through osmosis. <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Jarod Jenson <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Aeysis <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> It's just an excuse to come to SFO for chili/garlic crab. <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> XL <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Michael Zeller </td>
+<td class='confluenceTd'> Twitter </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> dtrace &#45;n 'dtrace_expert:entry' &nbsp; Still waiting to measure the latency of the return. </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Rich Morin </td>
+<td class='confluenceTd'> Canta Forda Computer Laboratory </td>
+<td class='confluenceTd'> process logging </td>
+<td class='confluenceTd'> attended 1st conference; still interested in using DTrace to log user processes. </td>
+<td class='confluenceTd'> 2XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 50 </td>
+<td class='confluenceTd'> James Halliday </td>
+<td class='confluenceTd'> browserling </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> I'll be at jsconf but I drew the tshirts&#33; </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <font color="#000000">Steve Peters</font> </td>
+<td class='confluenceTd'> <font color="#000000">Apple Inc.</font> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <font color="#000000">ported DTrace to MacOS X</font> </td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <font color="#000000">Peer Dampmann</font> </td>
+<td class='confluenceTd'> Nexenta Systems </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <font color="#000000">just interested in good conversations about dtrace</font> </td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="https://twitter.com/#!/marcosvm">Marcos Oliveira</a> </td>
+<td class='confluenceTd'> Zendesk </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Dtracing ruby and node.js apps </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Jaime Fournier <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> NetBSD </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> 2XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Brian Toal </td>
+<td class='confluenceTd'> SFDC </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Act as a sponge and absorb as much from others experiences as possible. </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Matt Ahrens </td>
+<td class='confluenceTd'> Delphix </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Interested in stable ZFS provider. &nbsp;Worked on time-sorted DTrace output. </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/forjared">Jared Rosoff</a> </td>
+<td class='confluenceTd'> 10gen </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> i used dtrace when it was threadmon. </td>
+<td class='confluenceTd'> XXL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Kishore Vasudeva <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Splunk </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Used Dtrace @Sun and now @Splunk <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Blake Irvin </td>
+<td class='confluenceTd'> ModCloth </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Trying to use DTrace at an online apparel company. </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 60 </td>
+<td class='confluenceTd'> Jake Ritorto </td>
+<td class='confluenceTd'> ModCloth </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> modified Bryan's iscsiio.d and related scripts to isolate filer issues </td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Eric Saxby </td>
+<td class='confluenceTd'> ModCloth </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <font color="#000000">would like to build my dtrace fu to be able to better support our ops team</font> </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> John Lee <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> ResearchNow <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Attempting to do a mind meld with other DTrace users. <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> S </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://twitter.com/jmclulow">Joshua M. Clulow</a> </td>
+<td class='confluenceTd'> illumos Community </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> User of DTrace, particularly while debugging KVM on AMD-V and Pre-EPT VMX. </td>
+<td class='confluenceTd'> XXL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Amer Ather <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Oracle Corp <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Case studies <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> L <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Greg Taleck </td>
+<td class='confluenceTd'> Riverbed </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Ryan Nelson </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'> discussion/development of an example <br class="atl-forced-newline" />
+"bad webapp" (for use in training) with <br class="atl-forced-newline" />
+"bugs" that are particularly appropriate or <br class="atl-forced-newline" />
+enlightening for DTrace analysis <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Rachel Myers </td>
+<td class='confluenceTd'> ModCloth </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Want to be full-stack </td>
+<td class='confluenceTd'> S </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Matt Silvey </td>
+<td class='confluenceTd'> Marin Software </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> broadening </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Ryan Stone <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Sandvine Inc. <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Last person to break DTrace in FreeBSD svn <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 70 </td>
+<td class='confluenceTd'> Kris Van Hees </td>
+<td class='confluenceTd'> Oracle </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> DTrace port to Linux </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Don Brady </td>
+<td class='confluenceTd'> <font color="#000000">Ten's Complement LLC</font> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Scott Sanders </td>
+<td class='confluenceTd'> Stone Cobra </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> DTrace on OSX and SmartOS are awesome, want to build my chops to improve our ops. &nbsp;Also a possible Bryan Cantrill stalker. &nbsp;sogrady as well? &nbsp;This is my kind of conference </td>
+<td class='confluenceTd'> XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Jason Matthews <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Apsalar <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> To become one with the force <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> 2XL 2XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> George Wilson <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Delphix <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Putting together ideas for ZFS provider <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> L <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Sean McQuillan </td>
+<td class='confluenceTd'> Twilio </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> To up my dtrace fu for backend dev </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 76 </td>
+<td class='confluenceTd'> Victor Latushkin </td>
+<td class='confluenceTd'> Snoracle </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Using DTrace for investigation of ZFS </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Kim Applegate <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Apsalar </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> want to integrate DTrace into our Postgres monitoring <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Jeremy Johnstone </td>
+<td class='confluenceTd'> LinkedIn </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> learning more about using dtrace on os x </td>
+<td class='confluenceTd'> L/XL </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Elena Zannoni <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> Oracle </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> DTrace port to Linux <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> 90 </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+</tbody></table>
+</div>
+
+
+<h2><a name="dtrace.conf-NonTechnicalParticipantsakacrew"></a>Non-Technical Participants aka crew</h2>
+
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<td class='confluenceTd'> 1 </td>
+<td class='confluenceTd'> <a href="https://twitter.com/#!/DeirdreS">Deirdré Straughan</a> </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <a href="http://dtrace.org/blogs/about/dtracepony/">pony</a> wrangler </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 2 </td>
+<td class='confluenceTd'> Rod Boothby </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> L </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 3 </td>
+<td class='confluenceTd'> Emily Tanaka-Delgado </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> S </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 4 </td>
+<td class='confluenceTd'> Carly Guarcello </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> S </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 5 </td>
+<td class='confluenceTd'> Merline Saintil </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> Technology Operations at Joyent. </td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 6 </td>
+<td class='confluenceTd'> Alex Salkever </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> 7 </td>
+<td class='confluenceTd'> Aaron Slettehaugh </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> M </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 8 </td>
+<td class='confluenceTd'> Shannon Fiume </td>
+<td class='confluenceTd'> Joyent </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+</tbody></table>
+</div>
+
+
+<h1><a name="dtrace.conf-WhentoUseDTrace"></a>When to Use DTrace</h1>
+
+<p><span class="image-wrap" style=""><img src="attachments/754347/1146937.jpg" style="border: 1px solid black"/></span></p>
+
+				    					    <br/>
+                        <div class="tabletitle">
+                            <a name="attachments">
+                                <h2>Attachments:</h2>
+                            </a>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/754347/1146935.png">Screen shot 2012-02-29 at 9.57.30 AM.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/754347/1146937.jpg">15428586.jpg</a> (image/jpeg)
+                                <br/>
+                                                    </div>
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Home</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Home
+                            	                            <img src="images/icons/home_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Jan 12, 2018 by <font color="#0050B2">brian.bennett@joyent.com</font>.
+				    </div>
+
+				    <h3><a name="Home-SearchAllThingsSmartOS"></a>Search All Things SmartOS</h3>
+
+<p>Useful information about SmartOS, illumos et al is scattered among a number of sources. You can now search them all at once with <a href="http://smartos.org/search/">SmartOS Search</a> (a Google custom search). On the results page, you'll be able to narrow down by source (list of current sources <a href="http://smartos.org/2013/02/04/smartos-news-feb-4-2013/">here</a> &#45; suggestions for others welcome&#33;).</p>
+
+
+<hr />
+<h3><a name="Home-VIDEO%3AIntroductiontoSmartOS"></a>VIDEO: <a href="http://smartos.org/2012/08/21/introduction-to-smartos/">Introduction to SmartOS</a></h3>
+
+<p>Welcome to the SmartOS Documentation Wiki.  Here you'll find everything you need to get started using SmartOS and participating in the community. Information about what's new in recent releases can be found in the <a href="https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos.html">SmartOS Changelog</a>.</p>
+
+<h2><a name="Home-QuickStart"></a>Quick Start</h2>
+
+<p>Not sure where to begin? Try the&nbsp;﻿﻿<a href="SmartOS Quick Start Guide.html" title="SmartOS Quick Start Guide">SmartOS Quick Start Guide</a>&#33;</p>
+
+<h2><a name="Home-SmartOSInaNutshell"></a>SmartOS In a Nutshell</h2>
+
+<p>SmartOS is a specialized <a href="http://en.wikipedia.org/wiki/Hypervisor">Type 1 Hypervisor</a> platform based on <a href="http://www.illumos.org/">illumos</a>.&nbsp; It supports two types of virtualization:</p>
+<ul>
+	<li><b>OS Virtual Machines</b> (Zones): A light-weight virtualization solution offering a complete and secure userland environment on a single global kernel, offering true bare metal performance and all the features illumos has, namely dynamic introspection via DTrace</li>
+	<li><b>KVM Virtual Machines</b>: A full virtualization solution for running a variety of guest OS's including Linux, Windows, &#42;BSD, Plan9 and more</li>
+</ul>
+
+
+<p>SmartOS is a "live OS", it is always booted via PXE, ISO, or USB Key and runs entirely from memory, allowing the local disks to be used entirely for hosting virtual machines without wasting disks for the root OS.&nbsp; This architecture has a variety of advantages including increased security, no need for patching, fast upgrades and recovery.</p>
+
+<p>Virtualization in SmartOS builds on top of the foundational illumos technologies inherited from OpenSolaris, namely:</p>
+<ul>
+	<li><a href="ZFS.html" title="ZFS">ZFS</a> for storage virtualization</li>
+	<li>Crossbow (dladm) for <a href="Networking and Network Virtualization.html" title="Networking and Network Virtualization">network virtualization</a></li>
+	<li><a href="SmartOS Virtualization.html" title="SmartOS Virtualization">Zones</a> for virtualization and containment</li>
+	<li><a href="DTrace.html" title="DTrace">DTrace</a> for introspection</li>
+	<li><a href="Basic SMF Commands.html" title="Basic SMF Commands">SMF</a> for service management</li>
+	<li>RBAC/BSM for auditing and role based security</li>
+	<li>etc.</li>
+</ul>
+
+
+<p>SmartOS is typically "installed" by downloading and copying the OS image onto a USB key and then booting that key.&nbsp; On the first boot a configuration utility will configure your base networking, allow you to set the root password, and allow you to select which disks to use to create the ZFS Zpool which will provide persistent storage.</p>
+
+
+<p>When you log into SmartOS you will enter the "global zone".&nbsp; From here you can download VM Images using the <em>imgadm</em> tool, which are pre-configured OS and KVM virtual machines.&nbsp; You can then use the <em>vmadm</em> tool to create and manage both OS and KVM virtual machines.</p>
+
+<p>An important aspect of SmartOS is that both OS (Zones) and KVM virtual machines are both built on Zones technology.&nbsp; In the case of OS virtualization, the guest virtual machine is provided with a complete userland environment on which to run applications directly.&nbsp; In the case of KVM virtualization, the KVM qemu process will run within a stripped down Zone.&nbsp; This offers a variety of advantages for administration, including a common method for managing resource controls, network interfaces, and administration.&nbsp; It also provides KVM guests with an additional layer of security and isolation not offered by other KVM platforms.</p>
+
+<p>Finally, VM's are described in JSON.&nbsp; Both administrative tools, <em>imgadm</em> and <em>vmadm</em>, accept and return all data in JSON format.&nbsp; This provides a simple, consistent, and programmatic interface for creating and managing VM's.</p>
+
+<h2><a name="Home-HowtoUsethisWiki"></a>How to Use this Wiki</h2>
+
+<p>This wiki can provide you with a variety of resources for users at all levels.&nbsp; To get started, <a href="Download SmartOS.html" title="Download SmartOS">download SmartOS now</a>, and be sure to review the <a href="Hardware Requirements.html" title="Hardware Requirements">Hardware Requirements</a>.&nbsp; Once installed, refer to our <a href="SmartOS Users Guide.html" title="SmartOS Users Guide">Users Guide</a> to help you learn your way around SmartOS.&nbsp; When you have questions, refer to the <a href="The SmartOS Community.html" title="The SmartOS Community">SmartOS Community section</a> for pointers to our IRC chat rooms and mailing lists.&nbsp; When you're ready to start improving and adding your own customizations to SmartOS please refer to our <a href="SmartOS Developers Guide.html" title="SmartOS Developers Guide">Developers Guide</a>.</p>
+
+<p>SmartOS is a community effort, as you explore and experiment with SmartOS please feel free to edit and contribute to this wiki to improve the documentation for other users in the community.</p>
+
+<h2><a name="Home-AboutSmartDataCenter%26Joyent"></a>About Smart Data Center &amp; Joyent</h2>
+
+<p>SmartOS is a fundamental component of the <a href="http://www.joyent.com/products/joyent-smartdatacenter/">Joyent Smart Data Center</a> (SDC) product.&nbsp; SDC is available for purchase and powers several public and private clouds around the globe, namely the<a href="http://www.joyentcloud.com">Joyent Public Cloud</a> (JPC).&nbsp; As you use SmartOS you will come across hooks that are used by SDC, such as file systems and services named "smartdc".</p>
+
+<p>If you are interested in evaluating the full Smart Data Center product, please contact sales@joyent.com .</p>
+
+				    					    <br/>
+                        <div class="tabletitle">
+                            <a name="attachments">
+                                <h2>Attachments:</h2>
+                            </a>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/753667/1146905.pdf">smartos-modernOS.pdf</a> (application/pdf)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/753667/1146907.pdf">KVMForum.pdf</a> (application/pdf)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/753667/1146940.zip">illumos_logos.zip</a> (application/zip)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/753667/1146945.rtf">cheatsheet example.rtf</a> (text/rtf)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/753667/1146969.png">illumos_postcard.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/753667/1146979.jpg">smartmug.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/753667/1769475.png">button-free-trial-gift.png</a> (image/png)
+                                <br/>
+                                                    </div>
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

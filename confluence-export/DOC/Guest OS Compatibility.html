@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Guest OS Compatibility</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Guest OS Compatibility
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Aug 01, 2013 by <font color="#0050B2">jmealo@stringtheoryschools.com</font>.
+				    </div>
+
+				    <p>Here is a list of guest systems with notes and remarks regarding their installation.</p>
+
+
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> Name </th>
+<th class='confluenceTh'> Version </th>
+<th class='confluenceTh'> SmartOS Build </th>
+<th class='confluenceTh'> Support </th>
+<th class='confluenceTh'> Notes </th>
+</tr>
+<tr>
+<td class='confluenceTd'> Ubuntu Server </td>
+<td class='confluenceTd'> 11.10 </td>
+<td class='confluenceTd'> 20120322T181745Z </td>
+<td class='confluenceTd'> full </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> Ubuntu Server </td>
+<td class='confluenceTd'> 12.04 </td>
+<td class='confluenceTd'> 20120809T221258Z </td>
+<td class='confluenceTd'> full </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> BSD </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> 20120322T181745Z </td>
+<td class='confluenceTd'> partial </td>
+<td class='confluenceTd'> use IDE disks during install and move to virtio after installing the modules in the guest system </td>
+</tr>
+<tr>
+<td class='confluenceTd'> Windows 2008 </td>
+<td class='confluenceTd'> SP2 </td>
+<td class='confluenceTd'> 20130725T202435Z<br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> partial </td>
+<td class='confluenceTd'> mount&nbsp;<a href="https://download.joyent.com/pub/vmtools/">Virtio driver ISO</a>&nbsp;during install (use Windows 8, AMD64)<br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> Windows 2008 R2&nbsp; </td>
+<td class='confluenceTd'> 6.1.7601 SP1 </td>
+<td class='confluenceTd'> 20120504T040233Z </td>
+<td class='confluenceTd'> partial </td>
+<td class='confluenceTd'> use IDE disks for install. haven't tried moving to virtio disk yet. <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> Windows 2008 R2 </td>
+<td class='confluenceTd'> Enterprise SP1 </td>
+<td class='confluenceTd'> 20130725T202435Z <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> partial </td>
+<td class='confluenceTd'> mount&nbsp;<a href="https://download.joyent.com/pub/vmtools/">Virtio driver ISO</a>&nbsp;during install;realtime clock doesn't work accurately (unable to run Geekbench) <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> Windows 2012 </td>
+<td class='confluenceTd'> Datacenter </td>
+<td class='confluenceTd'> 20130725T202435Z <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> partial </td>
+<td class='confluenceTd'> mount <a href="https://download.joyent.com/pub/vmtools/">Virtio driver ISO</a>&nbsp;during install;&nbsp;windows fails to get IP settings, only default-gateway<br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> CentOS </td>
+<td class='confluenceTd'> 6.2 (220.17.1.el6 kernel) </td>
+<td class='confluenceTd'> 20120504T040233Z </td>
+<td class='confluenceTd'> full </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> Solaris 11 </td>
+<td class='confluenceTd'> 11 11/11 </td>
+<td class='confluenceTd'> 20120504T040233Z </td>
+<td class='confluenceTd'> partial <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> use IDE disks for install and rtl8139 for network, use "rem_drv uhci" to get rid of usb messages <br class="atl-forced-newline" />
+I still get some ata0 errors but they don't seem to affect platform stability <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> Haiku </td>
+<td class='confluenceTd'> R1 Alpha3 </td>
+<td class='confluenceTd'> 20120809T221258Z </td>
+<td class='confluenceTd'> partial </td>
+<td class='confluenceTd'> See <a href="http://cuddletech.com/datasets/a4428be4-8462-4d48-9515-79ce3083b201/readme.html">Haiku Dataset README</a> </td>
+</tr>
+</tbody></table>
+</div>
+
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-756831"></a>
+                                    <font class="smallfont"><p>Hi,</p>
+
+<p>Is there any possibility of adapting a following operating system's:</p>
+<ol>
+	<li><a href="http://www.jolicloud.com/jolios/download">Joli OS (like OS Chromium) to turn any low cost computer</a>,</li>
+	<li><a href="http://wiki.sugarlabs.org/go/Downloads">Sugar Learning Platform</a></li>
+	<li>Windows XP/7/8 ?</li>
+</ol>
+
+
+<p>SmartOS run&nbsp;the two low-cost hardware servers to systems serving these old computers (lite OS client SPICE).</p>
+
+<p>Setup for educational purposes&nbsp;in primary schools.</p>
+
+<p>Cheers&#33;</p>
+
+<p>Marek</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by mszewczy at Nov 22, 2012 11:14
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

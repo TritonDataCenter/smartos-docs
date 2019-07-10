@@ -1,0 +1,418 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Managing Images</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Managing Images
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Jan 11, 2018 by <font color="#0050B2">brian.bennett@joyent.com</font>.
+				    </div>
+
+				    <p>SmartOS relies on <em>images</em> heavily.  Images are templates that contain a disk or filesystem image and metadata which are using when creating new Zones or VM's.</p>
+
+
+<p>Images are managed using the <em>imgadm</em> tool.  With this tool you can:</p>
+
+<ul>
+	<li>View &amp; Download images available on a public image server</li>
+	<li>Import remote images or Install from local images</li>
+	<li>List, Show or Print details about an image</li>
+	<li>Destroy images</li>
+</ul>
+
+
+<p>Here we'll discuss how to find available images and start using them. Then we'll look at what images are and how to create our own.&nbsp;&nbsp; Finally, we look at how to create your own private image server.</p>
+
+<div>
+<ul>
+    <li><a href='#ManagingImages-Basics'>Basics</a></li>
+<ul>
+    <li><a href='#ManagingImages-Viewing%26DownloadingPublicImages'>Viewing &amp; Downloading Public Images</a></li>
+</ul>
+    <li><a href='#ManagingImages-AdvancedTopics'>Advanced Topics</a></li>
+<ul>
+    <li><a href='#ManagingImages-WhatexactlyisanImage%3F'>What exactly <em>is</em> an Image?</a></li>
+    <li><a href='#ManagingImages-ImageManifests'>Image Manifests</a></li>
+    <li><a href='#ManagingImages-CreatingaCustomZoneImage'>Creating a Custom Zone Image</a></li>
+    <li><a href='#ManagingImages-CreatingaCustomKVMImage'>Creating a Custom KVM Image</a></li>
+    <li><a href='#ManagingImages-ImportingImagesLocally'>Importing Images Locally</a></li>
+</ul>
+    <li><a href='#ManagingImages-ServingImages'>Serving Images</a></li>
+<ul>
+    <li><a href='#ManagingImages-HowImageServerWork'>How Image Server Work</a></li>
+    <li><a href='#ManagingImages-CreatingaPoorMan%27sImageServer'>Creating a Poor Man's Image Server</a></li>
+    <li><a href='#ManagingImages-Usingthesmartosimageserver'>Using the <em>smartos-image-server</em></a></li>
+</ul>
+</ul></div>
+
+
+
+<h1><a name="ManagingImages-Basics"></a>Basics</h1>
+
+<h3><a name="ManagingImages-Viewing%26DownloadingPublicImages"></a>Viewing &amp; Downloading Public Images</h3>
+
+<p>&#42;&#42; note, this information has changed recently, and this paragraph could probably be edited for clarity and correctness &#42;&#42;</p>
+
+
+<p>The default image server is <a href="https://images.joyent.com/">https://images.joyent.com</a>. You can edit this list of sources using the "imgadm sources &#45;a &lt;URL&gt;" command, as documented in <a href="https://smartos.org/man/1m/imgadm">imgadm(1m)</a>.  Using the command <em>imgadm update</em>, you'll cause the local cache (<b>/var/db/imgadm/imgcache.json)</b> to be updated with the available images on the servers found in your sources.list.  Once your local cache is updated, you can list all available images for use using <em>imgadm avail</em>:</p>
+
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre># imgadm sources
+https://images.joyent.com
+
+# imgadm avail | head -n 1 ; imgadm avail | tail
+UUID                                  NAME                VERSION    OS       PUBLISHED
+380539c4-3198-11e5-82c8-bf9eeee6a395  debian-7                20150724    linux    2015-07-24T00:09:14Z
+ab3db4c0-31ac-11e5-8856-43e56a8e4285  centos-6                20150724    linux    2015-07-24T02:35:38Z
+7459f182-31af-11e5-b23a-eb0fd8799c77  freebsd-10              20150724    bsd      2015-07-24T02:55:34Z
+ead4ff68-320a-11e5-bd54-3749d04712df  ubuntu-14.04            20150724    linux    2015-07-24T13:50:17Z
+0764d78e-3472-11e5-8949-4f31abea4e05  minimal-32              15.2.0      smartos  2015-07-27T15:13:25Z
+8ec06130-3472-11e5-bf91-ebc747dbae7e  minimal-64              15.2.0      smartos  2015-07-27T15:17:13Z
+1e5d6e28-3473-11e5-9e94-1fd77993b49f  minimal-multiarch       15.2.0      smartos  2015-07-27T15:21:14Z
+2bd52afe-3474-11e5-b07d-c7fb14b2c9e8  base-32                 15.2.0      smartos  2015-07-27T15:28:46Z
+5c7d0d24-3475-11e5-8e67-27953a8b237e  base-64                 15.2.0      smartos  2015-07-27T15:37:17Z
+9caff6c6-3476-11e5-9951-bf98c6cb8636  base-multiarch          15.2.0      smartos  2015-07-27T15:46:14Z
+
+# imgadm avail | grep base-64 | tail
+c02a2044-c1bd-11e4-bd8c-dfc1db8b0182  base-64-lts             14.4.0      smartos  2015-03-03T15:55:44Z
+24648664-e50c-11e4-be23-0349d0a5f3cf  base-64-lts             14.4.1      smartos  2015-04-17T14:15:04Z
+4166f6d6-ea5f-11e4-addd-8351b159d9b6  base-64                 15.1.0      smartos  2015-04-24T08:52:36Z
+b67492c2-055c-11e5-85d8-8b039ac981ec  base-64-lts             14.4.2      smartos  2015-05-28T17:12:26Z
+0edf00aa-0562-11e5-b92f-879647d45790  base-64                 15.1.1      smartos  2015-05-28T17:50:41Z
+5c7d0d24-3475-11e5-8e67-27953a8b237e  base-64                 15.2.0      smartos  2015-07-27T15:37:17Z
+</pre>
+</div></div>
+
+<p>To download one of these images, say "base-64", we'll <em>import</em> it using the images UUID:</p>
+
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre># imgadm import 5c7d0d24-3475-11e5-8e67-27953a8b237e
+Importing 5c7d0d24-3475-11e5-8e67-27953a8b237e (base-64@15.2.0) from "https://images.joyent.com"
+Gather image 5c7d0d24-3475-11e5-8e67-27953a8b237e ancestry
+Must download and install 1 image (127.2 MiB)
+Imported image 5c7d0d24-3475-11e5-8e67-27953a8b237e (base-64@15.2.0)
+
+# imgadm list
+UUID                                  NAME          VERSION       OS       PUBLISHED
+5c7d0d24-3475-11e5-8e67-27953a8b237e  base-64  15.2.0   smartos  2015-07-27T15:37:17Z
+</pre>
+</div></div>
+
+<p>To learn how to create a Zone or VM from these images, please refer to:</p>
+
+<ul>
+	<li><a href="How to create a zone ( OS virtualized machine ) in SmartOS.html" title="How to create a zone ( OS virtualized machine ) in SmartOS">How to create a zone (OS virtualized machine) in SmartOS</a></li>
+	<li><a href="How to create a KVM VM ( Hypervisor virtualized machine ) in SmartOS.html" title="How to create a KVM VM ( Hypervisor virtualized machine ) in SmartOS">How to create a KVM VM (Hypervisor virtualized machine) in SmartOS</a></li>
+</ul>
+
+
+
+<h1><a name="ManagingImages-AdvancedTopics"></a>Advanced Topics</h1>
+
+
+<h3><a name="ManagingImages-WhatexactlyisanImage%3F"></a>What exactly <em>is</em> an Image?</h3>
+
+<p>An <b>image</b> is the data and metadata required to create a new VM.  The "data" is one or more compressed ZFS datasets which will be cloned to create a new VM.  The "metadata" describes, as JSON, the data and outlines the specification for a machine that would utilize it.</p>
+
+<p>Here is an example of the two files:</p>
+
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre>benr@magnolia:~/datasets$ ls -lh
+total 41M
+-rw-rw-r-- 1 benr benr 996 Sep 10 14:54 smartos-1.3.12.dsmanifest
+-rw-rw-r-- 1 benr benr 41M Jun 10  2011 smartos-1.3.12.zfs.bz2
+</pre>
+</div></div>
+
+<h3><a name="ManagingImages-ImageManifests"></a>Image Manifests</h3>
+
+<p>The following is an example manifest taken from the public repository <a href="https://datasets.joyent.com/datasets/">https://datasets.joyent.com/datasets/</a> (re-arranged and line breaks added for clarity).</p>
+
+<p>You'll notice we have properties to identify the image (UUID, name, version, description, etc), the author (creator_name, creator_uuid, etc), when the image was created/updated/published, and then an array identifying the ZFS Dataset file or files, and finally an array outlining some requirements.</p>
+
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre>  {
+    "uuid": "febaa412-6417-11e0-bc56-535d219f2590",
+    "name": "smartos",
+    "version": "1.3.12",
+    "description": "Base template to build other templates on",
+
+    "os": "smartos",
+    "type": "zone-dataset",
+    "platform_type": "smartos",
+    "cloud_name": "sdc",
+    "urn": "sdc:sdc:smartos:1.3.12",
+
+    "creator_name": "sdc",
+    "creator_uuid": "352971aa-31ba-496c-9ade-a379feaecd52",
+    "vendor_uuid": "352971aa-31ba-496c-9ade-a379feaecd52",
+
+    "created_at": "2011-04-11T08:45Z",
+    "updated_at": "2011-04-11T08:45Z",
+    "published_at": "2011-04-11T08:45Z",
+
+    "files": [
+      {
+        "path": "smartos-1.3.12.zfs.bz2",
+        "sha1": "246c9ae158dc8f204643afdd6bd4d3c4aa35e733",
+        "size": 42016482,
+        "url": "https://datasets.joyent.com/datasets/febaa412-6417-11e0-bc56-535d219f2590/smartos-1.3.12.zfs.bz2"
+      }
+    ],
+    "requirements": {
+      "networks": [
+        {
+          "name": "net0",
+          "description": "public"
+        }
+      ]
+    }
+  }
+</pre>
+</div></div>
+
+<p>When creating your own manifest, the following properties are required:</p>
+
+<ul>
+	<li><b>uuid</b>: The UUID of the image (use an <a href="http://www.guidgenerator.com/">online UUID generator</a>)</li>
+	<li><b>name</b>: The name of the image (eg: "centos-6")</li>
+	<li><b>version</b>: The version of the image (eg: "1.0.0")</li>
+	<li><b>description</b>: A short description of the image</li>
+	<li><b>published_at</b>: A timestamp for the date of publication on an image server (this does not need to be accurate); to output the current time in the proper format use the command: <em>date &#43;"%Y-%m-%dT%T.000Z"</em></li>
+	<li><b>creator_uuid</b>: The UUID of the author of the image (use an <a href="http://www.guidgenerator.com/">online UUID generator</a> if you don't have one)</li>
+	<li><b>creator_name</b>: The name of the image author</li>
+	<li><b>urn</b>: A special string for describing the image in the form "cloud_name:creator_name:name:version"; for the "cloud_name" I suggest "smartos" if you are unsure, the creator name is usually your organization.  The string should not contain spaces.  (eg: "smartos:cuddletech:plan9:1.0.0")</li>
+	<li><b>type</b>: The type of image, either "zvol" for KVM or "zone-dataset" for Zones</li>
+	<li><b>os</b>: The OS of this image, required.&nbsp;As of this writing, must be one of smartos, linux, windows, bsd, illumos, other.</li>
+	<li><b>files</b>: An array of one or more file objects, containing the following properties for each:
+	<ul>
+		<li><b>path</b>: Local file path to the image data file (compressed zfs dump)</li>
+		<li><b>sha1</b>: The SHA1 for the image data file; to obtain the SHA1 hash use: <em>digest &#45;a sha1 &lt;file&gt;</em></li>
+		<li><b>size</b>: The file size of the image data file; to obtain use: <em>ls &#45;l &lt;file&gt;</em></li>
+	</ul>
+	</li>
+</ul>
+
+
+<p>The requirements section is recommended but not currently required, nor is it enforced.</p>
+
+<h3><a name="ManagingImages-CreatingaCustomZoneImage"></a>Creating a Custom Zone Image</h3>
+
+<p>The process of creating a zone image looks like this:</p>
+
+<ol>
+	<li>Create and customize a zone as you wish</li>
+	<li>Purge the logs, etc. and run the <tt>sm-prepare-image</tt> to make the machine image-ready (remember to read the warning message&#33;).</li>
+	<li>Halt the zone: <em>vmadm stop &lt;UUID&gt;</em></li>
+	<li>Snapshot the Zone dataset: <em>zfs snapshot zones/&lt;UUID&gt;@image</em></li>
+	<li>Dump &amp; Compress the dataset: <em>zfs send zones/&lt;UUID&gt;@image &#124; gzip &gt; image_name.zfs.gz</em></li>
+	<li>Create the manifest as described above</li>
+</ol>
+
+
+<p>You can now import the image locally via <em>imgadm</em> or transfer it to an image server.</p>
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Dataset Compression</b><br />Datasets <b>must</b> be compressed.  You may use either Xz, GZip, or BZip2.  BZip2 will offer a smaller file than GZip, but GZip compression is faster.  Particularly for datasets larger than 10GB, GZip is highly recommended. If all CNs you expect to use the image on are&nbsp;20150402 or later, then Xz is an option. Xz will provide better compression that BZip2 and is generally close to GZip in speed. Xz is not available before release-20150402.</td></tr></table></div>
+
+<h3><a name="ManagingImages-CreatingaCustomKVMImage"></a>Creating a Custom KVM Image</h3>
+
+<p>The process of creating a KVM image looks like this:</p>
+
+<ol>
+	<li>Create and customize a KVM instance as you wish</li>
+	<li>Purge and ready the instance</li>
+	<li>Halt the VM: <em>vmadm stop &lt;UUID&gt;</em></li>
+	<li>Snapshot the disk0 ZVol: <em>zfs snapshot zones/&lt;UUID&gt;-disk0@image</em></li>
+	<li>Dump &amp; Compress the dataset: <em>zfs send zones/&lt;UUID&gt;-disk0@image &#124; gzip &gt; image_name.zvol.gz</em></li>
+</ol>
+
+
+<p>You can now import the image locally via imgadm or transfer it to an image server.</p>
+
+<h3><a name="ManagingImages-ImportingImagesLocally"></a>Importing Images Locally</h3>
+
+<p>Typically images are downloaded from an image server, however they can also be imported locally using: <em>imgadm &#45;m &lt;manifest&gt; &#45;f &lt;file&gt;</em></p>
+
+<p>The process looks like this:</p>
+
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre># imgadm install -m smartos-1.3.12.dsmanifest -f smartos-1.3.12.zfs.bz2
+febaa412-6417-11e0-bc56-535d219f2590 doesnt exist. continuing with install
+febaa412-6417-11e0-bc56-535d219f2590 successfully installed
+image febaa412-6417-11e0-bc56-535d219f2590 successfully imported
+</pre>
+</div></div>
+
+<h1><a name="ManagingImages-ServingImages"></a>Serving Images</h1>
+
+<p>The default community image (formerly <em>dataset</em>) server is <b>datasets.joyent.com</b>.  A wide variety of images are there for you to use and build new images from.  But what if you want to distribute your own images for others to use?  That's what we'll discuss here.</p>
+
+<h3><a name="ManagingImages-HowImageServerWork"></a>How Image Server Work</h3>
+
+<p>The functions of an image are very simple.  When an image server is added to a clients <b>sources.list</b> and they preform an <em>imgadm update</em>, the tool will preform an HTTP GET operation against the source URL.  This get will return an array of JSON objects which are dsmanifest files for each available image.  Here is an example:</p>
+
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre>$ curl -ks https://datasets.joyent.com/datasets/
+[
+  {
+    "name": "mongodb",
+    "version": "1.3.2",
+    "type": "zone-dataset",
+    "description": "64-bit MongoDB 2.0 SmartMachine Database Appliance with Quickbackup and Replica Sets",
+    "published_at": "2012-08-31T16:04:51.970Z",
+    "os": "smartos",
+    "uuid": "6bf31ce2-f384-11e1-a338-e39c2fe4ab59",
+    "creator_uuid": "352971aa-31ba-496c-9ade-a379feaecd52",
+    "vendor_uuid": "352971aa-31ba-496c-9ade-a379feaecd52",
+    "creator_name": "sdc",
+    "platform_type": "smartos",
+    "cloud_name": "sdc",
+    "urn": "sdc:sdc:mongodb:1.3.2",
+    "created_at": "2012-08-31T16:04:51.970Z",
+    "updated_at": "2012-08-31T16:04:51.970Z",
+    "files": [
+      {
+        "path": "mongodb-1.3.2.zfs.bz2",
+        "sha1": "dff4787bcc8cd115a2307d1e833a49d23a1ad9b0",
+        "size": 115202324,
+        "url": "https://datasets.joyent.com/datasets/6bf31ce2-f384-11e1-a338-e39c2fe4ab59/mongodb-1.3.2.zfs.bz2"
+      }
+    ],
+    "requirements": {
+      "networks": [
+        {
+          "name": "net0",
+....
+</pre>
+</div></div>
+
+<p>When the client downloads an image using <em>imgadm import UUID</em>, by default the client will download the image files (ZFS datasets) specified in the manifest in the form: &lt;source_server_url&gt;/&lt;image_uuid&gt;/&lt;file_path&gt;.  So in the example above the file downloaded will be *<a href="https://datasets.joyent.com/datasets/6bf31ce2-f384-11e1-a338-e39c2fe4ab59/mongodb-1.3.2.zfs.bz2*">https://datasets.joyent.com/datasets/6bf31ce2-f384-11e1-a338-e39c2fe4ab59/mongodb-1.3.2.zfs.bz2&#42;</a>.  You'll notice that the file in the manifest includes a URL, if present it will be used, but it is not required.</p>
+
+<p>The operation of an image server is therefore very simple and straight forward.</p>
+
+<h3><a name="ManagingImages-CreatingaPoorMan%27sImageServer"></a>Creating a Poor Man's Image Server</h3>
+
+<p>As described above, the functions required of an "image" server are very basic.  Therefore we can emulate a dataset servers basic functions in the following way:</p>
+
+<ol>
+	<li>On your web server, create a directory for your SmartOS image server.  We'll assume "images/" on <a href="http://mysite.com">http://mysite.com</a>.</li>
+	<li>Add each DS manifest into index.html.  Do not include any HTML&#33;  We only use this filename because it is the default content sent when the directory is accessed.  Remember that the file contains an array of manifest objects, therefore the format will be:
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre>[
+ { manifest1... },
+ { manifest2... }
+]
+</pre>
+</div></div></li>
+	<li>For each image, create a directory using the images UUID, ie: "images/6bf31ce2-f384-11e1-a338-e39c2fe4ab59".</li>
+	<li>Copy the image file(s) into the UUID directory</li>
+	<li>Now try it&#33;  "curl &#45;ks <a href="http://mysite.com/images">http://mysite.com/images</a>" should return your objects.</li>
+	<li>Add it to your <b>sources.list</b> and <em>imgadm update</em> to use.</li>
+</ol>
+
+
+<p>The solution described here is not elegant, nor optimal, but is a viable option for serving images from web accounts which do not have the option of using the more elegant <em>smartos-image-server</em> described next.</p>
+
+<h3><a name="ManagingImages-Usingthesmartosimageserver"></a>Using the <em>smartos-image-server</em></h3>
+
+<p>A community image server project started by <b>nshalman</b> can be found on github: <a href="https://github.com/nshalman/smartos-image-server">smartos-image-server</a></p>
+
+
+
+<p>The server is implemented in Node.js and implements the basic functionality required to serve images.  This is the recommended method of serving images.</p>
+
+<div class='panelMacro'><table class='tipMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/check.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Community Image Servers</b><br />Several community image servers are available.  To find the existing community image servers, or to add your own, please go to the <a href="3rd party datasets.html" title="3rd party datasets">3rd party datasets page</a>.</td></tr></table></div>
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-1441805"></a>
+                                    <font class="smallfont"><h3><a name="ManagingImages-Cannotimportimageslocally"></a>Can not import images locally</h3>
+
+<p>Here comes the error info.</p>
+
+<p>[root@b4-b5-2f-63-ef-20 /zones/imgadmInstall/ubuntu/liveimage]# imgadm install &#45;m test.dsmanifest &#45;f ubuntulive.zvol.bz2<br/>
+ddab257c-09b9-4c82-9801-20386cc97338 doesnt exist. continuing with install<br/>
+stream.js:81<br/>
+&nbsp; &nbsp; &nbsp; throw er; // Unhandled stream error in pipe.<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ^<br/>
+Error: write EPIPE<br/>
+&nbsp; &nbsp; at errnoException (net.js:781:11)<br/>
+&nbsp; &nbsp; at Object.afterWrite (net.js:594:19)<br/>
+&#35; imgadm install &#45;m test.dsmanifest &#45;f ubuntulive.zvol.bz2</p>
+
+<p>ddab257c-09b9-4c82-9801-20386cc97338 doesnt exist. continuing with install</p>
+
+<p>stream.js:81</p>
+
+<p>&nbsp; &nbsp; &nbsp; throw er; // Unhandled stream error in pipe.</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ^</p>
+
+<p>Error: write EPIPE</p>
+
+<p>&nbsp; &nbsp; at errnoException (net.js:781:11)</p>
+
+<p>&nbsp; &nbsp; at Object.afterWrite (net.js:594:19)</p>
+
+<p>The local image was created through the way this page referred.</p>
+<ol>
+	<li>Create and customize a KVM instance as you wish &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</li>
+	<li>Purge and ready the instance</li>
+	<li>Halt the VM:&nbsp;<em>vmadm stop &lt;UUID&gt;</em></li>
+	<li>Snapshot the disk0 ZVol:&nbsp;<em>zfs snapshot zones/&lt;UUID&gt;-disk0@image</em></li>
+	<li>Dump &amp; Compress the dataset:&nbsp;<em>zfs send zones/&lt;UUID&gt;-disk0@image &#124; gzip &gt; image_name.zvol.gz</em></li>
+</ol>
+
+
+<p>&nbsp;About the first step, I did try two ways, "Use image imported from the imgadm avail" and "Created from a iso file". Both of them are failed with the same error info.</p>
+
+<p>Could you please give a hand about this?</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by tx_seu@hotmail.com at Dec 06, 2012 08:25
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-2687109"></a>
+                                    <font class="smallfont"><p>The Serving Images section seems to be out of date/doesn't work since the change from <font color="#29231a">DSAPI to IMGAPI.</font></p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by jauer at Oct 22, 2013 20:50
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

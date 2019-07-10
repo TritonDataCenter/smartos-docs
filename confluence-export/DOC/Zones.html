@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Zones</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Zones
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Dec 10, 2012 by <font color="#0050B2">jdavis</font>.
+				    </div>
+
+				    <p>Inspired by <a href="http://en.wikipedia.org/wiki/FreeBSD_jail">FreeBSD jails</a>, the fundamental technology behind a SmartMachine is the concept of zones. A zone is a virtualized instance of SmartOS that behaves like an isolated system even when functioning along side other zones on the same machine. Each zone on a system shares a pool of resources and the single operating system kernel. However, zones are never aware of other zones on the system and are process secure. A zone is similar to a virtual machine, but is distinct in that it shares the base system kernel, whereas each virtual machine runs its own OS kernel. Zones are an inherent part of the operating system and impose no additional overhead. Each process that runs includes the&nbsp;zone ID as an attribute.&nbsp;Thus, zones scale and perform better than virtual machines since there no additional kernel or layering involved.</p>
+
+<p><b>In this topic:</b></p>
+<div>
+<ul>
+    <li><a href='#Zones-AbouttheGlobalZone'>About the Global Zone</a></li>
+    <li><a href='#Zones-ProcessSecurity'>Process Security</a></li>
+    <li><a href='#Zones-ResourceSecurity'>Resource Security</a></li>
+    <li><a href='#Zones-SecurityandSolarisContainers'>Security and Solaris Containers</a></li>
+</ul></div>
+
+
+<h1><a name="Zones-AbouttheGlobalZone"></a>About the Global Zone</h1>
+
+<p>In SmartOS, the global zone is distinct from all other&nbsp;zones. &nbsp;The global zone is the parent to all other zones and serves as the management layer of SmartOS from which you <a href="Administering the Global Zone.html" title="Administering the Global Zone">administer</a> to other zones. You use the global zone to monitor and manage the system health, capacity, and throughput of non-global zones.&nbsp;A single administrator is in charge of the global zone and manages properties of all other zones, such as resource allocation and resource management. As the global zone administrator, you control and instantiate zones through three basic steps:</p>
+
+<ul>
+	<li><b>Configure:</b> Defines the networking and privilege sets for the zone.</li>
+	<li><b>Install packages:</b> Constructs, installs, and initializes packages for the zone.</li>
+	<li><b>Run:</b> Boots the zone and starts services.</li>
+</ul>
+
+
+<p>The global zone is what you boot into when you boot up and log into SmartOS. You can think of the global zone as the "base OS". Non-global zones are the various OS and KVM instances that you manage through the global zone. The terms "global zone" and "non-global zone" help distinguish between references to the virtual machines contained by the global zone and references to things inside a virtual machine.</p>
+
+
+<p>The key to working in a SmartOS environment is understanding how to administer and work with the global zone. The global zone is effectively a read-only hypervisor because SmartOS is not installed locally. It boots directly from either USB, CD-ROM, or PXE into a mostly read-only environment. When you boot to SmartOS, you essentially load it into memory and run it off of a ramdisk. This means that most changes you would want to typically make in the global zone will not persist or are simply not allowed. For example:</p>
+
+<ul>
+	<li>You cannot add users.</li>
+	<li>You cannot write anywhere under <tt>/usr</tt>.</li>
+	<li>You cannot permanently store or change files under <tt>/etc</tt>, <tt>/root</tt>, <tt>..</tt></li>
+	<li>Any changes you make to SMF services are reset with each reboot.</li>
+</ul>
+
+
+<p>SmartOS is specifically designed as an OS for running virtual machines, not as a general purpose OS. As a global zone administrator, you should only use the global zone for creating and managing non-global zones. All other work should take place directly in non-global zones. However, there are some changes you can make directly in the global zone.</p>
+
+<div class='panelMacro'><table class='tipMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/check.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>For a good breakdown of changes you can make, see this <a href="http://www.perkin.org.uk/posts/smartos-and-the-global-zone.html?utm_source=dlvr.it&amp;utm_medium=twitter">blog post</a> by Jonathan Perkin of Joyent.</td></tr></table></div>
+
+<h1><a name="Zones-ProcessSecurity"></a>Process Security</h1>
+
+<p>One of the reasons a SmartMachine is so secure is because of process encapsulation. Zones provide for&nbsp;separation&nbsp;of processes, their data and the namespace.</p>
+<ul>
+	<li>Processes cannot escape from zones.</li>
+	<li>Processes cannot observe other zones.</li>
+	<li>Processes cannot signal other zones.</li>
+	<li>Naming (such as user IDs or opening a port on an IP address) does not conflict with other zones</li>
+</ul>
+
+
+<p>This isolation means that zones provide a a container without fear of processes in one zone interfering with another. Conversely, a process in the global zone can view anything that is happening in any other zone if it has the relevant privilege.&nbsp;</p>
+
+<p>Zone processes have a&nbsp;privilege&nbsp;limit and no process in a zone ever has as much privilege as the global zone. For example, the root user in a zone is limited by the privilege limit set for the zone. In addition,&nbsp;all OS services are managed through SMF, providing service isolation and encapsulation. This encapsulation in a zone provides the security necessary to run multiple zones on the same system.</p>
+
+<h1><a name="Zones-ResourceSecurity"></a>Resource Security</h1>
+
+<p>Zones also provide the following resource security benefits:</p>
+
+<p><b>Control over the filesystem:</b> Zones are mounted from the global zone and the global zone administrator can mount a zone filesystem as read/write or read-only. Processes in a zone cannot re-mount a filesystem unless the global zone administrator allows it.&nbsp;</p>
+
+<p><b>Control over the network stack:</b> The global zone administrator can control the IP behavior of zones in one of two ways: through a shared IP stack or exclusive IP stack. By default, on SmartOS each zone has its own IP stack. An administrator in that zone will have a limited set of privileges to perform some administrative functions, such as picking IP addresses and configuring routes.</p>
+
+<p><b>Namespace&nbsp;separation:</b> Zones provide for system and network configuration name space&nbsp;separation, keeping namespaces unique to each zone. All the resources managed by the kernel are maintained through polyinstantiation, meaning the same resources are managed as different instances in each zone, eliminating namespace collision. For example, each zone maintains a unique instance of <tt>/tmp</tt>.&nbsp;</p>
+
+<p><b>Virtualized hardware:</b>&nbsp;On SmartOS zones do not have access to any physical devices. All hardware components in a zone are&nbsp;completely&nbsp;virtualized, including networking.</p>
+
+
+<h1><a name="Zones-SecurityandSolarisContainers"></a>Security and Solaris Containers</h1>
+
+<p>This video provides a&nbsp;brief but informative&nbsp;description of the zone implementation in SmartOS. With the exception of Trusted Extension, the concepts presented here by Glen Faden on OpenSolaris also apply to SmartOS.</p>
+
+<p><a href="http://www.youtube.com/watch?v=-4ZIhX2stEs">Video: Security and Solaris Containers</a></p>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

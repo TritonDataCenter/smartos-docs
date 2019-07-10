@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Working with Packages</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Working with Packages
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Mar 25, 2017 by <font color="#0050B2">dlaflamme</font>.
+				    </div>
+
+				    <p>Unlike other operating systems, SmartOS is distributed as a single (mostly) read-only image with no packaging system to allow for installation of additional software packages.  To fill this void we leverage <a href="http://www.netbsd.org/docs/software/packages.html">The NetBSD Packages Collection</a>, also known as "pkgsrc".</p>
+
+<p><a href="http://www.netbsd.org/docs/software/packages.html">pkgsrc</a> is a cross-platform framework for building software from source and distributing binary packages.  Each "package" consists of a Makefile and several metadata files which specify how to build the software (as an example, look at the <a href="http://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/misc/tmux/">tmux</a> package).  The flexibility of this framework allows for easy porting of software en mass for OS's like ours without reinventing the wheel as well as allowing us to participate in and contribute to the larger pkgsrc community at large.</p>
+
+<p>pkgsrc is not present in the SmartOS global zone out of the box but can be easily installed using a bootstrap.  Please refer to <a href="Installing pkgin.html" title="Installing pkgin">Installing pkgin</a>.</p>
+
+
+<p>In SmartOS Zones, however, pkgsrc takes center stage by providing all the software you require from compilers to web servers to editors.</p>
+
+<p>The <em>pkgin</em> utility is the typical way to manage packages.  Use <em>pkgin av</em> to list the available packages for installation.  Use <em>pkgin ls</em> to view already installed packages.  Use <em>pkgin in somepackage</em> to install a package.  All software will be installed under <b>/opt/local</b> and should therefore be included in your path.</p>
+
+
+
+<ul><li><a href="Installing pkgin.html" title="Installing pkgin">Installing pkgin</a></li><li><a href="Building Packages.html" title="Building Packages">Building Packages</a></li></ul>
+
+<h1><a name="WorkingwithPackages-Usingpkgin"></a>Using <em>pkgin</em></h1>
+
+<p>This table lists common&nbsp;<tt>pkgin</tt>&nbsp;commands.</p>
+
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> Command </th>
+<th class='confluenceTh'> Description </th>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>pkgin up</tt> </td>
+<td class='confluenceTd'> Updates the&nbsp;<tt>pkgin</tt>&nbsp;database. You should run this command before installing any new packages just in case. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>pkgin ls</tt> </td>
+<td class='confluenceTd'> Lists all the installed packages </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>pkgin av</tt> </td>
+<td class='confluenceTd'> Lists all of the available packages </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>pkgin in</tt> </td>
+<td class='confluenceTd'> Installs a package </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>pkgin rm</tt> </td>
+<td class='confluenceTd'> Removes a package </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>pkgin se</tt> </td>
+<td class='confluenceTd'> Searches for a package </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>pkgin</tt> </td>
+<td class='confluenceTd'> With no additional arguments, lists all of the available&nbsp;<tt>pkgin</tt>&nbsp;commands. </td>
+</tr>
+</tbody></table>
+</div>
+
+<p>For example, to install&nbsp;<tt>tidy</tt>, you run this:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">sudo pkgin update
+sudo pkgin in tidy</pre>
+		</div>
+</div></div>
+
+<h1><a name="WorkingwithPackages-DirectoryPathsusedbypkgsrc"></a>Directory Paths used by pkgsrc</h1>
+
+<p>The pkgsrc utility installs files in several directories within&nbsp;<tt>/opt/local</tt>.</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> Directory </th>
+<th class='confluenceTh'> Description </th>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>/opt/local</tt> </td>
+<td class='confluenceTd'> This is where pkgsrc installs software including binaries, libraries, configuration files, supporting files, examples, documentation etc. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>/opt/local/etc</tt> </td>
+<td class='confluenceTd'> Contains configuration files. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>/opt/local/share/examples</tt> </td>
+<td class='confluenceTd'> Example configuration files.&nbsp;&nbsp;&nbsp; <br class="atl-forced-newline" />
+When you add a new package, pkgsrc installs sample configuration files here, and then copies them to&nbsp;<tt>/opt/local/etc</tt>&nbsp;if they do not already exist. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>/var/db/pkg</tt> </td>
+<td class='confluenceTd'> This directory contains two directories that contain the database of installed and available packages.&nbsp;
+<div class='panelMacro'><table class='warningMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/forbidden.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>If you delete or damage these directories, you will not be able to use the pkgsrc management tools.</td></tr></table></div>
+<p> </p></td>
+</tr>
+</tbody></table>
+</div>
+
+<p>As noted in the table above, pkgsrc copies configuration files into&nbsp;<tt>/opt/local/etc</tt>&nbsp;only if they do not already exist. That means that you will not lose any custom configurations when you update, remove, or reinstall a pacakage. If you break your configuration file, you can always get a clean one from <tt>/opt/local/share/examples</tt>.</p>
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-2326708"></a>
+                                    <font class="smallfont"><p>I wasn't sure where this would fit, but under "Working with Packages" seems the closest even though it isn't a pkgsrc question.</p>
+
+<p>I downloaded jetty 8 from the eclipse site and have it installed in a SmartOS standard64 zone.&nbsp; It works by starting and delivering servlets, but if I make a change to or add servlets I have to restart jetty.&nbsp; That is where the problem begins.&nbsp; It fails to restart.&nbsp; It will stop, but then on start it says the address is already in use, and requires a reboot of the zone to restart jetty.&nbsp; This is not a problem in OpenIndiana and restart in a zone doesn't give a address in use error.</p>
+
+
+<p>Another thing I cannot figure out is in a SmartOS zone, jetty fails to start without the spdy.war and test.war files in /webapps, although in OpenIndiana if I remove the .war files it doesn't complain and starts up.&nbsp;</p>
+
+<p>jetty isn't available in pkgsrc but doesn't really need to be since the archive from eclipse just needs to be extracted.&nbsp; If anyone has experienced this I'd appreciate how you solved the jetty restart problem without having to reboot the zone.&nbsp; The .war files not being deleted is not a concern to me, just an annoyance.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by gpatrick at May 25, 2013 13:40
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

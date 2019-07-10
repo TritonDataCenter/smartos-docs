@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : NAT using Etherstubs</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : NAT using Etherstubs
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Oct 02, 2018 by <font color="#0050B2">bbennett</font>.
+				    </div>
+
+				    <div>
+<ul>
+    <li><a href='#NATusingEtherstubs-Introduction'>Introduction</a></li>
+    <li><a href='#NATusingEtherstubs-ConfigureEtherstub'>Configure Etherstub</a></li>
+    <li><a href='#NATusingEtherstubs-ConfigureZones'>Configure Zones</a></li>
+    <li><a href='#NATusingEtherstubs-ConfigureNAT'>Configure NAT</a></li>
+    <li><a href='#NATusingEtherstubs-References'>References</a></li>
+    <li><a href='#NATusingEtherstubs-AlternateInstructionsforNATonSmartOS'>Alternate Instructions for NAT on SmartOS</a></li>
+    <li><a href='#NATusingEtherstubs-Unsupportedbadideas'>Unsupported bad ideas</a></li>
+</ul></div>
+
+<h2><a name="NATusingEtherstubs-Introduction"></a>Introduction</h2>
+
+<p>This is a set of instructions to demonstrate how to set up a pair of zones where one of them is performing NAT for the other.</p>
+
+<p>This could be generalized to a zone that performs NAT for a collection of zones/VMs, or other configurations as well.</p>
+
+<h2><a name="NATusingEtherstubs-ConfigureEtherstub"></a>Configure Etherstub</h2>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">nictagadm add -l stub0</pre>
+		</div>
+</div></div>
+
+<h2><a name="NATusingEtherstubs-ConfigureZones"></a>Configure Zones</h2>
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Double NAT</b><br />My example happens to result in double NAT to reach the internet.  My SmartOS machine is on a 192.168.0.1/24 network that is itself NATed to the Internet. The "firewall" zone is NATing the client zone from a 10.0.0.1/24 network onto that 192.168.0.1/24 network.</td></tr></table></div>
+<div class='panelMacro'><table class='tipMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/check.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Things to note</b><br />Note the "allow_ip_spoofing" setting on the firewall zone NICs</td></tr></table></div>
+
+<ol>
+	<li>Example JSON for "Firewall" Zone
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>firewall.json</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">{
+  "alias": "firewall",
+  "hostname": "firewall",
+  "brand": "joyent",
+  "max_physical_memory": 256,
+  "image_uuid": "31bc4dbe-5e06-11e1-907c-5bed6b255fd1",
+  "default_gateway": "192.168.0.1",
+  "nics": [
+    {
+      "nic_tag": "admin",
+      "ip": "192.168.0.100",
+      "netmask": "255.255.255.0",
+      "allow_ip_spoofing": true,
+      "gateway": "192.168.0.1",
+      "primary": true
+    },
+    {
+      "nic_tag": "stub0",
+      "ip": "10.0.0.1",
+      "netmask": "255.255.255.0",
+      "allow_ip_spoofing": true,
+      "gateway": "10.0.0.1"
+    }
+  ]
+}</pre>
+		</div>
+</div></div></li>
+	<li>Example JSON for "Client" Zone/VM
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>client.json</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">{
+  "alias": "client",
+  "hostname": "client",
+  "brand": "joyent",
+  "max_physical_memory": 256,
+  "image_uuid": "31bc4dbe-5e06-11e1-907c-5bed6b255fd1",
+  "nics": [
+    {
+      "nic_tag": "stub0",
+      "ip": "10.0.0.2",
+      "netmask": "255.255.255.0",
+      "gateway": "10.0.0.1"
+    }
+  ]
+}</pre>
+		</div>
+</div></div></li>
+	<li><div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">vmadm create -f firewall.json
+vmadm create -f client.json</pre>
+		</div>
+</div></div></li>
+</ol>
+
+
+<h2><a name="NATusingEtherstubs-ConfigureNAT"></a>Configure NAT</h2>
+
+<ol>
+	<li><div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">zlogin &lt;uuid-of-firewall-zone&gt;</pre>
+		</div>
+</div></div></li>
+	<li>Example /etc/ipf/ipnat.conf
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>/etc/ipf/ipnat.conf</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">map net0 10.0.0.2/32 -&gt; 0/32
+# Uncomment the following line if you want clients to be able to talk to the firewall at its other IP address
+#rdr net1 192.168.0.100/32 -&gt; 10.0.0.1</pre>
+		</div>
+</div></div></li>
+	<li>Turn on packet forwarding and ipfilter
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">routeadm -u -e ipv4-forwarding
+svcadm enable ipfilter
+ipnat -l</pre>
+		</div>
+</div></div></li>
+</ol>
+
+
+<h2><a name="NATusingEtherstubs-References"></a>References</h2>
+
+<ol>
+	<li><a href="https://blogs.oracle.com/droux/entry/private_virtual_networks_for_solaris">https://blogs.oracle.com/droux/entry/private_virtual_networks_for_solaris</a></li>
+	<li><a href="https://gist.github.com/2639064">https://gist.github.com/2639064</a></li>
+	<li><a href="https://gist.github.com/e18d343cde4509afaa51">https://gist.github.com/e18d343cde4509afaa51</a></li>
+	<li><a href="https://www.google.com/?q=etherstub%20ipnat">https://www.google.com/?q=etherstub%20ipnat</a></li>
+</ol>
+
+
+<h2><a name="NATusingEtherstubs-AlternateInstructionsforNATonSmartOS"></a>Alternate Instructions for NAT on SmartOS</h2>
+
+<ul>
+	<li><a href="https://docu.blackdot.be/snipets/solaris/smartos-nat">https://docu.blackdot.be/snipets/solaris/smartos-nat</a></li>
+	<li><a href="https://gist.github.com/baetheus/5e1e5ab1eb68fae3490d">https://gist.github.com/baetheus/5e1e5ab1eb68fae3490d</a></li>
+</ul>
+
+
+<h2><a name="NATusingEtherstubs-Unsupportedbadideas"></a>Unsupported bad ideas</h2>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>/opt/custom/scripts/etherstubs</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; collapse: true; gutter: false">#!/bin/bash
+IN_USE_STUBS=$(grep -h global-nic /etc/zones/*.xml | sed '/stub/{s|.*global-nic="\(.*\)"&gt;$|\1|;p;};d' | sort | uniq)
+
+for STUB in $IN_USE_STUBS;
+do
+        dladm show-etherstub $STUB &amp;&gt;/dev/null || dladm create-etherstub -t $STUB
+done</pre>
+		</div>
+</div></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>/opt/custom/smf/etherstubs.xml</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: xml; collapse: true; gutter: false">&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1"&gt;
+&lt;service_bundle type="manifest" name="export"&gt;
+  &lt;service name="site/etherstubs" type="service" version="0"&gt;
+    &lt;create_default_instance enabled="true"/&gt;
+    &lt;single_instance/&gt;
+    &lt;dependency name="network" grouping="require_all" restart_on="error" type="service"&gt;
+      &lt;service_fmri value="svc:/milestone/network:default"/&gt;
+    &lt;/dependency&gt;
+    &lt;dependency name="filesystem" grouping="require_all" restart_on="error" type="service"&gt;
+      &lt;service_fmri value="svc:/system/filesystem/local"/&gt;
+    &lt;/dependency&gt;
+    &lt;method_context/&gt;
+    &lt;exec_method name="start" type="method" exec="/opt/custom/scripts/etherstubs" timeout_seconds="60"/&gt;
+    &lt;exec_method name="stop" type="method" exec=":kill" timeout_seconds="60"/&gt;
+    &lt;property_group name="startd" type="framework"&gt;
+      &lt;propval name="duration" type="astring" value="transient"/&gt;
+      &lt;propval name="ignore_error" type="astring" value="core,signal"/&gt;
+    &lt;/property_group&gt;
+    &lt;property_group name="application" type="application"/&gt;
+    &lt;stability value="Evolving"/&gt;
+    &lt;template&gt;
+      &lt;common_name&gt;
+        &lt;loctext xml:lang="C"&gt;Bring up all etherstubs referenced by existing zones&lt;/loctext&gt;
+      &lt;/common_name&gt;
+    &lt;/template&gt;
+  &lt;/service&gt;
+&lt;/service_bundle&gt;</pre>
+		</div>
+</div></div>
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-1835061"></a>
+                                    <font class="smallfont"><p>Without enabling route service, I am unable to make it work</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">svcadm enable route</pre>
+		</div>
+</div></div></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by alessio at Dec 21, 2012 14:34
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-2326536"></a>
+                                    <font class="smallfont"><p>I've followed this post but instead of having a dedicated zone&nbsp;I've&nbsp;configured the global zone as gateway/firewall:&nbsp;</p>
+
+<p><a href="http://blog.bgentil.fr/smartos-use-global-zone-as-gateway-for-guests.html">http://blog.bgentil.fr/smartos-use-global-zone-as-gateway-for-guests.html</a></p>
+
+<p>Any comments/suggestions are welcome.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by bgentil at Apr 02, 2013 13:01
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

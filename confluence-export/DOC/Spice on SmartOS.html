@@ -1,0 +1,358 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Spice on SmartOS</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Spice on SmartOS
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Jan 11, 2016 by <font color="#0050B2">nahamu</font>.
+				    </div>
+
+				    <div>
+<ul>
+    <li><a href='#SpiceonSmartOS-WhatisSpice%3F'>What is Spice?</a></li>
+    <li><a href='#SpiceonSmartOS-HowdoIgetit%3F'>How do I get it?</a></li>
+<ul>
+    <li><a href='#SpiceonSmartOS-Wheretodownload'>Where to download</a></li>
+    <li><a href='#SpiceonSmartOS-Howtobuild'>How to build</a></li>
+</ul>
+    <li><a href='#SpiceonSmartOS-HowdoIuseit%3F'>How do I use it?</a></li>
+<ul>
+<ul>
+    <li><a href='#SpiceonSmartOS-ClientSoftware'>Client Software</a></li>
+    <li><a href='#SpiceonSmartOS-VMConfiguration'>VM Configuration</a></li>
+<ul>
+    <li><a href='#SpiceonSmartOS-Windows'>Windows</a></li>
+    <li><a href='#SpiceonSmartOS-Fedora'>Fedora</a></li>
+<ul>
+    <li><a href='#SpiceonSmartOS-SampleVM'>Sample VM</a></li>
+</ul>
+</ul>
+    <li><a href='#SpiceonSmartOS-ClientInvocation'>Client Invocation</a></li>
+    <li><a href='#SpiceonSmartOS-TestedGuestOSes'>Tested Guest OSes</a></li>
+    <li><a href='#SpiceonSmartOS-TestedClientOSes'>Tested Client OSes</a></li>
+</ul>
+</ul>
+    <li><a href='#SpiceonSmartOS-Roadmap'>Roadmap</a></li>
+    <li><a href='#SpiceonSmartOS-HowcanIhelp%3F'>How can I help?</a></li>
+    <li><a href='#SpiceonSmartOS-Ihaveotherquestions'>I have other questions</a></li>
+    <li><a href='#SpiceonSmartOS-KnownBugs%3A'>Known Bugs:</a></li>
+</ul></div>
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Not Supported by Joyent</b><br />This is an experimental feature.<br/>
+It is <b>not</b> supported by Joyent, or anyone else for that matter.<br/>
+Also note that work on this project has mostly stopped.
+
+<p>If anything bad happens to you from following any of the instructions on this page, it is your own fault.</p></td></tr></table></div>
+
+<h1><a name="SpiceonSmartOS-WhatisSpice%3F"></a>What is Spice?</h1>
+
+<p>The best reference is the <a href="http://spice-space.org">spice project website</a>, but the easy way to think about it is like this:</p>
+
+<p>Spice is like VNC, but with better performance (like streaming video) and with sound.</p>
+
+<h1><a name="SpiceonSmartOS-HowdoIgetit%3F"></a>How do I get it?</h1>
+
+<p>To run spice enabled VMs you need to be running the SmartOS release from 20120504 or later (using the latest release is generally recommended.)<br/>
+You can either download the sample dataset, or build your own.</p>
+
+<h2><a name="SpiceonSmartOS-Wheretodownload"></a>Where to download</h2>
+
+<p>QEMU images are available in the <a href="http://datasets.shalman.org/datasets">http://datasets.shalman.org/datasets</a> repository.</p>
+
+<p>The latest QEMU image was uploaded on May 26, 2014. It can be imported like so:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">imgadm sources -a http://datasets.shalman.org/datasets -t dsapi
+imgadm avail | grep QEMU
+UUID=3ff5a554-e4ed-11e3-820d-33b5e236480b
+imgadm import $UUID
+echo "Use $UUID as the image_uuid for your KVM VMs"</pre>
+		</div>
+</div></div>
+
+<h2><a name="SpiceonSmartOS-Howtobuild"></a>How to build</h2>
+
+<p>Build last tested on the base64-13.3.0 image.</p>
+<ol>
+	<li><a href="https://github.com/nshalman/qemu-smartos-build">Automatic build tools</a> (with some instructions)
+	<ol>
+		<li>Import base64-13.3.0 dataset</li>
+		<li>Create a zone with the base64-13.3.0 dataset with "delegate_dataset" set to true</li>
+		<li>zlogin into the zone</li>
+		<li>curl <a href="https://raw.github.com/nshalman/qemu-smartos-build/master/full-build">https://raw.github.com/nshalman/qemu-smartos-build/master/full-build</a> &#124; bash</li>
+	</ol>
+	</li>
+</ol>
+
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: javascript; gutter: false">{
+  "alias": "spice-build",
+  "hostname": "spice-build",
+  "zonename": "spice-build",
+  "brand": "joyent",
+  "max_physical_memory": 2048,
+  "image_uuid": "87b9f4ac-5385-11e3-a304-fb868b82fe10",
+  "delegate_dataset": true,
+  "zfs_data_compression" : "on",
+  "resolvers": ["8.8.8.8","8.8.4.4"],
+  "nics": [
+    {
+      "nic_tag": "admin",
+      "ip": "dhcp"
+    }
+  ]
+}</pre>
+		</div>
+</div></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">zlogin spice-build
+curl -k https://raw.github.com/nshalman/qemu-smartos-build/master/full-build | bash</pre>
+		</div>
+</div></div>
+
+<p>From the global zone you can then install your freshly built image for use:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">cd /zones/spice-build/root/qemu-smartos-build/&lt;uuid of built image&gt;/
+imgadm install -m spice*.manifest -f spice*.zfs.bz2</pre>
+		</div>
+</div></div>
+
+<h1><a name="SpiceonSmartOS-HowdoIuseit%3F"></a>How do I use it?</h1>
+
+<h3><a name="SpiceonSmartOS-ClientSoftware"></a>Client Software</h3>
+
+<p>Linux and Windows client software can be found in the "Client" section of this page: <a href="http://spice-space.org/download.html">SPICE - Download</a></p>
+
+
+<p>There is a new alpha/beta quality build for Mac OS available as well. There is <a href="http://spice-space.org/page/OSX_Client">documentation for the MacOS client</a><br/>
+and a place to <a href="http://people.freedesktop.org/~teuf/spice-gtk-osx/dmg/">download the latest version</a> of it.</p>
+
+<p>I've heard that it's decent on recent versions of MacOS (it won't run on my old snow leopard machine).</p>
+
+<h3><a name="SpiceonSmartOS-VMConfiguration"></a>VM Configuration</h3>
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>A word about "spice_port"s</b><br />Make sure to use a different port for each VM. Otherwise vmadmd will crash.<br/>
+If that happens, delete the conflicting VM and then run:
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">svcadm clear vmadmd</pre>
+		</div>
+</div></div></td></tr></table></div>
+
+<p>Note the "image_uuid", "spice_port", "vga", and "qemu_extra_opts" properties:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: javascript; gutter: false">{
+  "alias": "myspicevm",
+  "hostname": "myspicevm",
+  "brand": "kvm",
+  "ram": 4096,
+  "image_uuid": "3ff5a554-e4ed-11e3-820d-33b5e236480b",
+  "spice_port": 5930,
+  "vga": "qxl",
+  "vcpus": 2,
+  "qemu_extra_opts": "-soundhw ac97 -device virtio-serial-pci -device virtserialport,chardev=spicechannel0,name=com.redhat.spice.0 -chardev spicevmc,id=spicechannel0,name=vdagent",
+  "disks": [
+    {
+      "boot": true,
+      "model": "virtio",
+      "size": 30720
+    }
+  ],
+  "nics": [
+    {
+      "nic_tag": "admin",
+      "model": "virtio",
+      "ip": "dhcp",
+      "primary": 1
+    }
+  ]
+}</pre>
+		</div>
+</div></div>
+
+<h4><a name="SpiceonSmartOS-Windows"></a>Windows</h4>
+
+<p>For Windows you'll need to refer back to the Spice website for spice drivers.</p>
+
+<h4><a name="SpiceonSmartOS-Fedora"></a>Fedora</h4>
+
+<p>For Fedora you'll need to make sure that your vm has the "xorg-x11-drv-qxl" and "spice-vdagent" packages installed.</p>
+
+<h5><a name="SpiceonSmartOS-SampleVM"></a>Sample VM</h5>
+
+<ol>
+	<li>Create the VM as above</li>
+	<li>vmadm stop &lt;uuid&gt;</li>
+	<li>cd /zones/&lt;uuid&gt;/root</li>
+	<li>wget <a href="http://mirror.pnl.gov/fedora/linux/releases/20/Fedora/x86_64/os/images/boot.iso">http://mirror.pnl.gov/fedora/linux/releases/20/Fedora/x86_64/os/images/boot.iso</a></li>
+	<li>vmadm boot &lt;uuid&gt; order=cd,once=d cdrom=/boot.iso,ide</li>
+	<li>Use your spice client to connect to the VM</li>
+	<li>When the CD boots, hit tab, and type append (without quotation marks) "ks=<a href="http://www.shalman.org/spice/fedora20.ks">http://www.shalman.org/spice/fedora20.ks</a>"</li>
+	<li>choose your timezone</li>
+	<li>let Fedora install</li>
+	<li>click through the firstboot stuff</li>
+	<li>log in with your user</li>
+	<li>click the Fedora icon and start typing google-chrome so that you can launch chrome</li>
+	<li>go to youtube and watch a video on your VM with sound and what is currently almost acceptable performance (I'm not sure why there has been a degradation lately)</li>
+</ol>
+
+
+<h3><a name="SpiceonSmartOS-ClientInvocation"></a>Client Invocation</h3>
+
+<p>Linux:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">remote-viewer spice://&lt;smartos host&gt;:&lt;spice port from vm config&gt;</pre>
+		</div>
+</div></div>
+
+<p>Windows (and presumably MacOS as well):</p>
+
+<p>Launch remote viewer, enter the spice URI:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">spice://&lt;smartos host&gt;:&lt;spice port from vm config&gt;</pre>
+		</div>
+</div></div>
+
+<h3><a name="SpiceonSmartOS-TestedGuestOSes"></a>Tested Guest OSes</h3>
+
+<ul>
+	<li>Windows XP (tested by Nahum)</li>
+	<li>Windows 7 (tested by Nahum)</li>
+	<li>Fedora 16, 17, 18, 19, 20 (tested by Nahum)</li>
+</ul>
+
+
+<h3><a name="SpiceonSmartOS-TestedClientOSes"></a>Tested Client OSes</h3>
+
+<ul>
+	<li>Windows 7 (tested by Nahum using Remote Viewer from the virt-viewer-x64-0.5.6.msi installer)</li>
+	<li>Fedora 18 (tested by Nahum using remote-viewer from virt-viewer 0.5.4-3.fc18.x86_64)</li>
+</ul>
+
+
+<h1><a name="SpiceonSmartOS-Roadmap"></a>Roadmap</h1>
+
+<p>Current state: Better-than-Beta Quality (running in production by experts)</p>
+
+<ul>
+	<li>SmartOS has native support in vmadm(d) for spice-enabled VMs.</li>
+	<li>Possible to build a version of qemu (currently based on QEMU 1.1.2) patched to compile on illumos/smartos</li>
+	<li>usbredir support added to the qemu build</li>
+	<li>spice dependencies packaged by pkgsrc and integrated into joyent pkgsrc tree, and regularly updated.</li>
+	<li>QEMU-KVM improvements merged into QEMU tree</li>
+	<li>qxl-4 virtual hardware backported from a newer QEMU https://github.com/nshalman/qemu/commit/3c33a8883bb9d870202113afeb43096872a0e1d8</li>
+	<li>bardiche patches applied</li>
+</ul>
+
+
+<p>Next Steps:</p>
+
+<ul>
+	<li>Rebase to latest QEMU</li>
+	<li>When <a href="http://www.spice-space.org/page/Html5">spice-html5</a> is good enough, integrate Spice features into <a href="SmartOS GUI Remote Management.html" title="SmartOS GUI Remote Management">Project FiFo</a></li>
+	<li>When Xorg packages in pkgsrc get good enough, get <a href="http://www.spice-space.org/page/Features/Xspice">Xspice</a> into pkgsrc and document usage.</li>
+</ul>
+
+
+<p>Pie-in-the-sky possibilites:</p>
+<ul>
+	<li>Get illumos patches into upstream qemu mainline tree</li>
+	<li>SmartOS switches to a stable qemu build (post 1.0) based on upstream that includes illumos support</li>
+	<li>Add dtrace probes to the spice codebase</li>
+</ul>
+
+
+<h1><a name="SpiceonSmartOS-HowcanIhelp%3F"></a>How can I help?</h1>
+
+<ul>
+	<li>Test the MacOS client and update this page with your results.</li>
+</ul>
+
+
+<h1><a name="SpiceonSmartOS-Ihaveotherquestions"></a>I have other questions</h1>
+
+<p>Please put your questions in this section for now.<br/>
+I will try to address them and update this page to answer them.</p>
+
+<ol>
+	<li>Your Question Here</li>
+</ol>
+
+
+<h1><a name="SpiceonSmartOS-KnownBugs%3A"></a>Known Bugs:</h1>
+
+<ul>
+	<li>If the 3ff5a554-e4ed-11e3-820d-33b5e236480b image is used without setting "vga":"qxl", qemu will fail to boot. This is probably a bug in some of the assumptions my startvm.zone script makes... (Reported on IRC by "GS" and confirmed by Nahum)</li>
+</ul>
+
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-756696"></a>
+                                    <font class="smallfont"><p>Native SmartOS zone server support? KVM is currently only "supported" on Inte$.</p>
+
+<p>Integrated X server with multiple client support perhaps interesting alternative to xorg/vnc/consolekit...but does/will it work?</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by risto3 at Oct 10, 2012 09:18
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-756700"></a>
+                                    <font class="smallfont"><p>You could try compiling and running the Xspice X server in a SmartOS zone.  I don't think that would get you sound or USB passthrough (it would be "inside" the zone rather than "outside" the KVM vm.)</p>
+
+<p>It would be similar to running a VNC server inside the zone, just using a different protocol.</p>
+
+<p>See <a href="http://spice-space.org/page/Features/XSpice">http://spice-space.org/page/Features/XSpice</a></p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by nahamu at Oct 10, 2012 13:04
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

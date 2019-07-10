@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Building SmartOS on SmartOS</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Building SmartOS on SmartOS
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Jun 28, 2019 by <font color="#0050B2">cjr</font>.
+				    </div>
+
+				    <div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>This page is now deprecated. The <a href="https://github.com/joyent/smartos-live/#building-smartos">SmartOS repository</a> now has build instructions that are kept up to date as changes are made.</td></tr></table></div>
+<p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1561740960014 {margin-left: 1.5em;padding: 0px;}
+div.rbtoc1561740960014 ul {margin-left: 0px;padding-left: 1em;}
+div.rbtoc1561740960014 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='rbtoc1561740960014'>
+<ul>
+    <li><span class='TOCOutline'>1</span> <a href='#BuildingSmartOSonSmartOS-Zonecreation'>Zone creation</a></li>
+<ul>
+    <li><span class='TOCOutline'>1.1</span> <a href='#BuildingSmartOSonSmartOS-InzoneConfiguration'>In-zone Configuration</a></li>
+    <li><span class='TOCOutline'>1.2</span> <a href='#BuildingSmartOSonSmartOS-Gettingthesourcetrees'>Getting the source trees</a></li>
+    <li><span class='TOCOutline'>1.3</span> <a href='#BuildingSmartOSonSmartOS-BuildingSmartOS'>Building SmartOS</a></li>
+    <li><span class='TOCOutline'>1.4</span> <a href='#BuildingSmartOSonSmartOS-BuildingCDandUSBimages'>Building CD and USB images</a></li>
+</ul>
+</ul></div></p>
+
+<h1><a name="BuildingSmartOSonSmartOS-Zonecreation"></a>Zone creation</h1>
+
+<div class='panelMacro'><table class='warningMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/forbidden.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>host version</b><br />SmartOS is self hosting. Make sure you are running the latest release of  SmartOS to do your builds. If you're on a build from before the fake  subset was killed &#8211; April 2013, there is a high likelihood the build  will fail. Please update your platform.</td></tr></table></div>
+<p>SmartOS is built in a zone. Use the <b>base-multiarch-lts 14.4.X</b>&nbsp;zone image (e.g. 14.4.2 is UUID e69a0918-055d-11e5-8912-e3ceb6df4cf8)<br/>
+Do not use any other zone image.</p>
+
+<p>&#42; Note:&nbsp;</p>
+
+<p><b>base-multiarch-lts&nbsp; 16.4.1</b> <b>&nbsp;(</b><b>bafa230e-e6ea-11e6-8438-c72c10ff2d1f) reported to work (thanks pmooney)--confirmed working as of 08 Mar 2019</b></p>
+
+<p><font color="#000000"><b>base-multiarch-lts 18.4.0&nbsp; (</b></font><font color="#000000"><b>359338a0-1d65-11e9-a6f0-c749702590d9) not working</b></font></p>
+
+<p>Import the zone image:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">imgadm import e69a0918-055d-11e5-8912-e3ceb6df4cf8</pre>
+		</div>
+</div></div>
+<p>Your zone will need sufficient memory, space, space in tmpfs, and access to the ufs, pcfs, and tmpfs drivers. Below are some settings to make sure to include in your zone's json specification (<b>make sure to set up a NIC as well</b>... see <a href="How to create a zone ( OS virtualized machine ) in SmartOS.html" title="How to create a zone ( OS virtualized machine ) in SmartOS">How to create a zone ( OS virtualized machine ) in SmartOS</a> for further details).</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: javascript; gutter: false">{
+  "brand": "joyent",
+  "fs_allowed": "ufs,pcfs,tmpfs",
+  "image_uuid": "e69a0918-055d-11e5-8912-e3ceb6df4cf8"
+}</pre>
+		</div>
+</div></div>
+
+<p>We recommend that you give your zone at least 2-4 Gb of DRAM and at least 25 Gb of disk space. These are lower bounds and you'll find that the build goes much faster if you are able to throw more memory to the zone. More memory allows more jobs to be run in parallel.</p>
+
+<p>Use vmadm to create your zone, then you can use zlogin to log in.</p>
+
+<p>vmadm validate create will fail with bad_value for fs_allowed, but this can be ignored, the zone will be created correctly.</p>
+
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[root@core ~]# vmadm validate create -f sobh.json
+{
+  "bad_values": [
+    "fs_allowed"
+  ],
+  "bad_properties": [],
+  "missing_properties": []
+}</pre>
+		</div>
+</div></div>
+
+
+<h2><a name="BuildingSmartOSonSmartOS-InzoneConfiguration"></a>In-zone Configuration</h2>
+
+<p>You should generally be working on, and building, the software as an unprivileged user &#45;&#45; that is, a non-root user.  Some of the steps of the configure script, and of the live image creation, require root privileges.  The SmartOS build process will use <a href="http://smartos.org/man/1/pfexec">pfexec(1)</a> to obtain root privileges just for the commands that need them.</p>
+
+<p>Configure your non-root user account to be able to escalate privileges to <tt>root</tt> with the <tt><a href="http://smartos.org/man/1M/usermod">usermod(1M)</a></tt> tool:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># usermod -P 'Primary Administrator' yournonrootuser</pre>
+		</div>
+</div></div>
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Shell</b><br />People have reported build errors using shells other than bash as their user shell. Please use bash as the shell for your build user.
+
+<p>For creating user with bash shell use the following command :</p>
+
+<p>useradd &#45;s "/usr/bin/bash" &#45;m&nbsp;&nbsp;yournonrootuser</p></td></tr></table></div>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Postfix</b><br />Enable postfix service: svcadm enable postfix<br/>
+If you don't you'll have error in logs at build time, like:<br/>
+"postdrop: warning: mail_queue_enter: create file maildrop/810830.89198: No such file or directory"</td></tr></table></div>
+
+<h2><a name="BuildingSmartOSonSmartOS-Gettingthesourcetrees"></a>Getting the source trees</h2>
+
+<p>SmartOS requires the illumos kernel source tree and a couple more repositories (kvm, ...) as well as various compilation tools to build. The following steps download the various source trees and binaries required for the build:</p>
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Privileges</b><br />The <tt>configure</tt> script requires root privileges for a limited subset of its operation.  Earlier, this document describes using <tt>usermod</tt> to grant those privileges to your build user account.</td></tr></table></div>
+<div class='panelMacro'><table class='tipMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/check.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>debug build</b><br />To create debug builds add the following line to configure.smartos before running ./configure.
+
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">ILLUMOS_ENABLE_DEBUG="yes"</pre>
+		</div>
+</div></div></td></tr></table></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">pfexec pkgin -y in scmgit
+git clone https://github.com/joyent/smartos-live
+cd smartos-live
+cp sample.configure.smartos configure.smartos
+./configure</pre>
+		</div>
+</div></div>
+
+<p>If any git clone operation launched by configure hangs, it can be interrupted with Ctrl-C and configure can be restarted (it will pick up at the last unfinished step). After configure finishes successfully, the build zone is ready for the build. One can make a snapshot of the build zone at this point and rollback later if the build fails for any reason.</p>
+
+<h2><a name="BuildingSmartOSonSmartOS-BuildingSmartOS"></a>Building SmartOS</h2>
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Building on an "underpowered" system</b><br />If your system doesn't actually have a lot of RAM or CPU, the build will automatically throttle down the number of concurrent jobs which are run. If you'd like to manually control it, for example, you know that you can run more, than you should set the following environment variable to the maximum number of jobs you'd be willing to run:
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">export MAX_JOBS=8</pre>
+		</div>
+</div></div></td></tr></table></div>
+
+<p>You are now ready to build.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">gmake live</pre>
+		</div>
+</div></div>
+<p>Good luck&#33; Build times for SmartOS on various hardware configurations should be similar to the build times for the illumos kernel itself which can be found <a href="http://wiki.illumos.org/display/illumos/Build+Times">in the illumos wiki</a>, plus of course the time required to build the SmartOS-specific parts.</p>
+
+<h2><a name="BuildingSmartOSonSmartOS-BuildingCDandUSBimages"></a>Building CD and USB images</h2>
+
+<p>The default output of the SmartOS build is a platform file which is suitable for PXE booting. However, a bootable CD-ROM ISO image or a bootable USB key can also be generated. To generate those run one of the following Makefile targets:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">gmake iso
+gmake usb</pre>
+		</div>
+</div></div>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

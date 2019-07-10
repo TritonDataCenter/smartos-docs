@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Persistent root dotfiles</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Persistent root dotfiles
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on May 25, 2012 by <font color="#0050B2">jason.davis@joyent.com</font>.
+				    </div>
+
+				    <h2><a name="Persistentrootdotfiles-Introduction"></a>Introduction</h2>
+
+<p>Placing these SMF manifests in /opt/custom/smf will symlink root's .bash_history, .bashrc, and .inputrc files to their analogs in /opt/custom/ on boot, allowing for a persistent, custom dotfiles for the root user.</p>
+
+<div class='panelMacro'><table class='tipMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/check.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>Double-click the source code blocks to expand and highlight the contained code.</td></tr></table></div>
+
+<h4><a name="Persistentrootdotfiles-Manifests"></a>Manifests</h4>
+<hr />
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>bash_history_link.xml</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: html/xml; collapse: true; gutter: false">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'&gt;
+&lt;service_bundle type='manifest' name='export'&gt;
+  &lt;service name='site/bash_history' type='service' version='0'&gt;
+    &lt;create_default_instance enabled='true'/&gt;
+    &lt;single_instance/&gt;
+    &lt;dependency name='network' grouping='require_all' restart_on='error' type='service'&gt;
+      &lt;service_fmri value='svc:/milestone/network:default'/&gt;
+    &lt;/dependency&gt;
+    &lt;dependency name='filesystem' grouping='require_all' restart_on='error' type='service'&gt;
+      &lt;service_fmri value='svc:/system/filesystem/local'/&gt;
+    &lt;/dependency&gt;
+    &lt;method_context/&gt;
+    &lt;exec_method name='start' type='method' exec='ln -nsf /opt/custom/.bash_history /root/.bash_history' timeout_seconds='60'/&gt;
+    &lt;exec_method name='stop' type='method' exec=':kill' timeout_seconds='60'/&gt;
+    &lt;property_group name='startd' type='framework'&gt;
+      &lt;propval name='duration' type='astring' value='transient'/&gt;
+      &lt;propval name='ignore_error' type='astring' value='core,signal'/&gt;
+    &lt;/property_group&gt;
+    &lt;property_group name='application' type='application'/&gt;
+    &lt;stability value='Evolving'/&gt;
+    &lt;template&gt;
+      &lt;common_name&gt;
+        &lt;loctext xml:lang='C'&gt;Link root .bash_history to /opt/custom/.bash_history&lt;/loctext&gt;
+      &lt;/common_name&gt;
+    &lt;/template&gt;
+  &lt;/service&gt;
+&lt;/service_bundle&gt;</pre>
+		</div>
+</div></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>bashrc_link.xml</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: html/xml; collapse: true; gutter: false">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'&gt;
+&lt;service_bundle type='manifest' name='export'&gt;
+  &lt;service name='site/bashrc_link' type='service' version='0'&gt;
+    &lt;create_default_instance enabled='true'/&gt;
+    &lt;single_instance/&gt;
+    &lt;dependency name='network' grouping='require_all' restart_on='error' type='service'&gt;
+      &lt;service_fmri value='svc:/milestone/network:default'/&gt;
+    &lt;/dependency&gt;
+    &lt;dependency name='filesystem' grouping='require_all' restart_on='error' type='service'&gt;
+      &lt;service_fmri value='svc:/system/filesystem/local'/&gt;
+    &lt;/dependency&gt;
+    &lt;method_context/&gt;
+    &lt;exec_method name='start' type='method' exec='ln -nsf /opt/custom/.bashrc /root/.bashrc' timeout_seconds='60'/&gt;
+    &lt;exec_method name='stop' type='method' exec=':kill' timeout_seconds='60'/&gt;
+    &lt;property_group name='startd' type='framework'&gt;
+      &lt;propval name='duration' type='astring' value='transient'/&gt;
+      &lt;propval name='ignore_error' type='astring' value='core,signal'/&gt;
+    &lt;/property_group&gt;
+    &lt;property_group name='application' type='application'/&gt;
+    &lt;stability value='Evolving'/&gt;
+    &lt;template&gt;
+      &lt;common_name&gt;
+        &lt;loctext xml:lang='C'&gt;Link root .bashrc to /opt/custom/.bashrc&lt;/loctext&gt;
+      &lt;/common_name&gt;
+    &lt;/template&gt;
+  &lt;/service&gt;
+&lt;/service_bundle&gt;</pre>
+		</div>
+</div></div>
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>inputrc_link.xml</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: html/xml; collapse: true; gutter: false">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'&gt;
+&lt;service_bundle type='manifest' name='export'&gt;
+  &lt;service name='site/inputrc_link' type='service' version='0'&gt;
+    &lt;create_default_instance enabled='true'/&gt;
+    &lt;single_instance/&gt;
+    &lt;dependency name='network' grouping='require_all' restart_on='error' type='service'&gt;
+      &lt;service_fmri value='svc:/milestone/network:default'/&gt;
+    &lt;/dependency&gt;
+    &lt;dependency name='filesystem' grouping='require_all' restart_on='error' type='service'&gt;
+      &lt;service_fmri value='svc:/system/filesystem/local'/&gt;
+    &lt;/dependency&gt;
+    &lt;method_context/&gt;
+    &lt;exec_method name='start' type='method' exec='ln -nsf /opt/custom/.inputrc /root/.inputrc' timeout_seconds='60'/&gt;
+    &lt;exec_method name='stop' type='method' exec=':kill' timeout_seconds='60'/&gt;
+    &lt;property_group name='startd' type='framework'&gt;
+      &lt;propval name='duration' type='astring' value='transient'/&gt;
+      &lt;propval name='ignore_error' type='astring' value='core,signal'/&gt;
+    &lt;/property_group&gt;
+    &lt;property_group name='application' type='application'/&gt;
+    &lt;stability value='Evolving'/&gt;
+    &lt;template&gt;
+      &lt;common_name&gt;
+        &lt;loctext xml:lang='C'&gt;Link root .inputrc to /opt/custom/.inputrc&lt;/loctext&gt;
+      &lt;/common_name&gt;
+    &lt;/template&gt;
+  &lt;/service&gt;
+&lt;/service_bundle&gt;</pre>
+		</div>
+</div></div>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

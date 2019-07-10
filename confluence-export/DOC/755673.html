@@ -1,0 +1,715 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : &quot;Works for Me&quot; Hardware Configurations</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : &quot;Works for Me&quot; Hardware Configurations
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Mar 22, 2017 by <font color="#0050B2">cnb</font>.
+				    </div>
+
+				    <p>For best results (enterprise grade hardware) see <a href="https://github.com/joyent/manufacturing">https://github.com/joyent/manufacturing</a></p>
+
+
+
+
+
+<p>While people have had success with these configurations, you might have different results. </p>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>This is not intended as an exhaustive list - other combinations may work. Your mileage may vary.</td></tr></table></div>
+<div>
+<ul>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-CarlosNeira'>CarlosNeira</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-magnayn'>magnayn</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-calmh'>calmh</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-viridari'>viridari</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-robinbowes'>robinbowes</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-konobi'>konobi</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-konobi%28mobiledevelopmentserver%29'>konobi (mobile development server)</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-MerlinDMC%28localplayground%29'>MerlinDMC (local playground)</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-MerlinDMC%28remoteplayground%29'>MerlinDMC (remote playground)</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-bartlamboo'>bartlamboo</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-ingenthr'>ingenthr</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-Licenser'>Licenser</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-Trentster'>Trentster</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-slice01'>slice01</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-sebasp'>sebasp</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-CarlosC'>CarlosC</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-jdef'>jdef</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-joshie'>joshie</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-dames'>dames</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-AlainODea'>AlainODea</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-NahumShalman%28nahamu%2Fnshalman%29'>Nahum Shalman (nahamu / nshalman)</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-nefilim'>nefilim</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-jrd'>jrd</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-alcir'>alcir</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-cwvhogue'>cwvhogue</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-cwo'>cwo</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-michaelh'>michaelh</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-sjorge'>sjorge</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-bahamat'>bahamat</a></li>
+    <li><a href='#%22WorksforMe%22HardwareConfigurations-zdunn'>zdunn</a></li>
+</ul></div>
+<p>&lt;Please add your own&gt;</p>
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-CarlosNeira"></a>CarlosNeira</h3>
+
+<ul>
+	<li>ThinkServer TS150 Intel Xeon E3-1225v5</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-magnayn"></a>magnayn</h3>
+
+<ul>
+	<li>Supermicro X9DRH-7F</li>
+	<li>6x 2Gb disks, working off the on-board LSI 2208 controller w/ the new mr_sas driver.
+	<ul>
+		<li>Setting up the disks for JBOD was not well documented. You need to use the Pre-boot CLI, and the commands PDEnableJBOD, PDMakeGood and PDMakeJBOD on each drive. You do not need to re-flash your card.</li>
+	</ul>
+	</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-calmh"></a>calmh</h3>
+
+<ul>
+	<li>Supermicro X8SIL</li>
+	<li>Intel Xeon X3440</li>
+	<li>LSI SAS9200-8e HBA, WD WD1003FBYX and Intel SSDSA2CT040G3 disks</li>
+	<li>Booted via USB</li>
+</ul>
+
+
+<ul>
+	<li>Supermicro X9SCL/X9SCM</li>
+	<li>Intel Xeon E3-1230</li>
+	<li>Seagate&nbsp;ST2000DM001 disks on on-board SATA, correctly detected as needing ashift=12</li>
+	<li>Booted via USB</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-viridari"></a>viridari</h3>
+
+<ul>
+	<li>HP Proliant N40L "Microserver" (Model #658553-001)
+	<ul>
+		<li>Booted via USB</li>
+		<li>Zones Only,&nbsp;<b>no KVM support</b>&nbsp;on AMD as of Apr. 2012</li>
+	</ul>
+	</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-robinbowes"></a>robinbowes</h3>
+
+<ul>
+	<li>Intel(R) Xeon(R) CPU E31230 ( i3 )</li>
+	<li>Supermicro&nbsp;X9SCL/X9SCM</li>
+	<li>Booted via USB</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-konobi"></a>konobi</h3>
+
+<ul>
+	<li>Intel Core i3</li>
+	<li>ASUS P8Z68-V LX Z68 LGA1155 ATX</li>
+	<li>Booted via USB</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-konobi%28mobiledevelopmentserver%29"></a>konobi (mobile development server)</h3>
+
+<ul>
+	<li>Intel NUC&nbsp;DC3217IYE</li>
+	<li>Core i3-3217U</li>
+	<li>Crucial 16GB RAM</li>
+	<li>Intel gigabit NIC</li>
+	<li>Crucial M4 128GB mSATA SSD</li>
+	<li>Booted via USB</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-MerlinDMC%28localplayground%29"></a>MerlinDMC (local playground)</h3>
+
+<ul>
+	<li>Intel Core i3</li>
+	<li>Gigabyte H67N-USB3-B3 LGA1155 mATX</li>
+	<li>LSI SAS 9211-8i HBA</li>
+	<li>Booted via USB</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-MerlinDMC%28remoteplayground%29"></a>MerlinDMC (remote playground)</h3>
+
+<ul>
+	<li>Intel Core i7</li>
+	<li>ASUS P8H67-M PRO LGA1155 ATX</li>
+	<li>Booted via USB</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-bartlamboo"></a>bartlamboo</h3>
+
+<ul>
+	<li>Intel Core i3 2120T</li>
+	<li>Intel DH77DF</li>
+	<li>LSI SAS9220-8i Controller</li>
+	<li>Booted via USB</li>
+</ul>
+
+
+<ul>
+	<li>Intel Celeron G530</li>
+	<li>MSI H61I-E35 (B3) Mini-ITX</li>
+	<li>Booted via USB</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-ingenthr"></a>ingenthr</h3>
+
+
+
+
+<ul>
+	<li>Intel Core i7</li>
+	<li>Gigabyte X79-UD5</li>
+	<li>Booted via USB</li>
+	<li>Had to update the firmware to the latest to be able to successfully enable Intel VT support.</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-Licenser"></a>Licenser</h3>
+
+<ul>
+	<li>Intel Xeon E5606</li>
+	<li>Intel S5520HCR</li>
+	<li>USB Boot via on bord USB (in the case) USB slot</li>
+</ul>
+
+
+
+<ul>
+	<li>Super Micro 502L-200B</li>
+	<li>Intel Xeon E3-1220V2</li>
+	<li>Booted via internal USB and micro usb stick.</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-Trentster"></a>Trentster</h3>
+
+<ul>
+	<li>Intel Core i5</li>
+	<li>Gigabyte Z68-MA-D2H-B3</li>
+	<li>Boots via USB &amp; PXE Boot</li>
+	<li>Had to disable USB3 in BIOS</li>
+</ul>
+
+
+<ul>
+	<li>Intel S5520UR</li>
+	<li>Intel Xeon CPU E5645</li>
+	<li>LSI SAS1064ET</li>
+	<li>pxe-boot</li>
+</ul>
+
+
+<ul>
+	<li>Intel S5520UR</li>
+	<li>Intel Xeon CPU E5620</li>
+	<li>LSI SAS2008</li>
+	<li>pxe-boot</li>
+</ul>
+
+
+<ul>
+	<li>Intel&nbsp;S3420GP</li>
+	<li>Intel Xeon CPU&nbsp;X3450</li>
+	<li>pxe-boot</li>
+</ul>
+
+
+<ul>
+	<li>Gigabyte&nbsp;Z68XP-UD4</li>
+	<li>Intel Core&nbsp;i5-2400</li>
+	<li>LSI SAS1068E</li>
+	<li>USB3 disabled in bios</li>
+	<li>pxe-boot</li>
+</ul>
+
+
+
+
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-slice01"></a>slice01</h3>
+
+<ul>
+	<li>Intel Core i7</li>
+	<li>Dell Optiplex 990 MT CI7 3.4 8GB/500 HD6350</li>
+	<li>LSI 9211-8i 2.0 SAS/SATA PCI-E (IT)</li>
+	<li>Boots via USB &amp; PXE Boot</li>
+</ul>
+
+
+<ul>
+	<li>Dell Inc. PowerEdge R710</li>
+	<li>Intel(R) Xeon(R) CPU E5520</li>
+</ul>
+
+
+<ul>
+	<li>Dell Inc. PowerEdge M610</li>
+	<li>Intel(R) Xeon(R) CPU X5690</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-sebasp"></a>sebasp</h3>
+
+<ul>
+	<li>Intel Q6600&nbsp;</li>
+	<li>8GB Ram</li>
+	<li>Gigabyte P35-DS3L</li>
+	<li>Boots via CD &amp; USB &amp; PXE Boot (altough USB is slower then CD)</li>
+	<li>No KVM as EPT is not available.</li>
+</ul>
+
+
+<ul>
+	<li>Cisco C200 M2</li>
+	<li>2 x Intel X5640</li>
+	<li>24GB Ram</li>
+	<li>4 x ﻿1T SAS 7.2k drives</li>
+	<li>Cisco LSI 1064E Mezzanine</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-CarlosC"></a>CarlosC</h3>
+
+<ul>
+	<li>Dell Inc. PowerEdge R410</li>
+	<li>Intel(R) Xeon(R) CPU E5645</li>
+</ul>
+
+
+<ul>
+	<li>Dell Inc. PowerEdge R610</li>
+	<li>Intel(R) Xeon(R) CPU E5645</li>
+</ul>
+
+
+<ul>
+	<li>Dell Inc. PowerEdge R710</li>
+	<li>Intel(R) Xeon(R) CPU E5630</li>
+</ul>
+
+
+<ul>
+	<li>Dell Inc. PowerEdge R910</li>
+	<li>Intel(R) Xeon(R) CPU X7550</li>
+</ul>
+
+
+<ul>
+	<li>IBM&nbsp;x3550 M3 &#45;[7944AC1]&#45;</li>
+	<li>Intel(R) Xeon(R) CPU X5690</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-jdef"></a>jdef</h3>
+
+<ul>
+	<li>Supermicro X8DTL</li>
+	<li>Intel(R) Xeon(R) CPU E5645</li>
+	<li>kvm, pxeboot</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-joshie"></a>joshie</h3>
+
+<ul>
+	<li>Intel DBS1200KPR Mini-ITX Motherboard</li>
+	<li>Intel(R) Xeon(R) E3-1245v2</li>
+	<li>LSI SAS9220-8i Storage Controller (Flashed with SAS2008 IT Firmware)</li>
+	<li>All works as intended</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-dames"></a>dames</h3>
+
+<ul>
+	<li>Supermicro SuperServer 6016T-MTLF</li>
+	<li>Super X8DTL-iF motherboard BIOS version 2.1a</li>
+	<li>Intel Xeon 5606</li>
+	<li>Message: "WARNING: Couldn't read ACPI SRAT table from BIOS. lgrp support will be limited to one group." Thus far, I haven't found a BIOS option to fix this.&nbsp;</li>
+	<li>Otherwise works as intended</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-AlainODea"></a>AlainODea</h3>
+
+<ul>
+	<li>Manufacturer: Dell Inc.</li>
+	<li>Model: PowerEdge R720xd</li>
+	<li>CPU Type: Intel(R) Xeon(R) CPU E5-2640 0 @ 2.50GHz
+	<ul>
+		<li>Total Cores reported in SmartOS: 24</li>
+		<li>VM Capable: true</li>
+		<li>CPU Virtualization: vmx</li>
+	</ul>
+	</li>
+	<li>PERC H710 mini
+	<ul>
+		<li>4x 3TB Seagate Constellation ES.2 6Gbps SAS (ST33000650SS)</li>
+	</ul>
+	</li>
+	<li>Intel(R) Ethernet 10G 2P X520 Adapter
+	<ul>
+		<li>Latency between SmartOS hosts across Cisco Nexus fabric extension: 75-200us.</li>
+	</ul>
+	</li>
+	<li>Configured with mirrored vdev zpool: 5481 GiB usable</li>
+	<li>Booted via iDRAC Virtual Media using latest.iso DVD image (PXE not attempted yet)</li>
+	<li>No known issues.</li>
+	<li>Disk Hotplug not attempted yet.</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-NahumShalman%28nahamu%2Fnshalman%29"></a>Nahum Shalman (nahamu / nshalman)</h3>
+
+<ul>
+	<li>Intel S1200BTLR ATX Server Motherboard</li>
+	<li>Intel Xeon E3-1245v2</li>
+	<li>4x Crucial 8GB DDR3 SDRAM Memory Module ECC Unbuffered</li>
+	<li>2x Intel 520 Series 240GB SSD</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-nefilim"></a>nefilim</h3>
+
+<ul>
+	<li>Supermicro X9SCL-F-O (Intel C202 PCH &#45;&nbsp;<a href="http://www.supermicro.com/products/motherboard/Xeon/C202_C204/X9SCL-F.cfm">http://www.supermicro.com/products/motherboard/Xeon/C202_C204/X9SCL-F.cfm</a>)</li>
+	<li>integrated IPMI 2.0 with dedicated port works</li>
+	<li>NIC: onboard Intel 82579LM and 82574L gigabit ports, works, link aggregation too (dont have switch with LACP support to fully test)</li>
+	<li>RAM: Kingston 4x4GB ECC unbuffered (DDR3 1333)</li>
+	<li>CPU: Intel Celeron G1610 2.6ghz Ivy Bridge (with VTx and EPT support for KVM) (<a href="http://ark.intel.com/products/71072/Intel-Celeron-Processor-G1610-2M-Cache-2_60-GHz">http://ark.intel.com/products/71072/Intel-Celeron-Processor-G1610-2M-Cache-2_60-GHz</a>)</li>
+	<li>Drives: 4 x WD30EFRX (RaidZ1)</li>
+	<li>Boots: from internal USB slot</li>
+	<li>no known issues, works very well with a few linux KVMs. idles at about 53W.</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-jrd"></a>jrd</h3>
+
+<ul>
+	<li>Intel Pentium G645 (A consumer price-point Sandy Bridge that includes both VT-x and EPT)&nbsp;</li>
+	<li>Gigabyte H61M-DS2 (USB &amp; PXE boot support). Onboard SATA, Ethernet and VGA works fine.</li>
+	<li>Sil3132 PCI-e 1x 2-port SATA Controller card</li>
+	<li>Supports KVM.</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-alcir"></a>alcir</h3>
+
+<ul>
+	<li>Manufacturer: Fujitsu</li>
+	<li>Model: Primergy RX300 S7</li>
+	<li>Intel(R) Xeon(R) CPU E5-2620</li>
+	<li>All works as intended</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-cwvhogue"></a>cwvhogue</h3>
+
+<ul>
+	<li>White Box Server
+	<ul>
+		<li>2x Intel Xeon E5-2640 2.5GHz cpus</li>
+		<li>64GB DDR-3-1600 ECC RAM</li>
+		<li>16 x3Tb Hitachi SAS Drives (6Gb/s, 7200RPM)</li>
+		<li>1x120Gb SSD Drive, DVD-RW</li>
+		<li>Supermicro X9DR3-F Motherboard with 2x GigE LAN, IPMI</li>
+		<li>ARECA ARC 1882-ix16 SAS 6GB/s RAID Controller</li>
+		<li>3U Chassis rackmount with 900W redundant power supply.</li>
+		<li>Supported as of SmartOS 20130321</li>
+	</ul>
+	</li>
+</ul>
+
+
+<ul>
+	<li>HP Z210 Workstation (Small Form Factor)
+	<ul>
+		<li>Intel(R) Xeon(R) E31225</li>
+		<li>16Gb RAM</li>
+		<li>On-board Intel 82579LM GigE</li>
+		<li>Intel(R) Gigabit CT Desktop Adapter (82574L) PCIe 1x</li>
+		<li>2x 2.0Tb WD Caviar Black HDD</li>
+		<li>update to latest BIOS 01.44 (01.41 causes a Grub Error 28: Selected item cannot fit in memory)</li>
+		<li>usb boot issues - BIOS requires the usb key partition flag must be marked "bootable" - I do this from CentOS Disk Utility&nbsp;</li>
+		<li>all works as intended</li>
+	</ul>
+	</li>
+</ul>
+
+
+
+
+
+<ul>
+	<li>Lenovo Ideacentre Q110 10032
+	<ul>
+		<li>Intel(R) Atom(TM) 230 1.6GHz</li>
+		<li>Updraded to 5120MB RAM</li>
+		<li>64-bit SmartOS all works, but does not support KVM</li>
+	</ul>
+	</li>
+</ul>
+
+
+<ul>
+	<li>Lenovo ThinkStation D20 4158CM1
+	<ul>
+		<li>Dual Intel Xeon X5650 2.67GHz  - Total 24 Cores.</li>
+		<li>Flashed MB Bios to latest (01/14/14).</li>
+		<li>Disable CStates (all&#33;). Disable NUMA-aware&#33; Enable Hyperthreading.</li>
+		<li>Onboard Broadcom NICs are functioning.</li>
+		<li>48GB RAM  (Kingston KTL-TS316S/8G, 240pin Reg ECC Single Rank DDR3-1600MHz PC3-12800 1.5V)</li>
+		<li>6 Sticks in CPU1 bank - CPU2 bank does not work with this RAM</li>
+		<li>96GB is unattainable with cheap RAM</li>
+		<li>LSI MegaRAID 9211-8I 8-Port 6Gb/S PCIEx8 SAS/SATA HBA</li>
+		<li>Disable onboard SAS from BIOS. Flash LSI MegaRAID BIOS to IT mode driver</li>
+		<li>1 x Intel 530 120GB SSD</li>
+		<li>6 x WD RED 2TB SATA3 HDD</li>
+	</ul>
+	</li>
+</ul>
+
+
+<ul>
+	<li>Vintage 2006 Supermicro Server
+	<ul>
+		<li>Supermicro X6DH8-G2</li>
+		<li>2x Irwindale 2.8GHz Xeon, HT enabled (4 CPUs), 8GB DDR-2 ECC RAM</li>
+		<li>2x Highpoint RocketRaid 2220 PCI-X, 133MHz, with cross-adapter cable, JBOD mode</li>
+		<li>16 Seagate 7200 RPM HDD 750GB</li>
+		<li>64-Bit SmartOS/ZFS works (no KVM support)</li>
+		<li>using&nbsp;marvell88sx driver (for which there is no source, but still works as at&nbsp;20141127T173954Z)</li>
+	</ul>
+	</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-cwo"></a>cwo</h3>
+
+<ul>
+	<li>HP ProLiant MicroServer Gen8 (Model 712317-001)
+	<ul>
+		<li>Intel® Celeron® G1610T (2 core, 2.3 GHz, 2MB, 35W)</li>
+		<li>Boots from internal USB port.</li>
+		<li>All works as intended</li>
+	</ul>
+	</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-michaelh"></a>michaelh</h3>
+
+<ul>
+	<li>ASUS Z87-PRO (V EDITION) LGA 1150 Intel Z87 HDMI SATA 6Gb/s USB 3.0 ATX Intel Motherboard
+	<ul>
+		<li>Intel Core i5-4670 Haswell Quad-Core 3.4GHz LGA 1150 84W Desktop Processor Intel HD Graphics BX80646I54670</li>
+		<li>IO Crest 2 Port SATA III PCI-Express x1 Card (SY-PEX40039)</li>
+		<li>Seagate Desktop HDD ST3000DM001 3TB 64MB Cache SATA 6.0Gb/s 3.5" Internal Hard Drive Bare Drive x 8</li>
+		<li>SAMSUNG 840 EVO MZ-7TE120BW 2.5" 120GB SATA III TLC Internal Solid State Drive (SSD)</li>
+	</ul>
+	</li>
+</ul>
+
+
+<ul>
+	<li>ASRock Z68 PRO3 LGA 1155 Intel Z68&nbsp;HDMI SATA 6Gb/s USB 3.0 ATX Intel Motherboard
+	<ul>
+		<li>Intel Core i3-2100T Sandy Bridge Dual-Core 2.5 GHz LGA 1155 35W BX80623I32100T Desktop Processor Intel HD Graphics 2000</li>
+		<li>Patriot Gamer 2 Series 8GB (2 x 4GB) 240-Pin DDR3 SDRAM DDR3 1600 (PC3 12800) Desktop Memory Model PGD38G1600ELK</li>
+		<li>SYBA SI-PEX40094 PCI Express Low Profile Ready SATA SATA III 2 Internal 6Gbps Ports PCI-e Controller Card</li>
+		<li>Seagate Desktop HDD ST3000DM001 3TB 64MB Cache SATA 6.0Gb/s 3.5" Internal Hard Drive Bare Drive x 6</li>
+		<li>Silicon Power S60 2.5" 120GB SATA III Internal Solid State Drive (SSD) SP120GBSS3S60S25</li>
+	</ul>
+	</li>
+</ul>
+
+
+<ul>
+	<li>Intel Next Unit of Computing NUC5i3RYK
+	<ul>
+		<li>Crucial 16GB Kit (8GBx2) DDR3L-1600 SODIMM Memory for Mac (CT2K8G3S160BM )</li>
+		<li>Samsung 850 EVO 250 GB M.2 SSD (MZ-N5E250BW)</li>
+		<li>SanDisk Cruzer Fit 8GB USB 2.0 Low-Profile Flash Drive&#45; SDCZ33-008G-B3​5</li>
+	</ul>
+	</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-sjorge"></a>sjorge</h3>
+
+<ul>
+	<li>SuperMicro X9DRi-LN4F&#43;
+	<ul>
+		<li>2x Intel Xeon E5-2620 v2</li>
+		<li>Everything working, aside from SCU and USB3</li>
+		<li>pxe-boot and usb-boot</li>
+	</ul>
+	</li>
+	<li>SuperMicro A1SAi-2550F
+	<ul>
+		<li>Intel® Atom™ Processor C2550</li>
+		<li>Everything working, aside from USB3</li>
+		<li>usb-boot (USB3 also usable for booting), not tested pxe-boot</li>
+	</ul>
+	</li>
+</ul>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-bahamat"></a>bahamat</h3>
+
+<p><a href="https://twitter.com/bahamat/status/532637634753871872">https://twitter.com/bahamat/status/532637634753871872</a> links to <a href="http://www.amazon.com/gp/registry/wishlist/23XHAIFZE79EG/ref=cm_sw_su_w?tag=digitalelfnet-20">http://www.amazon.com/gp/registry/wishlist/23XHAIFZE79EG/ref=cm_sw_su_w?tag=digitalelfnet-20</a></p>
+
+
+<h3><a name="%22WorksforMe%22HardwareConfigurations-zdunn"></a>zdunn</h3>
+
+<ul>
+	<li><b>PSSC CloudOOP 1200r</b>
+	<ul>
+		<li>Revolutionary Tool Free 1U Chassis with Front / Rear Power Controls</li>
+		<li>Energy Efficient REDUNDANT&nbsp;Power Supply</li>
+		<li>2 x Xeon E5 2630v3 Processor</li>
+		<li>256 GB of High Performance 2133 MHz ECC system memory</li>
+		<li>12 x 1.0 TB Solid State SATA III SSD Hard Drive (Micron&nbsp;M600)</li>
+		<li>Pike 2308 Hard Drive Controller</li>
+		<li>Intel X520DA-2 Dual Port 10GigE SFP&#43; Network Adapter</li>
+		<li>2 x 10/100/1000 BaseT Gigabit Network Adapters</li>
+		<li>PCI Express Riser Adapter</li>
+		<li>IPMI / iKVM Remote Management Port</li>
+	</ul>
+	</li>
+</ul>
+
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-1835274"></a>
+                                    <font class="smallfont"><p>Hi</p>
+
+<p>&nbsp; I would love a cheatsheet (just very basic to catch hang related debug info) on kmdb while booting smartos on a given hardware so that i can understand the issue on my own. i dont know much about using kmdb in detail/tricks and dont have patience to keep hitting ::step/::step over or ] accelerators. i have a case where when trying smartos (trying to boot using platform raw image way) on my setup seems to hang at: impl_ddi_callback_init (goes into some kind of loop/waits for ever).</p>
+
+<p>Note: same hardware works for omniOS text based boot easily from a iso file using grub2's iso method from my linux distro.</p>
+
+<p>thanks in advance</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by lnarayanan.seshadri@gmail.com at Feb 01, 2013 18:25
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-1835275"></a>
+                                    <font class="smallfont"><p>just an update: Turned the verbose setting along with kd boot option and saw hang during below:</p>
+
+<p>&nbsp; &gt;kb80420 is /pci(0,0isa)1f/i8042@1,60/keyboard@0</p>
+
+<p>module:&nbsp; kb8042 ,i.e possibly hang during keyboard/mouse driver at boot time. . Not sure why the omniOS text installer ran past and gave me root prompt (may be by default it runs without console service?)</p>
+
+<p>Is there any option to avoid this hang,these are laptops with regular keyboard setups.</p>
+
+<p>(kmdb was very useful (<b>&#45;kvd</b> option) along with <b><em>moddebug/W 80000000</em></b> to show location of the hang place for me.)</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by lnarayanan.seshadri@gmail.com at Feb 02, 2013 02:14
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-2687111"></a>
+                                    <font class="smallfont"><p>HP Microserver G8 does NOT work with SmartOS as of today.</p>
+
+<p>The included HP 332i dual NIC is not supported.</p>
+
+<p>Will work with a PCI Intel NIC but G8 Microserver has only one PCI slot.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by obi-wan at Oct 23, 2013 11:51
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-3244053"></a>
+                                    <font class="smallfont"><p>Ben,</p>
+
+<p>That's not quite correct. I have the current SmartOS live "USB" distribution running on a Gen8 Microserver, booting from a MicroSD card in the internal card reader. But there are limitations currently:</p>
+
+<p>&#45; The B120i FakeRAID can be switched to AHCI mode in the BIOS. The downside of this is that the builtin iLO management software keeps the fans running at comparably high speed, making it too loud for an office environment. I've installed a HP H220 HBA in the PCIe slot as a workaround.</p>
+
+<p>&#45; The H332i Dual Gigabit NIC (Broadcom 5720 chipset) is detected properly and works okay when connected to a Fast Ethernet hub or switch. It does not work at all when connected to a Gigabit network, though. The NICs lock up with an error message: "bge_chip_poll_engine failed". The same happens when trying to start a KVM zone.&nbsp;Joyent zones work without issues, though.</p>
+
+<p>&#45; The HP H220 HBA (LSI 2308 chipset) works fine but&nbsp;reports the&nbsp;following&nbsp;on the console every once in a while: &nbsp;scsi: [ID 107833 kern.notice] /pci@0,0/pci8086,151@1/pci1590,41@0 (mpt_sas0):#012#011send_sep act 0: ioc status:8004 loginfo 31200060</p>
+
+<p>&#45; The HP BIOS does not build a SRAT table, so SmartOS throws a warning on boot. The "Node Interleaving" BIOS option does not change this behavior.</p>
+
+<p>&#45; The boot process seems to halt for approx 20&nbsp;seconds after displaying&nbsp;"bss=0x0". Not sure whether that's normal behavior.</p>
+
+<p>&#45; It also reports "KCS error: ff" during boot. I haven't looked into that yet.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by kelm at Dec 05, 2013 22:18
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-3244057"></a>
+                                    <font class="smallfont"><p>smartos-discuss is the best place to field questions like this:</p>
+
+<p><a href="http://smartos.org/smartos-mailing-list/">http://smartos.org/smartos-mailing-list/</a></p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by alainodea at Dec 06, 2013 03:09
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

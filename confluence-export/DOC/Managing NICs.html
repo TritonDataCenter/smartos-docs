@@ -1,0 +1,494 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Managing NICs</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Managing NICs
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Aug 22, 2018 by <font color="#0050B2">bbennett</font>.
+				    </div>
+
+				    <div>
+<ul>
+    <li><a href='#ManagingNICs-ExposingAdditionalNICsintheGlobalZone'>Exposing Additional NICs in the Global Zone</a></li>
+<ul>
+    <li><a href='#ManagingNICs-Persistingvnicsacrossreboots'>Persisting vnics across reboots</a></li>
+    <li><a href='#ManagingNICs-AddingVRRPnicstoVMs'>Adding VRRP nics to VMs</a></li>
+</ul>
+    <li><a href='#ManagingNICs-LinkAggregationsintheGlobalZone'>Link Aggregations in the Global Zone</a></li>
+    <li><a href='#ManagingNICs-ModifyingtheMTU'>Modifying the MTU</a></li>
+<ul>
+    <li><a href='#ManagingNICs-UpdatingtheMTUforVMs'>Updating the MTU for VMs</a></li>
+    <li><a href='#ManagingNICs-UpdatingtheMTUforaggrsandglobalzonevnics'>Updating the MTU for aggrs and global zone vnics</a></li>
+</ul>
+    <li><a href='#ManagingNICs-Whydon%27tallmyNICsappearinifconfig%3F'>Why don't all my NICs appear in ifconfig?</a></li>
+    <li><a href='#ManagingNICs-DHCPSupport'>DHCP Support</a></li>
+    <li><a href='#ManagingNICs-NATandothercrazytricks'>NAT and other crazy tricks</a></li>
+</ul></div>
+
+<h1><a name="ManagingNICs-ExposingAdditionalNICsintheGlobalZone"></a>Exposing Additional NICs in the Global Zone</h1>
+
+<p>Additional vnics can be added in the global zone. To create a vnic named <b>storage0</b>:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dladm create-vnic -l e1000g0 -v 128 storage0</pre>
+		</div>
+</div></div>
+<p>The <b>&#45;v 128</b> above creates the vnic on VLAN ID 128. For a vnic not on a VLAN, omit the &#45;v option.</p>
+
+<p>Now plumb and bring up the interface as you would any interface:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># ifconfig storage0 plumb
+# ifconfig storage0 inet 10.77.77.7 netmask 255.255.255.0 up</pre>
+		</div>
+</div></div>
+
+<p>Or with a DHCP IP:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># ifconfig storage0 plumb
+# ifconfig storage0 dhcp</pre>
+		</div>
+</div></div>
+
+<h2><a name="ManagingNICs-Persistingvnicsacrossreboots"></a>Persisting vnics across reboots</h2>
+
+<p>First determine the mac address of the physical nic:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dladm show-phys -m
+LINK         SLOT     ADDRESS            INUSE CLIENT
+e1000g0      primary  0:c:29:18:ec:10    yes  e1000g0</pre>
+		</div>
+</div></div>
+<p>Now add the config options for storage0 to <b>/usbkey/config</b>:</p>
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>NOTE: the omission of the "0" in "storage_nic" below is NOT a typo. That line defines a nic_tag. The other lines define an instance (instance 0) of a vnic on the hardware referenced by that nic_tag.</td></tr></table></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">storage_nic=0:c:29:18:ec:10
+storage0_ip=10.77.77.7
+storage0_netmask=255.255.255.0
+storage0_gateway=10.77.77.1
+storage0_vlan_id=128</pre>
+		</div>
+</div></div>
+<p>You can omit the <b>storage0_vlan_id</b> option if you don't want storage0 on a VLAN. For a DHCP IP with no VLAN:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">storage0_ip=dhcp
+storage0_netmask=...</pre>
+		</div>
+</div></div>
+<p>If you would like to make the changes in&nbsp;<b>/usbkey/config</b>&nbsp;active without a reboot, you will need to make them visible to "sysinfo" by running the following command:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># sysinfo -u</pre>
+		</div>
+</div></div>
+
+<p><font color="#000000"><b>Exposing Additional NICs in VMs</b></font></p>
+
+<p>Additional physical NICs can be exposed to the VMs, via VNICs, running under your SmartOS hypervisor.</p>
+
+<p>First determine the mac address of the physical nic:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dladm show-phys -m
+LINK         SLOT     ADDRESS            INUSE CLIENT
+e1000g1      primary  8:0:27:19:64:7d    no   --
+e1000g0      primary  8:0:27:ac:2:fc     yes  e1000g0</pre>
+		</div>
+</div></div>
+
+<p>In this example the mac address for the nic I want to expose is '8:0:27:19:64:7d' and is associated with link 'e1000g1'.</p>
+
+<p>Next, modify /usbkey/config which holds the persistent network configuration for your hypervisor. Add the following line:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># this line is of the form '&lt;nic_tag&gt;_nic=&lt;mac_address&gt;'
+external_nic=8:0:27:19:64:7d</pre>
+		</div>
+</div></div>
+
+
+<p>Finally in the JSON spec for your VM, reference this new tag under the 'nics' section:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">"nics": [
+        {
+          "nic_tag": "admin",
+          "ip": "192.168.0.20",
+          "netmask": "255.255.255.0",
+          "gateway": "192.168.0.1"
+        },
+        {
+        "nic_tag": "external",
+        "ip": "192.168.0.21",
+        "netmask": "255.255.255.0",
+        "gateway": "192.168.0.1"
+        # "primary": true,    # optional: primary routed interface
+        # "vlan_id": 128      # optional: 802.1q-tagged vlan
+        }
+        ]
+    }</pre>
+		</div>
+</div></div>
+
+<p>This updated JSON spec will create a VM with multiple NICS, exposing the physical NIC tagged with external to the VM/Zone. See managing VMs with vmadm for more information on updating existing vms.</p>
+
+<h2><a name="ManagingNICs-AddingVRRPnicstoVMs"></a>Adding VRRP nics to VMs</h2>
+
+<p>To provision a VM with a VRRP nic, you must set the <b>vrrp_vrid</b> (router ID) and <b>vrrp_primary_ip</b> attributes in that nic:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">"nics": [
+    {
+      "nic_tag": "external",
+      "ip": "10.2.59.8",
+      "vlan_id": 1059,
+      "vrrp_vrid": 100,
+      "vrrp_primary_ip": "10.2.59.9",
+      "netmask": "255.255.255.0",
+      "gateway": "10.2.59.1"
+    },
+    {
+      "nic_tag": "external",
+      "ip": "10.2.59.9",
+      "vlan_id": 1059,
+      "netmask": "255.255.255.0",
+      "gateway": "10.2.59.1",
+      "primary": true,
+      "allow_ip_spoofing": true
+    }
+  ]</pre>
+		</div>
+</div></div>
+<p>Notes:</p>
+<ul>
+	<li><b>vrrp_primary_ip</b> must be the IP address of one of the other nics in the system, since this address will be used to send router advertisements.</li>
+	<li>No MAC address is necessary for the VRRP nic, since its MAC address will be based on the router ID</li>
+	<li>For the time being, the NIC with the <b>ip</b>&nbsp;matching the <b>vrrp_primary_ip</b>&nbsp;needs to have <b>allow_ip_spoofing</b>&nbsp;(<a href="https://github.com/joyent/smartos-live/issues/136">joyent-live Issue 136</a>)</li>
+	<li>This does not work with kvm zones</li>
+</ul>
+
+
+<p>Logging into the VM, you can see that net0 has the VRRP flag set. The interface isn't up yet - that will be handled by vrrpd, which handles bringing up and down VRRP vnics.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># ifconfig net0
+net0: flags=50201000842&lt;BROADCAST,RUNNING,MULTICAST,IPv4,CoS,VRRP,L3PROTECT&gt; mtu 1500 index 2
+        inet 10.2.59.8 netmask ffffff00 broadcast 10.2.59.255
+        ether 0:0:5e:0:1:64</pre>
+		</div>
+</div></div>
+
+<p>Now create the router with vrrpadm:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># vrrpadm create-router -V 100 -l net1 -A inet router0</pre>
+		</div>
+</div></div>
+
+<p>vrrpadm shows that the router is up, and is the master.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># vrrpadm show-router
+NAME    VRID LINK    AF   PRIO ADV_INTV MODE  STATE VNIC
+router0 100  net1    IPv4 255  1000     eopa- MASTER net0
+# vrrpadm show-router -x
+NAME    STATE PRV_STAT STAT_LAST VNIC    PRIMARY_IP          VIRTUAL_IPS
+router0 MASTER INIT      14.085s net0    10.2.59.9           10.2.59.8</pre>
+		</div>
+</div></div>
+
+<p>ifconfig shows that net0 is now UP:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># ifconfig net0
+net0: flags=50201000843&lt;UP,BROADCAST,RUNNING,MULTICAST,IPv4,CoS,VRRP,L3PROTECT&gt; mtu 1500 index 2
+        inet 10.2.59.8 netmask ffffff00 broadcast 10.2.59.255
+        ether 0:0:5e:0:1:64</pre>
+		</div>
+</div></div>
+
+<p>You should now be able to ping this VM on both its primary and virtual IP.</p>
+
+
+<h1><a name="ManagingNICs-LinkAggregationsintheGlobalZone"></a>Link Aggregations in the Global Zone</h1>
+
+<div class='panelMacro'><table class='tipMacro'><tr><td>Link aggregations require SmartOS build <b>20121018</b> or later</td></tr></table></div>
+
+<p>First, determine the MAC addresses of the nics you want to include in the aggregation:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dladm show-phys -m
+LINK         SLOT     ADDRESS            INUSE CLIENT
+e1000g0      primary  0:50:56:3d:a7:95   yes  e1000g0
+e1000g1      primary  0:50:56:34:60:4c   yes  e1000g1</pre>
+		</div>
+</div></div>
+
+<p>Now add a <b>&lt;aggregation name&gt;_aggr</b> config key to /usbkey/config.  The value of that key is a comma-separated list of the MAC addresses of the nics in the aggregation:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">aggr0_aggr=00:50:56:34:60:4c,00:50:56:3d:a7:95
+# The following line is optional - the LACP mode will default to "off":
+aggr0_lacp_mode=active
+
+# VM nics with admin or storage nic_tags will now have their vnics created on the aggregation:
+admin_nic=aggr0
+storage_nic=aggr0
+
+# Configure IPs as you would for regular nics
+admin_ip=...
+storage0_ip=...</pre>
+		</div>
+</div></div>
+
+<p>Save and reboot.  Once the system is back up, you should see the aggregations with sysinfo:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># sysinfo | json "Link Aggregations"
+{
+  "aggr0": {
+    "LACP mode": "active",
+    "Interfaces": [
+      "e1000g1",
+      "e1000g0"
+    ]
+  }
+}</pre>
+		</div>
+</div></div>
+<p>dladm should also show the aggregation:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dladm show-aggr
+LINK            POLICY   ADDRPOLICY           LACPACTIVITY  LACPTIMER   FLAGS
+aggr0           L4       auto                 active        short       -----</pre>
+		</div>
+</div></div>
+
+<p>VM nics provisioned on the <b>admin</b> and <b>storage</b> nic tags will now be over aggregation <b>aggr0</b>.</p>
+
+<div class='panelMacro'><table class='tipMacro'><tr><td>To manually create a link aggregation with the <b>dladm create-aggr</b> command in the Global Zone without rebooting, you will first need to disable the <b>lldp/server</b> service. By default <b>lldpd</b> will have a lock on all otherwise unused devices. After you've created the aggregation, you can re-enable it.</td></tr></table></div>
+
+<h1><a name="ManagingNICs-ModifyingtheMTU"></a>Modifying the MTU</h1>
+
+<div class='panelMacro'><table class='tipMacro'><tr><td>MTU awareness in the SmartOS tools (nictagadm, vmadm, etc.) is in SmartOS build <b>201400626</b> or later</td></tr></table></div>
+
+<p>By default, all VMs that do not have an explicit MTU requested have their VNICs match the MTU of the physical nic of their nic tag. In addition, any VNIC that's created has a valid range of an MTU ranging from 1500 to the current MTU of the physical NIC. The best way to view this is by running the dladm command as follows:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[root@00-0c-29-37-80-28 ~]# dladm show-linkprop -p mtu
+LINK         PROPERTY        PERM VALUE          DEFAULT        POSSIBLE
+e1000g0      mtu             rw   1500           1500           1500-16362
+net0         mtu             rw   1500           1500           1500
+etherstub0   mtu             rw   9000           1500           576-9000</pre>
+		</div>
+</div></div>
+
+<div class='panelMacro'><table class='tipMacro'><tr><td>The MTU of a physical device or VNIC only impacts the maximum MTU you can use on an IP interface. Even though the smallest MTU e1000g0 supports is 1500, the IP stack can use a lower MTU.</td></tr></table></div>
+
+<p>A nic tag now has the concept of a MTU. If unset, it defaults to the default value of the NIC, usually 1500. The nictagadm command can be used to update an existing nic tag with a MTU or set one when a new one is created. When the system next boots, it will set the MTU of the physical nic to the maximum of all of the MTUs specified by the nic tags for that NIC. See the following examples below:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[root@headnode (rm-sf0) ~]# nictagadm add -p mtu=5000 mtu_tag0 00:50:56:3d:a7:95
+MTU changes will not take effect until next reboot
+[root@headnode (rm-sf0) ~]# nictagadm update -p mtu=9000 external
+MTU changes will not take effect until next reboot</pre>
+		</div>
+</div></div>
+
+<h2><a name="ManagingNICs-UpdatingtheMTUforVMs"></a>Updating the MTU for VMs</h2>
+
+<p>vmadm has a new property 'nics.*.mtu'. If this property is set, it will always try to set the MTU to the specified value when the VM is booted. If that MTU cannot be honored, then it will cause the boot process to fail explicitly rather than come up with a different MTU. If an MTU is not specified, then it will always default to the current MTU of the physical device that corresponds to the nic tag.</p>
+
+<h2><a name="ManagingNICs-UpdatingtheMTUforaggrsandglobalzonevnics"></a>Updating the MTU for aggrs and global zone vnics</h2>
+
+<p>You can also specify the MTU for an aggregation and a VNIC in the configuration file. Recall the storage0 and aggr0 example from earlier. If you wanted to set storage0's MTU to 9000, you would add line 'storage0_mtu=9000'. You also do something similar for an aggregation. That makes the whole stanza for our aggregation and vnic look like:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">#
+# Create an aggregation whose default MTU is 9000.
+#
+aggr0_aggr=00:50:56:34:60:4c,00:50:56:3d:a7:95
+aggr0_lacp_mode=active
+aggr0_mtu=9000
+
+#
+# Create a vnic storage0 with an MTU of 9000.
+# We will have to have run nictagdm update to set the mtu on the storage nic_tag.
+#
+storage0_ip=10.77.77.7
+storage0_netmask=255.255.255.0
+storage0_gateway=10.77.77.1
+storage0_vlan_id=128
+storage0_mtu=9000</pre>
+		</div>
+</div></div>
+
+<h1><a name="ManagingNICs-Whydon%27tallmyNICsappearinifconfig%3F"></a>Why don't all my NICs appear in ifconfig?</h1>
+
+<p>All NICs are enabled, but they aren't plumbed up in the global zone.</p>
+
+<p>They can be used in local zones without being plumbed in the global zone.</p>
+
+<p>NICs that aren't plumbed in the global zone will not appear in ifconfig.</p>
+
+<p>To show all physical NICs from the global zone:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">dladm show-phys</pre>
+		</div>
+</div></div>
+<p>You can also plumb additional NICs in the global zone with ifconfig if needed, (this will not persist across reboots - see above):</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">ifconfig -a plumb </pre>
+		</div>
+</div></div>
+
+<h1><a name="ManagingNICs-DHCPSupport"></a>DHCP Support</h1>
+
+<p>Zone NICs will by default have dhcp hosting blocked on them and need to be opened up before a DHCP server will operate correctly.</p>
+
+<p>You can confirm whether the dhcp protection bit is set with the following command, in this example net0 has the dhcp-nospoof protection bit set while net1 has it cleared as is required for serving DHCP on the net1 interface.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">dladm show-linkprop -z &lt;ZONE_UUID&gt; -p protection
+
+
+LINK         PROPERTY        PERM VALUE          DEFAULT        POSSIBLE
+
+net0         protection      rw   mac-nospoof,   --             mac-nospoof,
+
+                                  restricted,                   restricted,
+
+                                  dhcp-nospoof                  ip-nospoof,
+
+                                                                dhcp-nospoof 
+
+net1         protection      rw   mac-nospoof,   --             mac-nospoof,
+
+                                  restricted                    restricted,
+
+                                                                ip-nospoof,
+
+                                                                dhcp-nospoof</pre>
+		</div>
+</div></div>
+
+<p>When creating a new VM the following property will disable the dhcp-nospoof bit.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">"nics" : [
+        {
+            "nic_tag" : "admin",
+            "allow_dhcp_spoofing": true
+            ...
+        }
+    ]</pre>
+		</div>
+</div></div>
+
+<p>To update this flag on an already configured zone you can use the vmadm update functionality as follows (in this case updating interface with mac 00:53:37:00:db:08).</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">vmadm update &lt;ZONE_UUID&gt; &lt;&lt; EOF
+{
+"update_nics": [
+{
+"mac": "00:53:37:00:db:08",
+"allow_dhcp_spoofing": true
+}
+]
+}
+EOF</pre>
+		</div>
+</div></div>
+
+
+<h1><a name="ManagingNICs-NATandothercrazytricks"></a>NAT and other crazy tricks</h1>
+
+<p><a href="NAT using Etherstubs.html" title="NAT using Etherstubs">NAT using Etherstubs</a></p>
+
+
+
+
+<p><a href="https://gist.github.com/2639064">Gist about NAT</a></p>
+
+
+
+
+
+
+<p><a href="https://gist.github.com/e18d343cde4509afaa51">Gist about etherstubs</a></p>
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-1835285"></a>
+                                    <font class="smallfont"><p>Can I use vrrp similar to that of in Linux, setting up a floating IP shared by two zones?</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by tofubean@rocketmail.com at Feb 06, 2013 03:02
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-1835286"></a>
+                                    <font class="smallfont"><p>tofu, you'll have more luck getting answers on the <a href="http://smartos.org/smartos-mailing-list/">smartos-discuss mailing list</a>.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by alainodea at Feb 06, 2013 03:08
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

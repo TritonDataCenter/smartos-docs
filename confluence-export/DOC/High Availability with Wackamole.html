@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : High Availability with Wackamole</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : High Availability with Wackamole
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Dec 03, 2013 by <font color="#0050B2">nahamu</font>.
+				    </div>
+
+				    <div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>One of the authors of Wackamole recommends it's successor, <a href="https://github.com/postwait/vippy">vippy</a></td></tr></table></div>
+
+<p>Wackamole is an application which manages a bunch of IPs which should be accessible from outside all the time.</p>
+
+<p>Given a set of machines and a IPs, wackamole will ensure that if any machine goes down, other machine will take up its IP almost instantly and outside world will see no impact.<br/>
+It tries to balance the number of IPs across the number of machines available.<br/>
+Wackamole uses Spread network messaging system.</p>
+
+<p>It's a good alternative to VRRP which has some flaws.</p>
+
+<p>Pros :</p>
+
+<ul>
+	<li>very easy to setup</li>
+	<li>works very well</li>
+	<li>ip switch very fast</li>
+	<li>lightweight solution</li>
+	<li>doesn't require vrrp or anything from the hypervisor</li>
+</ul>
+
+
+<p>Cons :</p>
+
+<ul>
+	<li>none so far</li>
+</ul>
+
+
+<p>Lets start configuring it. I am using two zones.<br/>
+The concept can be extended to as many zones/VM/KVM as you want.</p>
+
+<p><b>Step 1 :</b> Here's my example configuration :</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">HAProxy1 : 192.168.3.151
+HAProxy2 : 192.168.3.251
+Virtual IP : 192.168.3.100</pre>
+		</div>
+</div></div>
+
+<p><b>Step 2 :</b> Install wackamole with pkgin (spread will come as a dependency) on both zones.</p>
+
+<p><b>Step3 :</b> Do these 2 parts on the first server.</p>
+
+<p><em>Edit /opt/local/etc/wackamole.conf and put this :</em></p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">Spread = 4805 #Spread port
+SpreadRetryInterval = 5s #How often to try to connect to spread, if it fails
+Group = haproxy #Cluster group
+Control = /var/run/wack.it #Name of the socket
+Prefer None #You treat all the IPs as equal
+
+VirtualInterfaces {
+ # IPs from the virtual pool. Can be as many as you want.
+ # Specify the network interface you're using for your nic (net0, net1 ...)
+ { net1:192.168.3.100/24 }
+}
+
+Arp-Cache = 20s
+
+Notify {
+ # Notify to this Broadcast address but a not more than 8 times.
+ # Specify the network interface you use for your nic (net0, net1 ...)
+ net1:192.168.3.1/32 throttle 8
+ arp-cache
+}
+
+balance {
+ AcquisitionsPerRound = all
+ interval = 4s
+}
+
+mature = 5s</pre>
+		</div>
+</div></div>
+
+<p><em>Edit /opt/local/etc/spread.conf and put this :</em></p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">Spread_Segment&amp;nbsp; 192.168.3.255:4805 {
+ # hostname / ip
+ proxy-001 192.168.3.151
+ proxy-002 192.168.3.251
+}
+EventLogFile = /var/log/spread.log</pre>
+		</div>
+</div></div>
+
+<p><b>Step4 :</b> Start spread then wackamole on the first server.<br/>
+You'll see a second network interface (net1:1 in my case, net0:1 if you only have one nic) on the first server with your virtual ip.</p>
+
+<p><b>Step5 :</b> Copy the 2 files above on the second server and start spread then wackamole.</p>
+
+<p>All done.<br/>
+If your first server goes down or is unplugged from the network, your virtual ip will automatically be switched to the second server.</p>
+
+<p>(credits go to Aditya Patawari from <a href="http://blog.adityapatawari.com/2011/09/building-highly-available-cluster-using.html">http://blog.adityapatawari.com/2011/09/building-highly-available-cluster-using.html</a>)</p>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

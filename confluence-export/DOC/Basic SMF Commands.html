@@ -1,0 +1,382 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Basic SMF Commands</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Basic SMF Commands
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Aug 07, 2012 by <font color="#0050B2">jason.davis@joyent.com</font>.
+				    </div>
+
+				    <p>SMF consists of four command line utilities:</p>
+<ul>
+	<li><b>svcs:</b>&nbsp;allows you to examine the state of your services and determine what went wrong.</li>
+	<li><b>svcadm:</b>&nbsp;enable, disable, and restart a service.</li>
+	<li><b>svccfg:</b>&nbsp;load manifest files (XML) that maintain configurations for each service.</li>
+	<li><b>svcprop:</b>&nbsp;retrieves properties on a service (useful when writing custom scripts)</li>
+</ul>
+
+
+<p><b>In this topic:</b></p>
+<div>
+<ul>
+    <li><a href='#BasicSMFCommands-ExaminingServiceStatussvcs'> Examining Service Status - svcs</a></li>
+    <li><a href='#BasicSMFCommands-StartingandStopingServicessvcadm'> Starting and Stoping Services - svcadm</a></li>
+<ul>
+    <li><a href='#BasicSMFCommands-ConductingServiceMaintenancesvcadmclear'>Conducting Service Maintenance - svcadm clear</a></li>
+    <li><a href='#BasicSMFCommands-VerifyingaServiceisinMaintenanceMode'>Verifying a Service is in Maintenance Mode</a></li>
+    <li><a href='#BasicSMFCommands-VerifyingaServiceisDisabled'>Verifying a Service is Disabled</a></li>
+    <li><a href='#BasicSMFCommands-EnablingaService'>Enabling a Service</a></li>
+</ul>
+    <li><a href='#BasicSMFCommands-ExaminingServiceContractssvcs%5Cp'>Examining Service Contracts - svcs -p</a></li>
+    <li><a href='#BasicSMFCommands-ConfiguringServicessvccfg'> Configuring Services - svccfg</a></li>
+    <li><a href='#BasicSMFCommands-EnablingSMFAccess'>Enabling SMF Access</a></li>
+    <li><a href='#BasicSMFCommands-Checkingpropertiesofaservice'>Checking properties of a service</a></li>
+    <li><a href='#BasicSMFCommands-UncoveringInformationAboutServices'>Uncovering Information About Services</a></li>
+    <li><a href='#BasicSMFCommands-References'>References</a></li>
+</ul></div>
+
+
+<h1><a name="BasicSMFCommands-ExaminingServiceStatussvcs"></a><a name="BasicSMFCommands-svcs"></a>Examining Service Status - svcs</h1>
+
+<p>The&nbsp;<tt>svcs</tt>&nbsp;command displays information about the state of your services. This typically means whether or not they are running and any problems encountered when attempting to start them. In general, services will fall into three different states:</p>
+<ul>
+	<li><em>online</em>: the service is enabled and functioning normally</li>
+	<li><em>offline</em>: the service is stopped and disabled</li>
+	<li><em>maintenance</em>: the service has encountered a problem and is on hold until the problem is addressed by an administrator.</li>
+</ul>
+
+
+<p>Running the&nbsp;<tt>svcs</tt>&nbsp;command&nbsp;with the&nbsp;<tt>&#45;a</tt>&nbsp;argument&nbsp;displays a list of all online and offline services. By default&nbsp;<tt>svcs</tt>&nbsp;prints out:</p>
+<ul>
+	<li><em>status</em>: the current state of the service.</li>
+	<li><em>stime</em>: when the service entered the current state.</li>
+	<li><em>FMRI</em>: the name of the service.</li>
+</ul>
+
+
+<p>Each service is identified by a Fault Management Resource Identifier (FMRI). For example, the FMRI for the Apache service is:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">svc:/network/http:cswapache2</pre>
+		</div>
+</div></div>
+<p>The above FMRI breaks down in the following way:</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> String </th>
+<th class='confluenceTh'> Description </th>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>svc:</tt> </td>
+<td class='confluenceTd'> The service type </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>/network/http</tt> </td>
+<td class='confluenceTd'> The service name </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>:cswapache2</tt> </td>
+<td class='confluenceTd'> The service instance </td>
+</tr>
+</tbody></table>
+</div>
+
+<p>For example, this output shows that Apache was disabled on May 31st:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">$ svcs svc:/network/http:cswapache2
+  STATE    STIME  FMRI
+  disabled May_31 svc:/network/http:cswapache2</pre>
+		</div>
+</div></div>
+<p>An easy way of uncovering the FMRI for a service is by using&nbsp;<tt>grep</tt>&nbsp;in combination with&nbsp;<tt>svcs &#45;a</tt>. For example, using grep in the following exposes&nbsp;the FMRI of the MySQL service, which is&nbsp;<tt>cswmysql5</tt>:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">$ svcs -a | grep -i mysql
+  enabled  May_31  svc:/network/cswmysql5:default</pre>
+		</div>
+</div></div>
+<div class='panelMacro'><table class='tipMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/check.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>You can abbreviate an FMRI by specifying the instance name or the trailing portion of the service name. For example, valid abbreviations for&nbsp;<tt>svc:/network/http:cswapache2</tt>&nbsp;are:
+<ul>
+	<li><tt>cswapache2</tt></li>
+	<li><tt>:cswapache2</tt></li>
+	<li><tt>http</tt></li>
+	<li><tt>http:cswapache2</tt></li>
+	<li><tt>network/http</tt></li>
+</ul>
+</td></tr></table></div>
+
+<h1><a name="BasicSMFCommands-StartingandStopingServicessvcadm"></a><a name="BasicSMFCommands-svcadm"></a>Starting and Stoping Services - svcadm</h1>
+
+<p>The&nbsp;<tt>svcadm</tt>&nbsp;command is used to enable, disable, restart, or refresh services. For example, this command&nbsp;enables the MySQL service.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">$ sudo svcadm enable cswmysql5</pre>
+		</div>
+</div></div>
+<p>Using&nbsp;<tt>svcs</tt>, you can verify that the service is enabled:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">$ svcs cswmysql5
+  STATE   STIME     FMRI
+  online  15:20:39  svc:/network/cswmysql5:default</pre>
+		</div>
+</div></div>
+<p>You use&nbsp;<tt>disable</tt>&nbsp;to&nbsp;stop services. For example, this stops the MySQL service:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">$ sudo svcadm disable cswmysql5</pre>
+		</div>
+</div></div>
+<p>You use&nbsp;<tt>restart</tt>&nbsp;to refresh a service. For example, after making a configuration change, you can refresh an enabled service like this:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">$ sudo svcadm restart cswmysql5</pre>
+		</div>
+</div></div>
+<p><br class="atl-forced-newline" /></p>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>Some daemons do not respond to the&nbsp;<tt>restart</tt>&nbsp;command. If that is the case, you will need to disable and re-enable the service.</td></tr></table></div>
+
+<h2><a name="BasicSMFCommands-ConductingServiceMaintenancesvcadmclear"></a>Conducting Service Maintenance - svcadm clear</h2>
+
+<p>If a service enters maintenance mode or becomes disabled, you will need to perform some maintenance before SMF can restart the service. This means resolving any conflicts that prevent the service from running then using&nbsp;<tt>svcadm clear</tt>&nbsp;to clear the service state. When using&nbsp;<tt>svcadm clear</tt>, you need to specify the service FMRI.</p>
+
+<p>This command does nothing to fix a service, it just signals that the service is ready to resume. Before you can clear a service state, you need to ensure that you resolve the conflict that caused the service to go into maintenance mode. For example, if you configure Postgres to use an IP port that is already in use by another service, the Postgres service will terminate abnormally and go into maintenance mode. In this case, you would need to resolve the IP conflict by modifying the Postgres configuration to use another IP or terminating the conflicting service. You would then clear the state after resolving the conflict.</p>
+
+<p>Once the state is cleared, the service can resume. Each service has an assigned service restarter agent that is responsible for carrying out actions against it. The default service restarter is&nbsp;<tt>svc.startd</tt>.</p>
+<ul>
+	<li>If a service instance is in maintenance mode, this command informs the restarter agent that the service was repaired.&nbsp;</li>
+	<li>If a service instance is disabled, this command requests that the restarter agent transition the service to the online state.</li>
+</ul>
+
+
+<p>For example, the following will clear the state of the Apache service and SMF will automatically restart the service once cleared:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">sudo svcadm clear svc:/network/http:cswapache2</pre>
+		</div>
+</div></div>
+
+<h2><a name="BasicSMFCommands-VerifyingaServiceisinMaintenanceMode"></a>Verifying a Service is in Maintenance Mode</h2>
+
+<p>SMF will place a service in maintenance mode when the service encounters something that causes it to crash. This usually indicates an error with the service but can also occur if your SmartMachine is running out of resources (RAM or disk space).</p>
+
+<p>To verify if a service is in maintenance mode:</p>
+<ol>
+	<li>Run this command:
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">svcs -a</pre>
+		</div>
+</div></div>
+<p>This will show all running and disabled services. If a service is in maintenance mode, you will see something similar to this:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">maintenence 18:50:25 svc:/network/webmin:webmin </pre>
+		</div>
+</div></div>
+<p><br class="atl-forced-newline" /></p></li>
+	<li>Review the log to root-cause why the service was in maintenance mode.</li>
+	<li>Take the service out of maintenance mode:
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">svcadm clear service_name</pre>
+		</div>
+</div></div></li>
+</ol>
+
+
+<h2><a name="BasicSMFCommands-VerifyingaServiceisDisabled"></a>Verifying a Service is Disabled</h2>
+
+<p>To verify if a service is disabled:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">svcs -a</pre>
+		</div>
+</div></div>
+<p>If the service is disabled, you will see something similar to this:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">disabled 18:51:10 svc:/network/webmin:webmin</pre>
+		</div>
+</div></div>
+
+<h2><a name="BasicSMFCommands-EnablingaService"></a>Enabling a Service</h2>
+
+<p>To enable a service:</p>
+<ol>
+	<li>Enable the service:
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">svcadm enable service_name</pre>
+		</div>
+</div></div></li>
+	<li>Verify the service is enabled:
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">svcs -a | grep service_name</pre>
+		</div>
+</div></div></li>
+</ol>
+
+
+<p>If successful, you should see something similar to this:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">online 18:50:25 svc:/network/webmin:webmin</pre>
+		</div>
+</div></div>
+<p>The term "online" is the service state and indicates that the service is running.</p>
+
+<h1><a name="BasicSMFCommands-ExaminingServiceContractssvcs%5Cp"></a>Examining Service Contracts - svcs &#45;p</h1>
+
+<p>SMF maintains a contract with every running service it manages. The contract keeps track of what processes are running for any given service. Using the&nbsp;<tt>&#45;p</tt>&nbsp;option, you can determine all the processes that belong to a service. In the following example,&nbsp;the MySQL daemon is process number 29004.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">$ svcs -p network/cswmysql5
+  STATE      STIME       FMRI
+  online     16:55:27    svc:/network/cswmysql5:default
+             16:55:27    28938 mysqld_safe
+             16:55:27    29004 mysqld</pre>
+		</div>
+</div></div>
+<p>The following example demonstrates how SMF restarts a service when it stops unexpectedly:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">$ kill -9 29004
+$ svcs -p network/cswmysql5
+  STATE   STIME     FMRI
+  online* 17:00:01  svc:/network/cswmysql5:default
+          16:55:27  28938 mysqld_safe
+          17:00:01  29228 mysqld
+$ mysql -u mysql
+...
+mysql&gt; \q
+Bye</pre>
+		</div>
+</div></div>
+<p>Even though the MySQL daemon was unexpectedly terminated, it was automatically restarted by SMF. Notice that the STIME shows that the MySQL service is back online. The inclusion of an asterisk with the "online" state indicates that the service is currently in transition. However, the MySQL service is already back online by the time the next command is run.</p>
+
+<p>SMF does not restart the service in brain-dead mode like a legacy&nbsp;<tt>inittab</tt>; You can configure a threshold for service restarts. For example, numerous restarts of a service in a 60 second time frame might indicate a severe issue in your environment. You can configure a restart threshold in SMF for that service. At that point, SMF will put the service in "maintenance" mode, and the service will remain in that state until you clear it with&nbsp;<tt>svcadm clear</tt>.</p>
+
+<h1><a name="BasicSMFCommands-ConfiguringServicessvccfg"></a><a name="BasicSMFCommands-svccfg"></a>Configuring Services - svccfg</h1>
+
+<p>The&nbsp;<tt>svccfg</tt>&nbsp;command allows you to import, export, and modify service configurations. You specify entities to manipulate by using the&nbsp;<tt>&#45;s</tt>&nbsp;option with an FMRI. The following example will set an environment variable for the specified FMRI with the value you specify.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">svccfg -s FMRI setenv ENV_VARIABLE value</pre>
+		</div>
+</div></div>
+<p>You can invoke&nbsp;<tt>svccfg</tt>&nbsp;directly with individual subcommands or by specifying a script file.</p>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>If you make any changes to a service using this command, you need to restart the service for the changes to take effect.</td></tr></table></div>
+
+<h1><a name="BasicSMFCommands-EnablingSMFAccess"></a>Enabling SMF Access</h1>
+
+<p>if you want to enable users with no sudo access to manage SMF, you can modify a user profile as follows:</p>
+<ol>
+	<li>Open&nbsp;<tt>/etc/user_attr</tt>&nbsp;for edit.</li>
+	<li>Add this line replacing "myuser" with the login you want to enable:
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">myuser::::profiles=Service Management</pre>
+		</div>
+</div></div></li>
+</ol>
+
+
+<p>After this change, the specified user is able to manage SMF (import, stop, start) without access to&nbsp;<tt>sudo</tt>.&nbsp;This minimizes the need for unnecessarily sharing sudo access among users.</p>
+
+<h1><a name="BasicSMFCommands-Checkingpropertiesofaservice"></a>Checking properties of a service</h1>
+
+<p>To retrieve a specific setting for a service, we use svcprop in this case to figure out which ipf.conf ipfilter is using:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false"># svcprop -p firewall_config_default/custom_policy_file network/ipfilter:default
+/etc/ipf/ipf.conf</pre>
+		</div>
+</div></div>
+
+<h1><a name="BasicSMFCommands-UncoveringInformationAboutServices"></a>Uncovering Information About Services</h1>
+
+<p>Using SMF to uncover information about a service is easy.</p>
+
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> Command </th>
+<th class='confluenceTh'> Description </th>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>svcs &#45;a</tt> </td>
+<td class='confluenceTd'> List all services for this SmartMachine, including disabled services. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>svcs &#45;x</tt> </td>
+<td class='confluenceTd'> List explanations for all services that are running but not enabled or services that are preventing another service from running. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>svcs &#45;p NAME</tt> </td>
+<td class='confluenceTd'> List all processes for the service you specify. </td>
+</tr>
+</tbody></table>
+</div>
+
+
+
+<h1><a name="BasicSMFCommands-References"></a>References</h1>
+
+<ul>
+	<li><a href="http://forum.textdrive.com/viewtopic.php?id=12802">HOWTO: Solaris SMF &amp; Startup Scripts, How to be reboot ready</a></li>
+	<li><a href="http://docs.sun.com/app/docs/doc/817-1985/6mhm8o5rh%3Fa%3Dview">SMF System Administration Guide</a></li>
+	<li><a href="http://docs.oracle.com/cd/E19112-01/ctr.mgr11/816-7751/6mdo2snvk/index.html">The nice Facility - How to have a command run after a service is started by SMF</a></li>
+</ul>
+
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-2326673"></a>
+                                    <font class="smallfont"><p>Hi,</p>
+
+<p>I have created the SMF manifest to change the timezone for the global zone,the SMF manifest working fine but still the smartos host displays the timzone is UTC...I want to change this global zone timezone should be HKT.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by p-root at May 13, 2013 03:41
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

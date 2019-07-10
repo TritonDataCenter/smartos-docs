@@ -1,0 +1,232 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Remotely Upgrading A USB Key Based Deployment</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Remotely Upgrading A USB Key Based Deployment
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Apr 30, 2019 by <font color="#0050B2">rejohnst</font>.
+				    </div>
+
+				    <h3><a name="RemotelyUpgradingAUSBKeyBasedDeployment-ExerciseCaution"></a>Exercise Caution</h3>
+
+<p>As with any operating system upgrade, there's risk involved with this procedure. In the event that you downloaded a bad platform tarball, or your USB key decides to malfunction, you could be left in a state where your host doesn't come back online. You might want to perform the first upgrade locally to test the build.</p>
+
+
+<h3><a name="RemotelyUpgradingAUSBKeyBasedDeployment-DownloadAndVerifythePlatformTarball"></a>Download And Verify the Platform Tarball</h3>
+
+<p>Either download directly as shown below, or copy the platform tarball from another location onto the machine you want to upgrade.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># cd /var/tmp
+# curl -O --insecure https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/platform-latest.tgz
+# digest -a md5 platform-latest.tgz
+b4d64f93dc51d58adb72fcdcfa27ec37
+# curl -O --insecure https://us-east.manta.joyent.com//Joyent_Dev/public/SmartOS/20140111T020931Z/md5sums.txt
+# grep platform md5sums.txt
+b4d64f93dc51d58adb72fcdcfa27ec37 platform-20140111T020931Z.tgz</pre>
+		</div>
+</div></div>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>The URLs and MD5 sum shown above are for example purposes only. &nbsp;Please see <a href="https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/latest.html">this</a>&nbsp;document for the correct link and expected MD5 sums.</td></tr></table></div>
+
+<h3><a name="RemotelyUpgradingAUSBKeyBasedDeployment-FindandMounttheUSBKey"></a>Find and Mount the USB Key</h3>
+
+<p>The <a href="https://smartos.org/man/1M/diskinfo">diskinfo(1M)</a> command displays information about the physical disks (or other storage devices) attached to the system. &nbsp;We can use this tool to find the disk device that represents the USB key.  By default, the tool will display a table of all disks in the system.  Let's filter out just the USB disks:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># diskinfo | awk 'NR == 1 || /^USB/ { print }'
+TYPE    DISK                    VID      PID              SIZE          RMV SSD
+USB     c2t0d0                  Seagate  Portable          931.51 GiB   no  no
+USB     c1t0d0                  SanDisk  Cruzer Glide        7.45 GiB   yes no</pre>
+		</div>
+</div></div>
+
+<p>There may be more than one USB storage device attached to your system.  In the output above, the USB key is a <em>SanDisk Cruze Glide</em> &#8211; note that the <b>RMV</b> column lists this as a removable device.  The other disk (listed as non-removable) is a <em>Seagate Portable</em> hard disk.  If more disks are listed, you may need to mount the filesystem from each to determine which one is the correct device.</p>
+
+<p>In order to install the new platform image, we need to mount the root filesystem on the USB key.</p>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>The format of the SmartOS USB image changed with the 20190411 release from a Legacy GRUB-based USB key to a Loader-based USB key. &nbsp;For more details see the following&nbsp;<a href="https://gist.github.com/jlevon/097f012eea04700657c35210fefd4018/">Flag Day Message</a></td></tr></table></div>
+
+
+<p>If the system is currently using a Legacy GRUB-based USB key, then the key uses the MBR partitioning scheme and the first primary partition of the USB key device (<b>c1t0d0</b>) contains the pcfs fileystem we're looking for. &nbsp;However, if the system is using the newer Loader-based USB key, then the key uses a hybrid GPT+MBR partition scheme and the&nbsp;filesystem&nbsp;we're looking for will be on slice 2.</p>
+
+<p>Legacy GRUB-based USB key example:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># mount -F pcfs -o foldcase /dev/dsk/c1t0d0p1 /mnt</pre>
+		</div>
+</div></div>
+
+<p>Loader-based USB key example:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># mount -F pcfs -o foldcase /dev/dsk/c1t0d0s2 /mnt</pre>
+		</div>
+</div></div>
+
+
+<p>Verify that you've mounted the correct partition by examining the contents of the mounted filesystem:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># ls /mnt
+boot      platform
+# find /mnt/platform
+/mnt/platform
+/mnt/platform/root.password
+/mnt/platform/i86pc
+/mnt/platform/i86pc/kernel
+/mnt/platform/i86pc/kernel/amd64
+/mnt/platform/i86pc/kernel/amd64/unix
+/mnt/platform/i86pc/amd64
+/mnt/platform/i86pc/amd64/boot_archive.hash
+/mnt/platform/i86pc/amd64/boot_archive.manifest
+/mnt/platform/i86pc/amd64/boot_archive.gitstatus
+/mnt/platform/i86pc/amd64/boot_archive</pre>
+		</div>
+</div></div>
+<p>This looks to be correct for a bootable SmartOS USB key, so we'll proceed.</p>
+
+
+<h3><a name="RemotelyUpgradingAUSBKeyBasedDeployment-UnpacktheNewPlatform"></a>Unpack the New Platform</h3>
+
+<p>The warnings from 'tar' may be safely ignored.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># cd /mnt
+# tar xzf /var/tmp/platform-latest.tgz
+tar: warning - file permissions have changed for platform-20190424T233834Z/i86pc/kernel/amd64/unix (are 0100777, should be 0755)
+tar: warning - file permissions have changed for platform-20190424T233834Z/i86pc/amd64/boot_archive.gitstatus (are 0100777, should be 0644)
+tar: warning - file permissions have changed for platform-20190424T233834Z/i86pc/amd64/boot_archive.manifest (are 0100777, should be 0644)
+tar: warning - file permissions have changed for platform-20190424T233834Z/i86pc/amd64/boot_archive.hash (are 0100777, should be 0644)
+tar: warning - file permissions have changed for platform-20190424T233834Z/i86pc/amd64/boot_archive (are 0100777, should be 0644)
+tar: warning - file permissions have changed for platform-20190424T233834Z/root.password (are 0100777, should be 0644)
+# cd -
+/var/tmp</pre>
+		</div>
+</div></div>
+
+<p>We now have two 'platform' directories:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># ls -l /mnt
+total 24
+drwxrwxrwx   1 root     root        4096 Jan  3  2011 boot
+drwxrwxrwx   1 root     root        4096 Mar  7 23:27 platform
+drwxrwxrwx   1 root     root        4096 Mar 22 15:48 platform-20190424T233834Z</pre>
+		</div>
+</div></div>
+
+
+<h3><a name="RemotelyUpgradingAUSBKeyBasedDeployment-IndianaJonesStyleSwap"></a>Indiana Jones Style Swap</h3>
+
+<p>Now all that's left is to start using the new platform directory. We do this as one atomic operation to minimize risk. We'll also save the old platform directory in an accessible location in case we need to boot back into it.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># mkdir /mnt/previous/
+# mv /mnt/platform /mnt/previous/ &amp;&amp; mv /mnt/platform{-20190424T233834Z,}
+# ls -l /mnt
+total 24
+drwxrwxrwx   1 root     root        4096 Mar 27 09:30 previous
+drwxrwxrwx   1 root     root        4096 Jan  3  2011 boot
+drwxrwxrwx   1 root     root        4096 Mar 22 15:48 platform</pre>
+		</div>
+</div></div>
+
+<p>Unmount the USB key and reboot at your convenience:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># umount /mnt
+# reboot</pre>
+		</div>
+</div></div>
+
+
+<h3><a name="RemotelyUpgradingAUSBKeyBasedDeployment-IfSomethingGoesWrong"></a>If Something Goes Wrong</h3>
+
+<p>If you find that the new platform will not boot on your hardware, you'll find error messages on the console.</p>
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>If you see only a 'Starting up ...' and then your machine reboots, it means you've attached to a serial port instead of the text console.</td></tr></table></div>
+
+<p>Using IPMI or a remote keyboard/video system, you'll need to instruct the bootloader configuration to boot the previous platform image:</p>
+
+<p><b>Instructions for Legacy GRUB-based USB keys:</b></p>
+
+<p>1. The first menu entry is highlighted by default, press 'e' to edit it.<br/>
+2. Press 'e' again to edit the 'kernel' line.<br/>
+3. Using Ctrl-A, go to the beginning of the line.<br/>
+4. Place a slash ('/') and the version string of your previous platform immediately before the string '/platform', e.g. kernel /previous/platform/... in our example above.<br/>
+5. Hit &lt;RET&gt; (the 'Enter' key) to replace the line with your edits.<br/>
+6. Using the down arrow, select the next line, beginning with 'module'.<br/>
+7. Place a slash ('/') and the version string of your previous platform immediately before the string '/platform', e.g. module /previous/platform/... in our example above.<br/>
+8. Hit &lt;RET&gt; (the 'Enter' key) to replace the line with your edits.<br/>
+9. Press 'b' to boot into the old platform.</p>
+
+<p>Instead of the procedure above, we could've edited the boot/grub/menu.lst file on the USB key before unmounting it, and offered another menu item to boot into the old platform. In the majority of cases the new platform will boot just fine, so this effort was considered unnecessary.</p>
+
+<p><b>Instructions for Loader-based USB key:</b></p>
+
+<p>1. When thr Loader menu is displayed, press ESCAPE to enter the Loader command prompt.</p>
+
+<p>2. Issue the following command to change the default platform to the previous platform image:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">s" /previous" set-platform</pre>
+		</div>
+</div></div>
+<p>3. Boot the platform</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">boot</pre>
+		</div>
+</div></div>
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>If you get an error message from 'krtld', it means you didn't follow the instructions above and decided to rename the 'platform' directory itself; cf. <a href="PXE Booting SmartOS.html#PXEBootingSmartOS-PXEBootingSmartOSAddingSmartOSImagestoanExisti...">PXE Booting SmartOS#PXEBootingSmartOS-AddingSmartOSImagestoanExistingPXEEnvironment</a></td></tr></table></div>
+
+				    					    <br/>
+                        <div class="tabletitle">
+                            <a name="attachments">
+                                <h2>Attachments:</h2>
+                            </a>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/754556/4358147.sh">upgradesmartosusb.sh</a> (application/x-sh)
+                                <br/>
+                                                    </div>
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

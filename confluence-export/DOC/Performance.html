@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Performance</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Performance
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Apr 16, 2014 by <font color="#0050B2">deirdre</font>.
+				    </div>
+
+				    <p><b>In this section:</b></p>
+
+<ul><li><a href="About Memory Usage and Capping.html" title="About Memory Usage and Capping">About Memory Usage and Capping</a></li><li><a href="Managing CPU Cycles in a Zone.html" title="Managing CPU Cycles in a Zone">Managing CPU Cycles in a Zone</a></li><li><a href="Updating sar.html" title="Updating sar">Updating sar</a></li></ul>
+
+<h1><a name="Performance-CloudPerformanceTraining%3AWhat%27sintheCourse"></a>Cloud Performance Training: What's in the Course</h1>
+
+<p>﻿</p>
+<iframe class="youtube-player" type="text/html" style="width: 400px; height: 300px"
+	src="http://www.youtube.com/embed/pb95K_2Xt-0" frameborder="0">
+</iframe>
+    
+
+<p>&nbsp;See the <a href="http://www.joyent.com/developers/training-services/upcoming-courses">Course Calendar</a> for upcoming offerings of this and other Joyent courses.</p>
+
+<h1><a name="Performance-TextandVideo"></a>Text and Video</h1>
+
+<p>see also: <a href="DTrace.html" title="DTrace">DTrace</a></p>
+
+<ul>
+	<li><a href="http://brendangregg.com/">Brendan Gregg's</a>&nbsp;site&nbsp;</li>
+	<li><a href="http://www.brendangregg.com/sysperfbook.html">Systems Performance: Enterprise and the Cloud</a> by Brendan Gregg (covers SmartOS / illumos and Linux)</li>
+	<li><a href="http://www.solarisinternals.com/wiki/index.php/Solaris_Internals_and_Performance_FAQ">Solaris Internals, Solaris Performance and Tools</a> (books and wiki)</li>
+	<li><a href="http://www.beginningwithi.com/comments/2009/11/06/little-shop-of-performance-horrors/">Little Shop of Performance Horrors</a> (video)</li>
+	<li><a href="https://www.youtube.com/watch?v=MnsszXHsAGA">LUN Alignment</a> &#45;&nbsp;<font color="#444444">An informal talk by Roch Bourbonnais.</font></li>
+	<li><a href="https://www.youtube.com/watch?v=W0IEZsLaEUU">Performance: Experimentation</a>:&nbsp;<font color="#444444">Brendan Gregg and Roch Bourbonnais share the thought process they use to troubleshoot system performance problems.</font></li>
+	<li><a href="https://www.youtube.com/watch?v=wmeIojzH9hw">Performance: The "Not a Problem" Problem</a>:&nbsp;<font color="#444444">Jim Mauro, Brendan Gregg, and Roch Bourbonnais discuss a type of performance issue that's very difficult to troubleshoot: the problem that isn't actually a problem.</font></li>
+	<li><a href="http://www.youtube.com/playlist?list=PL3oXECC9Rpm1rcYtbJp_zNLSZr_VvuvwE">Performance Instrumentation Counters</a>: &nbsp;An informal discussion among Roch Bourbonnais, Brendan Gregg, and Jim Mauro. &nbsp;&nbsp;</li>
+	<li><a href="http://www.beginningwithi.com/2010/10/24/performance-interrupts/">Performance: Interrupts</a>:&nbsp;<font color="#444444">Brendan Gregg, Jim Mauro, Roch Bourbonnais on a common performance issue: interrupts.</font></li>
+	<li><a href="http://www.beginningwithi.com/2010/04/30/performance-instrumentation-counters/">Performance Analysis: new tools and concepts from the cloud</a>:&nbsp;Brendan Gregg, Lead Performance Engineer, Joyent, speaks at SCALE 10x.&nbsp;<a href="http://dtrace.org/blogs/brendan/files/2012/01/scale10x-performance.pdf">full slide deck</a></li>
+	<li><a href="http://dtrace.org/blogs/brendan/2012/12/13/usenix-lisa-2012-performance-analysis-methodology/">Performance Analysis Methodology</a>&nbsp;&#45; Brendan Gregg, USENIX LISA 2012</li>
+</ul>
+
+
+
+<h2><a name="Performance-SmartOSTools"></a>SmartOS Tools</h2>
+
+<ul>
+	<li><a href="http://dtrace.org/blogs/brendan/2011/12/16/flame-graphs/">Flame Graphs</a>&nbsp;(original article by Brendan Gregg)
+	<ul>
+		<li><a href="https://github.com/brendangregg/FlameGraph">source on GitHub</a></li>
+		<li><a href="http://blogs.oracle.com/alanc/entry/flame_on_graphing_hot_paths">Flame on: Graphing hot paths through X server code</a></li>
+	</ul>
+	</li>
+	<li><a href="http://smartos.org/2011/05/04/video-the-gregg-performance-series/">The Gregg Performance Series (videos)</a>:&nbsp;Tutorial videos about SmartOS performance tools: vmstat, mpstat, uptime (more to come&#33;).</li>
+	<li><a href="https://github.com/joyent/smartos-live/blob/master/man/src/vfsstat.1m.md">vfsstat(1m) &#8211; Report VFS read and write activity</a></li>
+	<li><a href="https://github.com/joyent/smartos-live/blob/master/man/src/ziostat.1m.md">ziostat(1m) &#8211; Report ZFS read I/O activity</a></li>
+	<li><a href="https://github.com/joyent/smartos-live/blob/master/man/src/zonestat.1.md">zonestat(1) &#8211; report active zone statistics</a></li>
+	<li><a href="https://github.com/joyent/smartos-live/blob/master/man/src/zonestatd.1m.md">zonestatd(1m) &#8211; zones monitoring daemon</a></li>
+</ul>
+
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

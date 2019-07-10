@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Installing NRPE in the global zone</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Installing NRPE in the global zone
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Jun 17, 2013 by <font color="#0050B2">arai</font>.
+				    </div>
+
+				    <p>Are you using Nagios, op5 or some other Nagios based monitoring solution? Then you'll probably want NRPE installed in the global zone of your SmartOS nodes to monitor them. This is how to do it.</p>
+
+<h1><a name="InstallingNRPEintheglobalzone-InstallingNRPE"></a>Installing NRPE</h1>
+
+<p>Since the GZ doesn't come with pkgin to install packages by default you have two choices. Install pkgin as described in&nbsp;<a href="Installing pkgin.html" title="Installing pkgin">Installing pkgin</a>&nbsp;and install it using pkgin (plus do any modifications&nbsp;necessary to make it run in the global zone)&nbsp;or&nbsp;you'll have to install NRPE manually. This is how to do it manually.</p>
+
+<p>Start by downloading NRPE from the latest pkgsrc available at smartos.org, for example:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># wget http://pkgsrc.smartos.org/packages/illumos/2012Q4/All/nagios-nrpe-2.12nb3.tgz</pre>
+		</div>
+</div></div>
+<p>Copy the file to /opt/custom and unpack the file. /opt is one of the few places in your SmartOS installation where you can have stuff that persists through reboots</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># cp nagios-nrpe-2.12nb3.tgz /opt/custom
+# cd /opt/custom
+# tar zxvf nagios-nrpe-2.12nb3.tgz</pre>
+		</div>
+</div></div>
+<p>Remove the files starting with &#43;, those contain package information needed by pkgin. NRPE should hopefully be installed under /opt/custom/sbin/nrpe.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># rm +*</pre>
+		</div>
+</div></div>
+
+<h1><a name="InstallingNRPEintheglobalzone-ConfigurationofNRPE"></a>Configuration of NRPE</h1>
+
+<p>Under&nbsp;/opt/custom/share/examples/nagios/nrpe.cfg you can find an example configuration for NRPE. Copy this file to /opt/custom/etc and modify it for your needs. Also make sure you point nrpe.cfg at your nagios monitoring scripts, for example /opt/custom/libexec/nagios.</p>
+
+<h1><a name="InstallingNRPEintheglobalzone-ConfigureSMF"></a>Configure SMF</h1>
+
+<p>NRPE should in most cases be started when the SmartOS node starts. To accomplish this a manifest has to be added to SMF, the Service Management Facility. Create a new manifest XML-file that it looks like this:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1"&gt;
+&lt;service_bundle type="manifest" name="nrpe"&gt;
+  &lt;service name="pkgsrc/nrpe" type="service" version="1"&gt;
+    &lt;create_default_instance enabled="false" /&gt;
+    &lt;single_instance /&gt;
+    &lt;dependency name="network" grouping="require_all" restart_on="error" type="service"&gt;
+      &lt;service_fmri value="svc:/milestone/network:default" /&gt;
+    &lt;/dependency&gt;
+    &lt;dependency name="filesystem" grouping="require_all" restart_on="error" type="service"&gt;
+      &lt;service_fmri value="svc:/system/filesystem/local" /&gt;
+    &lt;/dependency&gt;
+    &lt;method_context working_directory="/tmp"&gt;
+      &lt;method_credential user="nobody" group="nobody" /&gt;
+    &lt;/method_context&gt;
+    &lt;exec_method type="method" name="start" exec="/opt/custom/sbin/nrpe -c %{config_file} -d" timeout_seconds="60" /&gt;
+    &lt;exec_method type="method" name="stop" exec=":kill" timeout_seconds="60" /&gt;
+    &lt;exec_method type="method" name="refresh" exec=":kill -HUP" timeout_seconds="60" /&gt;
+    &lt;property_group name="startd" type="framework"&gt;
+      &lt;propval name="duration" type="astring" value="contract" /&gt;
+      &lt;propval name="ignore_error" type="astring" value="core,signal" /&gt;
+    &lt;/property_group&gt;
+    &lt;property_group name="application" type="application"&gt;
+      &lt;propval name="config_file" type="astring" value="/opt/custom/etc/nrpe.cfg" /&gt;
+    &lt;/property_group&gt;
+    &lt;stability value="Evolving" /&gt;
+    &lt;template&gt;
+      &lt;common_name&gt;
+        &lt;loctext xml:lang="C"&gt;Nagios Remote Plug-In Executor (NRPE)&lt;/loctext&gt;
+      &lt;/common_name&gt;
+    &lt;/template&gt;
+  &lt;/service&gt;
+&lt;/service_bundle&gt;</pre>
+		</div>
+</div></div>
+<p>As the GZ doesn't have user called "nagios" we'll run it as "nobody".<br/>
+Now, import it and enable it.&nbsp;</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># svccfg import manifest.xml
+# svcadm enable nrpe</pre>
+		</div>
+</div></div>
+
+<p>Now NRPE should be up and running.</p>
+
+<p>Finally, copy the manifest XML file to /opt/custom/smf. This will load it each time the system boots.</p>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

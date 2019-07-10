@@ -1,0 +1,23 @@
+site_name: SmartOS Wiki
+repo_name: 'joyent/smartos-docs'
+repo_url: 'https://github.com/joyent/smartos-docs'
+
+theme:
+    name: null
+    custom_dir: material-smartos
+    palette:
+        primary: indigo
+        accent: light blue
+    language: en
+    font:
+        text: Open Sans
+        code: Open Mono
+    logo: assets/images/smartos-logo.svg
+    feature:
+        tabs: false
+    include_search_page: true
+    search_index_only: false
+
+markdown_extensions:
+    - toc:
+        permalink: true

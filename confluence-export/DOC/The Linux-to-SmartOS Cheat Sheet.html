@@ -1,0 +1,903 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : The Linux-to-SmartOS Cheat Sheet</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : The Linux-to-SmartOS Cheat Sheet
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Feb 11, 2016 by <font color="#0050B2">tpaul</font>.
+				    </div>
+
+				    <table class="sectionMacro" border="0" cellpadding="5" cellspacing="0" width="100%"><tbody><tr>
+<td class="confluenceTd" valign="top" width="65%">
+<p>The things that make a SmartMachine different from other Unix-like systems generally fall in&nbsp;two categories:</p>
+<ul>
+	<li>Similar commands with different names in SmartOS.</li>
+	<li>Different procedures for accomplishing similar things in SmartOS.</li>
+</ul>
+
+
+<p>The following is a list of commands to help Linux users find equivalent commands in SmartOS and SmartMachines. &nbsp;Note that some of these are not available within SmartMachines due to permission restrictions, and some commands, when run in a SmartMachine, return a subset of the output on the global zone in SmartOS. &nbsp;Also note that many commands available on Linux are also available on SmartMachines. &nbsp;For instance, you can use "pkgin install top" to install top(1).</p>
+
+</td>
+<td class="confluenceTd" valign="top">
+</td></tr></tbody></table>
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>This list is derived from <a href="http://bhami.com/rosetta.html">http://bhami.com/rosetta.html</a></td></tr></table></div>
+
+
+<h1><a name="TheLinux-to-SmartOSCheatSheet-LinuxandSmartOSCommands"></a>Linux and SmartOS Commands</h1>
+
+
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> <b>TASK / OS</b> </th>
+<th class='confluenceTh'> <b>Linux</b> </th>
+<th class='confluenceTh'> <b>SmartOS</b> </th>
+<th class='confluenceTh'> SmartOS Virtual Instance (zone) </th>
+</tr>
+<tr>
+<td class='confluenceTd'> <em>table key</em> </td>
+<td class='confluenceTd'> <em>(rh)</em>&nbsp;= Red Hat,&nbsp;Mandrake, SUSE,... <br class="atl-forced-newline" />
+<em>(deb)</em>&nbsp;= Debian, Libranet,... <br class="atl-forced-newline" />
+<em>(fed)</em>&nbsp;= Fedora&nbsp; <br class="atl-forced-newline" />
+<em>(gen)</em>&nbsp;= Gentoo&nbsp; <br class="atl-forced-newline" />
+<em>(md)</em>&nbsp;= Mandrake/Mandriva <br class="atl-forced-newline" />
+<em>(SUSE)</em>&nbsp;= SUSE </td>
+<td class='confluenceTd'> Joyent SmartOS <br class="atl-forced-newline" />
+<br class="atl-forced-newline" />
+You can find an open source version&nbsp;at <a href="http://smartos.org">http://smartos.org</a> </td>
+<td class='confluenceTd'> Joyent SmartOS zone </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>managing users</b> </td>
+<td class='confluenceTd'> useradd <br class="atl-forced-newline" />
+usermod <br class="atl-forced-newline" />
+userdel <br class="atl-forced-newline" />
+adduser <br class="atl-forced-newline" />
+chage&nbsp; <br class="atl-forced-newline" />
+getent </td>
+<td class='confluenceTd'> useradd <br class="atl-forced-newline" />
+userdel <br class="atl-forced-newline" />
+usermod <br class="atl-forced-newline" />
+getent <br class="atl-forced-newline" />
+logins <br class="atl-forced-newline" />
+groupadd </td>
+<td class='confluenceTd'> useradd&nbsp; <br class="atl-forced-newline" />
+userdel&nbsp; <br class="atl-forced-newline" />
+usermod&nbsp; <br class="atl-forced-newline" />
+getent&nbsp; <br class="atl-forced-newline" />
+logins&nbsp; <br class="atl-forced-newline" />
+groupadd </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>list hardware configuration</b> <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> arch <br class="atl-forced-newline" />
+uname <br class="atl-forced-newline" />
+dmesg&nbsp;<em>(if you're lucky)</em> <br class="atl-forced-newline" />
+cat /var/log/dmesg <br class="atl-forced-newline" />
+/proc/&#42; <br class="atl-forced-newline" />
+lshw <br class="atl-forced-newline" />
+dmidecode <br class="atl-forced-newline" />
+lspci <br class="atl-forced-newline" />
+lspnp <br class="atl-forced-newline" />
+lsscsi <br class="atl-forced-newline" />
+lsusb <br class="atl-forced-newline" />
+lsmod <br class="atl-forced-newline" />
+<em>(SUSE)</em>&nbsp;hwinfo <br class="atl-forced-newline" />
+/sys/devices/&#42; </td>
+<td class='confluenceTd'> arch <br class="atl-forced-newline" />
+prtconf [-v] <br class="atl-forced-newline" />
+prtpicl [-v] <br class="atl-forced-newline" />
+uname <br class="atl-forced-newline" />
+psrinfo [-v]&nbsp; <br class="atl-forced-newline" />
+isainfo [-v] <br class="atl-forced-newline" />
+dmesg <br class="atl-forced-newline" />
+iostat &#45;En <br class="atl-forced-newline" />
+cfgadm &#45;l <br class="atl-forced-newline" />
+/etc/path_to_inst </td>
+<td class='confluenceTd'> arch <br class="atl-forced-newline" />
+uname <br class="atl-forced-newline" />
+psrinfo&nbsp;[-v] <br class="atl-forced-newline" />
+isainfo&nbsp;[-v] <br class="atl-forced-newline" />
+dmesg <br class="atl-forced-newline" />
+iostat &#45;En </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>read a disk label</b> </td>
+<td class='confluenceTd'> fdisk &#45;l </td>
+<td class='confluenceTd'> fdisk <br class="atl-forced-newline" />
+prtvtoc </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>label a disk</b> </td>
+<td class='confluenceTd'> cfdisk <br class="atl-forced-newline" />
+fdisk <br class="atl-forced-newline" />
+e2label </td>
+<td class='confluenceTd'> format <br class="atl-forced-newline" />
+prtvtoc <br class="atl-forced-newline" />
+fdisk </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>partition a disk</b> </td>
+<td class='confluenceTd'> parted&nbsp;<em>(if you have it)</em> <br class="atl-forced-newline" />
+cfdisk <br class="atl-forced-newline" />
+fdisk <br class="atl-forced-newline" />
+pdisk&nbsp;<em>(on a Mac)</em> <br class="atl-forced-newline" />
+<em>(deb)</em>&nbsp;<em>mac-fdisk&nbsp;</em>(on a Mac)&#95; <br class="atl-forced-newline" />
+<em>(md)</em>&nbsp;_diskdrake </td>
+<td class='confluenceTd'> format <br class="atl-forced-newline" />
+fmthard <br class="atl-forced-newline" />
+rmformat </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>kernel</b> </td>
+<td class='confluenceTd'> /boot/vmlinuz&#42; <br class="atl-forced-newline" />
+/boot/bootlx <br class="atl-forced-newline" />
+(see /etc/lilo.conf or /boot/grub/menu.lst) </td>
+<td class='confluenceTd'> /kernel/genunix <br class="atl-forced-newline" />
+/platform/`uname &#45;m`/ <br class="atl-forced-newline" />
+&nbsp;kernel/unix <br class="atl-forced-newline" />
+kernel modules are in /kernel, /usr/kernel, and /platform/`uname &#45;m`/kernel </td>
+<td class='confluenceTd'> Kernel module files not visible within a zone </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>show/set kernel parameters</b> </td>
+<td class='confluenceTd'> /proc/&#42; <br class="atl-forced-newline" />
+/proc/sys/&#42; <br class="atl-forced-newline" />
+sysctl <br class="atl-forced-newline" />
+/etc/sysctl.conf </td>
+<td class='confluenceTd'> sysdef <br class="atl-forced-newline" />
+getconf&nbsp; <br class="atl-forced-newline" />
+cat /etc/system <br class="atl-forced-newline" />
+ndd <br class="atl-forced-newline" />
+mdb &#45;k[w] </td>
+<td class='confluenceTd'> sysdef <br class="atl-forced-newline" />
+getconf <br class="atl-forced-newline" />
+ndd </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>loaded kernel modules</b> </td>
+<td class='confluenceTd'> lsmod </td>
+<td class='confluenceTd'> modinfo </td>
+<td class='confluenceTd'> modinfo </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>load module</b> </td>
+<td class='confluenceTd'> modprobe <br class="atl-forced-newline" />
+insmod </td>
+<td class='confluenceTd'> modload <br class="atl-forced-newline" />
+add_drv <br class="atl-forced-newline" />
+devfsadm </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>unload module</b> </td>
+<td class='confluenceTd'> rmmod <br class="atl-forced-newline" />
+modprobe &#45;r </td>
+<td class='confluenceTd'> modunload </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>startup scripts</b> </td>
+<td class='confluenceTd'> /etc/rc&#42; (but may vary) <br class="atl-forced-newline" />
+/etc/init.d/ </td>
+<td class='confluenceTd'> SMF(5) <br class="atl-forced-newline" />
+/etc/rc&#42; <br class="atl-forced-newline" />
+/etc/init.d/ <br class="atl-forced-newline" />
+&nbsp;svcadm <br class="atl-forced-newline" />
+svcs <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> SMF(5) <br class="atl-forced-newline" />
+/etc/rc&#42; <br class="atl-forced-newline" />
+/etc/init.d <br class="atl-forced-newline" />
+svcadm <br class="atl-forced-newline" />
+svcs <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>start/ stop/ config services</b> </td>
+<td class='confluenceTd'> <em>(rh)</em>&nbsp;_service <br class="atl-forced-newline" />
+<em>(rh)</em>&nbsp;_chkconfig <br class="atl-forced-newline" />
+<em>(deb)</em>&nbsp;_sysv-rc-conf </td>
+<td class='confluenceTd'> svcs <br class="atl-forced-newline" />
+svcadm&nbsp; <br class="atl-forced-newline" />
+svccfg </td>
+<td class='confluenceTd'> svcs <br class="atl-forced-newline" />
+svcadm <br class="atl-forced-newline" />
+svccfg </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>shutdown (&amp; power off if possible)</b> </td>
+<td class='confluenceTd'> shutdown &#45;Ph now&nbsp; <br class="atl-forced-newline" />
+shutdown &#45;y &#45;g0 &#45;i0 <br class="atl-forced-newline" />
+halt <br class="atl-forced-newline" />
+poweroff </td>
+<td class='confluenceTd'> shutdown &#45;y &#45;g0 &#45;i5 <br class="atl-forced-newline" />
+halt </td>
+<td class='confluenceTd'> shutdown &#45;y &#45;g0 &#45;i5 <br class="atl-forced-newline" />
+halt </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>run levels</b> <br class="atl-forced-newline" />
+<b>&#42;=normal states</b><b>&nbsp;</b> <br class="atl-forced-newline" />
+<em>for more detail</em> <br class="atl-forced-newline" />
+<em>see</em> <br class="atl-forced-newline" />
+<a href="http://www.phildev.net/runlevels.html">www.phildev.net/runlevels.html</a> </td>
+<td class='confluenceTd'> (set in /etc/inittab) <br class="atl-forced-newline" />
+0: halt <br class="atl-forced-newline" />
+s,S,1:&nbsp;<em>vendor-dependent</em> <br class="atl-forced-newline" />
+1: single-user <br class="atl-forced-newline" />
+2-5*: multiuser <br class="atl-forced-newline" />
+6: reboot </td>
+<td class='confluenceTd'> 0: firmware monitor <br class="atl-forced-newline" />
+s,S: single-user <br class="atl-forced-newline" />
+1: sys admin <br class="atl-forced-newline" />
+2: multiuser <br class="atl-forced-newline" />
+3*: share NFS <br class="atl-forced-newline" />
+4*: user-defined <br class="atl-forced-newline" />
+5: power-down if possible <br class="atl-forced-newline" />
+6: reboot </td>
+<td class='confluenceTd'> s,S: single-user&nbsp; <br class="atl-forced-newline" />
+1: sys admin&nbsp; <br class="atl-forced-newline" />
+2: multiuser&nbsp; <br class="atl-forced-newline" />
+3*: share NFS&nbsp; <br class="atl-forced-newline" />
+4*: user-defined&nbsp; <br class="atl-forced-newline" />
+5: power-down if possible&nbsp; <br class="atl-forced-newline" />
+6: reboot <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>show runlevel</b><b>&nbsp;</b> </td>
+<td class='confluenceTd'> /sbin/runlevel </td>
+<td class='confluenceTd'> who &#45;r </td>
+<td class='confluenceTd'> who &#45;r </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>time zone info</b> </td>
+<td class='confluenceTd'> /usr/share/zoneinfo/ <br class="atl-forced-newline" />
+/etc/localtime </td>
+<td class='confluenceTd'> /usr/share/lib/zoneinfo/ </td>
+<td class='confluenceTd'> /usr/share/lib/zoneinfo </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>check swap space</b> </td>
+<td class='confluenceTd'> swapon &#45;s <br class="atl-forced-newline" />
+cat /proc/meminfo <br class="atl-forced-newline" />
+cat /proc/swaps <br class="atl-forced-newline" />
+free </td>
+<td class='confluenceTd'> swap &#45;s[h] <br class="atl-forced-newline" />
+swap &#45;l[h] </td>
+<td class='confluenceTd'> <em>Note: in a zone, swap is virtual</em> <br class="atl-forced-newline" />
+<em>memory size</em> <br class="atl-forced-newline" />
+swap &#45;s[h] <br class="atl-forced-newline" />
+swap &#45;l[h] </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>bind process to CPU</b> </td>
+<td class='confluenceTd'> taskset (sched-utils) </td>
+<td class='confluenceTd'> pbind <br class="atl-forced-newline" />
+psrset </td>
+<td class='confluenceTd'> pbind <br class="atl-forced-newline" />
+psrset </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>killing processes</b> </td>
+<td class='confluenceTd'> kill <br class="atl-forced-newline" />
+killall </td>
+<td class='confluenceTd'> kill <br class="atl-forced-newline" />
+pkill <br class="atl-forced-newline" />
+killall <em>&lt;&#45; tries to kill everything, DO NOT USE THIS</em> </td>
+<td class='confluenceTd'> kill <br class="atl-forced-newline" />
+pkill <br class="atl-forced-newline" />
+killall&nbsp;<em>&lt;&#45; tries to kill everything, DO NOT USE THIS</em> <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>show CPU info</b> </td>
+<td class='confluenceTd'> cat /proc/cpuinfo<br class="atl-forced-newline" />
+ lscpu </td>
+<td class='confluenceTd'> psrinfo &#45;pv<br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> psrinfo &#45;pv<br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>memory</b> </td>
+<td class='confluenceTd'> freemem </td>
+<td class='confluenceTd'> prtconf &#124; head <br class="atl-forced-newline" />
+zonememstat </td>
+<td class='confluenceTd'> prtconf &#124; head <br class="atl-forced-newline" />
+zonememstat </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>"normal" filesystem</b> </td>
+<td class='confluenceTd'> ext2 <br class="atl-forced-newline" />
+ext3 <br class="atl-forced-newline" />
+ReiserFS </td>
+<td class='confluenceTd'> zfs </td>
+<td class='confluenceTd'> zfs </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>file system</b> <br class="atl-forced-newline" />
+<b>description</b> </td>
+<td class='confluenceTd'> /etc/fstab </td>
+<td class='confluenceTd'> /etc/vfstab&nbsp; </td>
+<td class='confluenceTd'> /etc/vfstab </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>create filesystem</b> </td>
+<td class='confluenceTd'> mke2fs <br class="atl-forced-newline" />
+mkreiserfs <br class="atl-forced-newline" />
+mkdosfs <br class="atl-forced-newline" />
+mkfs </td>
+<td class='confluenceTd'> zfs&nbsp; <br class="atl-forced-newline" />
+zpool </td>
+<td class='confluenceTd'> zfs (if zone has delegated dataset) </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>file system debugging and recovery</b> </td>
+<td class='confluenceTd'> fsck <br class="atl-forced-newline" />
+debugfs <br class="atl-forced-newline" />
+e2undel </td>
+<td class='confluenceTd'> zdb </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>create non-0-length empty file</b> </td>
+<td class='confluenceTd'> dd if=/dev/zero of=<em>filename</em>&nbsp; <br class="atl-forced-newline" />
+bs=1024k count=<em>desired</em> </td>
+<td class='confluenceTd'> mkfile </td>
+<td class='confluenceTd'> mkfile </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>create/mount ISO image</b> </td>
+<td class='confluenceTd'> mkisofs <br class="atl-forced-newline" />
+mount &#45;o loop&nbsp;<em>pathToIso</em> <br class="atl-forced-newline" />
+<em>mountPoint</em> </td>
+<td class='confluenceTd'> mkisofs;DEVICE=`lofiadm &#45;a /<em>absolute_pathname</em>/<em>image</em>.iso` ; mount &#45;F hsfs &#45;o ro <br class="atl-forced-newline" />
+$DEVICE </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>ACL management</b> </td>
+<td class='confluenceTd'> getfacl <br class="atl-forced-newline" />
+setfacl </td>
+<td class='confluenceTd'> getfacl <br class="atl-forced-newline" />
+setfacl </td>
+<td class='confluenceTd'> getfacl <br class="atl-forced-newline" />
+setfacl </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>NFS share definitions</b> </td>
+<td class='confluenceTd'> /etc/exports </td>
+<td class='confluenceTd'> /etc/dfs/dfstab <br class="atl-forced-newline" />
+dfshares </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>NFS share command</b> </td>
+<td class='confluenceTd'> /etc/init.d/nfs-server reload_(rh)__&nbsp;_exportfs &#45;a </td>
+<td class='confluenceTd'> share <br class="atl-forced-newline" />
+shareall </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>NFS information</b> </td>
+<td class='confluenceTd'> cat /proc/mounts </td>
+<td class='confluenceTd'> showmount <br class="atl-forced-newline" />
+nfsstat </td>
+<td class='confluenceTd'> nfsstat </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>name resolution order</b> </td>
+<td class='confluenceTd'> /etc/nsswitch.conf <br class="atl-forced-newline" />
+/etc/resolv.conf </td>
+<td class='confluenceTd'> /etc/nsswitch.conf <br class="atl-forced-newline" />
+getent </td>
+<td class='confluenceTd'> /etc/nsswitch.conf <br class="atl-forced-newline" />
+getent </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>show network interface info</b> </td>
+<td class='confluenceTd'> ifconfig <br class="atl-forced-newline" />
+ethtool </td>
+<td class='confluenceTd'> dladm <br class="atl-forced-newline" />
+ndd <br class="atl-forced-newline" />
+ifconfig &#45;a <br class="atl-forced-newline" />
+netstat &#45;in <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> dladm <br class="atl-forced-newline" />
+ndd <br class="atl-forced-newline" />
+ifconfig &#45;a <br class="atl-forced-newline" />
+netstat &#45;in <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>change IP</b> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> <em>Joyent Public Cloud IP addresses are set in the</em> <em><a href="http://my.joyentcloud.com">Cloud Management Portal</a></em><em>.</em> <br class="atl-forced-newline" />
+ifconfig </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>ping one packet</b> </td>
+<td class='confluenceTd'> ping &#45;c 1&nbsp;<em>hostname</em> </td>
+<td class='confluenceTd'> ping&nbsp;<em>hostname</em>&nbsp;<em>&nbsp;packetsize 1</em> </td>
+<td class='confluenceTd'> ping <em>hostname packetsize</em> 1 </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>sniff network</b> </td>
+<td class='confluenceTd'> etherfind <br class="atl-forced-newline" />
+tcpdump <br class="atl-forced-newline" />
+wireshark (<em>formerly</em>&nbsp;_ethereal) <br class="atl-forced-newline" />
+etherape </td>
+<td class='confluenceTd'> snoop </td>
+<td class='confluenceTd'> snoop <br class="atl-forced-newline" />
+tcpdump available from pkgin </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>route definitions</b> </td>
+<td class='confluenceTd'> <em>route</em> <br class="atl-forced-newline" />
+<em>(rh)</em><em>&nbsp;</em>/etc/sysconfig/network <br class="atl-forced-newline" />
+<em>(rh)</em><em>&nbsp;</em>/etc/sysconfig/static-routes <br class="atl-forced-newline" />
+<em>(deb)</em>&nbsp;/etc/init.d/network <br class="atl-forced-newline" />
+<em>(deb)</em>&nbsp;/etc/network </td>
+<td class='confluenceTd'> /etc/defaultrouter <br class="atl-forced-newline" />
+/etc/notrouter <br class="atl-forced-newline" />
+/etc/gateways <br class="atl-forced-newline" />
+in.routed <br class="atl-forced-newline" />
+netstat &#45;r <br class="atl-forced-newline" />
+route add </td>
+<td class='confluenceTd'> /etc/defaultrouter&nbsp; <br class="atl-forced-newline" />
+/etc/notrouter&nbsp; <br class="atl-forced-newline" />
+/etc/gateways&nbsp; <br class="atl-forced-newline" />
+in.routed&nbsp; <br class="atl-forced-newline" />
+netstat &#45;r&nbsp; <br class="atl-forced-newline" />
+route add </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>telnetd, ftpd banner</b> </td>
+<td class='confluenceTd'> /etc/issue.net&nbsp;<em>(telnet)</em> <br class="atl-forced-newline" />
+<em>(ftp varies; can use tcp wrappers)</em> </td>
+<td class='confluenceTd'> Use nc instead </td>
+<td class='confluenceTd'> Use nc instead </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>set date/time</b> <br class="atl-forced-newline" />
+(from net: ntp or other) </td>
+<td class='confluenceTd'> ntpdate <br class="atl-forced-newline" />
+rdate <br class="atl-forced-newline" />
+netdate </td>
+<td class='confluenceTd'> ntpdate <br class="atl-forced-newline" />
+rdate </td>
+<td class='confluenceTd'> ntpdate <br class="atl-forced-newline" />
+rdate </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>auditing</b> </td>
+<td class='confluenceTd'> auditd <br class="atl-forced-newline" />
+/var/log/faillog </td>
+<td class='confluenceTd'> audit <br class="atl-forced-newline" />
+auditd <br class="atl-forced-newline" />
+auditreduce <br class="atl-forced-newline" />
+praudit </td>
+<td class='confluenceTd'> audit <br class="atl-forced-newline" />
+auditd <br class="atl-forced-newline" />
+auditreduce <br class="atl-forced-newline" />
+praudit </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>encrypted passwords in</b> </td>
+<td class='confluenceTd'> /etc/shadow&nbsp;<em>(may vary)</em> </td>
+<td class='confluenceTd'> /etc/shadow </td>
+<td class='confluenceTd'> /etc/shadow </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>min password length</b> </td>
+<td class='confluenceTd'> /etc/pam.d/system-auth </td>
+<td class='confluenceTd'> /etc/default/passwd </td>
+<td class='confluenceTd'> /etc/default/passwd </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>allow/deny root</b> <br class="atl-forced-newline" />
+<b>logins</b> </td>
+<td class='confluenceTd'> /etc/securetty <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> /etc/default/login </td>
+<td class='confluenceTd'> /etc/default/login </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>firewall config</b> </td>
+<td class='confluenceTd'> iptables <br class="atl-forced-newline" />
+ipchains <br class="atl-forced-newline" />
+ipfwadm <br class="atl-forced-newline" />
+<em>(rh)</em>&nbsp;redhat-config&#45; <br class="atl-forced-newline" />
+securitylevel </td>
+<td class='confluenceTd'> /etc/ipf/ipf.conf </td>
+<td class='confluenceTd'> /etc/ipf/ipf.conf </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>show installed software</b> </td>
+<td class='confluenceTd'> <em>(rh)</em>&nbsp;_rpm &#45;a &#45;i <br class="atl-forced-newline" />
+<em>(rh)</em>&nbsp;_rpm &#45;qa&nbsp; <br class="atl-forced-newline" />
+<em>(rh)</em>&nbsp;yum list installed <br class="atl-forced-newline" />
+<em>(deb)</em>&nbsp;dselect <br class="atl-forced-newline" />
+<em>(deb)</em>&nbsp;aptitude <br class="atl-forced-newline" />
+<em>(deb)</em>&nbsp;dpkg &#45;l <br class="atl-forced-newline" />
+<em>(gen)</em>&nbsp;_ls /var/db/pkg/&#42; <br class="atl-forced-newline" />
+<em>(gen)</em>&nbsp;_eix &#45;I </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> pkgin list <br class="atl-forced-newline" />
+pkgin avail &nbsp;<em>&lt;&#45; list available installable software</em> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>add software</b> </td>
+<td class='confluenceTd'> <em>(rh)</em>&nbsp;_rpm &#45;hiv&nbsp; <br class="atl-forced-newline" />
+<em>(rh)</em>&nbsp;yum install&nbsp;<em>pkg</em> <br class="atl-forced-newline" />
+<em>(deb)</em>&nbsp;dselect <br class="atl-forced-newline" />
+<em>(deb)</em><em>&nbsp;_apt-get install&nbsp;_pkg</em> <br class="atl-forced-newline" />
+<em>(deb)</em>&nbsp;dpkg &#45;i <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> pkgin install </td>
+</tr>
+<tr>
+<td class='confluenceTd'> precompiled binaries&#42; of GPLware and freeware&#42; </td>
+<td class='confluenceTd'> <a href="http://www.linux.org/">www.linux.org</a><br class="atl-forced-newline" />
+<a href="http://linux.tucows.com/">linux.tucows.com</a><br class="atl-forced-newline" />
+<a href="http://sourceforge.net/">sourceforge.net</a><br class="atl-forced-newline" />
+<a href="http://rpmfind.net/">rpmfind.net</a><br class="atl-forced-newline" />
+(deb)&nbsp;<a href="http://ftp.debian.org/">ftp.debian.org</a><br class="atl-forced-newline" />
+(deb)&nbsp;<a href="http://packages.debian.org/">packages.debian.org</a><br class="atl-forced-newline" />
+<em>(gen)</em>&nbsp;<a href="http://packages.gentoo.org/">packages.gentoo.org</a><br class="atl-forced-newline" />
+<em>(gen)</em>&nbsp;<a href="http://gentoo-portage.com/">gentoo-portage.com</a>; <br class="atl-forced-newline" />
+<em>(md)</em>&nbsp;<a href="http://easyurpmi.zarb.org/">easyurpmi.zarb.org</a> </td>
+<td class='confluenceTd'> <a href="http://www.sunfreeware.com/">www.sunfreeware.com</a><br class="atl-forced-newline" />
+<a href="http://www.blastwave.org/">www.blastwave.org</a> </td>
+<td class='confluenceTd'> <a href="http://pkgsrc.joyent.com/">http://pkgsrc.joyent.com/</a><br class="atl-forced-newline" />
+pkgin </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>C compiler</b> </td>
+<td class='confluenceTd'> cc <br class="atl-forced-newline" />
+gcc </td>
+<td class='confluenceTd'> gcc <br class="atl-forced-newline" />
+[https://download.joyent.com/pub/build/SunStudio.tar.bz2] </td>
+<td class='confluenceTd'> gcc (may need to be installed via pkgin) <br class="atl-forced-newline" />
+<a href="https://download.joyent.com/pub/build/SunStudio.tar.bz2&amp;nbsp">https://download.joyent.com/pub/build/SunStudio.tar.bz2</a><br class="atl-forced-newline" />
+<br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>configure/show</b><b>&nbsp;</b> <br class="atl-forced-newline" />
+<b>runtime linking</b> <br class="atl-forced-newline" />
+<br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> ldconfig <br class="atl-forced-newline" />
+ldd <br class="atl-forced-newline" />
+readelf&nbsp; <br class="atl-forced-newline" />
+lsmod </td>
+<td class='confluenceTd'> crle <br class="atl-forced-newline" />
+ldd <br class="atl-forced-newline" />
+elfdump <br class="atl-forced-newline" />
+dump&nbsp; <br class="atl-forced-newline" />
+pldd <br class="atl-forced-newline" />
+modinfo <br class="atl-forced-newline" />
+LD_PRELOAD </td>
+<td class='confluenceTd'> crle <br class="atl-forced-newline" />
+ldd <br class="atl-forced-newline" />
+elfdump <br class="atl-forced-newline" />
+dump <br class="atl-forced-newline" />
+readelf&nbsp; <br class="atl-forced-newline" />
+pldd <br class="atl-forced-newline" />
+modinfo <br class="atl-forced-newline" />
+LD_PRELOAD </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>link library path</b> </td>
+<td class='confluenceTd'> $LD_LIBRARY_PATH <br class="atl-forced-newline" />
+/etc/ld.so.conf </td>
+<td class='confluenceTd'> $LD_LIBRARY_PATH <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> $LD_LIBRARY_PATH </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>tracing utility</b> </td>
+<td class='confluenceTd'> strace <br class="atl-forced-newline" />
+ltrace </td>
+<td class='confluenceTd'> dtrace <br class="atl-forced-newline" />
+truss <br class="atl-forced-newline" />
+sotruss <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> dtrace <br class="atl-forced-newline" />
+truss <br class="atl-forced-newline" />
+sotruss </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>define user defaults</b> </td>
+<td class='confluenceTd'> /etc/profile <br class="atl-forced-newline" />
+/etc/security/ <br class="atl-forced-newline" />
+/etc/skel/ <br class="atl-forced-newline" />
+/etc/profile.d/&#42; </td>
+<td class='confluenceTd'> /etc/default/login <br class="atl-forced-newline" />
+/etc/profile <br class="atl-forced-newline" />
+/etc/security/ </td>
+<td class='confluenceTd'> /etc/default/login <br class="atl-forced-newline" />
+/etc/profile <br class="atl-forced-newline" />
+/etc/security/ </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>csh global .login</b> </td>
+<td class='confluenceTd'> /etc/csh.login </td>
+<td class='confluenceTd'> /etc/.login </td>
+<td class='confluenceTd'> /etc/.login </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>default syslog and messages</b> </td>
+<td class='confluenceTd'> /var/log/syslog <br class="atl-forced-newline" />
+/var/log/messages <br class="atl-forced-newline" />
+/usr/adm/messages&nbsp; <br class="atl-forced-newline" />
+/var/log/maillog </td>
+<td class='confluenceTd'> /var/adm/messages <br class="atl-forced-newline" />
+/var/log/syslog <br class="atl-forced-newline" />
+<a href="http://softpanorama.org/Logs/solaris_logs.shtml">softpanorama.org/Logs/solaris_logs.shtml</a> </td>
+<td class='confluenceTd'> /var/adm/messages <br class="atl-forced-newline" />
+/var/log/syslog </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>system error reporting tool</b> </td>
+<td class='confluenceTd'> dmesg_(deb)_&nbsp;reportbug </td>
+<td class='confluenceTd'> fmadm <br class="atl-forced-newline" />
+fmdump <br class="atl-forced-newline" />
+prtdiag </td>
+<td class='confluenceTd'> fmadm <br class="atl-forced-newline" />
+fmdump <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>performance monitoring</b> </td>
+<td class='confluenceTd'> vmstat <br class="atl-forced-newline" />
+procinfo &#45;D <br class="atl-forced-newline" />
+top <br class="atl-forced-newline" />
+htop <br class="atl-forced-newline" />
+pstree </td>
+<td class='confluenceTd'> dtrace <br class="atl-forced-newline" />
+prstat <br class="atl-forced-newline" />
+sar <br class="atl-forced-newline" />
+ostat <br class="atl-forced-newline" />
+kstat <br class="atl-forced-newline" />
+mpstat <br class="atl-forced-newline" />
+netstat <br class="atl-forced-newline" />
+nfsstat <br class="atl-forced-newline" />
+vmstat <br class="atl-forced-newline" />
+lockstat <br class="atl-forced-newline" />
+plockstat&nbsp; <br class="atl-forced-newline" />
+ptree <br class="atl-forced-newline" />
+vfsstat <br class="atl-forced-newline" />
+intrstat <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> dtrace <br class="atl-forced-newline" />
+prstat&nbsp; <br class="atl-forced-newline" />
+sar&nbsp; <br class="atl-forced-newline" />
+ostat&nbsp; <br class="atl-forced-newline" />
+kstat&nbsp; <br class="atl-forced-newline" />
+mpstat&nbsp; <br class="atl-forced-newline" />
+netstat&nbsp; <br class="atl-forced-newline" />
+nfsstat&nbsp; <br class="atl-forced-newline" />
+vmstat <br class="atl-forced-newline" />
+plockstat&nbsp; <br class="atl-forced-newline" />
+ptree&nbsp; <br class="atl-forced-newline" />
+vfsstat&nbsp; <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>match process to file or port</b> </td>
+<td class='confluenceTd'> lsof <br class="atl-forced-newline" />
+netstat &#45;atup </td>
+<td class='confluenceTd'> fuser <br class="atl-forced-newline" />
+pfiles <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> pfiles <br class="atl-forced-newline" />
+fuser <br class="atl-forced-newline" />
+lsof </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>zones/containers</b> </td>
+<td class='confluenceTd'>&nbsp;</td>
+<td class='confluenceTd'> zoneadm <br class="atl-forced-newline" />
+zonecfg <br class="atl-forced-newline" />
+zlogin </td>
+<td class='confluenceTd'> zoneadm <br class="atl-forced-newline" />
+zonename </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <b>Virtualization</b> </td>
+<td class='confluenceTd'> kvm/qemu </td>
+<td class='confluenceTd'> kvm/qemu (each instance in a kvm branded zone) <br class="atl-forced-newline" />
+vmadm <br class="atl-forced-newline" />
+imgadm </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> <a href="http://en.wikipedia.org/wiki/Category:Unix_variants">Wikipedia</a> </td>
+<td class='confluenceTd'> <a href="http://en.wikipedia.org/wiki/Linux">Linux</a><br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> <a href="http://en.wikipedia.org/wiki/SmartOS">SmartOS</a><br class="atl-forced-newline" />
+<br class="atl-forced-newline" />
+<a href="http://en.wikipedia.org/wiki/Illumos">Illumos</a> </td>
+<td class='confluenceTd'> <a href="http://en.wikipedia.org/wiki/SmartOS">SmartOS</a><br class="atl-forced-newline" />
+<a href="http://en.wikipedia.org/wiki/Illumos">Illumos</a> </td>
+</tr>
+</tbody></table>
+</div>
+
+
+<h1><a name="TheLinux-to-SmartOSCheatSheet-ExamplesofDifferentUseContext"></a>Examples of Different Use Context</h1>
+
+<p>For example, here are some common Linux commands that work differently.</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> Command </th>
+<th class='confluenceTh'> What's different on a Smart Machine </th>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>df</tt> </td>
+<td class='confluenceTd'> On most SmartOS image this is set up to use the GNU version. Use <tt>/usr/bin/df</tt> for the native version. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>lsof</tt> </td>
+<td class='confluenceTd'> SmartMachines use a different collection of tools to examine processes. See&nbsp;<span class="error">&#91;Examining processes and memory&#124;#procmem&#124;&#124;&#124;&#124;&#124;&#124;&#124;&#124;&#124;&#124;&#124;&#124;\||&#93;</span>&nbsp;later in this topic. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>ping</tt> </td>
+<td class='confluenceTd'> Returns whether a host responds or not.&nbsp; <br class="atl-forced-newline" />
+Use&nbsp;<tt>ping &#45;s</tt>&nbsp;to get a continuous response. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>top</tt> </td>
+<td class='confluenceTd'> <tt>top</tt>&nbsp;is available in&nbsp;<tt>/opt/local/bin</tt>, but&nbsp;<tt>prstat &#45;Z</tt>&nbsp;provides more zone aware (and more accurate) information than&nbsp;<tt>top</tt>. </td>
+</tr>
+</tbody></table>
+</div>
+
+<p>The&nbsp;<a href="http://bhami.com/rosetta.html">Rosetta Stone for Unix</a>&nbsp;is a useful resource to help you see how commands from the version of UNIX you usually work with map to other versions of UNIX.</p>
+
+<h2><a name="TheLinux-to-SmartOSCheatSheet-Examiningprocessesandmemory"></a><a name="TheLinux-to-SmartOSCheatSheet-procmem"></a>Examining processes and memory</h2>
+<p><a name="TheLinux-to-SmartOSCheatSheet-rootbin"></a><br/>
+In older SmartOS images, these commands provide information about ports and resources. Run these commands as root or with sudo.</p>
+
+<p>Later images use the SmartMachine Tools Package.</p>
+
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> Command </th>
+<th class='confluenceTh'> Description </th>
+<th class='confluenceTh'> Example </th>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>pcp</tt> </td>
+<td class='confluenceTd'> Displays the ports used by a process, or the processes that use a port. </td>
+<td class='confluenceTd'> <tt>/root/bin/pcp &#45;p 80</tt>&nbsp;displays all the processes that use port 80.&nbsp; <br class="atl-forced-newline" />
+<tt>/root/bin/pcp &#45;P 28068</tt>&nbsp;displays all the ports that process 28068 uses.&nbsp; <br class="atl-forced-newline" />
+<tt>/root/bin/pcp &#45;a</tt>&nbsp;displays port and process information for all ports. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>jinf</tt> </td>
+<td class='confluenceTd'> Displays information about how your SmartMachine is using its resources. </td>
+<td class='confluenceTd'> <tt>/root/bin/jinf &#45;c</tt>&nbsp;displays CPU usage information.&nbsp; <br class="atl-forced-newline" />
+<tt>/root/bin/jinf &#45;m</tt>&nbsp;displays memory usage information.&nbsp; <br class="atl-forced-newline" />
+<tt>/root/bin/jinf &#45;s</tt>&nbsp;displays swap usage information. </td>
+</tr>
+</tbody></table>
+</div>
+
+
+
+<p>SmartOS provides a suite of tools to examine processes. You can learn more about them by looking at the&nbsp;<tt>proc</tt>&nbsp;man page.</p>
+
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> Tool </th>
+<th class='confluenceTh'> Description </th>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>prstat</tt> </td>
+<td class='confluenceTd'> This tool displays the active processes like&nbsp;<tt>top</tt>&nbsp;does on Linux systems.&nbsp; <br class="atl-forced-newline" />
+<tt>prstat &#45;Z</tt>&nbsp;will provide you with a summary of your SmartMachine's status. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>pgrep</tt> </td>
+<td class='confluenceTd'> Returns a list of process IDs (PIDs) of processes that match a pattern or meet certain conditions. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>pkill</tt> </td>
+<td class='confluenceTd'> Kills the processes that match a pattern or meet certain conditions. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>pfiles</tt> </td>
+<td class='confluenceTd'> Returns a list of all the open files that belong to a process. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>pstack</tt> </td>
+<td class='confluenceTd'> Displays a stack trace of the specified process </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>ptree</tt> </td>
+<td class='confluenceTd'> Displays a process tree for all processes or a given process </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>ls /proc</tt> </td>
+<td class='confluenceTd'> Lists the process IDs of all running processes. </td>
+</tr>
+</tbody></table>
+</div>
+
+<p>You can combine the results of&nbsp;<tt>pgrep</tt>&nbsp;with the other proc tools. To list all the files associated with http processes, use this command instead of&nbsp;<tt>lsof</tt>:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">$ sudo pfiles $(pgrep http)</pre>
+		</div>
+</div></div>
+<p>To limit the&nbsp;<tt>prstat</tt>&nbsp;display to http processes, use this command:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">$ prstat $(pgrep -d , http)</pre>
+		</div>
+</div></div>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>If the&nbsp;<tt>prstat</tt>&nbsp;display changes your terminal settings, use the&nbsp;<tt>reset</tt>&nbsp;command to return them to normal.</td></tr></table></div>
+<p>The&nbsp;<tt>vmstat</tt>,&nbsp;<tt>mpstat</tt>, and&nbsp;<tt>psrinfo</tt>&nbsp;commands display processor and memory statistics for the physical machine. Their output is not generally useful to you as a SmartMachine operator.</p>
+
+<h2><a name="TheLinux-to-SmartOSCheatSheet-Startingandstoppingservices"></a>Starting and stopping services</h2>
+
+<p>On other systems, you may be used to starting and stopping servers by using commands&nbsp;in&nbsp;<tt>/etc/init.d</tt>. SmartMachines use the&nbsp;Service Management Facility&nbsp;(SMF) to do this.&nbsp;The&nbsp;<tt>svcs</tt>&nbsp;and&nbsp;<tt>svcadm</tt>&nbsp;commands are the ones you will use most often. Some commands&nbsp;take a service identifier called an FMRI. You can use the&nbsp;<tt>svcs</tt>&nbsp;command to list&nbsp;all of the identifiers for a service.</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> Command </th>
+<th class='confluenceTh'> Description </th>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>svcs</tt> </td>
+<td class='confluenceTd'> Lists all the enabled services </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>svcs &#45;a</tt> </td>
+<td class='confluenceTd'> Lists all of the services, even those that are disabled or off line </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>svcadm enable apache</tt> </td>
+<td class='confluenceTd'> Enable all of the processes with an&nbsp;<tt>apache</tt>&nbsp;FMRI </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>svcadm disable apache</tt> </td>
+<td class='confluenceTd'> Disable all of the processes with an&nbsp;<tt>apache</tt>&nbsp;FMRI </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <tt>svcadm restart apache</tt> </td>
+<td class='confluenceTd'> Restart all of the processes with an&nbsp;<tt>apache</tt>&nbsp;FMRI </td>
+</tr>
+</tbody></table>
+</div>
+
+<p>For example, if you make changes to&nbsp;<tt>/etc/ssh/sshd_config</tt>, restart SSH like this:<br/>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">$ sudo svcadm restart ssh</pre>
+		</div>
+</div></div></p>
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>For more information on SMF, see <a href="Using the Service Management Facility.html" title="Using the Service Management Facility">this topic</a>.</td></tr></table></div>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

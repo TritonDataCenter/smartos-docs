@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Updating sar</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Updating sar
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Mar 05, 2013 by <font color="#0050B2">brendan</font>.
+				    </div>
+
+				    <p>sar is the System Activity Reporter.</p>
+
+<p>There have been numerous issues with it on Solaris-based systems. This page is a working document to list and confirm issues to fix. Each issue, once confirmed, can be promoted to filed bugs on <a href="https://github.com/joyent/smartos-live/issues">https://github.com/joyent/smartos-live/issues</a> .</p>
+
+<h3><a name="Updatingsar-svcadmenablesar"></a>svcadm enable sar</h3>
+
+<p>This never worked properly, reported by <a href="https://gist.github.com/jclulow/aa87a74cb24cb9671705">CR 6302763</a>. Has it been fixed? It should enable sar from the sys crontab on the first attempt, and further disable/enable cycles should behave as expected.</p>
+
+<h3><a name="Updatingsar-sa1crontabarguments"></a>sa1 crontab arguments</h3>
+
+<p>The sys crontab is:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># crontab -l
+#ident  "@(#)sys        1.5     92/07/14 SMI"   /* SVr4.0 1.2   */
+#
+# The sys crontab should be used to do performance collection. See cron
+# and performance manual pages for details on startup.
+#
+# 0 * * * 0-6 /usr/lib/sa/sa1
+# 20,40 8-17 * * 1-5 /usr/lib/sa/sa1
+# 5 18 * * 1-5 /usr/lib/sa/sa2 -s 8:00 -e 18:01 -i 1200 -A</pre>
+		</div>
+</div></div>
+
+<p>Note that sa1 has no arguments. It is a simple shell script that runs this:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># execsnoop
+  UID    PID   PPID ARGS
+    3  18112  18111 /sbin/sh /usr/lib/sa/sa1
+    3  18113  18112 /usr/bin/date +%d
+    3  18112  18111 /usr/lib/sa/sadc 1 1 /var/adm/sa/sa04</pre>
+		</div>
+</div></div>
+
+<p>sa1 launches sadc with a "1 1" argument. The sadc (sar(1M)) man page has:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">/usr/lib/sa/sadc [ t n] [ofile]
+[...]
+     sadc, the data collector, samples system data n times,  with
+     an  interval  of  t  seconds  between samples, and writes in
+     binary format to ofile or to standard output.  The  sampling
+     interval  t should be greater than 5 seconds; otherwise, the
+     activity of sadc itself may affect the sample.</pre>
+		</div>
+</div></div>
+
+<p>This would imply that the default configuration is seriously incorrect: 1 second samples every 20 minutes. The fix would be to add interval values in the crontab. However, I don't think it's that easy &#8211; some statistics (all?) use cumulative counter deltas and infer the full 20 minute interval correctly. Either sar or the man page needs fixing, and all statistics should be checked.</p>
+
+<h3><a name="Updatingsar-Over100percent"></a>Over 100 percent</h3>
+
+<p>Some statistics can report over 100%, due apparently to timing issues. Eg, reporting 119% for a 5 second interval. How sar sleeps and collects intervals needs to be investigated.</p>
+
+<h3><a name="Updatingsar-6215332updatingsarforthe21stcentury"></a>6215332 updating sar for the 21st century</h3>
+
+<p>I posted a list of irritations in Jan 2005 to an OpenSolaris mailing list ( <a href="http://mail.opensolaris.org/pipermail/opensolaris-rfe/2005-January/000025.html">http://mail.opensolaris.org/pipermail/opensolaris-rfe/2005-January/000025.html</a> &#45; while it's still online), which became this bug. This was the reply (cached here) from Christopher P Johnson:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">Thanks for looking at this. As an interim step I captured your
+suggestions in
+
+6215332 updating sar for the 21st century
+
+Note that I broke the rules by punting and putting all the suggestions
+together - bugs/rfes should be granular to the level of a single
+problem/suggestion (I'm just having trouble keeping up with you folks).
+
+This shortcut is offset by the suggested process that whenever work is
+started on a particular area of solaris (command, subsystem, driver,
+etc.) that all bugs and rfes in that area be reviewed to insure that a
+coherent set of changes, which address all important issues, are
+developed and tested at the same time.
+
+Of course, priorities and resources weigh on what work is planned (with
+the new core of opensolaris developers, we will be expanding the
+resources nicely!)
+
+Brendan Gregg wrote:
+&gt; Hi Chris,
+&gt;
+&gt; On Wed, 5 Jan 2005, Christopher P Johnson wrote:
+&gt;
+&gt;
+&gt;&gt;Hi Brendan:
+&gt;&gt;Please do make suggestions, and I will work to get them entered in our
+&gt;&gt;RFE database. I'm attaching a current bug list as food for thought.
+&gt;&gt;
+&gt;
+&gt;
+&gt; Thanks for the list - many suggestions were already there. Of particular
+&gt; importance is 4059019, sar with networking options (perhaps "sar -n").
+&gt; The following are some extra suggestions,
+&gt;
+&gt; (I've just checked sar on Solaris 10 build 69)
+&gt;
+&gt; * sar -b: what about the Cyclic Page Cache?
+&gt; 	sar -b reports on the UFS Buffer Cache, however these days I think we
+&gt; 	would be more interested in the cyclic page cache activity. I'm
+&gt; 	guessing here that sar was written in the days where buffer cache was
+&gt; 	the primary cache, and sar hasn't been updated along with the new
+&gt; 	caches. It would be nice to have a new switch for the cyclic
+&gt; 	page cache.
+&gt;
+&gt; * sar -r: add more fields, eg "swap -s" data.
+&gt; 	It would be useful to have extra fields in this report, such as
+&gt; 	those printed by swap -s. Or even similar data to ::memstat from
+&gt; 	mdb -k!
+&gt;
+&gt; * sar -p: add more fields, eg "vmstat -p" data.
+&gt; 	It would be handy to see a break down of executable, anonymous
+&gt; 	and filessytem page statistics in this report, similar to vmstat -p.
+&gt; 	Perhaps just the pageins.
+&gt;
+&gt; * sar -d: "r+w/s" should be seperate.
+&gt; 	It would be nice if these were seperate fields, "r/s" and "w/s".
+&gt;
+&gt; * sar -q: "runq-sz" is buggy.
+&gt; 	This has always reported odd values, such as no fraction between
+&gt; 	0.0 and 1.0. (hmm, from a brief look in Solaris 10 it seems to
+&gt; 	be behaving somewhat better so far).
+&gt;
+&gt; * sar -q: "%runocc" is buggy.
+&gt; 	This sometimes reports values &gt; 100%.
+&gt; 	09:47:21 runq-sz %runocc swpq-sz %swpocc
+&gt; 	09:47:31     1.0      98     0.0       0
+&gt; 	09:47:32     1.5     196     0.0       0
+&gt;
+&gt; * sar -a: more fields needed to be meaningful.
+&gt; 	The three fields provided don't seem useful by themselves. Eg,
+&gt; 	"iget/s" is described on docs.sun.com as "The number of requests made
+&gt; 	for inodes that were not in the directory name look-up cache (DNLC)".
+&gt; 	So this sounds like DNLC misses - I'm not sure the value is useful
+&gt; 	without DNLC hits as well.
+&gt;
+&gt; * sar -u: "%wio" not meaningful.
+&gt; 	This field is not very meaningful, and often confuses sysadmins.
+&gt; 	When I explain what it really means to sysadmins they often say
+&gt; 	that Sun should drop it. I don't think Sun should drop it - people
+&gt; 	should just read the man pages more carefully! :) Anyhow, I'm just
+&gt; 	passing this experience on.
+&gt;
+&gt; thanks,
+&gt;
+&gt; Brendan Gregg
+&gt;
+&gt; [Syndey, Australia]
+&gt;
+&gt;</pre>
+		</div>
+</div></div>
+
+<p><b>This list is just the "extra" bugs beyond what was already known at the time. I also think more issues were later added to the bug. If anyone can find the missing bugs, please add them here.</b></p>
+
+<p>As with the other issues, these need to be investigated and confirmed. We know what happened with %wio, at least &#8211; that was hardwired to zero.</p>
+
+<h3><a name="Updatingsar-ZFS"></a>ZFS</h3>
+
+<p>Something meaningful with ZFS and the ARC.</p>
+
+<h3><a name="Updatingsar-KernelMemoryupdate"></a>Kernel Memory update</h3>
+
+<p>Where did this come from?</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">sar -k
+
+SunOS mars 5.10 Generic_127128-11 i86pc    03/04/2013
+
+09:53:14 sml_mem   alloc  fail  lg_mem   alloc  fail  ovsz_alloc  fail
+09:53:14        unix restarts
+10:04:04 122311104 77652371     0 2206978048 2033626064     0    37642240     0
+10:04:25 122311104 77667851     0 2206978048 2033561392     0    37642240     0
+[...]</pre>
+		</div>
+</div></div>
+
+<p>I understand what the "small" and "large" pools are from the source (small is &lt; 256 bytes, large is &lt; oversize), but why categorize them this way? I suspect this is a historic left-over from supporting SVR4's lazy buddy allocator (pre-slab allocator), which used large and small memory pools.</p>
+
+<p>It may make sense to redo sar &#45;k's kernel memory statistics, for slab allocation.</p>
+
+<h3><a name="Updatingsar-sarNotZoneAware"></a>sar Not Zone Aware</h3>
+
+<p>If sar is enabled in a Zone (eg, a Joyent SmartMachine), most (perhaps all) of its statistics refer to the entire system. This is counter-intuitive for a virtualized environment, especially for users who are familiar with other virtualization types (HW). Note: some observability tools are  zone-aware, such as top(1) and the load averages, whereas others like sar(1) are currently not, which include vmstat(1M) and mpstat(1M).</p>
+
+<p>Ideally, sar reports something that is obvious to the user, whether they are in a Zone or not. Such as clearly showing physical server statistics and resource control statistics (if set).</p>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

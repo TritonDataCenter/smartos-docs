@@ -1,0 +1,383 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Community History</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Community History
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Jun 18, 2012 by <font color="#0050B2">deirdre</font>.
+				    </div>
+
+				    <div class='panelMacro'><table class='warningMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/forbidden.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>Work in progress&#33;</td></tr></table></div>
+<p><iframe class="youtube-player" type="text/html" style="width: 400px; height: 300px"
+	src="http://www.youtube.com/embed/-zRN7XLCRhc" frameborder="0">
+</iframe>
+    
+</p>
+
+<h2><a name="CommunityHistory-Yes%2Cthisisrelevant%5C%21"></a>Yes, this is relevant&#33;</h2>
+
+<p>To understand illumos and the illumos community, it helps to know the history of who we are and where we all came from, both corporate and personal. Much of how the illumos community operates is based on decades of operating system development, especially from the people behind Sun Solaris.&nbsp;</p>
+
+<p>Some/much of the below (so far) comes from&nbsp;<a href="http://en.wikipedia.org/wiki/Bryan_Cantrill">Bryan Cantrill</a>'s talk&nbsp;<a href="http://www.slideshare.net/bcantrill/fork-yeah-the-rise-and-development-of-illumos">Fork Yeah&#33; The Rise and Development of illumos</a>&nbsp;(embedded above) given at USENIX LISA, December, 2011.</p>
+
+<h2><a name="CommunityHistory-SunOS%3AApeople%CA%BCshistory"></a><b>SunOS: A peopleʼs history</b></h2>
+
+<p>It all starts with <a href="http://en.wikipedia.org/wiki/Sun_Microsystems">Sun Microsystems</a>.</p>
+
+<ul>
+	<li>In the early 1990s, after a painful transition to Solaris, much of the SunOS 4.x engineering talent had left.</li>
+	<li>Problems compounded by the adoption of an immature SCM, the Network Software Environment (NSE).</li>
+	<li>The engineers revolted: Larry McVoy developed a much simpler variant of NSE called NSElite (ancestor to git).</li>
+	<li>Using NSElite (and later, TeamWare), Roger Faulkner, Tim Marsland, Joe Kowalski and <a href="http://en.wikipedia.org/wiki/Jeff_Bonwick">Jeff Bonwick</a> led a sufficiently parallelized development effort to produce Solaris 2.3, "the first version that worked".</li>
+	<li>...but with Solaris 2.4, management took over day-to&#45; day operations of the release, and quality slipped again.</li>
+</ul>
+
+
+<h2><a name="CommunityHistory-Solaris2.5%3ADoordie"></a><b>Solaris 2.5: Do or die</b></h2>
+
+<ul>
+	<li>Solaris 2.5 absolutely had to get it right &#8212; Sun had new hardware, the UltraSPARC-I, that depended on it</li>
+	<li>To assure quality, the engineers took over, with Bonwick installed as the gatekeeper.&nbsp;He gave a talk on Solaris to the Sun Systems Group in September, 1994. It included a section on the Quality Death Spiral (excerpted&nbsp;<a href="http://wiki.illumos.org/display/illumos/On+the+Quality+Death+Spiral">here</a>) - a timeless phenomenon that remains our omnipresent fear.</li>
+	<li>Bonwick was granted authority to "rip it out if itʼs broken" &#8212; an early <a href="http://en.wikipedia.org/wiki/Benevolent_Dictator_for_Life">BDFL</a> model, and a template for later generations of engineering leadership. (bmc says: "This is the only model for software development that ever works; no one has ever been able to develop software democratically.")</li>
+	<li>Solaris 2.5 shipped on schedule and at quality. Engineers were making risk decisions now, not management, and they would never again relinquish control of the risk management of the operating system.</li>
+</ul>
+
+
+<p><span class="image-wrap" style=""><img src="attachments/755087/1146946.jpg" height="300" style="border: 1px solid black"/></span></p>
+
+<p><em>^ Jeff Bonwick at the Kernel Conference Australia, 2009 - photo copyright Andre van Eyssen</em></p>
+
+<h2><a name="CommunityHistory-TheriseoftheBonwickYouth"></a><b>The rise of the Bonwick Youth</b></h2>
+
+<ul>
+	<li>In the mid-1990s, it became a foregone conclusion that UNIX would die at the hands of Windows NT (&#33;)</li>
+	<li>Hard to believe, but Sun was the <em>only</em> computer vendor whose Windows NT strategy was to beat Windows NT</li>
+	<li>Sunʼs dedication to this vision &#8212; the operating system as a nexus of innovation &#8212; attracted an entire new generation of engineers to the company</li>
+	<li>New generation became known as the "Bonwick Youth"</li>
+	<li>As talent attracted talent, there emerged an opportunity to become to OS innovation in the 2000s what Xerox PARC was to computing innovation in the 1970s</li>
+</ul>
+
+
+
+<h2><a name="CommunityHistory-Revolutionaryideas"></a><b>Revolutionary ideas</b></h2>
+
+<p>By mid-2001, the trajectories set out by the move from SunOS 4.x to Solaris a decade prior had reached their logical conclusion. The OS worked, rock solid and feature-full.&nbsp;Development started on more radical ideas, each of which would become revolutionary in its own right. A bunch of headstrong engineers each had ideas they wanted to explore, and Sun allowed for that (because no one was in control).</p>
+
+<ul>
+	<li><a href="http://wiki.illumos.org/display/illumos/ZFS">ZFS</a> (née Pacific) - Jeff Bonwick had long wanted to rewrite file systems from scratch and eliminate volume management entirely.</li>
+	<li>DTrace - Bryan Cantrill was sick of systems that were sucking and not knowing why. Worked with Mike Shapiro and Adam Leventhal to develop DTrace.</li>
+	<li>Zones (née Project Kevlar) - (Jerry Jelinek) Taking FreeBSD Jails to their logical conclusion, what you needed by now was not a virtual machine, but a virtual operating system that can run without performance penalty.</li>
+	<li>Fault Management Architecture (FMA)&nbsp;</li>
+	<li>Service Management Facility (SMF, née Greenline)</li>
+	<li>FireEngine/Crossbow</li>
+	<li>Least Privilege</li>
+</ul>
+
+
+<p>These all came together in Solaris 10.</p>
+
+
+
+<h2><a name="CommunityHistory-Thewellspringofinnovation"></a><b>The wellspring of innovation</b></h2>
+
+<ul>
+	<li>These were technologies invented and initiated by <em>engineers</em>, not managers or marketers.</li>
+	<li>These projects reflected the <em>people</em> behind them, and their <em>personal</em> histories with the operating system.</li>
+	<li>Each of these projects represented an <em>opinion</em> &#8212; born of both experience and frustration ("the kiln of unspeakable pain") &#8212; about what the operating system should be.</li>
+	<li><b>Organizations donʼt innovate &#8212; people do.</b> You can't take an innovative organization, remove the people, and get innovation.</li>
+</ul>
+
+
+
+
+<p><span class="error">Cannot resolve external resource into attachment.</span></p>
+
+<p><em>^ Jim Hughes and Jeff Bonwick at CommunityOne 2008, demonstrating the resiliency of ZFS by power-drilling holes in hard disks</em><br/>
+<em>photo by&nbsp;</em><em><a href="http://www.beginningwithi.com/comments/">Deirdré Straughan</a></em></p>
+
+
+
+<h1><a name="CommunityHistory-Opensource%3F"></a><b>Open source?</b></h1>
+
+<ul>
+	<li>As the rise of Linux (and particularly x86) forced the market price of OS acquisition to zero, it became clear that <em>open sourcing the operating system</em> was the right business decision</li>
+	<li>The OS had always been a <em>loss-leader</em> for Sun; the company made money from complementary goods (hardware, support, etc.)</li>
+	<li>Moreover, open sourcing the system would assure that our innovations would transcend products and become <em>advances</em> in the state of the art</li>
+	<li>This was entirely in character for the company that had pioneered "open systems" some fifteen years prior&#33; Sun had created NFS and ported it to its competitors' platforms in the late 1980s.</li>
+</ul>
+
+
+<h1><a name="CommunityHistory-Opensource%5C%21"></a><b>Open source&#33;</b></h1>
+
+<ul>
+	<li>Starting in the late 1990s, there was serious talk of open sourcing the operating system...</li>
+	<li>...but in a system with deeply proprietary roots and a troubled legal past, it takes a lot more than just talk</li>
+	<li>In 2004, Jonathan Schwartz made it a priority to open source the operating system</li>
+	<li>In January of 2005, OpenSolaris was born when DTrace became the first of the system to be open sourced</li>
+	<li>The rest of the OS was open sourced in June 2005</li>
+	<li>The OS was developed in the open from that point &#8212; changes to the OS were open source as they integrated</li>
+</ul>
+
+
+<h1><a name="CommunityHistory-Leapingtheproprietarychasm"></a><b>Leaping the proprietary chasm</b></h1>
+
+<ul>
+	<li>Very, very few established software projects have leapt the chasm from proprietary to open</li>
+	<li>Unfortunately, not all elements of the OS could be open sourced; some contracts prevented some small (but important) bits from being open sourced</li>
+	<li>To allow for such proprietary drivers, Sun developed a file-based copy-left license, the Common Development and Distribution License (<a href="http://smartos.org/cddl/">CDDL</a>) - approved by <a href="http://www.opensource.org/">OSI</a>.</li>
+	<li>Contrary to public claims by some ex-Sun employees, this was <em>not</em> done to be deliberately GPL incompatible&#33; It was necessary to allow for proprietary drivers.</li>
+</ul>
+
+
+<h1><a name="CommunityHistory-OpenSolarischallenges"></a><b>OpenSolaris challenges</b></h1>
+
+<ul>
+	<li>That certain critical bits had to remain proprietary made forking the operating system technically difficult...</li>
+	<li>And that virtually all Solaris implementation knowledge lived within Sunʼs walls made it a practical impossibility</li>
+	<li>The community had the <em>right</em> to fork, but not the <em>power</em> This led down the primrose path to open source&nbsp;governance: governing boards, elections, constitutions</li>
+	<li>And because all development on the system realistically required copyright assignment to Sun, OpenSolaris (sadly) remained a Sun puppet</li>
+	<li>Worse, some among Sunʼs middle management fancied themselves puppeteers...</li>
+</ul>
+
+
+<p><span class="image-wrap" style=""><img src="attachments/755087/1146948.jpg" width="300" style="border: 1px solid black"/></span></p>
+
+
+<p><em>^</em> <em><a href="http://en.wikipedia.org/wiki/Ian_Murdock">Ian Murdock</a></em> <em>announcing the OpenSolaris distro at CommunityOne, 2008 - graphic by</em> <em><a href="http://gapingvoid.com/">Hugh MacLeod</a></em><em>, photo by</em> <em><a href="http://www.beginningwithi.com/comments/">Deirdré Straughan</a></em></p>
+
+<h1><a name="CommunityHistory-The%22OpenSolarismissilecrisis%22"></a><b>The "OpenSolaris missile crisis"</b></h1>
+
+<ul>
+	<li>In fall of 2007, Sun decided to create a new OpenSolaris-based distribution called... OpenSolaris</li>
+	<li>Rightfully, the OpenSolaris Governing Board (OGB) was upset about this &#8212; it made the community that much more of a charade to have its very name hijacked</li>
+	<li>Humanity-wasting governance orgy ensued...</li>
+	<li>A compromise was reached in the end that allowed for de-escalation, but it became clear that &#8212; despite stated intentions &#8212; Sun did not want an independent OGB</li>
+	<li>The community was deflated; OGB composition became more and more Sun dominated, and OpenSolaris was in the doldrums for the next three years</li>
+</ul>
+
+
+<h1><a name="CommunityHistory-Theendofanera"></a><b>The end of an era</b></h1>
+
+<ul>
+	<li>Ailing Sun was bought by Oracle in 2009, with the acquisition closing in February 2010</li>
+	<li>Sun was concisely eulogized by Scott McNealy:
+	<ul>
+		<li><em>Kicked butt, had fun, didnʼt cheat, loved our customers, changed computing forever.</em></li>
+	</ul>
+	</li>
+	<li>After the acquisition closed, it became clear that Scottʼs eulogy was (ironically?) the antithesis of Oracle</li>
+	<li>Over 2010, it became clear that Oracle had absolutely <em>no</em> interest in OpenSolaris</li>
+	<li>Despite that it would be obviously stupid, there was even a move within Oracle to actually <em>close</em> the system&#33;</li>
+</ul>
+
+
+<p><span class="image-wrap" style=""><img src="attachments/755087/1146947.jpg" height="300" style="border: 1px solid black"/></span></p>
+
+<p>^ Garrett D'Amore&nbsp;at the Kernel Conference Australia, 2009 - photo copyright Andre van Eyssen</p>
+
+<h2><a name="CommunityHistory-Meanwhile%2Cthebirthofillumos"></a><b>Meanwhile, the birth of illumos</b></h2>
+
+<ul>
+	<li>Starting in the summer of 2010, Garrett D'Amore at Nexenta &#8212; with help from Rich Lowe, Jason King and others &#8212; began the process of either writing the closed bits from scratch or porting them from BSD</li>
+	<li>By early August, an entirely open system was booting</li>
+	<li>Dubbed "illumos" (from <em>illuminare</em>, Latin for illuminate) and <a href="http://wiki.illumos.org/display/illumos/illumos+Project+Announcement+-+August+3%2C+2010">made available on August 3, 2010</a>.</li>
+	<li>Notably, the announcement included both code and a working demo &#8212; leading with technology, not rhetoric</li>
+	<li>illumos was <em>not</em> designed to be a fork, but rather an entirely open downstream repository of OpenSolaris</li>
+</ul>
+
+
+<h1><a name="CommunityHistory-TheundignifieddeathofOpenSolaris"></a><b>The undignified death of OpenSolaris</b></h1>
+
+<ul>
+	<li>On Friday, August 13th, 2010, an internal memo was circulated by the putative Solaris leadership:
+	<ul>
+		<li><em>We will distribute updates to approved CDDL or other open source-licensed code following full releases of our enterprise Solaris operating system. In this manner, new technology innovations will show up in our releases before anywhere else.</em> <b><em>We will no longer distribute source code for the entirety of the Solaris operating system in real-time</em></b> <em>while it is developed, on a nightly basis.</em></li>
+	</ul>
+	</li>
+	<li>Greatest act of cowardice in the history of open source: this was never publicly announced; it was simply leaked</li>
+	<li>Updates silently stopped on August 18th, 2010</li>
+	<li>On top of that, it was a lie: Solaris 11 was released on November 9, 2011 &#8212; and there was no source release</li>
+</ul>
+
+
+<h1><a name="CommunityHistory-TheSolarisdiaspora"></a><b>The Solaris diaspora</b></h1>
+
+<ul>
+	<li>The Solaris diaspora (which was already underway) was greatly accelerated by Oracleʼs depraved act</li>
+	<li>Within 90 days, the entire DTrace team had left Oracle, all primary inventors of ZFS had left Oracle and primary engineers for both zones and networking had left Oracle</li>
+	<li>Fortunately, Oracleʼs loss was illumosʼs gain: nearly all of these engineers went to companies betting on illumos (Joyent, Nexenta, Delphix...)</li>
+	<li>It is no surprise that these engineers have continued to innovate &#8212; and that a year later, their innovations (big and small&#33;) have landed in illumos</li>
+</ul>
+
+
+<h1><a name="CommunityHistory-Theillumosinnovationirony"></a><b>The illumos innovation irony</b></h1>
+
+<ul>
+	<li>There is no copyright assignment in illumos; code is under the CDDL, but copyright remains with the holder</li>
+	<li>But with the closing of Solaris, Oracle itself no longer abides by the CDDL &#8212; which it can only do because it was assigned copyright on all community contributions</li>
+	<li>However, Oracle does <em>not</em> own copyright on the illumos innovations; it cannot take this code back until it abides by its own license&#33;</li>
+	<li>In illumos, we have seen critical innovations and bug fixes in ZFS, DTrace, Zones and other core technologies</li>
+	<li><em>These innovations will never be in Oracle Solaris</em></li>
+	<li>illumos is the repo of record for critical OS technologies&#33;</li>
+</ul>
+
+
+<h1><a name="CommunityHistory-ZFS"></a><b>ZFS</b></h1>
+
+
+<h3><a name="CommunityHistory-"></a></h3>
+
+<ul>
+	<li>Most core ZFS engineers now in illumos community: e.g. Matt Ahrens, Eric Schrock, George Wilson, Adam Leventhal, Bill Pijewski and Brendan Gregg</li>
+	<li>ZFS engineers from several different illumos-based companies formed a joint ZFS working group</li>
+	<li>First concrete technology artifact was a proposal for SPA versioning that allows disjoint features from different vendors without requiring conflicting versions</li>
+	<li>That this was a most pressing problem speaks for itself: many different companies are betting big on illumos ZFS&#33;</li>
+	<li>Matt Ahrens added the "refratio" property to understand the compression win for referenced data</li>
+	<li>Matt Ahrens added the ability to get estimated progress for zfs send and receive (&#33;)</li>
+	<li>Bill Pijewski and Jerry Jelinek added Zones-based I/O throttling, allowing for optimal disk operation in light of multi-tenant demands</li>
+	<li>Dan McDonald and Sunit Gupta implemented UNMAP for STMF, allowing for better ZFS-backed iSCSI LUNs</li>
+	<li>Many bugs fixed&#33;</li>
+	<li>...and <a href="http://wiki.illumos.org/display/illumos/DTrace">more</a>...</li>
+</ul>
+
+
+
+<h1><a name="CommunityHistory-DTrace"></a><b>DTrace</b></h1>
+
+
+<h3><a name="CommunityHistory-"></a></h3>
+
+<ul>
+	<li>Virtually all DTrace engineers are now in the illumos community: Adam Leventhal, Brendan Gregg, Eric Schrock, Dave Pacheco</li>
+	<li>Added a log-linear quantization action (llquantize()) Added KVM support with vmregs[] variable</li>
+	<li>A bunch of little stuff: allowed tracemem() to take a variable-size; added toupper()/tolower(); allowed lltostr() to take an optional base</li>
+	<li>Added USDT provider reaping (a long-time issue) Eric Schrock added the CTF-aware print() action&#33;</li>
+	<li>dtrace.conf 2012</li>
+</ul>
+
+
+<h3><a name="CommunityHistory-Zones"></a><b>Zones</b></h3>
+
+<ul>
+	<li>Primary zones engineer (and JumpStart tech lead&#33;) Jerry Jelinek is very active in the illumos community</li>
+	<li>Particular focus on high-tenancy systems; it is highly likely that the machines that run the most number of zones in production are doing so today on illumos</li>
+	<li>Added many per-zones kstats (e.g. for CPU usage, VM activity, I/O activity, etc.)</li>
+	<li>Reimplemented rcapd to be much more reliable, especially under heavy load</li>
+	<li>Fixed many bugs related to many-zone configurations Added &#45;z and &#45;Z options to svcs</li>
+</ul>
+
+
+<h1><a name="CommunityHistory-KVM"></a><b>KVM</b></h1>
+
+<ul>
+	<li>In addition to work on the traditional core technologies of ZFS, DTrace and Zones, we have added a new one: Joyent team ported KVM from Linux to illumos</li>
+	<li>KVM makes use of hardware (specifically, Intel) virtualization support to allow one to run arbitrary x86 guests at nearly bare-metal speed</li>
+	<li>Work was presented by Joyent at KVM Forum this year; currently running in production in the Joyent cloud</li>
+	<li>illumos-based KVM has three distinct advantages over Linux-based KVM: ZFS, DTrace and Zones</li>
+	<li>illumos distributions SmartOS and OpenIndiana have KVM support by default</li>
+</ul>
+
+
+<h1><a name="CommunityHistory-illumosDistributions"></a><b>illumos Distributions</b></h1>
+
+<ul>
+	<li>There are already several illumos-based distributions, with more on the way</li>
+	<li>OpenIndiana includes IPS packaging and has both server and desktop variants</li>
+	<li>SmartOS is a Joyent distribution features NetBSD packaging and is designed for cloud computing</li>
+	<li>illumian is a new Nexenta distribution that features Debian packaging</li>
+	<li>OmniOS</li>
+	<li>These distributions <em>complement</em> each other &#8212; they are growing the illumos pie more than dividing it&#33;</li>
+</ul>
+
+
+<h1><a name="CommunityHistory-illumoscommunityvalues"></a><b>illumos community values</b></h1>
+
+<ul>
+	<li>We value the freedom to fork over governance; code over discussion; innovation over democracy</li>
+	<li>David Clark of IETF fame put it best (h/t @kebesays):&nbsp;
+	<ul>
+		<li><em>We reject: kings, presidents and voting.&nbsp;</em></li>
+		<li><em>We believe in: rough consensus and running code</em></li>
+	</ul>
+	</li>
+	<li>Instead of a BDFL, we have a benevolent oligarchy &#8212; and so far we have achieved consensus with little effort</li>
+	<li>We value <em>utility</em>; we donʼt do things for their own sake&#33;</li>
+	<li>These values were embodied in the recent illumos hackathon (h/t @ahl), which was a resounding success&#33;</li>
+</ul>
+
+
+<h1><a name="CommunityHistory-Gettinginvolvedwithillumos"></a><b>Getting involved with illumos</b></h1>
+
+<p>Start playing around with a distro that suits you</p>
+
+<p>Start playing around with the code:&nbsp;<a href="http://src.illumos.org">http://src.illumos.org</a> or <a href="https://github.com/illumos/illumos-gate">https://github.com/illumos/illumos-gate</a></p>
+
+<p>If youʼre looking for something to do or have questions, donʼt hesitate to ask:&nbsp;Mailing list: developer@lists.illumos.org IRC: #illumos on irc.freenode.net</p>
+
+<p>If you donʼt know where to go, you can always tweet or message Deirdré Straughan (@deirdres), Joyentʼs SmartOS/illumos community manager</p>
+
+<h2><a name="CommunityHistory-Thankyou%5C%21"></a><b>Thank you&#33;</b></h2>
+
+<p>@gedamore for conceiving of illumos, birthing it, and leading the community</p>
+
+<p>@richlowe for his tremendous work from the beginning on all aspects of illumos</p>
+
+<p>@openindiana and @aszeszo for OpenIndiana</p>
+
+<p>@joshwilsdon, @johnnysunshine and @rmustacc for their work on the SmartOS distribution</p>
+
+<p>@ahl for organizing the illumos hackathon &#8212; and all of the hammer-swinging butt-kickers who attended&#33;</p>
+
+<h2><a name="CommunityHistory-FarewelltoSun"></a>Farewell to Sun</h2>
+
+<p>A video I (Deirdré) made just before leaving Oracle for Joyent, featuring many of the people mentioned above.</p>
+<iframe class="youtube-player" type="text/html" style="width: 400px; height: 300px"
+	src="http://www.youtube.com/embed/UHOBoWJHTyc" frameborder="0">
+</iframe>
+    
+
+
+				    					    <br/>
+                        <div class="tabletitle">
+                            <a name="attachments">
+                                <h2>Attachments:</h2>
+                            </a>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/755087/1146946.jpg">Bonwick.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/755087/1146947.jpg">Garrett.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/755087/1146948.jpg">img_3017.jpg</a> (image/jpeg)
+                                <br/>
+                                                    </div>
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Is SmartOS suitable for a file server</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Is SmartOS suitable for a file server
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Oct 15, 2017 by <font color="#0050B2">cjr</font>.
+				    </div>
+
+				    <p><font color="#ff0000">This is under edit/review. I think it belongs on the wiki under "Welcome to SmartOS".</font></p>
+
+<p>People often ask about the suitability of SmartOS as a NAS or file server.</p>
+
+<p>There are two features of SmartOS that make it attractive for a NAS:</p>
+
+<ol>
+	<li>The excellent integration of ZFS, which is available on all Illumos platforms.</li>
+	<li>The USB boot/root filesystem leaves all of the disk space available for data, and it is extremely unlikely the boot/root filesystem will ever be corrupted. If it is, just re-flash it, and you are off and running again.</li>
+</ol>
+
+
+<p>But there are a couple of issues that make implementing a NAS problematic.</p>
+
+<p>First, NFS is available only in the global zone (GZ). It seems this will be fixed someday. But for now it means we can only NFS share filesystems out of the GZ. The NFS share information is stored in the ZFS datasets, so the persistence issue doesn't bite us here. If all you need is NFS file sharing, SmartOS is an excellent solution. But most people need to support Windows and/or Apple clients.</p>
+
+<p>Second, the transient nature of the GZ. It is possible to install packages (such as Samba or Netatalk) in the GZ and work around the persistence issue, but this contradicts the design and intention of SmartOS and it is not recommended. The SmartOS way is to keep the GZ pristine and light &#45;&#45; just ZFS and management of virtual machines &#45;&#45; and do everything else in the VMs.</p>
+
+<p>For these reasons, someone looking for a straight NAS is probably better served using another platform, such as OmniOS, perhaps using Napp-it to simplify management.</p>
+
+<p>But if you also need virtualization, SmartOS starts to become much more attractive, and it may be worthwhile to workaround the above problems.</p>
+
+<p>Here are some approaches that have been used successfully:</p>
+
+<ol>
+	<li>Create a zone. To support Windows and Mac clients either run CIFS or install Samba in it. To support older Mac clients install Netatalk. This approach is compatible with the goal of minimizing changes to the GZ. The zone takes up very little disk space or memory, and it runs at bare metal speed. If you want Samba to share the same dataset that NFS is sharing in the GZ, pipe the dataset into the zone using lofs. Implement one of the following for authentication &amp; access control:
+	<ul>
+		<li>Define users in /etc/passwd and smbpasswd</li>
+		<li>Authenticate to an LDAP server</li>
+		<li>Use winbind to authenticate to an Active Directory server</li>
+	</ul>
+	</li>
+	<li>Run CIFS in the GZ to share files with Windows clients. Roughly the same mechanisms can be used for access control, but they all must cheat on persistence:
+	<ul>
+		<li>Restore /etc/passwd after each boot, with entries corresponding to smbpasswd</li>
+		<li>Authenticate to an LDAP server</li>
+		<li>Join the system to an AD domain</li>
+	</ul>
+	</li>
+	<li>Install Samba in the GZ. Use the same mechanisms as CIFS to control access.</li>
+</ol>
+
+
+
+<h2><a name="IsSmartOSsuitableforafileserver-AnexampleconfigurationfromJorgeS%3A"></a>An example configuration from Jorge S:</h2>
+
+<p>Copied from <a href="https://gist.github.com/sjorge/57c7694e6a0df6fe2ad4">https://gist.github.com/sjorge/57c7694e6a0df6fe2ad4</a></p>
+
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>root@smartos</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: true">mkdir -p /opt/custom/smf/bin
+cd /opt/custom/smf
+vim persist-syscfg.xml
+cd bin
+vim persist-syscfg
+chmod +x persist-syscfg
+&lt;reboot&gt;
+svcadm disable persist-syscfg
+&lt;set nfs/smb config, create/edit groups/user&gt;
+svcadm enable persist-syscfg</pre>
+		</div>
+</div></div>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> variable <br class="atl-forced-newline" /> </th>
+<th class='confluenceTh'> description <br class="atl-forced-newline" /> </th>
+</tr>
+<tr>
+<td class='confluenceTd'> enable_stmf </td>
+<td class='confluenceTd'> enable services needed for iSCSI target <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> enable_smb </td>
+<td class='confluenceTd'> enable services needed for CIFS <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> enable_nfs </td>
+<td class='confluenceTd'> enable services needed for NFS <br class="atl-forced-newline" />
+<br class="atl-forced-newline" /> </td>
+</tr>
+</tbody></table>
+</div>
+
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>persist-syscfg</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; collapse: true; gutter: false">#!/usr/bin/bash
+
+# Originally based on http://wiki.smartos.org/display/DOC/Allowing+user+CRUD+in+the+global+zone
+# Author: hugo@freenode
+
+enable_stmf=0
+enable_smb=1
+enable_nfs=1
+save_us=( /etc/passwd /etc/shadow /etc/group /etc/ouser_attr /etc/user_attr \
+          /etc/security/policy.conf /etc/security/auth_attr /etc/security/exec_attr \
+          /etc/security/prof_attr /etc/pam.conf /var/smb/smbpasswd /var/smb/osmbpasswd /var/smb/smbgroup.db )
+
+ukeystor="/usbkey/cn-persist"
+
+# this script needs rsync
+if [ ! -f /usr/bin/rsync ]; then
+    echo please install rsync
+    exit 1
+fi
+
+case "$1" in
+    'start')
+    if [[ -n $(/bin/bootparams | grep '^smartos=true') ]]; then
+        # file magic
+        svcadm disable system/name-service-cache:default
+        for file in ${save_us[*]}
+        do
+            ukf=${ukeystor}${file}
+
+            if [[ -z $(/usr/sbin/mount -p | grep $file) ]]; then
+                if [[ $ukf -ot $file ]]; then
+                    rsync -Rrtpogu $file $ukeystor
+                    echo "sys-&gt;stor: $file"
+                else
+                    rsync -rtpog $ukf $file
+                    echo "stor-&gt;sys: $file"
+                fi
+
+                touch $file $ukf
+                mount -F lofs $ukf $file
+            fi
+        done
+        svcadm enable system/name-service-cache:default
+        mkdir -p ${ukeystor}/svc/
+        [ -e /tmp/nfssrv.lock ] &amp;&amp; svccfg export -a nfs/server &gt; ${ukeystor}/svc/nfssrv.prop
+        [ -e ${ukeystor}/svc/nfssrv.prop ] &amp;&amp; svccfg import ${ukeystor}/svc/nfssrv.prop
+        touch /tmp/nfssrv.lock
+
+        [ -e /tmp/smbsrv.lock ] &amp;&amp; svccfg export -a smb/server &gt; ${ukeystor}/svc/smbsrv.prop
+        [ -e ${ukeystor}/svc/smbsrv.prop ] &amp;&amp; svccfg import ${ukeystor}/svc/smbsrv.prop
+        touch /tmp/smbsrv.lock
+
+        [ -e /tmp/stmf.lock ] &amp;&amp; svccfg export -a stmf &gt; ${ukeystor}/svc/stmf.prop
+        [ -e ${ukeystor}/svc/stmf.prop ] &amp;&amp; svccfg import ${ukeystor}/svc/stmf.prop
+        touch /tmp/stmf.lock
+
+        # enable services
+        if [ ${enable_stmf} -gt 0 ]; then
+            svcadm enable system/stmf
+            svcadm enable iscsi/target
+        fi
+        if [ ${enable_smb} -gt 0 ]; then
+            svcadm enable system/idmap
+            svcadm enable smb/client
+            svcadm enable smb/server
+        fi
+        if [ ${enable_nfs} -gt 0 ]; then
+            svcadm enable nfs/server
+        fi
+    fi
+    ;;
+    'stop')
+        svcadm disable system/name-service-cache:default
+        for file in ${save_us[*]}
+        do
+            if [[ -n $(/usr/sbin/mount -p | grep $file) ]]; then
+                umount $file &amp;&amp; touch $file
+            fi
+        done
+        svcadm enable system/name-service-cache:default
+     ;;
+esac</pre>
+		</div>
+</div></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>persist-syscfg.xml</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: xml; collapse: true; gutter: false">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'&gt;
+&lt;service_bundle type='manifest' name='export'&gt;
+  &lt;service name='site/persist-syscfg' type='service' version='0'&gt;
+    &lt;create_default_instance enabled='true'/&gt;
+    &lt;single_instance/&gt;
+    &lt;dependency name='filesystem' grouping='require_all' restart_on='error' type='service'&gt;
+      &lt;service_fmri value='svc:/system/filesystem/local'/&gt;
+    &lt;/dependency&gt;
+    &lt;dependent name='nsc' grouping='require_all' restart_on='refresh'&gt;
+      &lt;service_fmri value='svc:/system/name-service-cache' /&gt;
+    &lt;/dependent&gt;
+    &lt;method_context/&gt;
+    &lt;exec_method name='start' type='method' exec='/opt/custom/smf/bin/persist-syscfg start' timeout_seconds='60'/&gt;
+    &lt;exec_method name='stop' type='method' exec='/opt/custom/smf/bin/persist-syscfg stop' timeout_seconds='60'/&gt;
+    &lt;property_group name='startd' type='framework'&gt;
+      &lt;propval name='duration' type='astring' value='transient'/&gt;
+      &lt;propval name='ignore_error' type='astring' value='core,signal'/&gt;
+    &lt;/property_group&gt;
+    &lt;property_group name='application' type='application'/&gt;
+    &lt;stability value='Evolving'/&gt;
+    &lt;template&gt;
+      &lt;common_name&gt;
+        &lt;loctext xml:lang='C'&gt;Apply configuration from /usbkey, making it persistent&lt;/loctext&gt;
+      &lt;/common_name&gt;
+    &lt;/template&gt;
+  &lt;/service&gt;
+&lt;/service_bundle&gt;</pre>
+		</div>
+</div></div>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

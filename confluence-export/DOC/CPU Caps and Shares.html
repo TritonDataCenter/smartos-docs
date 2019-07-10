@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : CPU Caps and Shares</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : CPU Caps and Shares
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Jul 26, 2012 by <font color="#0050B2">jason.davis@joyent.com</font>.
+				    </div>
+
+				    <p>SmartOS uses a Fair Share Scheduler (FSS) for handling allocation of CPU resources to machines provisioned on a compute node.&nbsp;The FSS uses two values to allocate CPU resources:</p>
+<ul>
+	<li><b>CPU cap</b>&nbsp;is the maximum amount of CPU resources a machine can use.</li>
+	<li><b>CPU share</b>&nbsp;the minimum amount of CPU resources a machine can use.</li>
+</ul>
+
+
+<p><b>In this topic:</b></p>
+<div>
+<ul>
+    <li><a href='#CPUCapsandShares-ExampleUseCases'>Example Use Cases</a></li>
+<ul>
+    <li><a href='#CPUCapsandShares-AllSixMachinesRunning'>All Six Machines Running</a></li>
+    <li><a href='#CPUCapsandShares-OnlyFiveMachinesRunning'>Only Five Machines Running</a></li>
+</ul>
+    <li><a href='#CPUCapsandShares-UsefulCommands'>Useful Commands</a></li>
+<ul>
+    <li><a href='#CPUCapsandShares-FindingtheTotalNumberofCPUsonaComputeNode'>Finding the Total Number of CPUs on a Compute Node</a></li>
+    <li><a href='#CPUCapsandShares-FindingtheCPUCapofaMachine'>Finding the CPU Cap of a Machine</a></li>
+    <li><a href='#CPUCapsandShares-FindingtheNumberofSharesAllocatedtoaMachine'>Finding the Number of Shares Allocated to a Machine</a></li>
+</ul>
+</ul></div>
+
+<p>As previously described, the CPU cap is a hard limit. The CPU share is used to determine how the CPU resource pool is allocated among running machines.</p>
+
+<p>Both the CPU cap and the CPU share values are given in the package used to provision the machine. The CPU cap is given explicitly in the package. The CPU share value is equivalent to the RAM allocated to the machine in megabytes. For example, a machine with 1 GB RAM is given 1024 shares. A machine with 8 GB RAM is given 8192 shares.</p>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>SmartOS does not impose a relationship between RAM and shares. The provisioning process simply uses the amount of RAM to ensure that a machine with more memory gets more shares than a machine with less memory.</td></tr></table></div>
+<p>The CPU cap is the maximum number of CPUs that a provisioned machine can use. This value is expressed as a percentage, where 100 means one CPU. A CPU cap of 350 means that the provisioned machine can use at most 3.5 CPUs.</p>
+
+<p>The CPU share is used to determine the minimum amount of CPUs that a provisioned machine can use. The share value is relative to the&nbsp;<em>total</em>&nbsp;number of shares for all the provisioned machines running in the compute node.</p>
+
+<h1><a name="CPUCapsandShares-ExampleUseCases"></a>Example Use Cases</h1>
+
+<p>An example will help illustrate the relationship between CPU caps and shares. Assume that your compute node has 24 CPU cores and that the following SmartOS VMS are provisioned on it.</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> Number of&nbsp; <br class="atl-forced-newline" />
+Machines </th>
+<th class='confluenceTh'> RAM </th>
+<th class='confluenceTh'> Shares </th>
+<th class='confluenceTh'> CPU Cap </th>
+</tr>
+<tr>
+<td class='confluenceTd'> 4 </td>
+<td class='confluenceTd'> 8 GB </td>
+<td class='confluenceTd'> 8192 </td>
+<td class='confluenceTd'> 200 (2 CPUs) </td>
+</tr>
+<tr>
+<td class='confluenceTd'> 2 </td>
+<td class='confluenceTd'> 4 GB </td>
+<td class='confluenceTd'> 4096 </td>
+<td class='confluenceTd'> 300 (3 CPUs) </td>
+</tr>
+</tbody></table>
+</div>
+
+
+<h2><a name="CPUCapsandShares-AllSixMachinesRunning"></a>All Six Machines Running</h2>
+
+<p>If all six machines are running, the total number of shares is:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">(4 * 8192) + (2 * 4096) = 40960 shares</pre>
+		</div>
+</div></div>
+<p>Each of the 8 GB machines has 20% of the shares, so it can get 4.8 CPUs.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">8192 / 40960 = 0.20
+24 * .20 = 4.8</pre>
+		</div>
+</div></div>
+<p>And each of the 2 GB machines has 10% of the shares and 2.4 CPUs.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">4096 / 40960 = 0.10
+24 * .10 = 2.4</pre>
+		</div>
+</div></div>
+<p>However, since the 8 GB machines are capped at 2 CPUs, that is the maximum CPU resources they will get. The 2 GB machines are capped at 3 CPUs, but the shares allocate only 2.4 CPUs to them, so that's how much CPU time they will get.</p>
+
+<h2><a name="CPUCapsandShares-OnlyFiveMachinesRunning"></a>Only Five Machines Running</h2>
+
+<p>Now suppose that one of the 8 GB machines is turned off. In this case, the total number of shares is:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">(3 * 8192) + (2 * 4096) = 32768 shares</pre>
+		</div>
+</div></div>
+<p>The 8 GB machines now have 25% of the shares, or 6 CPUs.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">8192 / 32768 = 0.25
+24 * 0.25 = 6</pre>
+		</div>
+</div></div>
+<p>The 4 GB machines now have 12.5% of the shares, or 3 CPUs.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">4096 / 32768 = 0.125
+24 * 0.125 = 3</pre>
+		</div>
+</div></div>
+<p>The 8 GB machines are capped at 2 CPUs, so they still get only 2 CPUs. The 4 GB machines are capped at 3 CPUs, so they can use their full share, which is 3 CPUs.</p>
+
+<h1><a name="CPUCapsandShares-UsefulCommands"></a>Useful Commands</h1>
+
+<p>The section lists some useful SmartOS command that you can use to get information about CPU usage on a compute node and provisioned machines.</p>
+
+<h2><a name="CPUCapsandShares-FindingtheTotalNumberofCPUsonaComputeNode"></a>Finding the Total Number of CPUs on a Compute Node</h2>
+
+<p>Use the&nbsp;<tt>psrinfo</tt>&nbsp;command to get the total number of CPUs:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">computenode# psrinfo
+0       on-line   since 04/13/2012 15:32:01
+1       on-line   since 04/13/2012 15:32:01</pre>
+		</div>
+</div></div>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>For more information on&nbsp;<tt>psrinfo</tt>, see the <a href="http://wwwcgi.rdg.ac.uk:8081/cgi-bin/cgiwrap/wsi14/poplog/man/1M/psrinfo">man page</a>.</td></tr></table></div>
+
+
+<h2><a name="CPUCapsandShares-FindingtheCPUCapofaMachine"></a>Finding the CPU Cap of a Machine</h2>
+
+<p>Use the&nbsp;<tt>prctl</tt>&nbsp;command to get the CPU cap of a machine. You can run this command from the compute node's global zone to get the CPU cap value for both SmartMachines and Virtual Machines.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">compnode# prctl -n zone.cpu-cap -i zone 9e39f274-1587-4c26-89e6-e445fd20c9b5
+zone: 4: 9e39f274-1587-4c26-89e6-e445fd20c9b5
+NAME    PRIVILEGE       VALUE    FLAG   ACTION                       RECIPIENT
+zone.cpu-cap
+        usage               5
+        privileged        350       -   deny                                 -
+        system          4.29G     inf   deny                                 -</pre>
+		</div>
+</div></div>
+<p><br class="atl-forced-newline" /></p>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>In the output,&nbsp;<tt>usage</tt>&nbsp;is the current percentage of CPU used, and&nbsp;<tt>privileged</tt>&nbsp;is the CPU cap.</td></tr></table></div>
+<p>Within a SmartMachine you can use the value of&nbsp;<tt>zonename</tt>&nbsp;to get the CPU cap of a machine:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">machine# prctl -n zone.cpu-cap -i zone $(zonename)
+zone: 1: 97c7f691-0c53-4651-9765-9c52c32c6dd4
+NAME    PRIVILEGE       VALUE    FLAG   ACTION                       RECIPIENT
+zone.cpu-cap
+        usage               2
+        privileged        350       -   deny                                 -
+        system          4.29G     inf   deny                                 -</pre>
+		</div>
+</div></div>
+
+<h2><a name="CPUCapsandShares-FindingtheNumberofSharesAllocatedtoaMachine"></a>Finding the Number of Shares Allocated to a Machine</h2>
+
+<p>Use the&nbsp;<tt>prctl</tt>&nbsp;command to get the number of shares allocated to a machine. You can run this command from the compute node's global zone to get the share value for both SmartMachines and Virtual Machines.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">compnode# prctl -n zone.cpu-shares -i zone 9e39f274-1587-4c26-89e6-e445fd20c9b5
+zone: 4: 9e39f274-1587-4c26-89e6-e445fd20c9b5
+NAME    PRIVILEGE       VALUE    FLAG   ACTION                       RECIPIENT
+zone.cpu-shares
+        usage             128
+        privileged        128       -   none                                 -
+        system          65.5K     max   none                                 -</pre>
+		</div>
+</div></div>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>In the output,&nbsp;<tt>usage</tt>&nbsp;means how many shares are being used, and&nbsp;<tt>privileged</tt>&nbsp;means how many shares are allocated.</td></tr></table></div>
+<p>You can also use this command within a SmartMachine to find out how many shares are allocated to it:<br/>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">[root@vanilla ~]# prctl -n zone.cpu-shares -i zone $(zonename)
+zone: 1: 97c7f691-0c53-4651-9765-9c52c32c6dd4
+NAME    PRIVILEGE       VALUE    FLAG   ACTION                       RECIPIENT
+zone.cpu-shares
+        usage             128
+        privileged        128       -   none                                 -
+        system          65.5K     max   none                                 -</pre>
+		</div>
+</div></div></p>
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>For more information on&nbsp;<tt>prctl</tt>, see the&nbsp;<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?prctl+2">man page</a>.</td></tr></table></div>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

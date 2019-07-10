@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : How to create a KVM VM ( Hypervisor virtualized machine ) in SmartOS</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : How to create a KVM VM ( Hypervisor virtualized machine ) in SmartOS
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Jan 31, 2019 by <font color="#0050B2">shaner</font>.
+				    </div>
+
+				    <h1><a name="HowtocreateaKVMVM%28Hypervisorvirtualizedmachine%29inSmartOS-CreatingKVMVM%27s"></a>Creating KVM VM's</h1>
+
+<p>Before creating a new KVM VM, a zone template image must be imported. KVM templates are ZFS zvol snapshots with a (typically) freely-distributable operating system such as a Linux variant pre-installed. Images are available through the imgadm tool.</p>
+
+<p>You will then be able to create and install zones and virtual machines using <tt>vmadm create</tt>.</p>
+
+<p>To list all available KVM images from Joyent:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">imgadm avail -o uuid,name,version,os,type,published | grep zvol</pre>
+		</div>
+</div></div>
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>note that KVM images usually say something like "linux" or "bsd" in the "OS" column of this output and "zvol" as the "TYPE".<br/>
+"smartos" images (zone templates) and images with "LX" in their names (datasets for use with LX-branded zones)<br/>
+aren't appropriate for the process being described here. These images cannot be used to create KVM VM's.</td></tr></table></div>
+
+<p>To list all local images installed in on your SmartOS host:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">imgadm list</pre>
+		</div>
+</div></div>
+
+<p>To import an image from Joyent, use the UUID of the image (from <tt>imgadm avail</tt>):</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">imgadm import UUID</pre>
+		</div>
+</div></div>
+
+<p>The image is now downloaded and installed at zones/UUID.</p>
+
+<p><tt>vmadm create</tt> is a tool for fast provisioning of zones and KVM VMs; it takes a json payload and clones an image into a working virtual machine.</p>
+
+<p>To use <tt>vmadm create</tt> you must first start by creating your VM/zone definition file, for instance copying this in to /tmp/myvmspec (substituting the image_uuid, network information, and machine dimensions that are appropriate):</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">{
+  "brand": "kvm",
+  "resolvers": [
+    "208.67.222.222",
+    "8.8.4.4"
+  ],
+  "ram": "512",
+  "vcpus": "1",
+  "nics": [
+    {
+      "nic_tag": "admin",
+      "ip": "10.33.33.33",
+      "netmask": "255.255.255.0",
+      "gateway": "10.33.33.1",
+      "model": "virtio",
+      "primary": true
+    }
+  ],
+  "disks": [
+    {
+      "image_uuid": "3162a91e-8b5d-11e2-a78f-9780813f9142",
+      "boot": true,
+      "model": "virtio"
+    }
+  ]
+}</pre>
+		</div>
+</div></div>
+
+<p>First, ensure you've imported the image you've specified in the vmspec file. In the above example, you'd</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">imgadm import 3162a91e-8b5d-11e2-a78f-9780813f9142</pre>
+		</div>
+</div></div>
+<p>then simply</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">vmadm create -f /tmp/myvmspec</pre>
+		</div>
+</div></div>
+
+<p>and <tt>vmadm</tt> will respond with a status and your VM will be created and booted.</p>
+
+
+<p>Once you have created the VM with <tt>vmadm create</tt>, you can see your VM's video console by finding it's VNC connection info:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">vmadm info &lt;UUID&gt; vnc
+
+#### example output here:
+{
+  "vnc": {
+    "host": "10.0.1.152",
+    "port": 52922,
+    "display": 47022
+  }
+}</pre>
+		</div>
+</div></div>
+
+<p>Then connect to that VNC service with your local workstation's VNC viewer. <span class="image-wrap" style=""><img src="attachments/755505/1146943.png" style="border: 1px solid black"/></span></p>
+
+<div class='panelMacro'><table class='warningMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/forbidden.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>Be aware that the VNC console service is NOT authenticated, and is intended to run on a private network. Typically, your SmartOS machine won't have it's primary interface on the internet. Please be aware of what services you're exposing, and apply firewall rules as necessary.</td></tr></table></div>
+<div class='panelMacro'><table class='warningMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/forbidden.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>RealVNC VNC Viewer will crash when connecting unless you set FullColour to True in the options.&nbsp; On Windows make sure to go to Options, click Advanced, go to the Expert tab and set FullColour to True.</td></tr></table></div>
+<p>Note that the VM images distributed by Joyent at <a href="https://images.joyent.com/images">https://images.joyent.com/images</a> are designed to be used with SmartDatacenter, and typically have hooks to set passwords and/or ssh keys from SmartDatacenter services. To use them with the open-source SmartOS, you'll probably need to first boot single-user and set a password for the root user.</p>
+
+<h4><a name="HowtocreateaKVMVM%28Hypervisorvirtualizedmachine%29inSmartOS-PassingSSHkeystotheVM"></a>Passing SSH keys to the VM</h4>
+
+<p>With some images you won't be able to log in to unless you pass an SSH public key to validate your connection with. Adjust your config to contain a customer_metadata block:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: javascript; gutter: false">"customer_metadata": {
+    "root_authorized_keys":
+"ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA8aQRt2JAgq6jpQOT5nukO8gI0Vst+EmBtwBz6gnRjQ4Jw8pERLlMAsa7jxmr5yzRA7Ji8M/kxGLbMHJnINdw/TBP1mCBJ49TjDpobzztGO9icro3337oyvXo5unyPTXIv5pal4hfvl6oZrMW9ghjG3MbIFphAUztzqx8BdwCG31BHUWNBdefRgP7TykD+KyhKrBEa427kAi8VpHU0+M9VBd212mhh8Dcqurq1kC/jLtf6VZDO8tu+XalWAIJcMxN3F3002nFmMLj5qi9EwgRzicndJ3U4PtZrD43GocxlT9M5XKcIXO/rYG4zfrnzXbLKEfabctxPMezGK7iwaOY7w== wooyay@houpla"
+  }</pre>
+		</div>
+</div></div>
+<h4><a name="HowtocreateaKVMVM%28Hypervisorvirtualizedmachine%29inSmartOS-PassingcloudinitdatatotheVM"></a>Passing cloud-init data to the VM</h4>
+
+<p>SmartOS provides the ability to inject  cloud-init data into a zone/VM. This is useful for automating the menial tasks one would need to perform manually  like setting up users, installing packages, or pulling down a git repo.  Basically, anything you can stuff into cloud-init user-data is at your  disposal.</p>
+
+
+<p>Since SmartOS zone definitions  are in JSON and cloud-init data is in yaml, it’s not immediately obvious  how to supply this information. Maintaining proper yaml indentation, escape all  double-quotes (“) and line-feeds.</p>
+
+<p>Here’s an example cloud-init yaml file that creates a new user and imports their ssh key from launchpad.net.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">#cloud-config
+ 
+users:
+  - default
+  - name: shaner
+    ssh_import_id: shaner
+    lock_passwd: false
+    sudo: "ALL=(ALL) NOPASSWD:ALL"
+    shell: /bin/bash</pre>
+		</div>
+</div></div>
+
+<p>Here's what it would look like in our zone definition.</p>
+
+
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">"customer_metadata": {
+    "cloud-init:user-data": "#cloud-config\n\nusers:\n  - default\n  - name: shaner\n    ssh_import_id: shaner\n    lock_passwd: false\n    sudo: \"ALL=(ALL) NOPASSWD:ALL\"\n    shell: /bin/bash"
+  }</pre>
+		</div>
+</div></div>
+<p>You can find more on cloud-init at <a href="https://cloudinit.readthedocs.io/en/latest/topics/examples.html">https://cloudinit.readthedocs.io/en/latest/topics/examples.html</a></p>
+
+				    					    <br/>
+                        <div class="tabletitle">
+                            <a name="attachments">
+                                <h2>Attachments:</h2>
+                            </a>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/755505/1146943.png">debian-vnc-kvm-booting.png</a> (image/png)
+                                <br/>
+                                                    </div>
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

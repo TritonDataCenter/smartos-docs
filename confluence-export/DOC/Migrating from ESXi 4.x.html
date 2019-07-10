@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Migrating from ESXi 4.x</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Migrating from ESXi 4.x
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on May 21, 2012 by <font color="#0050B2">nahamu</font>.
+				    </div>
+
+				    <p>A simple step-by-step migration guide from a ESXi VMware to a SmartOS KVM branded vm.</p>
+
+<p>Disclaimer: the steps are developed based on advice from Orlando Vazquez on the mailing list and refined with some trial and error.</p>
+
+<h2><a name="MigratingfromESXi4.x-GettingstuffoutofESXi"></a>Getting stuff out of ESXi</h2>
+
+<p>This might be the most tricky part since the obvious choice, vCenter Converter is a surprisingly bad one. Instead the trick is to use a semi-secret tool: <a href="http://communities.vmware.com/community/vmtn/server/vsphere/automationtools/ovf">ovftool</a>. It is a command line tool, sadly it does not work directly on SmartOS, for my tests I ran it on my laptop and it worked fine. The syntax is about the following:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">ovftool vi://&lt;your ESXi host&gt;/&lt;vm Name&gt; &lt;outfile&gt;.vmx
+
+#examples
+#your host is vsphere.vmware.com and your VM is named wobble
+ ovftool vi://vsphere.vmware.com/wobble wobble.vmx
+
+#if wobble were in a pool named swimming
+ ovftool vi://vsphere.vmware.com/swimming/wobble wobble.vmx</pre>
+		</div>
+</div></div>
+<p>Now this will take a while, so sit back and relax, upside is it will only copy the data really used be the VM. Once the program is through you will get somethig like:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># ls -l
+wobble.vmx wobble-disk1.vmdk</pre>
+		</div>
+</div></div>
+
+<h2><a name="MigratingfromESXi4.x-Andnowforsomethingcompletelydifferent"></a>And now for something completely different</h2>
+
+<p>Now comes the fun part, create the new VM. Look at <a href="How to create a Virtual Machine in SmartOS.html" title="How to create a Virtual Machine in SmartOS">How to create a Virtual Machine in SmartOS</a> for details. Only addition here: you need to create a disk with the  correct size for each .vmdk you want to import. You can double-check the size of the virtual disk with qemu-img:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># qemu-img info -f vmdk &lt;file&gt;.vmdk</pre>
+		</div>
+</div></div>
+
+<p>Once you run vmadm create, you  will see something like this if you do zfs list (<b>e0950735-dae5-481d-911a-80b14844759a</b> would be the UUID of your VM)</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[root@SmartOs /zones]# zfs list
+...
+zones/e0950735-dae5-481d-911a-80b14844759a        1.49M  10.0G  1.46M  /zones/e0950735-dae5-481d-911a-80b14844759a
+zones/e0950735-dae5-481d-911a-80b14844759a-disk0  40.7G   185G  20.1G  -
+...</pre>
+		</div>
+</div></div>
+<p>So what we must do now is put our vmdk file into the zfs zvol, fortunately qemu-img comes to our help here, it allows writing our vmdk directly to the disk we created. (thanks to nahamu for suggesting that).</p>
+
+<div class='panelMacro'><table class='warningMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/forbidden.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>This does not work on all types of vmdk images&#33;</td></tr></table></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[root@SmartOs /zones]# qemu-img convert -f vmdk -O host_device wobble-disk1.vmdk /dev/zvol/rdsk/zones/e0950735-dae5-481d-911a-80b14844759a-disk0</pre>
+		</div>
+</div></div>
+<p>You can boot your VM now and should see your migrated data as if it were never somewhere else.</p>
+
+
+<h2><a name="MigratingfromESXi4.x-Finalwords"></a>Final words</h2>
+
+<p>If you have more then one disk just repeat the steps for each disk. Also be aware that the image will use the full size and not sparse.</p>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

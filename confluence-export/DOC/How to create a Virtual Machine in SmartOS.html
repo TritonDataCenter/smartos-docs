@@ -1,0 +1,450 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : How to create a Virtual Machine in SmartOS</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : How to create a Virtual Machine in SmartOS
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Jul 23, 2015 by <font color="#0050B2">tpaul</font>.
+				    </div>
+
+				    <div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>New!</b><br />March 26, 2012:&nbsp;<a href="https://github.com/joyent/smartos-vmtools">VM Guest tools</a> contains scripts and drivers that are used to create virtualized machine images in SmartOS.</td></tr></table></div>
+
+<p>In SmartOS, virtual machines are created using the <tt>vmadm create</tt> tool. This tool takes a JSON payload and creates either a 'kvm' or 'joyent' brand zone with the properties specified in the input JSON. Normal output is a series of single-line JSON objects with type set to one of:</p>
+
+<ul>
+	<li>success</li>
+	<li>failure</li>
+	<li>update</li>
+	<li>notice</li>
+</ul>
+
+
+<p>each object having at least the 'type' and 'message' fields. A message of type 'success' or 'failure' will be followed by the process exiting with the exit status 0 indicating success and all other exits indicating failure.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">vmadm create -f &lt;filename.json&gt;</pre>
+		</div>
+</div></div>
+
+<h1><a name="HowtocreateaVirtualMachineinSmartOS-GettingStarted"></a>Getting Started</h1>
+
+<p>You will need</p>
+
+<ul>
+	<li>The latest copy of SmartOS, available from <a href="http://download.joyent.com">http://download.joyent.com</a>&nbsp;(release details <a href="Download SmartOS.html" title="Download SmartOS">here</a>)</li>
+	<li>The ISO of your OS of choice</li>
+	<li>A VNC client</li>
+</ul>
+
+
+<h1><a name="HowtocreateaVirtualMachineinSmartOS-TheMachineJSONDescription"></a>The Machine JSON Description</h1>
+
+<p>Save the code snippet below to a file called "vmspec.json". You can make changes to the networks and other variables as appropriate. This is by no means an exhaustive list of all options. For all options see <a href="https://smartos.org/man/1m/vmadm">vmadm(1m)</a>. (Sizes are listed in MiB)</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">{
+  "brand": "kvm",
+  "vcpus": 1,
+  "autoboot": false,
+  "ram": 1024,
+  "resolvers": ["208.67.222.222", "208.67.220.220"],
+  "disks": [
+    {
+      "boot": true,
+      "model": "virtio",
+      "size": 40960
+    }
+  ],
+  "nics": [
+    {
+      "nic_tag": "admin",
+      "model": "virtio",
+      "ip": "10.88.88.51",
+      "netmask": "255.255.255.0",
+      "gateway": "10.88.88.1",
+      "primary": 1
+    }
+  ]
+}</pre>
+		</div>
+</div></div>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>For releases before December 15, 2011, you will need to include the <tt>default_gateway</tt> attribute in the root:
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">"default_gateway": "10.88.88.1",</pre>
+		</div>
+</div></div>
+<p>This must match the gateway of one of the nics so that the default gateway and resolvers will be set via DHCP in the VM.</p></td></tr></table></div>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>When installing OS's that do not ship with&nbsp;<tt>virtio</tt> support instead of using&nbsp;<tt>virtio</tt> on the disk for the model use&nbsp;<tt>ide</tt> and&nbsp;<tt>e1000</tt> for the network model.</td></tr></table></div>
+
+<h1><a name="HowtocreateaVirtualMachineinSmartOS-CreatetheEmptyVirtualMachine"></a>Create the Empty Virtual Machine</h1>
+
+<p>Create the empty virtual machine using the create-machine tool. Please note that the virtual machine will not be running.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">$ vmadm create</pre>
+		</div>
+</div></div>
+
+<p>Note the UUID in the last step. This UUID is the ID of the VM and will be used to reference it for the rest of its lifecycle.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">$ vmadm create &lt; vmspec.json
+
+{"percent":1,"type":"update","message":"checking and applying defaults to payload"}
+{"percent":2,"type":"update","message":"checking required datasets"}
+{"percent":28,"type":"update","message":"we have all necessary datasets"}
+{"percent":29,"type":"update","message":"creating volumes"}
+{"percent":51,"type":"update","message":"creating zone container"}
+{"percent":94,"type":"update","message":"storing zone metadata"}
+{"uuid":"b8ab5fc1-8576-45ef-bb51-9826b52a4651","type":"success","message":"created VM"}</pre>
+		</div>
+</div></div>
+
+<h1><a name="HowtocreateaVirtualMachineinSmartOS-CopyyourOSISOtothezone"></a>Copy your OS ISO to the zone</h1>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">$ cd /zones/b8ab5fc1-8576-45ef-bb51-9826b52a4651/root/
+$ wget http://mirrors.debian.com/path_to_an_iso/debian.iso</pre>
+		</div>
+</div></div>
+
+<h1><a name="HowtocreateaVirtualMachineinSmartOS-EnsurepermissionsarecorrectontheISO"></a>Ensure permissions are correct on the ISO</h1>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">$ chown root debian.iso
+$ chmod u+r debian.iso</pre>
+		</div>
+</div></div>
+
+<h1><a name="HowtocreateaVirtualMachineinSmartOS-BoottheVMfromtheISOImage"></a>Boot the VM from the ISO Image</h1>
+
+<p><tt>vmadm</tt> is the virtual machine administration tool. It is used to manage the lifecycle of a virtual machine after it already exists. We will boot the virtual machine we have just created, but tell it to boot off of the ISO image the first time it comes up.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">vmadm boot b8ab5fc1-8576-45ef-bb51-9826b52a4651 order=cd,once=d cdrom=/debian.iso,ide</pre>
+		</div>
+</div></div>
+
+<p>Please note that the path for the ISO image will be the relative path of the ISO to the zone you are in. This is why it starts with the '/'</p>
+
+<h1><a name="HowtocreateaVirtualMachineinSmartOS-UseVNCtoConnecttotheVM"></a>Use VNC to Connect to the VM</h1>
+
+<p>The <tt>vmadm</tt> tool can print out the information on the VM. You can also append a section to print specificially.</p>
+
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">$ vmadm info b8ab5fc1-8576-45ef-bb51-9826b52a4651 vnc
+
+{
+  "vnc": {
+    "display": 39565,
+    "port": 45465,
+    "host": "10.99.99.7"
+  }
+}</pre>
+		</div>
+</div></div>
+
+<p>Your VM is now running. You can shutdown your virtual machine and it will still remain on disk. To learn more about managing the lifecycle of a virtual machine, run <tt>vmadm &#45;-help</tt>.</p>
+
+<h2><a name="HowtocreateaVirtualMachineinSmartOS-Troubleshooting"></a>Troubleshooting</h2>
+
+
+<h3><a name="HowtocreateaVirtualMachineinSmartOS-ZoneNetworkingIssues"></a>Zone Networking Issues</h3>
+
+<p>If you are running SmartOS as a guest vm then you might have networking issues with your zones. In order to fix this we need to create a bridge.<br/>
+If you look at&nbsp;<a href="https://github.com/joyent/smartos-overlay/blob/master/lib/svc/method/net-physical#L179">https://github.com/joyent/smartos-overlay/blob/master/lib/svc/method/net-physical#L179</a> You can see that the script will create a bridge for vmare products but if you are using VirtualBox or Parallells then you need to do it manually.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">$ ifconfig -a
+e1000g0: flags=1100943&lt;UP,BROADCAST,RUNNING,PROMISC,MULTICAST,ROUTER,IPv4&gt; mtu 1500 index 2
+        inet 10.216.214.7 netmask ffffff00 broadcast 10.216.214.255
+        ether 8:0:27:e1:35:cb
+
+$ dladm create-bridge -l e1000g0 vboxbr</pre>
+		</div>
+</div></div>
+<p>Your zones should now be able to access the network. You don't need to change the nic_tag for any of the zones, leave them as "admin" or "external".</p>
+
+<p>There is a way to make this happen on boot with my adding an smf script to&nbsp;/opt/custom/smf. Here is a nice write up that shows you how it's done.&nbsp;<a href="http://www.psychicfriends.net/blog/archives/2012/03/21/smartosorg_run_things_at_boot.html#003979">http://www.psychicfriends.net/blog/archives/2012/03/21/smartosorg_run_things_at_boot.html#003979</a></p>
+
+<h1><a name="HowtocreateaVirtualMachineinSmartOS-FurtherReading"></a>Further Reading</h1>
+
+<p>Those versed in JavaScript can learn a lot more by reading the <a href="https://github.com/joyent/smartos-live/blob/master/src/vm/sbin/vmadm.js">vmadm.js source</a>.</p>
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-754065"></a>
+                                    <font class="smallfont"><p>I am having some issue's setting up multiple VM's on smartos.&nbsp; The problem is that whenever I try to boot up a VM with one already running I get the following in my /var/adm/messages:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">Oct 25 03:42:09 00-21-28-6a-c9-44 genunix: [ID 408114 kern.info] /pseudo/zconsnex@1/zcons@0 (zcons0) online
+Oct 25 03:42:10 00-21-28-6a-c9-44 root: [ID 702911 daemon.error] zone 26eed86d-e235-4233-8380-41ebf24d1291  undefined VNIC net0 (global NIC net1)
+Oct 25 03:42:10 00-21-28-6a-c9-44 root: [ID 702911 daemon.error] zone 26eed86d-e235-4233-8380-41ebf24d1291  error removing flows for net0</pre>
+		</div>
+</div></div>
+<p>I have looked high and low for any documentation pertaining to networking setup for VM's and haven't been able to find anything as of yet.&nbsp; Is there documentation somewhere where I would be able to find out how to assign VM's virtual nics?&nbsp; I attempted to add additional vnics with:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">dladm create-vnic -l etherstub0 net1</pre>
+		</div>
+</div></div>
+<p>This created the vnic, however I cannot figure out how to assign a VM to use that vnic instead of net0.&nbsp; Any help is appreciated.</p>
+
+<p>/GC</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by geoff.cardamone@mlb.com at Oct 25, 2011 03:58
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-754067"></a>
+                                    <font class="smallfont"><p>I was tripped up by this as well.</p>
+
+<p>SmartOs seems to do the vnic wiring automatically if you provide "admin" as the physical device.</p>
+
+<p>In the json config for creating the zone use "nic_tag": "admin"</p>
+
+<p>After the fact I was able to modify my /etc/zones/{guid}.xml by changing</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">&lt;network physical="net0" mac-addr="a2:ad:5f:2d:c6:8d" global-nic="e1000g0"&gt;</pre>
+		</div>
+</div></div>
+<p>to:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">&lt;network physical="net0" mac-addr="a2:ad:5f:2d:c6:8d" global-nic="admin"&gt;</pre>
+		</div>
+</div></div>
+
+<p>The end result after a zoneadm boot  is</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[root@00-0c-29-58-7c-ba ~]# dladm show-vnic                                          
+LINK         OVER       SPEED MACADDRESS        MACADDRTYPE VID  ZONE
+net0         e1000g0    0     a2:ad:5f:2d:c6:8d fixed       0    5010d34a-c993-4dd4-892f-c0d4c42c7934</pre>
+		</div>
+</div></div>
+
+<p>I am using smartosplus64 machines.  Hope this helps for the KVM ones.</p>
+
+<p>/KP</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by kevpie at Oct 25, 2011 16:53
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-754068"></a>
+                                    <font class="smallfont"><p>Kevin,</p>
+
+<p>Thanks for taking the time to respond.&nbsp; I attempted to boot a second vm and the following is what I am still seeing:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">ct 25 18:31:15 00-21-28-6a-c9-44 genunix: [ID 408114 kern.info] /pseudo/zconsnex@1/zcons@1 (zcons1) online
+Oct 25 18:31:16 00-21-28-6a-c9-44 mac: [ID 469746 kern.info] NOTICE: vnic1053 registered
+Oct 25 18:31:17 00-21-28-6a-c9-44 mac: [ID 736570 kern.info] NOTICE: vnic1053 unregistered</pre>
+		</div>
+</div></div>
+<p>Also:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[root@00-21-28-6a-c9-44 ~]# dladm show-vnic
+LINK         OVER       SPEED MACADDRESS        MACADDRTYPE VID  ZONE
+net0         igb0       0     b2:14:a3:36:28:b  fixed       0    26eed86d-e235-4233-8380-41ebf24d1291</pre>
+		</div>
+</div></div>
+
+<p>So it appears that a single KVM is working correctly, however I am unable to get a second to boot.&nbsp; I suppose that I could try some of the Joynet datasets and see if I get a different result.&nbsp; I also tried to set the /etc/zones/57f55e19-253f-4d98-baf8-7ebab4af17c7.xml to:</p>
+
+<p><div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">&lt;network physical="net1" mac-addr="b2:23:b4:85:c3:6d" global-nic="admin"&gt;\</pre>
+		</div>
+</div></div>EDIT:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[root@00-21-28-6a-c9-44 /etc/zonedladm show-vnicLINK         OVER       SPEED MACADDRESS        MACADDRTYPE VID  ZONE
+net0         igb0       0     b2:14:a3:36:28:b  fixed       0    26eed86d-e235-4233-8380-41ebf24d1291
+net1         igb0       0     0:21:28:6a:c9:45  fixed       0    57f55e19-253f-4d98-baf8-7ebab4af17c7</pre>
+		</div>
+</div></div>
+<p>and it produced the same output in syslog.&nbsp; I then tried by creating a net1 vnic and it still wouldn't boot.&nbsp; Is there another log somewhere were there may be additional info?&nbsp; I haven't found anything just yet.</p>
+
+<p>Thanks again,</p>
+
+<p>/GC</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by geoff.cardamone@mlb.com at Oct 25, 2011 18:41
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-754071"></a>
+                                    <font class="smallfont"><p>When I have 2 zones booted they both have net0.</p>
+
+<p>Try allowing smartos to use net0 for all of you VMs.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[root@00-0c-29-58-7c-ba ~]# dladm show-vnic                                     
+LINK         OVER       SPEED MACADDRESS        MACADDRTYPE VID  ZONE
+net0         e1000g0    0     a2:ad:5f:2d:c6:8d fixed       0    5010d34a-c993-4dd4-892f-c0d4c42c7934
+net0         e1000g0    0     a2:c2:c1:a6:16:82 fixed       0    7eab3fe1-e884-4381-a849-da2c0c6cfcde</pre>
+		</div>
+</div></div>
+
+<p>The original documentation published on one of the other pages recommended the dladm create-vnic -l &lt;phys&gt; &lt;vnic&gt;.  That was removed in favour of the "nic_tag": "admin"   </p>
+
+<p>The autoboot started working when I put everything back to <b>net0</b> and <b>admin</b>.</p>
+
+<p>You may want to try using a pair of new VMs created using the create-machine command.</p>
+
+<p>Hope this helps.</p>
+
+<p>/KP</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by kevpie at Oct 25, 2011 19:21
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-754073"></a>
+                                    <font class="smallfont"><p>Kevin,</p>
+
+<p>Something is still keeping the second VM from booting.&nbsp; I started two fresh VM's up:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[root@00-21-28-6a-c9-44 /zones]# vmadm boot e8b80104-ab7f-4f6d-b1fc-cf3e0e97c518 order=cd,once=d cdrom=/centos6.iso,ide
+[root@00-21-28-6a-c9-44 /zones]# dladm show-vnic
+LINK         OVER       SPEED MACADDRESS        MACADDRTYPE VID  ZONE
+net0         igb0       0     b2:24:b9:2e:99:8  fixed       0    de436c64-19a0-4398-ba18-2ce85f4337f3
+net0         igb0       0     b2:24:b9:4a:31:97 fixed       0    e8b80104-ab7f-4f6d-b1fc-cf3e0e97c518
+[root@00-21-28-6a-c9-44 /zones]# dladm show-vnic
+LINK         OVER       SPEED MACADDRESS        MACADDRTYPE VID  ZONE
+net0         igb0       0     b2:24:b9:2e:99:8  fixed       0    de436c64-19a0-4398-ba18-2ce85f4337f3</pre>
+		</div>
+</div></div>
+
+<p>I am going to keep looking for some additional info, my logs again only show the following,</p>
+
+<p>VM boots:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">Oct 25 19:56:11 00-21-28-6a-c9-44 genunix: [ID 408114 kern.info] /pseudo/zconsnex@1/zcons@0 (zcons0) online
+Oct 25 19:56:12 00-21-28-6a-c9-44 mac: [ID 469746 kern.info] NOTICE: vnic1069 registered
+Oct 25 19:56:12 00-21-28-6a-c9-44 root: [ID 702911 daemon.error] zone e8b80104-ab7f-4f6d-b1fc-cf3e0e97c518  error setting VNIC allowed-ip  net0 undefined
+Oct 25 19:56:12 00-21-28-6a-c9-44 kvm: [ID 420667 kern.info] kvm_lapic_reset: vcpu=ffffff05174a6000, id=0, base_msr= fee00100 PRIx64 base_address=fee00000
+Oct 25 19:56:12 00-21-28-6a-c9-44 kvm: [ID 710719 kern.info] vmcs revision_id = e
+Oct 25 19:56:12 00-21-28-6a-c9-44 kvm: [ID 420667 kern.info] kvm_lapic_reset: vcpu=ffffff0500b6c000, id=1, base_msr= fee00000 PRIx64 base_address=fee00000
+Oct 25 19:56:12 00-21-28-6a-c9-44 kvm: [ID 710719 kern.info] vmcs revision_id = e
+Oct 25 19:56:16 00-21-28-6a-c9-44 kvm: [ID 391722 kern.info] unhandled wrmsr: 0x0 data 3000000018
+Oct 25 19:56:16 00-21-28-6a-c9-44 last message repeated 1 time
+Oct 25 19:56:16 00-21-28-6a-c9-44 kvm: [ID 391722 kern.info] unhandled wrmsr: 0x55171e data 0
+Oct 25 19:56:16 00-21-28-6a-c9-44 kvm: [ID 391722 kern.info] unhandled wrmsr: 0x0 data 0
+Oct 25 19:56:16 00-21-28-6a-c9-44 last message repeated 2 times
+Oct 25 19:56:16 00-21-28-6a-c9-44 kvm: [ID 291337 kern.info] vcpu 1 received sipi with vector # 10
+Oct 25 19:56:16 00-21-28-6a-c9-44 kvm: [ID 420667 kern.info] kvm_lapic_reset: vcpu=ffffff0500b6c000, id=1, base_msr= fee00800 PRIx64 base_address=fee00000
+Oct 25 19:56:17 00-21-28-6a-c9-44 kvm: [ID 391722 kern.info] unhandled wrmsr: 0x0 data 0</pre>
+		</div>
+</div></div>
+
+<p>doesnt boot:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">Oct 25 19:54:56 00-21-28-6a-c9-44 genunix: [ID 408114 kern.info] /pseudo/zconsnex@1/zcons@1 (zcons1) online
+Oct 25 19:54:56 00-21-28-6a-c9-44 mac: [ID 469746 kern.info] NOTICE: vnic1067 registered
+Oct 25 19:54:56 00-21-28-6a-c9-44 root: [ID 702911 daemon.error] zone e8b80104-ab7f-4f6d-b1fc-cf3e0e97c518  error setting VNIC allowed-ip  net0 undefined
+Oct 25 19:54:56 00-21-28-6a-c9-44 kvm: [ID 420667 kern.info] kvm_lapic_reset: vcpu=ffffff04ffeca000, id=0, base_msr= fee00100 PRIx64 base_address=fee00000
+Oct 25 19:54:56 00-21-28-6a-c9-44 kvm: [ID 710719 kern.info] vmcs revision_id = e
+Oct 25 19:54:56 00-21-28-6a-c9-44 kvm: [ID 420667 kern.info] kvm_lapic_reset: vcpu=ffffff0509be2000, id=1, base_msr= fee00000 PRIx64 base_address=fee00000
+Oct 25 19:54:56 00-21-28-6a-c9-44 kvm: [ID 710719 kern.info] vmcs revision_id = e
+Oct 25 19:55:04 00-21-28-6a-c9-44 mac: [ID 736570 kern.info] NOTICE: vnic1067 unregistered</pre>
+		</div>
+</div></div>
+
+<p>not sure if maybe its something to do with the amount of RAM I am giving each host, or the number of vcpus</p>
+
+<p>/GC</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by geoff.cardamone@mlb.com at Oct 25, 2011 19:59
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-754074"></a>
+                                    <font class="smallfont"><p>Just to update;&nbsp; when i use a joyent dataset for centos6 as a second VM, the VM does boot.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by geoff.cardamone@mlb.com at Oct 25, 2011 21:30
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-754076"></a>
+                                    <font class="smallfont"><p>Is there a current mechanism to clone an existing VM?</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by michael.smith@usace.army.mil at Oct 30, 2011 18:06
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

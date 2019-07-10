@@ -1,0 +1,313 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Refer to Virtual Machines by Alias</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Refer to Virtual Machines by Alias
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Mar 27, 2015 by <font color="#0050B2">sjorge</font>.
+				    </div>
+
+				    <h2><a name="RefertoVirtualMachinesbyAlias-Introduction"></a>Introduction</h2>
+
+<p>This is a set of instructions to allow one to refer to virtual machines by their alias instead of UUID as long as the alias is unique</p>
+
+<div>
+<ul>
+    <li><a href='#RefertoVirtualMachinesbyAlias-Introduction'>Introduction</a></li>
+    <li><a href='#RefertoVirtualMachinesbyAlias-Method'>Method</a></li>
+<ul>
+<ul>
+    <li><a href='#RefertoVirtualMachinesbyAlias-Wrapperfunction'>Wrapper function</a></li>
+    <li><a href='#RefertoVirtualMachinesbyAlias-Exampleusage'>Example usage</a></li>
+    <li><a href='#RefertoVirtualMachinesbyAlias-Variationofwrapperfunction'>Variation of wrapper function</a></li>
+    <li><a href='#RefertoVirtualMachinesbyAlias-ExampleUsage'>Example Usage</a></li>
+    <li><a href='#RefertoVirtualMachinesbyAlias-Optional%3ABashtabcompletion'>Optional: Bash tab completion</a></li>
+</ul>
+</ul>
+    <li><a href='#RefertoVirtualMachinesbyAlias-Alternativewrapper'>Alternative wrapper</a></li>
+<ul>
+    <li><a href='#RefertoVirtualMachinesbyAlias-.bashrc'>.bashrc</a></li>
+    <li><a href='#RefertoVirtualMachinesbyAlias-ExampleUsage'>Example Usage</a></li>
+</ul>
+</ul></div>
+
+<h2><a name="RefertoVirtualMachinesbyAlias-Method"></a>Method</h2>
+
+<h4><a name="RefertoVirtualMachinesbyAlias-Wrapperfunction"></a>Wrapper function</h4>
+
+<p>After creating persistent root dot files, append this to wrapper function to your .bashrc</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>.bashrc excerpt</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">#Function allowing for use of &lt;alias&gt; in place of &lt;uuid&gt; when alias is unique
+function vmadm
+{
+    local input=""
+    if [[ ! -t 0 ]]; then
+        while read -r words;
+        do
+            input=$input$words;
+        done
+    fi
+    local op=$1; shift
+    if [[ "${op}" == "alias" ]]; then
+        case $# in
+            0)
+                echo "Usage:"
+                echo ""
+                echo "vmadm alias &lt;alias&gt;"
+                echo " -or- vmadm alias &lt;command&gt; &lt;alias&gt; [options]"
+                ;;
+            1)
+                echo ${input} | /usr/sbin/vmadm lookup alias=$1
+                ;;
+            *)
+                op=$1; shift
+                local vm_alias=$1; shift
+                local uuid=$(vmadm lookup -1 alias=${vm_alias})
+                if [[ -n ${uuid} ]]; then
+                    echo ${input} | /usr/sbin/vmadm ${op} ${uuid} $@
+                fi
+                ;;
+        esac
+    else
+        echo ${input} | /usr/sbin/vmadm  ${op} $@
+    fi
+    return $?
+}</pre>
+		</div>
+</div></div>
+
+<h4><a name="RefertoVirtualMachinesbyAlias-Exampleusage"></a>Example usage</h4>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># vmadm
+Usage: /usr/sbin/vmadm &lt;command&gt; [options]
+
+create [-f &lt;filename&gt;]
+create-snapshot &lt;uuid&gt; &lt;snapname&gt;
+console &lt;uuid&gt;
+delete &lt;uuid&gt;
+delete-snapshot &lt;uuid&gt; &lt;snapname&gt;
+get &lt;uuid&gt;
+info &lt;uuid&gt; [type,...]
+install &lt;uuid&gt;
+list [-p] [-H] [-o field,...] [-s field,...] [field=value ...]
+lookup [-j|-1] [field=value ...]
+reboot &lt;uuid&gt; [-F]
+receive [-f &lt;filename&gt;]
+rollback-snapshot &lt;uuid&gt; &lt;snapname&gt;
+send &lt;uuid&gt; [target]
+start &lt;uuid&gt; [option=value ...]
+stop &lt;uuid&gt; [-F]
+sysrq &lt;uuid&gt; &lt;nmi|screenshot&gt;
+update &lt;uuid&gt; [-f &lt;filename&gt;]
+ -or- update &lt;uuid&gt; property=value [property=value ...]
+
+For more detailed information on the use of this command,type 'man vmadm'.
+
+# vmadm alias
+Usage:
+
+vmadm alias &lt;alias&gt;
+ -or- vmadm alias &lt;command&gt; &lt;alias&gt; [options]
+
+# vmadm list
+UUID                                  TYPE  RAM      STATE             ALIAS
+f281fd3d-f00d-4350-abb5-aac21fd951af  OS    256      stopped           cicero
+2c9d6220-190f-46c5-b924-81546cbbe6f4  KVM   2048     stopped           marcus
+3e6d88ae-ded8-4461-8eaf-e9e66454391d  OS    2048     stopped           cicero
+24ab469a-d791-41c2-bee0-4c2a463b1e41  OS    8192     stopped           -
+
+# vmadm alias cicero
+3e6d88ae-ded8-4461-8eaf-e9e66454391d
+f281fd3d-f00d-4350-abb5-aac21fd951af
+
+# vmadm alias start marcus
+Successfully started 2c9d6220-190f-46c5-b924-81546cbbe6f4
+
+# vmadm stop 2c9d6220-190f-46c5-b924-81546cbbe6f4
+Succesfully completed stop for 2c9d6220-190f-46c5-b924-81546cbbe6f4
+
+# vmadm alias get cicero | json zonepath
+Requested unique lookup but found 2 results.
+
+# vmadm alias get marcus | json zonepath
+/zones/2c9d6220-190f-46c5-b924-81546cbbe6f4
+
+# vmadm alias update nobody autoboot=false
+Requested unique lookup but found 0 results.
+
+# vmadm alias update marcus autoboot=false
+Successfully updated 2c9d6220-190f-46c5-b924-81546cbbe6f4</pre>
+		</div>
+</div></div>
+
+<h4><a name="RefertoVirtualMachinesbyAlias-Variationofwrapperfunction"></a>Variation of wrapper function</h4>
+
+<p>I came up with this wrapper because I found the need to add the word alias too cumbersome for my lazy self. This wrapper will let you use either uuid or alias.</p>
+
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>.bashrc excerpt</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false"> ##
+ # Allows the use of &lt;uuid|alias&gt; in vmadm
+ ##
+
+ function vmadm() {
+         local op="$1"; shift
+         local uuid="$1"; shift
+
+         local r='^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$'
+         local skip=(create list lookup receive help)
+
+         # These options don't take a uuid argument
+         if [[ ! ${skip[*]} =~ $op ]]; then
+                 # If a uuid was passed, then do nothing
+                 if [[ ! "$uuid" =~ $r ]]; then
+                         uuid=$(command vmadm lookup -1 alias=$uuid)
+                         if [[ ! -n "$uuid" ]]; then
+                                 echo "Alias $uuid not found."
+                         fi
+                 fi
+         fi
+         command vmadm $op $uuid $@
+ }</pre>
+		</div>
+</div></div>
+
+<h4><a name="RefertoVirtualMachinesbyAlias-ExampleUsage"></a>Example Usage</h4>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">bash-4.1# vmadm get 5a43b721-c2ce-49eb-b463-5aa0af99640c | grep create_timestamp
+   "create_timestamp": "2013-01-17T06:18:49.215Z",
+
+ bash-4.1# vmadm get snap | grep create_timestamp
+   "create_timestamp": "2013-01-17T06:18:49.215Z",</pre>
+		</div>
+</div></div>
+
+<h4><a name="RefertoVirtualMachinesbyAlias-Optional%3ABashtabcompletion"></a>Optional: Bash tab completion</h4>
+
+<p>Allows tab completion of available aliases when using 'vmadm alias &lt;command&gt; &lt;alias&gt;' or 'vmadm alias &lt;alias&gt;'. Apply this patch to /etc/bash/bash_completion.d/vmadm (need to have persistent symlink copy, writable root filesystem, or custom build).</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>bash_completion.d/vmadm.patch</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">--- /opt/custom/etc/bash/bash_completion.d/vmadm	Tue Jan 15 21:19:28 2013
++++ /opt/custom/etc/bash/bash_completion.d/vmadm	Tue Jan 15 20:18:33 2013
+@@ -26,6 +26,30 @@
+             sort | uniq)
+         COMPREPLY=( $(compgen -W "${vms_uuids}" -- ${cur}) )
+
++    elif [[  ${prev} == 'boot'
++        || ${prev} == 'console'
++        || ${prev} == 'delete'
++        || ${prev} == 'destroy'
++        || ${prev} == 'get'
++        || ${prev} == 'halt'
++        || ${prev} == 'json'
++        || ${prev} == 'reboot'
++        || ${prev} == 'send'
++        || ${prev} == 'start'
++        || ${prev} == 'stop'
++        || ${prev} == 'update'
++    ]] &amp;&amp; [[ ${COMP_WORDS[COMP_CWORD-2]} == "alias"
++    ]] &amp;&amp; [[ ${COMP_WORDS[COMP_CWORD-3]} == "vmadm" ]]; then
++
++        vms_alias=$(vmadm list -o alias | grep -v ALIAS | grep -v "^\-$" | \
++            sort | uniq)
++        COMPREPLY=( $(compgen -W "${vms_alias}" -- ${cur}) )
++
++    elif [[ ${prev} == 'alias' ]]; then
++        vms_alias=$(vmadm list -o alias | grep -v ALIAS | grep -v "^\-$" | \
++            sort | uniq)
++        COMPREPLY=( $(compgen -W "${vms_alias}" -- ${cur}) )
++
+     elif [[ ${prev} == 'info'
+           || ${prev} == 'sysrq' ]]; then</pre>
+		</div>
+</div></div>
+<h2><a name="RefertoVirtualMachinesbyAlias-Alternativewrapper"></a>Alternative wrapper</h2>
+
+
+<h3><a name="RefertoVirtualMachinesbyAlias-.bashrc"></a>.bashrc</h3>
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>.bashrc excerpt</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Midnight; brush: bash; gutter: true">function zlogin() {
+  cmd_opts=
+  while test $# -gt 0; do
+    case $1 in
+      alias=*)
+        alias=$(echo $1 | cut -d"=" -f 2)
+        vmuuid=$(/usr/sbin/vmadm list -H -o uuid alias=${alias})
+        cmd_opts="${cmd_opts} ${vmuuid}"
+        shift
+      ;;
+      *)
+        cmd_opts="${cmd_opts} $1"
+        shift
+      ;;
+    esac
+  done
+
+  /usr/sbin/zlogin ${cmd_opts}
+}
+
+function vmadm() {
+  cmd_opts=
+  while test $# -gt 0; do
+    case $1 in
+      alias=*)
+        alias=$(echo $1 | cut -d"=" -f 2)
+        vmuuid=$(/usr/sbin/vmadm list -H -o uuid alias=${alias})
+        cmd_opts="${cmd_opts} ${vmuuid}"
+        shift
+      ;;
+      *)
+        cmd_opts="${cmd_opts} $1"
+        shift
+      ;;
+    esac
+  done
+
+  /usr/sbin/vmadm ${cmd_opts}
+}</pre>
+		</div>
+</div></div>
+
+<h3><a name="RefertoVirtualMachinesbyAlias-ExampleUsage"></a>Example Usage</h3>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">vmadm start alias=myalias
+zlogin -l user alias=myalias</pre>
+		</div>
+</div></div>
+<p>To put it simple the wrapper replaced <b>alias=xxx</b> with the actual uuid or empty if non existing.</p>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

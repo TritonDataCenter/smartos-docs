@@ -1,0 +1,25 @@
+{
+  "name": "smartos-docs",
+  "version": "1.0.0",
+  "description": "SmartOS Wiki",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joyent/smartos-docs.git"
+  },
+  "author": "",
+  "license": "MPL-2",
+  "bugs": {
+    "url": "https://github.com/joyent/smartos-docs/issues"
+  },
+  "homepage": "https://github.com/joyent/smartos-docs#readme",
+  "dependencies": {
+    "markdownlint-cli": "^0.17.0"
+  }
+}

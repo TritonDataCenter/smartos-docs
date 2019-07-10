@@ -1,0 +1,263 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : SmartOS Virtualization</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : SmartOS Virtualization
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Jul 16, 2012 by <font color="#0050B2">jason.davis@joyent.com</font>.
+				    </div>
+
+				    <p><b>In this topic:</b></p>
+
+<div>
+<ul>
+    <li><a href='#SmartOSVirtualization-Virtualization%3AHowSmartOSDoesitDifferently'>Virtualization: How SmartOS Does it Differently</a></li>
+<ul>
+    <li><a href='#SmartOSVirtualization-ANonVirtualizedComputer'>A Non-Virtualized Computer</a></li>
+    <li><a href='#SmartOSVirtualization-VirtualizationintheClientServerContext'>Virtualization in the Client-Server Context</a></li>
+    <li><a href='#SmartOSVirtualization-HostedVirtualization'>Hosted Virtualization</a></li>
+    <li><a href='#SmartOSVirtualization-BareMetalHardwareVirtualization'>Bare-Metal Hardware Virtualization</a></li>
+    <li><a href='#SmartOSVirtualization-Paravirtualization'>Paravirtualization</a></li>
+    <li><a href='#SmartOSVirtualization-OperatingSystemVirtualization'>Operating System Virtualization</a></li>
+</ul>
+    <li><a href='#SmartOSVirtualization-JoyentSmartMachinesareBasedonSolarisZones'>Joyent SmartMachines are Based on Solaris Zones</a></li>
+    <li><a href='#SmartOSVirtualization-KVMandJoyentVirtualMachines'>KVM and Joyent Virtual Machines</a></li>
+</ul></div>
+
+
+<h1><a name="SmartOSVirtualization-Virtualization%3AHowSmartOSDoesitDifferently"></a>Virtualization: How SmartOS Does it Differently</h1>
+
+
+<h2><a name="SmartOSVirtualization-ANonVirtualizedComputer"></a>A Non-Virtualized Computer</h2>
+
+<p><span class="image-wrap" style=""><img src="attachments/754141/1146918.png" style="border: 1px solid black"/></span></p>
+
+<p>This is a diagram of a basic computer, such as your laptop.</p>
+
+<p>The bottom layer shows the system's hardware resources: CPU, memory, storage, NIC.</p>
+
+<p>The operating system runs directly on the hardware, and has two components:</p>
+
+<ul>
+	<li>kernel: manages system resources and communications between those resources and applications running (in userland) on the system.</li>
+	<li>userland: the software layer where user applications and software libraries run.</li>
+</ul>
+
+
+<p>Note that, although this diagram shows all the applications as the same "size", some applications need more resources than others, and an application's resource needs may vary depending on the work it is performing.</p>
+
+<p>The operating system manages (schedules) competing demands for system resources.</p>
+
+<h2><a name="SmartOSVirtualization-VirtualizationintheClientServerContext"></a>Virtualization in the Client-Server Context</h2>
+
+<p>Datacenters used to commonly run one application per server, for the following reasons:</p>
+
+<ul>
+	<li>Application-specific requirements: Many applications are certified to run only on specific versions of an OS with a specific patch level. They might also require a specific software stack or specific configuration with its own particular version and patch-level requirements. This can prevent applications from sharing an environment with other applications.</li>
+	<li>Application conflict: Similarly, some applications are incompatible with each other.</li>
+	<li>Resource contention: A heavily-used application cannot crowd out other applications if they are on separate machines.</li>
+	<li>Security: Isolation prevents attacks against one system from compromising another.</li>
+	<li>Resilience: Application crashes won't bring down other applications.</li>
+	<li>Maintenance: You can upgrade and reboot one system without affecting others.</li>
+	<li>Business needs: Many enterprise IT projects involve launching a specific application; for budget and management reasons, each project might get its own server and application.</li>
+</ul>
+
+
+<p>The one-app-per-server model worked well in the 1980s and 1990s, when a single application placed heavy demand on a server's resources.</p>
+
+<p>However, Moore's Law meant that more powerful servers were soon being severely under-utilized: utilization of only 8-15% was common.</p>
+
+<p>Obviously, this was a very inefficient use of equipment, facilities, power and IT management resources. Virtualization came to the fore as a solution.</p>
+
+<h2><a name="SmartOSVirtualization-HostedVirtualization"></a>Hosted Virtualization</h2>
+
+<p><span class="image-wrap" style=""><img src="attachments/754141/1146917.png" style="border: 1px solid black"/></span></p>
+
+<p>In hosted virtualization, a hypervisor running on top of a standard operating system <b>emulates</b> real hardware to create and manage one or many virtual machines.</p>
+
+<p>It is called "hosted virtualization", because the hypervisor sits on a Host OS, and above this are the Guest OSes.</p>
+
+<p>It is also known as "application-level virtualization", because the hypervisor runs as an application on a Host OS.</p>
+
+<p>Hosted virtualization was used to consolidate servers, making it possible to put multiple servers on a single physical machine, while maintaining isolation.</p>
+
+<p>Any "guest" operating system running this virtual machine believes itself to be running on its own separate, real computer, but it actually only has access to a limited set of hardware resources (as defined by the administrator).</p>
+
+<p>An operating system is also known as a "supervisor". Thus we use the term "hypervisor" for a supervisor of supervisors.</p>
+
+<p>The hypervisor modifies the operating system at runtime through a process known as "binary translation". Operating system calls to hardware are intercepted ("trapped") and redirected.</p>
+
+<p>Hosted virtualization introduced other infrastructure management benefits:</p>
+
+<ul>
+	<li>Load balancing</li>
+	<li>Backups, migration, cloning</li>
+	<li>Disaster recovery</li>
+</ul>
+
+
+<p>This approach increased utilization, but still had huge inefficiencies:</p>
+
+<ul>
+	<li>In order to perform work on the physical hardware, an application has to go through two operating systems and two sets of hardware.</li>
+	<li>One of those sets of hardware is "emulated hardware": a software program acting like hardware, which is much slower than real hardware.</li>
+</ul>
+
+
+
+<h2><a name="SmartOSVirtualization-BareMetalHardwareVirtualization"></a>Bare-Metal Hardware Virtualization</h2>
+
+<p><span class="image-wrap" style=""><img src="attachments/754141/1146916.png" style="border: 1px solid black"/></span></p>
+
+<p>Bare-metal virtualization addresses some of these inefficiencies by consolidating the hypervisor and the Host OS. The Host OS is stripped down to a Virtual Machine Monitor - only what it needs to run a hypervisor. It is optimized for that purpose, and the hypervisor embedded in it. (The userland is stripped down to only the virtualization vendor's tools.)</p>
+
+<p>Drawbacks:</p>
+
+<ul>
+	<li>Still uses hardware emulation (= slow).</li>
+	<li>The hypervisor may need its own hardware drivers; you can't be sure these will be as easily available as with a standard OS.</li>
+</ul>
+
+
+<h2><a name="SmartOSVirtualization-Paravirtualization"></a>Paravirtualization</h2>
+
+<p><span class="image-wrap" style=""><img src="attachments/754141/1146915.png" style="border: 1px solid black"/></span></p>
+
+<p>Paravirtualization is similar to bare-metal virtualization, but it removes the virtual machine hardware emulation.</p>
+
+<p>The hypervisor directly coordinates a "privileged guest" operating system which has access to the underlying hardware. The hypervisor manages the OSes like OSes manage apps: allowing one OS to access underlying hardware resources, while preventing any other OS from accessing the same resources at the same time.</p>
+
+<p>However, to accomplish this, the OS must be modified to be "aware" that it is basically running on an "OS for OSes". In the case of hardware virtualization, the OS is fooled (at runtime, by binary translation) into believing it is running directly on hardware, as it was designed to do.</p>
+
+<p>The privileged guest coordinates access to hardware resources (drivers):</p>
+
+<ul>
+	<li>Hardware drivers reside in the privileged guest.</li>
+	<li>The privileged guest&nbsp;accesses hardware drivers directly; the Guest OSes do it through the Privileged Guest. They do this using shared memory (memory that can be accessed by two different applications), which speeds up performance.</li>
+</ul>
+
+
+<p>Advantages:</p>
+<ul>
+	<li>Very efficient &#8211; no Host OS, no hardware emulation (which means no runtime binary translation of OS calls).</li>
+	<li>Like hosted virtualization, bare-metal virtualization can use any device drivers that the privileged guest has installed; the hypervisor does not contain any device drivers.</li>
+</ul>
+
+
+<p>Disadvantages:</p>
+<ul>
+	<li>Requires the guest OS to be modified so that it is "aware" it is running in a paravirtualized environment.</li>
+	<li>These modifications are done in the kernel when possible (with access to the source code), or by installing system tools in the operating system.</li>
+</ul>
+
+
+<p>In addition, with the release in 2006 of virtualization-enabled CPUs (Intel VT and AMD-V), paravirtualization has lost some of its edge over the other forms of virtualization:</p>
+<ul>
+	<li>Virtualization-enabled CPUs eliminate some of the binary translation that virtual machines had to perform. More of the instructions are run directly on the hardware without emulation.</li>
+	<li>Silicon is faster than software, so moving some of the virtualization functions to the chip gives better performance.</li>
+</ul>
+
+
+<h2><a name="SmartOSVirtualization-OperatingSystemVirtualization"></a>Operating System Virtualization</h2>
+
+<p><span class="image-wrap" style=""><img src="attachments/754141/1146914.png" style="border: 1px solid black"/></span></p>
+
+
+<p>The most efficient method is to tackle virtualization at the operating system level.</p>
+
+<p>Benefits:</p>
+<ul>
+	<li>Very efficient &#8211; no duplication of resources.</li>
+	<li>Only one copy of the kernel on a server (all other forms of virtualization, including paravirtualization, require each application to go through multiple OS kernels)&nbsp;</li>
+	<li>Each zone has its own userland (file system, system libraries, network configurations, process table (which contains the processes for individual applications), and its own approved user population.</li>
+	<li>No hardware emulation.</li>
+	<li>Utilize the OS scheduler: applications can "burst" across system resources when needed, just as applications on a single operating system can. They are not handcuffed by arbitrary virtual machine resource settings (even in the paravirtualization, OSes are assigned a certain amount of resources and cannot "burst" beyond them).</li>
+	<li>Patches and upgrades automatically propagate to all containers; no need to manage and upgrade the various OSes individually.</li>
+</ul>
+
+
+<p>Drawbacks:</p>
+<ul>
+	<li>All operating environments are identical; you cannot run different OSs with different versions and patch levels. (However, for web applications this is not a problem: Apache, MySQL and PHP can all run on Windows, Linux or SmartOS.)</li>
+</ul>
+
+
+<h1><a name="SmartOSVirtualization-JoyentSmartMachinesareBasedonSolarisZones"></a>Joyent SmartMachines are Based on Solaris Zones</h1>
+
+<p>Which gives us:</p>
+<ul>
+	<li>CPU scheduling</li>
+	<li>network virtualization</li>
+	<li>security</li>
+</ul>
+
+
+<p>Zones virtualization was added to Solaris 10 in 2005.</p>
+
+<h1><a name="SmartOSVirtualization-KVMandJoyentVirtualMachines"></a>KVM and Joyent Virtual Machines</h1>
+
+<p><span class="image-wrap" style=""><img src="attachments/754141/1146913.png" style="border: 1px solid black"/></span></p>
+
+<p>OS virtualization is great for applications that can run natively in SmartOS, but many of us have legacy apps that must run in Windows or Linux, eg&nbsp;for Windows, Active Directory, Windows video encoding.<br/>
+What can we do for them?<br/>
+Joyent uses hosted virtualization for its virtual machine solution.</p>
+
+<p>Remember that when you lose the Host OS, you lose any valuable capabilities it provided. In the case of Vmware, this came down to device drivers. Since they could embed these in the hypervisor, bare-metal HW virtualization made more sense.</p>
+
+<p><a href="http://en.wikipedia.org/wiki/Qemu">QEMU</a> (dubbed "Quick Emulator" by some people) provides hardware emulation and is a VMM (virtual machine monitor). Notice that it is not a strict hypervisor layer. Each QEMU is independent &#45;&#45; there is one per Guest OS instead of one supporting several VMs. This is because it has combined both the VM and the VMM.</p>
+
+<p>KVM (Kernel Virtual Machine) makes it faster by taking advantage of CPU virtualization extensions to eliminate a lot of the binary translation (i.e. hardware emulation). QEMU would still work without KVM. It would revert to binary translation and thus be slower.</p>
+
+				    					    <br/>
+                        <div class="tabletitle">
+                            <a name="attachments">
+                                <h2>Attachments:</h2>
+                            </a>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/754141/1146913.png">kvm.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/754141/1146914.png">osvirt.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/754141/1146915.png">para.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/754141/1146916.png">bare metal.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/754141/1146917.png">hosted.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/754141/1146918.png">non-virt.png</a> (image/png)
+                                <br/>
+                                                    </div>
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

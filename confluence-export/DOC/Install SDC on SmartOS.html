@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Install SDC on SmartOS</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Install SDC on SmartOS
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Dec 30, 2015 by <font color="#0050B2">sigxcpu</font>.
+				    </div>
+
+				    <h1><a name="InstallSDConSmartOS-SDConSmartOSInstallation%28workinprogress%29"></a>SDC on SmartOS Installation (work in progress)</h1>
+
+
+<h3><a name="InstallSDConSmartOS-WhatWe%27llAchieve"></a>What We'll Achieve</h3>
+
+<p>A complete SDC installation with one <b>Head Node</b> and one <b>Compute Node</b> in a (home) lab setup.</p>
+
+<h3><a name="InstallSDConSmartOS-Prerequisites"></a>Prerequisites</h3>
+
+<ul>
+	<li>a working <em>SmartOS</em> installation</li>
+	<li>Internet connectivity</li>
+	<li>a CPU with <b>VT-x</b> and <b>EPT</b> support (for KVM)</li>
+</ul>
+
+
+<h3><a name="InstallSDConSmartOS-Setup"></a>Setup</h3>
+
+<h5><a name="InstallSDConSmartOS-Networksetup"></a>Network setup</h5>
+
+<p>We will isolate the <b>admin</b> network of SDC because that has its own DHCP server and we don't want interference in our current network.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">nictagadm add -l sdc_admin0</pre>
+		</div>
+</div></div>
+
+<h5><a name="InstallSDConSmartOS-HeadnodeDescriptor"></a>Headnode Descriptor</h5>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>Pay attention to <b>vlan_id</b> set on <b>300</b> on the 2nd NIC. I already have a working DHCP installation at home and I didn't want SDC to conflict with my current setup. Its <em>external</em> network will have packets tagged with VLAN ID 300 and the same VLAN ID is configured on my border router for routing and NAT.</td></tr></table></div>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>The 4GB virtual disk will be the boot disk (i.e. USB stick in real SDC).</td></tr></table></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">{
+  "alias": "sdc-headnode",
+  "brand": "kvm",
+  "ram": 8192,
+  "vcpus": 8,
+  "autoboot": false,
+  "nics": [
+    {
+      "nic_tag": "sdc_admin0",
+      "model": "virtio",
+      "ip": "dhcp",
+      "allow_dhcp_spoofing": true,
+      "allow_ip_spoofing": true,
+      "allow_mac_spoofing": true,
+      "allow_restricted_traffic": true,
+      "allow_unfiltered_promisc": true,
+      "dhcp_server": true
+    },
+    {
+      "nic_tag": "admin",
+      "vlan_id": 300,
+      "model": "virtio",
+      "ip": "dhcp",
+      "allow_dhcp_spoofing": true,
+      "allow_ip_spoofing": true,
+      "allow_mac_spoofing": true,
+      "allow_restricted_traffic": true,
+      "allow_unfiltered_promisc": true,
+      "dhcp_server": true
+    }
+  ],
+  "disks": [
+    {
+      "size": 4096,
+      "model": "virtio"
+    },
+    {
+      "size": 61440,
+      "model": "virtio"
+    }
+  ]
+}</pre>
+		</div>
+</div></div>
+
+<h5><a name="InstallSDConSmartOS-ComputeNodeDescriptor"></a>Compute Node Descriptor</h5>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>This is optional. I've wanted a CN to get the full experience.</td></tr></table></div>
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>It boots over the network</td></tr></table></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">{
+  "alias": "sdc-compute",
+  "autoboot": false,
+  "brand": "kvm",
+  "boot": "order=n",
+  "ram": 8192,
+  "vcpus": 8,
+  "autoboot": false,
+  "nics": [
+    {
+      "nic_tag": "sdc_admin0",
+      "model": "virtio",
+      "ip": "dhcp",
+      "allow_dhcp_spoofing": true,
+      "allow_ip_spoofing": true,
+      "allow_mac_spoofing": true,
+      "allow_restricted_traffic": true,
+      "allow_unfiltered_promisc": true
+    },
+    {
+      "nic_tag": "admin",
+      "vlan_id": 300,
+      "model": "virtio",
+      "ip": "dhcp",
+      "allow_dhcp_spoofing": true,
+      "allow_ip_spoofing": true,
+      "allow_mac_spoofing": true,
+      "allow_restricted_traffic": true,
+      "allow_unfiltered_promisc": true
+    }
+  ],
+  "disks": [
+    {
+      "size": 61440,
+      "model": "virtio"
+    }
+  ]
+}</pre>
+		</div>
+</div></div>
+
+
+<h5><a name="InstallSDConSmartOS-SDCdownloadandcopy"></a>SDC download and copy</h5>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>You need to adapt the usb image file name in <em>dd</em> command to your downloaded release. This is for 20151211T065814Z</td></tr></table></div>
+
+<p>Place the above two files in <em>/tmp</em> as <em>sdc-headnode.json</em> and <em>sdc-compute.json</em>.</p>
+
+<p>Run the following in SmartOS GZ (global zone).</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># cd /tmp
+# curl -k -C - -O https://us-east.manta.joyent.com/Joyent_Dev/public/SmartDataCenter/usb-latest.tgz
+# tar xzvf usb-latest.tgz
+# vmadm create -f sdc-headnode.json
+# HNUUID=$(vmadm lookup alias="sdc-headnode")
+# dd if=usb-release-20151210-20151211T065814Z-g2a31a50-4gb.img of=/dev/zvol/rdsk/zones/${HNUUID}-disk0 bs=1024k
+# mount -F pcfs /dev/zvol/dsk/zones/${HNUUID}-disk0:c /mnt
+# sed -e 's/ttyb/ttya/;s/1,0,2,3/0,1,2,3/;s/default 0/default 1/' -i.smartosbak /mnt/boot/grub/menu.lst*
+# umount /mnt
+# zfs snapshot zones/${HNUUID}-disk0@sdc-fixed
+# vmadm start ${HNUUID}
+# vmadm console ${HNUUID}</pre>
+		</div>
+</div></div>
+
+<p>Proceed with install as described here: <a href="https://docs.joyent.com/private-cloud/install">https://docs.joyent.com/private-cloud/install</a></p>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>Pay attention to assigned MAC addresses on the VM networks. The <em>admin</em> network of SDC is the one tagged with <em>sdc_admin0</em> in SmartOS. The <em>external</em> SDC network is the one tagged with <em>admin</em> in SmartOS.</td></tr></table></div>
+
+<h5><a name="InstallSDConSmartOS-ComputeNodesetup"></a>Compute Node setup</h5>
+
+<p>When the headnode is up and running you can proceed with compute node installation.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># cd /tmp
+# vmadm create -f sdc-compute.json
+# CNUUID=$(vmadm lookup alias="sdc-compute")
+# vmadm start ${CNUUID}</pre>
+		</div>
+</div></div>
+
+<p>The CN setup is done through the <b>AdminUI</b> of SDC.</p>
+
+<h3><a name="InstallSDConSmartOS-Miscellaneous"></a>Miscellaneous</h3>
+
+<p>You may want to disable UHCI controller because of repeated warnings like</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">2015-12-30T09:52:35.452663+00:00 compute1 usba: [ID 691482 kern.warning] WARNING: /pci@0,0/pci1af4,1100@1,2 (uhci0): No SOF interrupts have been received, this USB UHCI host controller is unusable</pre>
+		</div>
+</div></div>
+
+<p>This is done by running the below command on both HN and CN</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">rem_drv uhci</pre>
+		</div>
+</div></div>
+
+<h3><a name="InstallSDConSmartOS-Optionalstuff"></a>Optional stuff</h3>
+
+<ul>
+	<li>make HN provisionable <a href="https://github.com/joyent/sdc/wiki/FAQ">https://github.com/joyent/sdc/wiki/FAQ</a></li>
+	<li>enable HTTP booting for CNs <a href="https://github.com/joyent/sdc-booter">https://github.com/joyent/sdc-booter</a> (you will also need to run <em>svcadm enable nginx</em> inside the dhcpd0 zone in the HN)</li>
+	<li>install and configure <b>sdc-docker</b> <a href="https://github.com/joyent/sdc-docker">https://github.com/joyent/sdc-docker</a></li>
+</ul>
+
+
+<h3><a name="InstallSDConSmartOS-Sources"></a>Sources</h3>
+
+<ul>
+	<li><a href="http://blog.shalman.org/running-sdc-coal-on-smartos/">http://blog.shalman.org/running-sdc-coal-on-smartos/</a></li>
+</ul>
+
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Why SmartOS - ZFS, KVM, DTrace, Zones and More</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Why SmartOS - ZFS, KVM, DTrace, Zones and More
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Sep 28, 2018 by <font color="#0050B2">bbennett</font>.
+				    </div>
+
+				    <p><b>Overview:</b> see this <a href="http://smartos.org/2012/01/24/using-smartos-as-a-hypervisor/">excellent talk at SCALE 10x</a> by Joyent software engineer Robert Mustacchi.</p>
+
+<p>On August 15th, 2011, Joyent <a href="http://www.marketwire.com/press-release/joyent-announces-smartos-with-kvm-an-open-source-modern-operating-system-1549602.htm">announced</a> that it had <a href="http://smartos.org/2011/09/23/video-experiences-porting-kvm-to-smartos/">ported KVM</a> to its operating system, SmartOS, and was <a href="https://github.com/joyent/smartos-live">open sourcing</a> the entire OS. You might be wondering why the world needs another operating system, and what's so great about this one. Well, let <a href="http://smartos.org/2011/09/14/introducing-your-smartos-community-manager/">me</a> explain...</p>
+
+
+<div>
+<ul>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-ALittleHistory'>A Little History</a></li>
+<ul>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-TheRealCloudOS'>The Real Cloud OS</a></li>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-InheritedFeatures'>Inherited Features</a></li>
+<ul>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-OperatingSystemVirtualization'>Operating System Virtualization</a></li>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-ZFS'>ZFS</a></li>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-Scalability'>Scalability</a></li>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-ResourceControls'>Resource Controls</a></li>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-NetworkVirtualization'>Network Virtualization</a></li>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-Observability'>Observability</a></li>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-Security'>Security</a></li>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-Reliability'>Reliability</a></li>
+</ul>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-JoyentAddedFeaturesinSmartOS'>Joyent-Added Features in SmartOS</a></li>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-OrchestratingtheCloud'>Orchestrating the Cloud</a></li>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-BeyondtheCloud'>Beyond the Cloud</a></li>
+    <li><a href='#WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-NowWhat%3F'>Now What?</a></li>
+</ul>
+</ul></div>
+
+
+
+<h1><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-ALittleHistory"></a>A Little History</h1>
+
+<p>In 2005, <a href="http://en.wikipedia.org/wiki/Sun_microsystems">Sun Microsystems</a> open sourced <a href="http://en.wikipedia.org/wiki/Solaris">Solaris</a>, its renowned Unix operating system, eventually to be released as a distribution called <a href="http://en.wikipedia.org/wiki/Opensolaris">OpenSolaris</a>. Among the earliest adopters and most effective advocates of OpenSolaris was <a href="http://cuddletech.com/blog/">Ben Rockwood</a>, who wrote <a href="http://www.cuddletech.com/opensolaris/ONbuild.pdf">The Cuddletech Guide to Building OpenSolaris</a> in June, 2005 &#8211; the first of his many important contributions to the nascent OpenSolaris community. Meanwhile, Joyent's CTO Jason Hoffman was frustrated by the inability of most operating systems to answer seemingly-simple questions like: "Why is the server down? When will it be back up? ... Now that it's back up, why is my database still slow?"</p>
+
+<p>Jason knew that these questions would be a lot easier to answer on Solaris-based systems, and recognized Sun's open-sourcing initiative as a huge opportunity. He hired Ben, and Joyent became one of the most innovative users of the open sourced Solaris kernel ("Solaris 11 Nevada builds"), over the years amassing a great deal of know-how in tweaking and tuning it for Joyent's cloud computing needs.</p>
+
+<p>After acquiring Sun Microsystems in 2010, Oracle Corp. <a href="http://sstallion.blogspot.com/2010/08/opensolaris-is-dead.html">closed OpenSolaris</a>. Fortunately, an alternative &#45;&#45; <a href="http://en.wikipedia.org/wiki/Illumos">Illumos</a>, a new fork of Solaris &#8211; was <a href="http://wiki.illumos.org/display/illumos/History">already in the works</a> , and many Solaris engineers had left Oracle and were free to contribute to it. Unsurprisingly, some of those engineers <a href="http://www.joyentcloud.com/2010/07/joyent-names-bryan-cantrill-vice-president-of-engineering/">ended up at Joyent</a>, as part of a talented team that now contributes very substantially to Illumos, extending it in key areas like <a href="http://en.wikipedia.org/wiki/K_virtual_machine">KVM</a> (kernel virtual machines), as well as enhancing the Illumos kernel specifically for cloud use.</p>
+
+<h2><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-TheRealCloudOS"></a>The Real Cloud OS</h2>
+
+<p>What does it mean for an operating system to be designed "for" cloud computing? The fundamental challenge for a cloud computing OS is to present a single server to many (and varied) customers, while making each customer feel as if they are the only one using that machine. From the user's perspective, a cloud OS has to be:</p>
+<ul>
+	<li>fast: minimizing latency (the time it takes for an operation to complete)</li>
+	<li>flexible: with automatic bursting and easy scaling</li>
+	<li>secure: I should never have to worry about what my neighbors are doing</li>
+</ul>
+
+
+<p>For the cloud datacenter operator, the OS additionally must provide:</p>
+<ul>
+	<li>ultra-fast provisioning and de-provisioning (i.e., the creation and destruction of <a href="http://en.wikipedia.org/wiki/Virtual_machine">virtual machines</a>)</li>
+	<li>efficient and fair resource sharing</li>
+	<li>multi-thread and multiprocessor support</li>
+	<li>easy/automated operation</li>
+	<li>reliability</li>
+	<li>observability: when something doesn't behave as it should, we need to be able to find out quickly what is wrong and why</li>
+</ul>
+
+
+<h2><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-InheritedFeatures"></a>Inherited Features</h2>
+
+<p>From Illumos, SmartOS inherits powerful features that address these needs. We'll give a brief overview here; some of these topics will be covered in depth in future posts.</p>
+
+<h3><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-OperatingSystemVirtualization"></a>Operating System Virtualization</h3>
+
+<p>"Thanks to the Solaris/Illumos heritage, SmartOS already had <a href="http://en.wikipedia.org/wiki/Solaris_Zones">Containers and Zones</a> &#45;&#45; container-based virtualization (containers is supposed to mean zones + resource controls) that allowed users to run multiple applications sets on one server isolated from one another. With KVM on SmartOS, Joyent can now address workloads that require running a full operating system for those customers who need Linux, Windows, or other operating systems to run in full, hardware-assisted virtualization. Unlike any other "hypervisor", Joyent's KVM images run as a process inside of a zone: turns out to be a very secure way to run Windows. And, unlike Linux, SmartOS will also give customers access to Solaris technologies that many users find compelling &#8211; like DTrace and ZFS. " <a href="http://www.readwriteweb.com/enterprise/2011/08/joyent-brings-kvm-to-smartos-f.php">ReadWriteEnterprise</a></p>
+
+<p>"Brendan Gregg, Lead Performance Engineer at Joyent, has done&nbsp;<a href="http://dtrace.org/blogs/brendan/2013/01/11/virtualization-performance-zones-kvm-xen/">an extensive analysis comparing the performance of Zones, KVM and Xen</a>. In a post on the DTrace blog, he summarizes their performance in four ways: Characteristics, block diagrams, internals and results. Through looking at the I/O path (network, disk) and its overhead, he provides some minimum config results comparing performance between OS virtualization (Zones) and the hardware virtualization of Xen and KVM varieties.&nbsp;Brendan's full post offers deeper insight into how each of these technologies work, how each criterion for performance is evaluated and the code path for performing network I/O with each technology.&nbsp;Read the full analysis on the&nbsp;<a href="http://dtrace.org/blogs/brendan/2013/01/11/virtualization-performance-zones-kvm-xen/">DTrace blog</a>." - <a href="http://joyent.com/blog/brendan-gregg-on-virtualization-performance-comparing-zones-kvm-and-xen">Joyent</a></p>
+
+
+<h3><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-ZFS"></a>ZFS</h3>
+
+<p>This <a href="http://en.wikipedia.org/wiki/Zfs">future proof file system</a> &#45; which is also a <a href="http://en.wikipedia.org/wiki/Logical_volume_manager">logical volume manager</a> &#45; gives us:</p>
+<ul>
+	<li>Fast file system creation: The creation and startup of additional zones ("SmartMachines" in Joyent terminology) &#8211; in other words, adding new paying customers &#8212; is nearly instantaneous.</li>
+	<li>Data integrity is guaranteed, with particular emphasis on preventing silent data corruption.</li>
+	<li><a href="http://en.wikipedia.org/wiki/ZFS#Storage_pools">Storage pools</a>: "virtualized storage" makes administrative tasks and scaling far easier. To expand storage capacity, all you need to do is add new disks (hard disks, flash memory, and whatever may come along in the future) to a zpool.</li>
+	<li>Snapshots: ZFS' <a href="http://en.wikipedia.org/wiki/Copy-on-write">copy-on-write</a> transactional model makes it possible to capture a snapshot of an entire file system at any time, storing only the differences between that and the working file system as it continues to change. This creates a backup point that the administrator can easily roll back to.</li>
+	<li>Clones: Snapshots of volumes and filesystems can be cloned, creating an identical copy. Cloning is nearly instantaneous and initially consumes no additional disk space. This facilitates the rapid creation of new,  nearly identical, VMs.<br/>
+&#42;  The ARC (Adaptive Replacement Cache) improves file system and disk performance, driving down overall system latency.</li>
+</ul>
+
+
+<h3><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-Scalability"></a>Scalability</h3>
+
+<p><a href="http://en.wikipedia.org/wiki/Scalability">wikipedia</a> defines scalability as "...the ability of a system, network, or process, to handle growing amounts of work in a graceful manner, or its ability to be enlarged to accommodate that growth."</p>
+
+<p>Solaris has been the OS of choice for major enterprise computing for decades. <a href="http://en.wikipedia.org/wiki/Stan_Lee">'nuff said&#33;</a></p>
+
+
+<h3><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-ResourceControls"></a>Resource Controls</h3>
+
+<p>SmartOS offers two methods for controlling CPU consumption:</p>
+<ul>
+	<li>Fair share scheduler lets the operator set a <em>minimum</em> guaranteed share of CPU. It takes effect when the system is busy with demand from more than one zone, to ensure that each gets its fair share. When the system is not otherwise busy, a zone can "burst" beyond its usual limit, consuming more than the minimum as needed, up to the CPU cap set for it.</li>
+	<li>CPU cap is a <em>maximum</em> , e.g. an amount of CPU time that a user has paid for. This can also be used to set user expectations about system performance, even when the overall system is not yet populated and load is still light.</li>
+</ul>
+
+
+<h3><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-NetworkVirtualization"></a>Network Virtualization</h3>
+
+<p>Virtualization is also used to create the illusion of things that aren't actually on the real system, such as virtual network interfaces (VNICs). Joyent was one of the first users of <a href="http://hub.opensolaris.org/bin/view/Project+crossbow/">Project Crossbow</a>, which added network virtualization to OpenSolaris. Using this technology, each Joyent SmartMachine gets up to 32 VNICs, each with its own TCP/IP stack. This helps maximize another scarce resource, IPv4 addresses, through the use of network pools.</p>
+
+<h3><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-Observability"></a>Observability</h3>
+
+<p>Users of Illumos, <a href="http://dtrace.org/blogs/brendan/2011/10/10/top-10-dtrace-scripts-for-mac-os-x/">Mac OS X</a> and FreeBSD know that  [<a href="DTrace.html" title="DTrace">DTrace</a>&#124;] gives you an unprecedented view of what's going on throughout the software stack. In SmartOS, this allows operators to observe and troubleshoot across all the zones and nodes in an entire data center. In <a href="http://www.joyent.com/triton/">Triton</a>, the Joyent team have harnessed the power of DTrace in a more user-friendly form with <a href="https://www.joyent.com/blog/cloud-analytics-basic-visualization">Cloud Analytics</a>, which is available to both cloud operators and their customers.</p>
+
+<h3><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-Security"></a>Security</h3>
+
+<p>Solaris has long been the operating system of choice in highly secure data centers, thanks to several features which SmartOS inherits. SmartOS zones, though they share system resources such as CPU and disk space, simply cannot see each other. Users in a multi-tenant environment are thus protected from each other; your neighbor's security lapse will not affect your zone. Data security is also ensured: no byte of data from one customer is shared with any other customer, now or later, because:</p>
+<ul>
+	<li>A zone can only see its own network traffic.</li>
+	<li>Disk storage is accessed only via ZFS file systems, never raw devices. Each SmartMachine has its own file system and does not even know of the <em>existence</em> of any other.</li>
+	<li>A user has no access to raw memory devices, so can't scan system memory.</li>
+</ul>
+
+
+<p>Upon deletion of a SmartMachine, the file system is destroyed and there is no device path by which a future customer could access any data left over in that file system. A SmartMachine is protected from DDOS attacks by some of the same features that guarantee that it gets a fair share of system resources: fair share scheduler, caps, process limits, rcapd, swap cap, disk file system limits, quota limits. By capping each zone's resource usage, SmartOS ensures that, even under heavy attack, a zone will not bring down its neighbors.</p>
+
+<h3><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-Reliability"></a>Reliability</h3>
+
+<p>SmartOS is made more reliable by:</p>
+<ul>
+	<li><a href="http://hub.opensolaris.org/bin/view/Community+Group+fm/WebHome">Fault management</a> (FMA): "fine-grained fault isolation and restart where possible of any component &#8212; hardware or software &#8212; that experiences a problem. To do so, the system must include intelligent, automated, proactive diagnoses of errors that are observed on the system. The diagnosis system is used to trigger targeted automated responses or guided human intervention that mitigates a specific problem or at least prevents it from getting worse."</li>
+	<li>The <a href="http://en.wikipedia.org/wiki/Service_Management_Facility">Service Management Facility</a> (SMF) is "a feature of the <a href="http://en.wikipedia.org/wiki/Solaris_(operating_system)">Solaris operating system</a> that creates a supported, unified model for services and <a href="http://en.wikipedia.org/wiki/Operating_system_service_management">service management</a> on each Solaris system".</li>
+</ul>
+
+
+<h2><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-JoyentAddedFeaturesinSmartOS"></a>Joyent-Added Features in SmartOS</h2>
+
+<p>Above and beyond what we inherited from Solaris, Joyent has extended SmartOS with some features of particular interest to cloud operators, including <a href="http://www.youtube.com/watch?v=a6AJxAYmP-M">disk I/O Throttling</a>. A drawback of multi-tenancy in classic Solaris is that, where storage is shared, a single application on a system can monopolize access to local storage by a stream of synchronous I/O requests, effectively blocking the system from servicing I/O requests from other zones and applications, and causing performance slowdowns for other tenants. This new operator-configurable setting throttles I/O from misbehaving zones (by adding a small delay to each read or write), thus ensuring that other zones also get a turn at reading/writing to disk. As with CPU caps, disk I/O throttling only comes into effect when a system is under load from multiple tenants. When a system is relatively quiet, a single tenant can enjoy faster I/O without bothering the neighbors.</p>
+
+<p>The following is a list of the major features added by Joyent to SmartOS</p>
+
+<ul>
+	<li>Support to run as a live image</li>
+	<li>Joyent branded zone
+	<ul>
+		<li>uses a "sparse root" model similar to Solaris 10</li>
+	</ul>
+	</li>
+	<li>LX branded zone
+	<ul>
+		<li>Use a Linux distribution in a zone with no virtual machine</li>
+		<li>Joyent provides images for popular distros</li>
+	</ul>
+	</li>
+	<li>KVM
+	<ul>
+		<li>also added <tt>kvmstat</tt> command</li>
+		<li>enhanced <tt>isainfo</tt> for vmx/svm</li>
+		<li>KVM runs in a branded zone for even more security</li>
+	</ul>
+	</li>
+	<li>BHYVE
+	<ul>
+		<li>Ported from FreeBSD</li>
+		<li>BHYVE also runs in a branded zone for added security</li>
+	</ul>
+	</li>
+	<li>Scalable zone memory capping
+	<ul>
+		<li>does not use <tt>rcapd</tt> &#45; each zone is managed independently</li>
+		<li>doesn't use the expensive RSS calculation, unless necessary</li>
+		<li>new <tt>zonememstat</tt> command to use instead of <tt>rcapstat</tt></li>
+		<li>memory cap is an <tt>rctl</tt> now, can be managed with <tt>prctl</tt> command</li>
+	</ul>
+	</li>
+	<li>per-zone ZFS I/O throttle
+	<ul>
+		<li>also added new <tt>vfsstat</tt> command</li>
+		<li>also added new <tt>ziostat</tt> command</li>
+		<li>also added zone priority</li>
+	</ul>
+	</li>
+	<li>ZFS dump to a RAID-Z pool</li>
+	<li>dynamic VNICs which are created/destroyed as zones boot/halt
+	<ul>
+		<li>enhanced friendly names (in other words, each zone can have a VNIC created by the global zone which is named "net0")</li>
+		<li>enhanced <tt>dladm</tt> , <tt>dlstat</tt> and <tt>flowadm</tt> commands with zone support</li>
+	</ul>
+	</li>
+	<li>zone <tt><em>svcs</em></tt> command enhancements
+	<ul>
+		<li><tt>&#45;z</tt> to look at a zone</li>
+		<li>&nbsp;<tt>&#45;Z</tt> to look at all zones</li>
+		<li><tt>&#45;L</tt> to look at log files</li>
+		<li>also added <tt>&#45;z</tt> to <tt>svcadm</tt> and <tt>svcprop</tt></li>
+	</ul>
+	</li>
+	<li>CPU bursting
+	<ul>
+		<li>can define a base level of CPU usage and an upper bound</li>
+		<li>can limit how much time a zone can burst</li>
+	</ul>
+	</li>
+	<li>zone reliability - many kernel fixes for handling error cases preventing zone shutdown</li>
+	<li>Better observability - lots of new <tt>kstats</tt> for zones, CPU bursting, ZFS I/O, etc.</li>
+	<li><tt>wall(1)</tt> zone support</li>
+	<li>FSS fixes to prevent process starvation</li>
+	<li><tt>coreadm</tt>
+	<ul>
+		<li>support to limit the number of core dumps</li>
+		<li>add %Z corefile name pattern for zonepath</li>
+	</ul>
+	</li>
+	<li>support for SMF restart rate</li>
+	<li>DTrace enhancements
+	<ul>
+		<li><tt>llquantize</tt></li>
+		<li><tt>vmregs[]</tt></li>
+		<li>enablings on defunct providers prevent providers from unregistering</li>
+		<li><tt>tracemem()</tt> action takes a dynamic size argument</li>
+		<li><tt>toupper()</tt> and <tt>tolower()</tt> subroutines</li>
+		<li><tt>lltostr()</tt> D subroutine should take an optional base</li>
+		<li>sdt probes for <tt>zvol_read</tt> and <tt>zvol_write</tt></li>
+		<li>bump <tt>dtrace_helper_actions_max</tt> to 1024</li>
+	</ul>
+	</li>
+	<li>improved disassembler support</li>
+	<li>new persistent zoneid to improve DTracing across zone reboot</li>
+	<li>system-wide crontab support</li>
+	<li>per-zone load average</li>
+	<li>driver and module updates
+	<ul>
+		<li>ixgbe updated</li>
+		<li>igb updated</li>
+		<li>incorporate latest acpica code from Intel</li>
+		<li>port open IPMI driver from FreeBSD</li>
+	</ul>
+	</li>
+	<li>improved mdb&nbsp;support
+	<ul>
+		<li>mdb api function for iterating object symbols</li>
+		<li><tt>::ugrep</tt> and <tt>::kgrep</tt> do not work for sizes less than 4</li>
+		<li><tt>::scalehrtime dcmd</tt></li>
+		<li><tt>::printf</tt></li>
+		<li><tt>::findjsobjects</tt></li>
+		<li><tt>mdb_v8</tt></li>
+		<li><tt>::walk jsframe</tt> and <tt>jstack</tt></li>
+		<li>tab completion</li>
+	</ul>
+	</li>
+	<li>libumem support for an allocator</li>
+	<li>critical IP DCE fixes for systems under heavy IP load</li>
+	<li>significantly reduced SMF RSS - important with lots of zones</li>
+	<li>perturbable VNICs for testing real-world networking</li>
+	<li><tt>vmadm</tt> command and metadata support for zone boot-time customization</li>
+	<li>lots of misc. bug fixes</li>
+</ul>
+
+
+<h2><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-OrchestratingtheCloud"></a>Orchestrating the Cloud</h2>
+
+<p>SmartOS allows a cloud hosting provider to put more customers on the physical server (each in their own SmartMachine), while still giving them all phenomenal performance. Joyent's servers typically run at 70% CPU capacity, against an industry standard of 15%. Joyent SmartMachines also <a href="http://www.joyentcloud.com/resources/benchmarks/">run faster</a>. SmartOS provides the underlying features; <a href="http://www.joyent.com/triton/">Triton</a> adds the orchestration layer that abstracts these concepts and operations to a GUI and/or <a href="https://github.com/joyent/triton/blob/master/docs/reference.md">API layer</a>.</p>
+
+<h2><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-BeyondtheCloud"></a>Beyond the Cloud</h2>
+
+<p>We should add that SmartOS potentially has applications well beyond the cloud and large datacenters. Here's an idea from <a href="http://gigaom.com/cloud/joyent-launches-a-new-os-for-the-cloud/">Stacy Higginbotham of Gigaom</a>: SmartOS requires a relatively small memory footprint, and boots to a ram-only environment for performance. This means it could be used for a variety of smaller computing platforms such as digital signs, set-top boxes and even high-end sensors. Looking ahead, having an OS that can work at both the data-center level and on sensors in the field enables a sensor-rich network.</p>
+
+<h2><a name="WhySmartOS-ZFS%2CKVM%2CDTrace%2CZonesandMore-NowWhat%3F"></a>Now What?</h2>
+
+<p>To learn more, <a href="Download SmartOS.html" title="Download SmartOS">download SmartOS</a> to try for yourself . </p>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

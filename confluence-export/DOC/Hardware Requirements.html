@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Hardware Requirements</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Hardware Requirements
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Feb 11, 2019 by <font color="#0050B2">wiedi</font>.
+				    </div>
+
+				    <p>The following are details on SmartOS's requirements.&nbsp; For examples of verified hardware configurations please see the <a href="755673.html" title=""Works for Me" Hardware Configurations">Works for Me</a> page.</p>
+
+
+
+<p><b>In this topic:</b></p>
+
+<div>
+<ul>
+    <li><a href='#HardwareRequirements-GeneralRequirements'>General Requirements</a></li>
+<ul>
+    <li><a href='#HardwareRequirements-'> <span style="color: #000000">If you want to run production-grade SmartOS on hardware that we know works, READ</span> THIS <span style="color: #000000">.</span></a></li>
+    <li><a href='#HardwareRequirements-CPU'>CPU</a></li>
+    <li><a href='#HardwareRequirements-DRAM'>DRAM</a></li>
+    <li><a href='#HardwareRequirements-NetworkingCards%2CDiskcontrollers%2CandotherPeripherals'>Networking Cards, Disk controllers, and other Peripherals</a></li>
+</ul>
+    <li><a href='#HardwareRequirements-KVMRequirements'>KVM Requirements</a></li>
+<ul>
+    <li><a href='#HardwareRequirements-AMDandnonEPTprocessors'>AMD and non-EPT processors</a></li>
+</ul>
+    <li><a href='#HardwareRequirements-KnownIssues'>Known Issues</a></li>
+</ul></div>
+
+
+<h2><a name="HardwareRequirements-GeneralRequirements"></a>General Requirements</h2>
+
+<h3><a name="HardwareRequirements-"></a><font color="#000000">If you want to run production-grade SmartOS on hardware that we know works, READ</font> <font color="#000000"><a href="http://www.listbox.com/member/archive/184463/2013/02/sort/time_rev/page/1/entry/5:161/20130218134633:82C0ABBC-79FB-11E2-B214-A90A0365DAE4/">THIS</a></font><font color="#000000">.</font></h3>
+
+
+<h3><a name="HardwareRequirements-CPU"></a>CPU</h3>
+
+<p>SmartOS requires a 64-bit capable x86 Intel or AMD CPU. If you would like to use KVM, please see the section on KVM Requirements.</p>
+
+<h3><a name="HardwareRequirements-DRAM"></a>DRAM</h3>
+
+<p>At a minimum, SmartOS require 512 MB of DRAM. We suggest putting as much DRAM into the box as possible.</p>
+
+<h3><a name="HardwareRequirements-NetworkingCards%2CDiskcontrollers%2CandotherPeripherals"></a>Networking Cards, Disk controllers, and other Peripherals</h3>
+
+<p>SmartOS requires at least one networking interface and a supported disk controller. For a full list of supported onboard and PCI devices, check out the <a href="http://illumos.org/hcl">illumos HCL</a>.</p>
+
+<h2><a name="HardwareRequirements-KVMRequirements"></a>KVM Requirements</h2>
+
+<p>KVM is currently supported on Intel processors that have both Virtualization Technology eXtensions (<b>VT-x</b>) and Extended Page Tables (<b>EPT</b> a.k.a. Intel VT-X with Extended Page Tables). EPT was first introduced with the Nehalem line of processors. As a rule of thumb this translates out to the following brand names:</p>
+
+<ul>
+	<li>Xeon E3, E5, E7</li>
+	<li>Xeon 54XX, 55XX, 56XX, 74XX, 75XX, 76XX</li>
+	<li>Some models of the Xeon 34XX, 35XX, and 36XX</li>
+	<li>Some Core i3, i5, and i7</li>
+	<li>Most newer Sandy Bridge and Ivy Bridge Desktop Pentium and Celeron processors.</li>
+</ul>
+
+
+<p>For a full list of microprocessors that support EPT, please consult the <a href="http://ark.intel.com/Products/VirtualizationTechnology">Intel list</a>.</p>
+
+<h3><a name="HardwareRequirements-AMDandnonEPTprocessors"></a>AMD and non-EPT processors</h3>
+
+<p>Support for AMD processors and Intel processors without EPT support is in development for the broader community. Josh Clulow is working on it <a href="https://github.com/jclulow/illumos-kvm/">here</a>. </p>
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>This version of the kvm driver is not currently supported.</td></tr></table></div>
+
+<p>There are "community" <a href="http://imgapi.uqcloud.net/builds">eait-Images</a> built by arekinath that include that code and do have AMD support.<br/>
+You can help test these images so that AMD support can eventually be merged upstream.</p>
+
+<h2><a name="HardwareRequirements-KnownIssues"></a>Known Issues</h2>
+
+<p>There are a few known hardware related issues with illumos.</p>
+
+<ul>
+	<li>There have been several issues with Intel CPUs regarding their C-States. SmartOS has worked around them, but you should consider disabling them in your BIOS.</li>
+</ul>
+
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-755397"></a>
+                                    <font class="smallfont"><p>There was a question that was redacted from my line item about the HP N40L. I did see the question (zones only vs. zones + kvm). To answer that:</p>
+
+<p>The processor in the HP Proliant N40L is AMD architecture. As KVM only supports Intel at this time, the guests are native (smartos) zones only. I'll be happy to test KVM zones on it if/when someone gets a good patch accepted into Illumos &amp; SmartOS.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by magnus at Apr 18, 2012 16:20
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-755399"></a>
+                                    <font class="smallfont"><p>Hi Magnus,</p>
+
+<p>thanks for the clarification - I guessed that was the case but wanted to be sure since all other setups are Zones&amp;KVM - might be misleading so I hope you don't mind if I add a remark to that so people don't go buying the N40L to run KVM VM's &#94;^.</p>
+
+<p>Regards,</p>
+
+<p>Heinz</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by heinz n. gies at Apr 18, 2012 20:13
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-755402"></a>
+                                    <font class="smallfont"><p>I did try running a Linux distro on it and hosted KVM guests. Hardware-wise, the machine is up for it (with the caveat that this is a very low end processor). I had a few Debian guests spun up &amp; it worked great. Whenever Illumos is ready for KVM on AMD, the N40L will be ready.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by magnus at Apr 18, 2012 20:46
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-1835397"></a>
+                                    <font class="smallfont"><p>I installed in HP ProLiant DL380p Gen8 Server, can not find the hard drive, and who knows what?Who successfully installed?</p>
+
+<p>&#45;-----------------------------------&#45;</p>
+
+<p>HP ProLiant DL380p Gen8 Server</p>
+
+<p>Processor :</p>
+
+<p>Intel® Xeon® E5-2620 (2.0GHz/6-core/95W</p>
+
+<p>Memory :</p>
+
+<p>HP 16GB PC3L-10600R 4x4GB 1Rank Memory - Low Voltage</p>
+
+<p>Storage controller :</p>
+
+<p>HP Embedded Smart Array P420i/1GB FBWC Controller with Battery</p>
+
+<p>Flexible LOM/Network Card :</p>
+
+<p>HP FlexibleLOM 1Gb 4-port 331FLR Ethernet Adapter</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by zyh@basecity.com at Feb 28, 2013 07:37
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-1835508"></a>
+                                    <font class="smallfont"><p>try the HP Smart Array P420i driver</p>
+
+<p>CPQary3-2.5.2-solaris10-i386.tar.gz</p>
+
+<p>or</p>
+
+<p>use HP H220 Host Bus Adapter - based on LSI SAS2008 - supported by the OS</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by jmsrinivas at Mar 22, 2013 14:24
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-2326744"></a>
+                                    <font class="smallfont"><p>Under "KVM Requirements" the 54XX Series is listed. According to the Intel list the 54XX Series does not support EPT. If i understood right and the Intel list is reliable the 54XX Series should be deleted?&#33;</p>
+
+<p>Markus</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by kreis@gmx.ch at Jun 18, 2013 07:46
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-2326753"></a>
+                                    <font class="smallfont"><p>I have the same hardware, how can I use the P420i driver ?</p>
+
+<p>when the system boot for install, it cannot see the drivers, and when I choose the live OS without install and do modload cpqary3; I was unable to see the the hardidks , even after loading the module.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by ahmadsaif at Jun 23, 2013 12:37
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

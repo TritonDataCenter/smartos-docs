@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : DTrace</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : DTrace
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Apr 02, 2014 by <font color="#0050B2">deirdre</font>.
+				    </div>
+
+				    <p>DTrace exists to help you figure out how the system works and why the system is sluggish or acting in an unexpected manner. The name is short for Dynamic Tracing: a powerful idea pioneered by DTrace. Dynamic tracing allows one to <b>peer into all parts of the system</b> &#45;&#45; kernel, device drivers, libraries, services, web servers, applications, databases &#45;&#45; without any restarts, recompilations,or overhead. DTrace is a powerful tool in any programmer's toolkit, and has been included by default with various operating systems including Illumos, Solaris, Mac OS X, FreeBSD, and QNX. A Linux port is in development.</p>
+
+
+<p>DTrace works by dynamically patching live running instructions with instrumentation code. The DTrace facility also supports Static Tracing: where user-friendly trace points are added to code and compiled-in before deployment.</p>
+
+<p>DTrace provides a language, 'D', for writing DTrace scripts and one-liners. The language is like C and awk, and provides powerful ways to filter and summarize data in-kernel before passing to user-land. This is an important feature that enables DTrace to be used in performance-sensitive production environments, as it can greatly reduce the overhead of gathering and presenting data. ...<a href="http://dtrace.org/blogs/about/">more</a></p>
+
+
+
+
+
+<p>There is also a&nbsp;<a href="http://dtrace.org/blogs/about/dtracepony/">pony</a>.</p>
+
+<h2><a name="DTrace-DTraceforBeginners"></a>DTrace for Beginners</h2>
+
+<ul>
+	<li><a href="http://developers.sun.com/solaris/articles/dtrace_tutorial.html">Tutorial: DTrace by Example</a></li>
+	<li><a href="http://www.youtube.com/watch?v=47mgwxnbM9M">Using DTrace to Analyze Your Webstack</a>&nbsp;(short video)</li>
+	<li><a href="http://dtrace.org/blogs/brendan/2011/10/10/top-10-dtrace-scripts-for-mac-os-x/">Top 10 DTrace scripts for Mac OS X</a></li>
+	<li><a href="http://www.youtube.com/watch?v=rM48nvJiZAQ">Introducción a DTrace</a>&nbsp;(in Spanish)</li>
+</ul>
+
+
+<h2><a name="DTrace-MoreDTrace"></a>More DTrace</h2>
+
+<ul>
+	<li><a href="http://wiki.illumos.org/display/illumos/DTrace+FAQs">DTrace FAQs</a></li>
+	<li><a href="http://dtrace.org/resources/bmc/dtrace_tips.pdf">Advanced DTrace Tips, Tricks and Gotchas</a></li>
+	<li><a href="http://sartak.org/talks/perl-oasis-2012/dtrace/">DTrace: printf debugging for seventh-level wizards</a></li>
+</ul>
+
+
+<h2><a name="DTrace-Books"></a>Books</h2>
+
+<ul>
+	<li><a href="http://dtrace.org/guide/preface.html">DTrace Guide</a>&nbsp;&#45; now ported and updated for illumos&#33;</li>
+	<li>Dynamic Tracing Guide: the original reference manual, freely available as a 408 page&nbsp;<a href="http://download.oracle.com/docs/cd/E19253-01/817-6223/817-6223.pdf">PDF</a>&nbsp;(2008)</li>
+	<li><a href="http://www.amazon.com/Solaris-Performance-Tools-Techniques-OpenSolaris/dp/0131568191/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1328815305&amp;sr=1-1">Solaris Performance and Tools</a>: takes Solaris perf analysis further with DTrace, 440 pages (2006)</li>
+	<li>DTrace: the DTrace book of scripts and strategy, 1100 pages (2011). Read a&nbsp;<a href="http://dtrace.org/blogs/brendan/2011/02/23/dtrace-book-sample-chapter-file-systems/">sample chapter on Brendan's blog</a>
+	<ul>
+		<li><a href="http://smartos.org/2010/10/24/introduction-to-the-dtrace-book/">Introduction to the DTrace Book</a></li>
+		<li><a href="http://www.youtube.com/watch?v=k7mwj9Km3fg">What's in the DTrace Book</a></li>
+		<li><a href="http://dtrace.org/blogs/brendan/2011/06/28/baylisa-talk/">Brendan's talk at BayLISA about DTrace and the DTrace book</a></li>
+		<li><a href="http://dtrace.org/blogs/brendan/2011/10/02/dtrace-book-short-videos/">Updated DTrace book intro, DTrace book and Solaris 11</a></li>
+	</ul>
+	</li>
+</ul>
+
+
+<h2><a name="DTrace-VideosonDTrace"></a>Videos on DTrace</h2>
+
+<ul>
+	<li><a href="http://video.google.com/videoplay?docid=-8002801113289007228">Bryan Cantrill's Google Tech Talk</a></li>
+	<li><a href="http://dtrace.org/blogs/brendan/2011/07/06/breaking-down-mysqlpercona-query-latency-with-dtrace/">Breaking Down MySQL/Percona Query Latency With DTrace</a></li>
+	<li><a href="http://smartos.org/2009/11/06/video-little-shop-of-performance-horrors/">Little Shop of Performance Horrors</a></li>
+	<li><a href="http://smartos.org/2010/11/17/dtrace-bof-at-lisa10/">DTrace BoF at LISA10</a></li>
+	<li><a href="http://www.youtube.com/playlist?list=PLE0C1BA9B7A144AE0">Brendan Gregg on DTrace</a>&nbsp;at the Kernel Conference Australia, 2009</li>
+	<li><a href="http://www.beginningwithi.com/comments/2010/10/24/how-to-build-better-applications-with-oracle-solaris-dtrace/">How to Build Better Applications with Oracle Solaris DTrace</a></li>
+	<li><a href="http://www.beginningwithi.com/comments/2010/05/30/observing-your-app-and-everything-else-it-runs-on-using-dtrace/">Observing Your App and Everything Else it Runs on Using DTrace</a></li>
+	<li><a href="http://www.beginningwithi.com/comments/2010/07/27/dtracing-your-website/">DTracing Your Website</a></li>
+	<li><a href="http://www.beginningwithi.com/comments/2010/05/26/the-problems-solaris-solves-4-diagnosing-live-systems-with-dtrace/">The Problems Solaris Solves: Diagnosing Live Systems with DTrace</a></li>
+	<li>“DTrace, Goals, Successes, Failures, and Solving Problems” &#45;&nbsp;<a href="http://www.linkedin.com/in/adamleventhal">Adam Leventhal</a>&nbsp;-&nbsp;<a href="http://smartos.org/2013/05/30/adam-leventhal-on-dtrace/">video</a></li>
+	<li>“Building a monitoring framework using DTrace and MongoDB” &#45;&nbsp;<a href="http://www.linkedin.com/pub/dan-kimmel/4a/88a/425">Dan Kimmel</a>&nbsp;&#45; <a href="http://smartos.org/2013/06/01/building-a-monitoring-framework-using-dtrace-and-mongodb/">video</a></li>
+	<li>“Debugging with DTrace” &#45;&nbsp;<a href="http://www.linkedin.com/pub/max-bruning/0/337/180">Max Bruning</a>&nbsp;&#45; Training Director, Joyent &#45;&nbsp;<a href="http://smartos.org/2013/05/29/debugging-with-dtrace/">video</a></li>
+	<li>“Solving Problems with DTrace on any Platform” &#45;&nbsp;<a href="http://www.linkedin.com/pub/brendan-gregg/1/3a8/3/">Brendan Gregg</a>&nbsp;&#45; <a href="http://smartos.org/2013/05/28/solving-problems-with-dtrace-on-any-platform/">video</a></li>
+</ul>
+
+
+
+<h3><a name="DTrace-dtrace.conf2012Videos"></a>dtrace.conf 2012 Videos</h3>
+
+<p>For a good overview and wrap-up, see <a href="http://dtrace.org/blogs/ahl/2012/04/09/dtrace-conf12-wrap-up/">Adam's blog post on dtrace.conf</a>.</p>
+
+
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<td class='confluenceTd'> State of the Union - <a href="http://smartos.org/2012/04/05/dtrace-conf-2012-dtrace-state-of-the-union/">video</a> </td>
+<td class='confluenceTd'> <a href="http://dtrace.org/blogs/bmc">Bryan Cantrill</a> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> Setting the Agenda - <a href="http://www.youtube.com/watch?v=274w2PcN66Y">video</a> </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> User-Level CTF - <a href="http://smartos.org/2012/04/07/dtrace-conf-2012-user-level-ctf/">video</a> </td>
+<td class='confluenceTd'> <a href="http://dtrace.org/blogs/ahl">Adam Leventhal</a> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> Dynamic Translators - <a href="http://smartos.org/2012/04/07/dtrace-conf-2012-dynamic-translators/">video</a> </td>
+<td class='confluenceTd'> <a href="http://dtrace.org/blogs/dap">Dave Pacheco</a> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> Control flow &amp; language enhancements - <a href="http://smartos.org/2012/04/07/dtrace-conf-2012-control-flow-language-enhancements/">video</a> </td>
+<td class='confluenceTd'> <a href="http://dtrace.org/blogs/eschrock">Eric Schrock</a> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <a href="http://smartos.org/2012/04/05/a-carousel-of-dtrace/">Carousel ride&#33;</a> </td>
+<td class='confluenceTd'>&nbsp;</td>
+</tr>
+<tr>
+<td class='confluenceTd'> Clang Parser for DTrace - <a href="http://www.youtube.com/watch?v=6NqV_Uj8Ba4">video</a> </td>
+<td class='confluenceTd'> John Thompson </td>
+</tr>
+<tr>
+<td class='confluenceTd'> Visualizations - <a href="http://www.youtube.com/watch?v=XD5hdaWnQM4">video</a> </td>
+<td class='confluenceTd'> <a href="http://dtrace.org/blogs/brendan">Brendan Gregg</a> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> Visualizations,&nbsp;Enabling toolchain for seamless USDT - <a href="http://www.youtube.com/watch?v=3Sqa8mmtnMM">video</a> </td>
+<td class='confluenceTd'> Theo Schlossnagle </td>
+</tr>
+<tr>
+<td class='confluenceTd'> Visualizations - <a href="http://www.youtube.com/watch?v=-B6u6wY3Iro">video</a> <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> <a href="http://blog.richardelling.com/">Richard Elling</a> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <a href="http://mcavage.github.com/presentations/dtrace_conf_2012-04-03/">DTrace in node.js</a>&nbsp;&#45; <a href="http://www.youtube.com/watch?v=0ZMvSh7lUdM">video</a> </td>
+<td class='confluenceTd'> <a href="https://twitter.com/mcavage">Mark Cavage</a> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <a href="http://www.snookles.com/scott/publications/dtrace.conf-2012.erlang-vm.pdf">User-land probes for Erlang virtual machine</a>&nbsp;&#45; <a href="http://smartos.org/2012/04/09/dtrace-conf-2012-dtrace-and-erlang/">video</a> </td>
+<td class='confluenceTd'> Scott Lystig Fritchie </td>
+</tr>
+<tr>
+<td class='confluenceTd'> DTrace on Linux - <a href="http://www.youtube.com/watch?v=NElog3MvUC8">video</a> </td>
+<td class='confluenceTd'> Kris Van Hees </td>
+</tr>
+<tr>
+<td class='confluenceTd'> <a href="dtrace.conf 2012 - ZFS DTrace Provider.html" title="dtrace.conf 2012 - ZFS DTrace Provider">ZFS DTrace provider</a> </td>
+<td class='confluenceTd'> <a href="http://blog.delphix.com/matt/">Matt Ahrens</a> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> DTrace on FreeBSD - <a href="http://smartos.org/2012/04/09/dtrace-conf-2012-dtrace-on-freebsd/">video</a> </td>
+<td class='confluenceTd'> Ryan Stone </td>
+</tr>
+<tr>
+<td class='confluenceTd'> Barriers to Adoption - <a href="http://www.youtube.com/watch?v=P95LHZ-WOWw">video</a> </td>
+<td class='confluenceTd'> Jarod Jenson </td>
+</tr>
+</tbody></table>
+</div>
+
+
+<h2><a name="DTrace-"></a></h2>
+
+				    					    <br/>
+                        <div class="tabletitle">
+                            <a name="attachments">
+                                <h2>Attachments:</h2>
+                            </a>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/753732/1146904.jpg">dtracebook.jpg</a> (image/jpeg)
+                                <br/>
+                                                    </div>
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-1835383"></a>
+                                    <font class="smallfont"><p>None of the sun.com links on this page will work, ever. </p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by rchrdfrdmn at Feb 22, 2013 00:00
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-2326768"></a>
+                                    <font class="smallfont"><p>You can find the DTrace Tutorial on the "Way Back Machine" at archive.org</p>
+
+<p><a href="http://web.archive.org/web/20111229040738/http://developers.sun.com/solaris/articles/dtrace_tutorial.html">http://web.archive.org/web/20111229040738/http://developers.sun.com/solaris/articles/dtrace_tutorial.html</a></p>
+
+<p>But I doubt if any of the links from there will work.</p>
+
+<p>It's still a useful article. Someone should capture and re-edit it and put it somewhere, like dtrace.org maybe.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by rchrdfrdmn at Jun 25, 2013 16:50
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

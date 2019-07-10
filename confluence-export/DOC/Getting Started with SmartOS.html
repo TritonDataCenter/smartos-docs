@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Getting Started with SmartOS</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Getting Started with SmartOS
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Jun 22, 2015 by <font color="#0050B2">cjr</font>.
+				    </div>
+
+				    <p><b>In this topic:</b></p>
+<div>
+<ul>
+    <li><a href='#GettingStartedwithSmartOS-SystemRequirements'>System Requirements</a></li>
+    <li><a href='#GettingStartedwithSmartOS-CreatingaPersistentzpool'>Creating a Persistent zpool</a></li>
+<ul>
+    <li><a href='#GettingStartedwithSmartOS-FurtherReading'>Further Reading</a></li>
+    <li><a href='#GettingStartedwithSmartOS-DiscussionList'>Discussion List</a></li>
+</ul>
+</ul></div>
+<p><b>In this section:</b></p>
+<ul><li><a href="Creating a SmartOS Bootable USB Key.html" title="Creating a SmartOS Bootable USB Key">Creating a SmartOS Bootable USB Key</a></li><li><a href="PXE Booting SmartOS.html" title="PXE Booting SmartOS">PXE Booting SmartOS</a></li><li><a href="SmartOS as a VMware Guest.html" title="SmartOS as a VMware Guest">SmartOS as a VMware Guest</a></li><li><a href="SmartOS Clean Re-install.html" title="SmartOS Clean Re-install">SmartOS Clean Re-install</a></li><li><a href="SmartOS as a Sandboxed VirtualBox Guest.html" title="SmartOS as a Sandboxed VirtualBox Guest">SmartOS as a Sandboxed VirtualBox Guest</a></li></ul>
+
+<p>SmartOS is a <a href="SmartOS Users Guide.html" title="SmartOS Users Guide">live image</a> distribution of <a href="https://www.illumos.org/">Illumos</a>, <a href="http://dtrace.org/blogs/bmc/2011/08/15/kvm-on-illumos/">KVM</a> and extras designed specifically for the purpose of running virtual environments. The features of SmartOS that make it an attractive option for running virtual environments lends itself to the way it was designed. Specifically, you do not install SmartOS in the traditional sense. Instead, the running system is contained entirely within memory although you can store some data persistently on disk. Generally, the design of SmartOS and the benefits it provides breakdown in the following way:</p>
+
+<ul>
+	<li><b>Upgrades are trivial:</b> This means no unnecessary complications working with patches. To upgrade a SmartOS release, you just reboot into a new image.</li>
+	<li><b>Increased disk space</b> No need to use disk space on an OS install. All disk space is dedicated to virtual machines and user data.</li>
+	<li><b>Increased disk performance:</b> Typically with other systems, you install the OS to a pair of mirrored disks and then pool the remaining disks for data. With SmartOS, you contain all your disks in the same RAIDZ pool, increasing performance.</li>
+	<li><b>Additional security:</b> Most of the system files are read-only. In addition, <tt>/etc</tt> is re-created on each boot, making it much harder to exploit.</li>
+	<li><b>Increased stability:</b> With other OSes, system commands become dysfunctional once root disks start to fail. This does not happen with SmartOS.</li>
+	<li><b>Purpose built:</b> Much simpler to install and provision, especially when you have a large number of machines.</li>
+</ul>
+
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>For details on the benefit of running SmartOS as a live image, <a href="https://www.youtube.com/watch?v=ieGWbo94geE">watch this video</a>.</td></tr></table></div>
+
+<p>The SmartOS ISO is a bootable CD image containing GRUB, the Illumos kernel, and the SmartOS boot archive. You can copy the image to any medium and load it on boot through any multiboot bootloader. This makes it easy to convert the image into a bootable USB thumbdrive or PXE boot image. You can even copy <tt>/platform</tt> to your Linux system, add an entry to the GRUB <tt>menu.lst</tt> file, and dual boot without needing to repartition.</p>
+
+<div class='panelMacro'><table class='tipMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/check.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>You can find the default single user mode root password for a given release on the boot media in <tt>/platform/root.password</tt>. The default single user mode root password changes from release to release. Otherwise the root password is simply "root".</td></tr></table></div>
+
+
+<h1><a name="GettingStartedwithSmartOS-SystemRequirements"></a>System Requirements</h1>
+
+<p>The more memory you can dedicate to SmartOS the better due to it running as a live image:</p>
+<ul>
+	<li>A minimum of 1GB of RAM</li>
+	<li>64-bit x86 CPU only</li>
+</ul>
+
+
+<p>To take advantage of KVM features, SmartOS requires an Intel CPU with <a href="http://en.wikipedia.org/wiki/VT-x#Intel_virtualization_.28VT-x.29">VT-x extensions</a> in the following microarchitectures:</p>
+<ul>
+	<li>Nehalem</li>
+	<li>Westmere</li>
+	<li>Sandy Bridge</li>
+	<li>Ivy Bridge</li>
+</ul>
+
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>SmartOS will run in a virtual machine. However, due to a lack of nested virtualization, some features of KVM will not function.</td></tr></table></div>
+
+<h1><a name="GettingStartedwithSmartOS-CreatingaPersistentzpool"></a>Creating a Persistent zpool</h1>
+
+<p>Everything on SmartOS is transient due to the nature of it's design. That is, it does not persist across reboots and any changes made on the running system are destroyed as soon as the system is no longer running. This really is not a problem as you typically want changes to your data to persist, not changes to the running operating system or filesystem hierarchy.</p>
+
+<p>For this reason, SmartOS includes a dataset setup script that runs automatically on boot. If you run SmartOS from an alternate form of media and want the dataset setup script to run on boot, ensure the following kernel command line option is set:<br/>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">smartos=true</pre>
+		</div>
+</div></div>If you want to disable the dataset setup script:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">noimport=true</pre>
+		</div>
+</div></div>
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>This is not an installer and does not install the live image. The script is simply for data setup. You will still need to boot from live media.</td></tr></table></div>
+
+<p>As a distribution of the Illumos kernel, SmartOS uses <a href="ZFS.html" title="ZFS">ZFS</a> as the filesystem and takes full advantage of all the inherent features of ZFS including data integrity preservation, support for snapshots and copy-on-write clones, support for high capacities, and RAID-Z support.&nbsp;</p>
+
+<h2><a name="GettingStartedwithSmartOS-FurtherReading"></a>Further Reading</h2>
+
+<p><a href="How to create a zone ( OS virtualized machine ) in SmartOS.html" title="How to create a zone ( OS virtualized machine ) in SmartOS">How to create a zone</a> and <a href="How to create a Virtual Machine in SmartOS.html" title="How to create a Virtual Machine in SmartOS">How to create a Virtual Machine in SmartOS</a> give more detail about <tt>vmadm create</tt>.</p>
+
+<p>For more information about using a SmartMachine, check out the <a href="http://wiki.joyent.com/display/jpc2/JoyentCloud+Home">SmartMachine Wiki Home</a>.</p>
+
+<p>Those versed in JavaScript can learn a lot more by reading <a href="https://github.com/joyent/smartos-live/blob/master/src/vm/sbin/vmadm.js">vmadm.js source</a>.</p>
+
+<p>For detailed information on ZFS and ZFS features, see the&nbsp;<a href="http://download.oracle.com/docs/cd/E19253-01/819-5461/index.html">ZFS Administration Guide</a>.</p>
+
+
+<h2><a name="GettingStartedwithSmartOS-DiscussionList"></a>Discussion List</h2>
+
+<p>The smartos-discuss list is a forum for useful questions and answers - see the searchable archives <a href="https://www.listbox.com/member/archive/184463/">here</a>; sign up <a href="http://smartos.org/smartos-mailing-list/">here</a>.</p>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

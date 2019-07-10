@@ -1,0 +1,420 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : LX Branded Zones</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : LX Branded Zones
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Nov 01, 2017 by <font color="#0050B2">nahamu</font>.
+				    </div>
+
+				    <div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>This page can move to the normal documentation space after we clean it up.</td></tr></table></div>
+
+<div>
+<ul>
+    <li><a href='#LXBrandedZones-Background'>Background</a></li>
+    <li><a href='#LXBrandedZones-GettingStarted'>Getting Started</a></li>
+<ul>
+    <li><a href='#LXBrandedZones-PlatformVersion'>Platform Version</a></li>
+    <li><a href='#LXBrandedZones-Importimages'>Import images</a></li>
+    <li><a href='#LXBrandedZones-CreateAZone'>Create A Zone</a></li>
+</ul>
+    <li><a href='#LXBrandedZones-CoolTechDemos'>Cool Tech Demos</a></li>
+    <li><a href='#LXBrandedZones-Networking'>Networking</a></li>
+<ul>
+    <li><a href='#LXBrandedZones-EnablingIPv6SLAACautoconfiguration'>Enabling IPv6 SLAAC auto configuration</a></li>
+</ul>
+    <li><a href='#LXBrandedZones-X11forwarding'>X11 forwarding</a></li>
+    <li><a href='#LXBrandedZones-Debugging'>Debugging</a></li>
+<ul>
+    <li><a href='#LXBrandedZones-DTrace'>DTrace</a></li>
+<ul>
+    <li><a href='#LXBrandedZones-Enabling%7B%7Blxdebug%7D%7Dprobes'>Enabling <tt>lx_debug</tt> probes</a></li>
+    <li><a href='#LXBrandedZones-huntingforunsupportedsyscalls'>hunting for unsupported syscalls</a></li>
+    <li><a href='#LXBrandedZones-probingsocketoptions'>probing socket options</a></li>
+</ul>
+</ul>
+    <li><a href='#LXBrandedZones-Docker'>Docker</a></li>
+    <li><a href='#LXBrandedZones-Vagrant'>Vagrant</a></li>
+    <li><a href='#LXBrandedZones-RandomNotes'>Random Notes</a></li>
+<ul>
+    <li><a href='#LXBrandedZones-Getting%2Fnativebinariestowork'>Getting /native binaries to work</a></li>
+    <li><a href='#LXBrandedZones-Creatingyourownzonedataset'>Creating your own zone dataset</a></li>
+    <li><a href='#LXBrandedZones-JoyentCIbuilds'>Joyent CI builds</a></li>
+</ul>
+</ul></div>
+
+<h1><a name="LXBrandedZones-Background"></a>Background</h1>
+
+<p><a href="https://www.youtube.com/watch?v=TrfD3pC0VSs&amp;list=PLH8r-Scm3-2VmZhZ76tFPAhPOG0pvmjdA&amp;index=6">Bryan's talk (both entertaining and informative)</a> (<a href="http://www.slideshare.net/bcantrill/illumos-lx">slides</a>)</p>
+
+<h1><a name="LXBrandedZones-GettingStarted"></a>Getting Started</h1>
+
+<p>0) this worked on 2017-10-30<br/>
+1) log into the SmartOS machine as user "root"<br/>
+2) "imgadm avail" &#124; egrep lx; (I chose "e74a9cd0-f2d0-11e6-8b69-b3acf2ef87f7" from here  "https://docs.joyent.com/public-cloud/instances/infrastructure/images/debian")<br/>
+3) "imgadm import e74a9cd0-f2d0-11e6-8b69-b3acf2ef87f7" to download the snapshot and install in zones pool<br/>
+4) "imgadm show e74a9cd0-f2d0-11e6-8b69-b3acf2ef87f7" to figure out the kernel version<br/>
+5) this command will create a running virtual machine, complete with disc/memory/network/cpu:</p>
+
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">vmadm create &lt;&lt;EOL
+    {
+     "brand": "lx",
+     "kernel_version": "3.16.0",
+     "image_uuid": "e74a9cd0-f2d0-11e6-8b69-b3acf2ef87f7",
+     "alias": "pg",
+     "hostname": "pg",
+     "max_physical_memory": 8192,
+     "quota": 3000,
+     "resolvers": ["192.168.180.1", "8.8.8.8"],
+     "nics": [
+      {
+        "nic_tag": "v",
+        "ip": "192.168.180.182",
+        "netmask": "255.255.255.0",
+        "gateway": "192.168.180.1",
+        "vlan_id": 180
+      }
+     ]
+    }
+EOL</pre>
+		</div>
+</div></div>
+<p>6) "vmadm list" gave me the ID for my running instance:</p>
+
+
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre>    UUID                                  TYPE  RAM      STATE             ALIAS
+    9f7dfe6d-d6ec-e108-d3be-ce1638b5a7c2  LX    8192     running           pg
+</pre>
+</div></div>
+<p>7) I had difficulty logging into that machine ("zlogin 9f7dfe6d-d6ec-e108-d3be-ce1638b5a7c2" should have worked, too), this is why I created this writeup in the first place.&nbsp; This is how you can get yourself into the newly created machine</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">   "cd /zones/9f7*/root/root/.ssh &amp;&amp; cp ~/.ssh/id_pub.rsa authorized_keys"</pre>
+		</div>
+</div></div>
+<p>8) ssh root@192.168.180.182<br/>
+9) final note: my SmartOS machine was on vlan 180, if you don't do vlan, leave out the vlan_id line and preceding comma, probably your interface is called "admin"; change paramaters as desired</p>
+
+
+
+<h2><a name="LXBrandedZones-PlatformVersion"></a>Platform Version</h2>
+
+<p>For best results, run the latest SmartOS release available.</p>
+
+<h2><a name="LXBrandedZones-Importimages"></a>Import images</h2>
+
+<p>The lx zone images are on images.joyent.com so make sure that's one of your image sources. Then you can import images:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">imgadm sources -a https://images.joyent.com
+imgadm avail | grep lx-dataset   # See available images
+imgadm import 05140a7e-279f-11e6-aedf-47d4f69d2887    # ubuntu-16.04 20160601</pre>
+		</div>
+</div></div>
+
+<h2><a name="LXBrandedZones-CreateAZone"></a>Create A Zone</h2>
+
+<p>Create a zone (replace the nic values with ones appropriate for your network)</p>
+
+<div class='panelMacro'><table class='tipMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/check.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>If you're not sure what these values mean or what units they are in, check out the <a href="https://smartos.org/man/1m/vmadm">vmadm man page</a></td></tr></table></div>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: javascript; gutter: false">{
+  "alias": "lxtest",
+  "brand": "lx",
+  "kernel_version": "4.3.0",
+  "max_physical_memory": 2048,
+  "quota": 10,
+  "image_uuid": "05140a7e-279f-11e6-aedf-47d4f69d2887",
+  "resolvers": ["8.8.8.8","8.8.4.4"],
+  "nics": [
+    {
+      "nic_tag": "external",
+      "ips": ["dhcp"],
+      "primary": true
+    }
+  ]
+}</pre>
+		</div>
+</div></div>
+
+
+<h1><a name="LXBrandedZones-CoolTechDemos"></a>Cool Tech Demos</h1>
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>A selection of impressive demonstrations of the LX brand's capabilities. Please add your favorites here.</td></tr></table></div>
+
+<p>Show your friends:</p>
+
+<ul>
+	<li>X11 forwarded <a href="http://i.imgur.com/SkHLlxs.png">Firefox</a> and <a href="http://i.imgur.com/hd0Spyc.png">Thunderbird</a> in lx32 zone</li>
+	<li>Plex Media Server usable on lx32 and lx64 (DLNA and some other bits broken still)</li>
+	<li>dtrace a linux binary</li>
+	<li><a href="https://www.joyent.com/developers/videos/docker-and-the-future-of-containers-in-production">Video of docker in SDC (coming soon to the JPC)</a></li>
+	<li>(your favorite demo here)</li>
+</ul>
+
+
+<h1><a name="LXBrandedZones-Networking"></a>Networking</h1>
+
+<p>AF_INET and AF_INET6 mostly working (2014-12-19). Still have some sockopts missing.</p>
+
+<p>ipadm is not working inside the lx brand, /native/sbin/ifconfig is usable.</p>
+
+<h2><a name="LXBrandedZones-EnablingIPv6SLAACautoconfiguration"></a>Enabling IPv6 SLAAC auto configuration</h2>
+
+<p>Add "addrconf" to the "ips" array for the NIC to perform SLAAC and/or DHCPv6 as appropriate.</p>
+
+<h1><a name="LXBrandedZones-X11forwarding"></a>X11 forwarding</h1>
+
+<p>This is working fine on both 32-bit and 64-bit. After pmooney's AF_INET6 commit this is working fine out of the box&#33;</p>
+
+<h1><a name="LXBrandedZones-Debugging"></a>Debugging</h1>
+
+<p>If debugging LX branded zones, first watch this video: <a href="https://www.youtube.com/watch?v=6oIBiWdh41c">Debugging LX branded zones on SmartOS</a></p>
+
+
+
+
+<h2><a name="LXBrandedZones-DTrace"></a>DTrace</h2>
+
+<h3><a name="LXBrandedZones-Enabling%7B%7Blxdebug%7D%7Dprobes"></a>Enabling <tt>lx_debug</tt> probes</h3>
+
+<p>As the video above mentioned, probes associated with <tt>lx_debug</tt> (that is, output associated with the <tt>LX_DEBUG</tt> environment variable) are turned on it <tt>LX_DTRACE</tt> is set to a non-zero value in the environment.  However, this is not helpful if in a context that is hard to set environment variable (e.g., early in boot).  The video above neglected to mention how to enable DTrace probes in this case.  To do this, you must first change the disposition of the brand to enable these by default by modifying the binary.  From the global zone, do the following:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># cp /usr/lib/amd64/lx_brand.so.1 /var/tmp
+# cp /usr/lib/amd64/lx_brand.so.1 /var/tmp/lx_brand.so.1.$$
+# echo "lx_dtrace_lazyload?W 0" | mdb -w /var/tmp/lx_brand.so.1.$$
+# mount -O -F lofs /var/tmp/lx_brand.so.1.$$ /usr/lib/amd64/lx_brand.so.1</pre>
+		</div>
+</div></div>
+
+<p>(If debugging 32-bit, the <tt>lx_brand.so.1</tt> that should be copied and mounted over should be <tt>/usr/lib/lx_brand.so.1</tt> not <tt>/usr/lib/amd64/lx_brand.so.1</tt>.)</p>
+
+<p>At that point, <tt>lx</tt><tt>pid</tt><tt>:::debug</tt> probes should show up as processes start, which will allow you to see where things are failing:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dtrace -Zqn lx*:::debug'{printf("%s", copyinstr(arg0))}'</pre>
+		</div>
+</div></div>
+
+<p>(String size and switch rate should be adjusted up if truncated strings or drops are seen.)</p>
+
+
+<p>When debugging a new distro or otherwise debugging the death of processes before you can login, you can</p>
+
+<h3><a name="LXBrandedZones-huntingforunsupportedsyscalls"></a>hunting for unsupported syscalls</h3>
+
+<p>These need to be run from the GZ:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>lxunsup.d</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">#!/usr/sbin/dtrace -s
+
+#pragma D option quiet
+
+BEGIN
+{
+        printf("%6s %20s %s\n", "PID", "NAME", "CALL")
+}
+
+sdt:lx_brand::brand-lx-unsupported
+{
+        printf("%6d %20s %S\n", pid, execname, stringof(arg0));
+}</pre>
+		</div>
+</div></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">dtrace -n 'sdt:lx_brand::brand-lx-unsupported { @num[execname,stringof(arg0)] = count()  }'</pre>
+		</div>
+</div></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">dtrace -n 'lx-syscall::setsockopt:entry /arg1 == 0 &amp;&amp; arg2 == 35/ { trace(arg4) }'</pre>
+		</div>
+</div></div>
+
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>harmless unsupported syscalls</b><br /></td></tr></table></div>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'> syscall <br class="atl-forced-newline" /> </th>
+<th class='confluenceTh'> note <br class="atl-forced-newline" /> </th>
+</tr>
+<tr>
+<td class='confluenceTd'> prctl(PR_SET_DUMPABLE) </td>
+<td class='confluenceTd'> allow process to enable coredumps, should have no functional impact <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> prctl option 4 <br class="atl-forced-newline" /> </td>
+<td class='confluenceTd'> same as PR_SET_DUMPABLE </td>
+</tr>
+<tr>
+<td class='confluenceTd'> set_robust_list / get_robust_list </td>
+<td class='confluenceTd'> part of libc initialization, but if the feature is never used, then it doesn't really end up mattering. </td>
+</tr>
+<tr>
+<td class='confluenceTd'> futex 0x9 </td>
+<td class='confluenceTd'> usespace mutex call, mostly harmless <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> socket flag MSG_CMSG_CLOEXEC </td>
+<td class='confluenceTd'> auto close fd's... dbus spams these a lot. Looks like they get closed anyway. <br class="atl-forced-newline" /> </td>
+</tr>
+<tr>
+<td class='confluenceTd'> ioctl 0xc020660b (fiemap) </td>
+<td class='confluenceTd'> used to find holes in files by querying the inode extend info, apt tries to use this. have not noticed any impact. <br class="atl-forced-newline" /> </td>
+</tr>
+</tbody></table>
+</div>
+
+
+
+<h3><a name="LXBrandedZones-probingsocketoptions"></a>probing socket options</h3>
+
+<p>This is handy for figuring out why a networking app is not behaving properly.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>lxsockopt.d</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">#!/usr/sbin/dtrace -s
+
+#pragma D option quiet
+
+/**
+PROTO values can be found here:
+https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
+SOCKOPT values can be found here:
+https://github.com/joyent/illumos-joyent/blob/master/usr/src/lib/brand/lx/lx_brand/common/socket.c
+*/
+BEGIN
+{
+        printf("%6s %20s %5s %s\n", "PID", "NAME", "PROTO", "SOCKOPT");
+}
+
+lx-syscall::setsockopt:entry
+{
+        printf("%6d %20s %5d %d\n", pid, execname, arg1, arg2);
+}</pre>
+		</div>
+</div></div>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">dtrace -n 'lx-syscall::setsockopt:entry { @num[execname,arg2] = count()  }'</pre>
+		</div>
+</div></div>
+
+
+<h1><a name="LXBrandedZones-Docker"></a>Docker</h1>
+
+<p><a href="https://www.joyent.com/developers/videos/docker-and-the-future-of-containers-in-production">Bryan's talk and demo of sdc-docker</a></p>
+
+
+
+
+<ul>
+	<li><a href="https://github.com/joyent/smartos-live/blob/master/src/dockerinit/README.md">https://github.com/joyent/smartos-live/blob/master/src/dockerinit/README.md</a></li>
+	<li><a href="https://github.com/joyent/smartos-live/commit/06610676fc05aca2938eb7b8bb07485f3709e9e3">https://github.com/joyent/smartos-live/commit/06610676fc05aca2938eb7b8bb07485f3709e9e3</a></li>
+	<li><a href="https://github.com/joyent/illumos-joyent/commit/e7225aa358c52af4e3ba284399ea8b34fb8348df">https://github.com/joyent/illumos-joyent/commit/e7225aa358c52af4e3ba284399ea8b34fb8348df</a></li>
+	<li><a href="https://github.com/joyent/sdc-docker">https://github.com/joyent/sdc-docker</a></li>
+</ul>
+
+
+<h1><a name="LXBrandedZones-Vagrant"></a>Vagrant</h1>
+
+<p>Initial support for lx brand is complete:</p>
+<ul>
+	<li><a href="https://gist.github.com/bixu/782a4e67644b2fdb1000">Quickstart example</a></li>
+	<li><a href="https://github.com/vagrant-smartos/vagrant-smartos-zones">https://github.com/vagrant-smartos/vagrant-smartos-zones</a></li>
+</ul>
+
+
+
+<h1><a name="LXBrandedZones-RandomNotes"></a>Random Notes</h1>
+
+<h2><a name="LXBrandedZones-Getting%2Fnativebinariestowork"></a>Getting /native binaries to work</h2>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">export PATH=$PATH:/native/usr/bin:/native/usr/sbin:/native/sbin</pre>
+		</div>
+</div></div>
+
+<p>Now truss should work. Note that some native binaries try to execute other native binaries. (For example, <tt>arp</tt> tries to execute <tt>netstat</tt>.) For programs written in C, this can be fixed, so please file a ticket if it doesn't work in a recent release.</p>
+
+
+<h2><a name="LXBrandedZones-Creatingyourownzonedataset"></a>Creating your own zone dataset</h2>
+
+<ul>
+	<li><a href="https://github.com/joyent/debian-lx-brand-image-builder">https://github.com/joyent/debian-lx-brand-image-builder</a></li>
+	<li><a href="https://github.com/joyent/ubuntu-lx-brand-image-builder">https://github.com/joyent/ubuntu-lx-brand-image-builder</a></li>
+	<li><a href="https://github.com/joyent/centos-lx-brand-image-builder">https://github.com/joyent/centos-lx-brand-image-builder</a></li>
+	<li><a href="https://github.com/joyent/sdc-vmtools-lx-brand">https://github.com/joyent/sdc-vmtools-lx-brand</a></li>
+	<li><a href="https://github.com/joyent/lx-brand-image-tests">https://github.com/joyent/lx-brand-image-tests</a></li>
+	<li><a href="http://us-east.manta.joyent.com/jperkin/public/lximg/README">http://us-east.manta.joyent.com/jperkin/public/lximg/README</a></li>
+</ul>
+
+
+<h2><a name="LXBrandedZones-JoyentCIbuilds"></a>Joyent CI builds</h2>
+
+<p>If you run into a new bug, someone might ask you to try the latest CI build after it's been fixed. This is how.</p>
+
+<p>The Joyent CI system constantly rebuilds the platform tarball when there are new commits.<br/>
+You can extract that image and put into place on e.g. an existing SmartOS USB stick to obtain the latest and greatest code from Joyent.</p>
+
+<p>You can download that platform tarball like so:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">MANTA_URL=https://us-east.manta.joyent.com
+LATEST=$(curl ${MANTA_URL}/Joyent_Dev/public/builds/platform/master-latest)
+curl -O ${MANTA_URL}${LATEST}/platform/platform-master-${LATEST##*-}.tgz</pre>
+		</div>
+</div></div>
+
+<p>To update an existing SmartOS USB stick:</p>
+<ol>
+	<li>Extract that tarball onto your USB stick (you'll get a directory named "platform-&lt;datestamp&gt;")</li>
+	<li>Move aside the directory named "platform" to e.g. "platform-orig"</li>
+	<li>Rename "platform-&lt;datestamp&gt;" to "platform"</li>
+	<li>Boot from your USB stic</li>
+</ol>
+
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Download SmartOS</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Download SmartOS
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Apr 29, 2019 by <font color="#0050B2">rejohnst</font>.
+				    </div>
+
+				    <h3><a name="DownloadSmartOS-NeedtolearnmoreaboutusingSmartOSanditskeytechnologies%3F"></a>Need to learn more about using SmartOS and its key technologies?</h3>
+
+<p>Joyent offers <a href="https://www.joyent.com/training-services">training</a>&#33;</p>
+
+<h3><a name="DownloadSmartOS-DownloadSmartOS%28ISO%29https%3A%2F%2Fuseast.manta.joyent.com%2FJoyentDev%2Fpublic%2FSmartOS%2Fsmartoslatest.iso"></a><a href="https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos-latest.iso">Download SmartOS (ISO)</a></h3>
+
+
+<h3><a name="DownloadSmartOS-DownloadSmartOS%28USBImage%29https%3A%2F%2Fuseast.manta.joyent.com%2FJoyentDev%2Fpublic%2FSmartOS%2FsmartoslatestUSB.img.gz"></a><a href="https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos-latest-USB.img.gz">Download SmartOS (USB Image)</a></h3>
+
+
+<h3><a name="DownloadSmartOS-DownloadSmartOS%28VMWareVM%29https%3A%2F%2Fuseast.manta.joyent.com%2FJoyentDev%2Fpublic%2FSmartOS%2Fsmartoslatest.vmwarevm.tar.bz2"></a><a href="https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos-latest.vmwarevm.tar.bz2">Download SmartOS (VMWare VM)</a></h3>
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>disk selection in VMware</b><br />Do not use the first disk presented during disk selection (c0t0d0).<br/>
+This is the boot media and overwriting it will make the machine not boot anymore.</td></tr></table></div>
+
+
+<h3><a name="DownloadSmartOS-DownloadSmartOS%28PlatformArchive%29https%3A%2F%2Fuseast.manta.joyent.com%2FJoyentDev%2Fpublic%2FSmartOS%2Fplatformlatest.tgz"></a><a href="https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/platform-latest.tgz">Download SmartOS (Platform Archive)</a></h3>
+
+
+<h3><a name="DownloadSmartOS-All%22latest%22DownloadsincludingMD5Sumshttps%3A%2F%2Fuseast.manta.joyent.com%2FJoyentDev%2Fpublic%2FSmartOS%2Flatest.html"></a><a href="https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/latest.html">All "latest" Downloads including MD5 Sums</a></h3>
+
+
+<h3><a name="DownloadSmartOS-AllReleases%2CwithChangelogs"></a><a href="http://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos.html">All Releases, with Changelogs</a></h3>
+
+<p>Once you've downloaded a build, please read the&nbsp;<a href="Getting Started with SmartOS.html" title="Getting Started with SmartOS">Getting Started with SmartOS</a> guide for information on getting up to speed quickly and refer to one of the following pages&nbsp;applicable&nbsp;to your&nbsp;preferred&nbsp;installation type:</p>
+
+<ul>
+	<li><a href="Creating a SmartOS Bootable USB Key.html" title="Creating a SmartOS Bootable USB Key">Creating a SmartOS Bootable USB Key</a></li>
+	<li><a href="SmartOS as a VMware Guest.html" title="SmartOS as a VMware Guest">SmartOS as a VMware Guest</a></li>
+	<li><a href="SmartOS as a Sandboxed VirtualBox Guest.html" title="SmartOS as a Sandboxed VirtualBox Guest">SmartOS as a Sandboxed VirtualBox Guest</a></li>
+	<li><a href="PXE Booting SmartOS.html" title="PXE Booting SmartOS">PXE Booting SmartOS</a></li>
+</ul>
+
+
+<h2><a name="DownloadSmartOS-UnderstandingSmartOSBuilds"></a>Understanding SmartOS Builds</h2>
+
+<p>There is a new build, on average, every 2 weeks.  SmartOS builds do not have a version number, rather they have a timestamp in the form: 20120809T221258Z (in this example, the date is: 08/09/2012 at 22:12:58 UTC)</p>
+
+<p>For any given build, there will be 5 files available:</p>
+
+<ul>
+	<li><b>platform&#45;</b><b><em>(timestamp)</em></b><b>.tgz</b>: The raw kernel and boot_archive; this is most commonly used for PXE booting</li>
+	<li><b>smartos&#45;</b><b><em>(timestamp)</em></b><b>.iso</b>: Live Image ISO</li>
+	<li><b>smartos&#45;</b><b><em>(timestamp)</em></b><b>&#45;usb.img.bz2</b>: Live Image USB image (This is the preferred installation method)</li>
+	<li><b>smartos&#45;</b><b><em>(timestamp)</em></b><b>.vmwarevm.tar.bz2</b>: VMware Image (VMX Format) <em><ins>&#45; Please Note&#33; &nbsp;Make sure nested virtualization is enabled if you want to use KVM or BHYVE..</ins></em></li>
+	<li><b>SINGLE_USER_ROOT_PASSWORD.</b><b><em>(timestamp)</em></b><b>.txt</b>: Contains the default root password for the live image (needed only when booting without mounting the zpool)</li>
+</ul>
+
+
+
+
+
+
+<p>For a full list of changes in each build, please refer to the <a href="SmartOS Change Log.html" title="SmartOS Change Log">SmartOS Change Log</a>.</p>
+
+<h2><a name="DownloadSmartOS-AccessingtheSource"></a>Accessing the Source</h2>
+
+<p>SmartOS source is freely available and can be accessed on <a href="https://github.com/joyent/">Github.</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>For more information on SmartOS Development, please refer to the <a href="SmartOS Developers Guide.html" title="SmartOS Developers Guide">SmartOS Developers Guide</a>.</p>
+
+				    					    <br/>
+                        <div class="tabletitle">
+                            <a name="attachments">
+                                <h2>Attachments:</h2>
+                            </a>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/753728/1146908.jpg">upgrade2.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/753728/1146970.png">illumos_postcard.png</a> (image/png)
+                                <br/>
+                                                    </div>
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

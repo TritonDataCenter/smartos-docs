@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : SmartOS as a VMware Guest</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : SmartOS as a VMware Guest
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on May 26, 2017 by <font color="#0050B2">tomas.celaya@joyent.com</font>.
+				    </div>
+
+				    <h1><a name="SmartOSasaVMwareGuest-VMwareFusion"></a>VMware Fusion</h1>
+
+<p>To get started with SmartOS on VMware Fusion, <a href="Download SmartOS.html" title="Download SmartOS">download the latest VMware image</a>.</p>
+
+<p>Once downloaded, extract it. Mac OS X example:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">tar -jxvf Downloads/smartos-latest.vmwarevm.tar.bz2 -C ~/Documents/Virtual\ Machines.localized/</pre>
+		</div>
+</div></div>
+<div class='panelMacro'><table class='warningMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/forbidden.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Warning</b><br />The SmartOS.vmwarevm image is a ready-to-run VM.&nbsp; &#42;Do not&#42; try to "import" or create a "new" VM from the image.</td></tr></table></div>
+
+<p>The VM is ready to go, simply go to the "File" menu and select "Open".</p>
+
+<p><span class="image-wrap" style=""><img src="attachments/756741/1146973.png" style="border: 1px solid black"/></span></p>
+
+<p>The navigate to the directory where you extract the image and the "SmartOS.vmwarevm". Click on it and click "Open".</p>
+
+<p><span class="image-wrap" style=""><img src="attachments/756741/1146974.png" style="border: 1px solid black"/></span></p>
+
+<p>The VM should immediately pop up in a new window, allowing you to start it.&nbsp; Click the "Play" then "I copied it".</p>
+
+<p><span class="image-wrap" style=""><img src="attachments/756741/4358150.png" style="border: 1px solid black"/></span></p>
+
+<p>It will boot.&nbsp; You should be greeted by GRUB.</p>
+
+<div class='panelMacro'><table class='warningMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/forbidden.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Warning</b><br />If the image hangs on a black screen when booting you may need to run the following command to fix display settings:
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: bash; gutter: false">echo 'mks.enableGLBasicRenderer = "FALSE"' &gt;&gt; ~/Documents/Virtual\ Machines.localized/SmartOS.vmwarevm/SmartOS.vmx</pre>
+		</div>
+</div></div></td></tr></table></div>
+
+<p><span class="image-wrap" style=""><img src="attachments/756741/1146975.png" style="border: 1px solid black"/></span></p>
+
+<p>Allow the default boot target to boot ("Live 64-bit (text)").&nbsp; In this case "text" refers to the standard keyboard and monitor console, you would select one of the ttya options if you required console redirection to COM1 (ttya), which in a VMware environment you do not.</p>
+
+<p><span class="image-wrap" style=""><img src="attachments/756741/1146976.png" style="border: 1px solid black"/></span></p>
+
+<p>On first boot, the "SmartOS Setup" program will run.&nbsp; Follow its prompts to do the initial setup of your machine.</p>
+
+<div class='panelMacro'><table class='warningMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/forbidden.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Warning</b><br />Do not use the first disk presented for the storage pool (c0t0d0).<br/>
+This is the boot media and overwriting it will make the machine not boot anymore.</td></tr></table></div>
+
+<h3><a name="SmartOSasaVMwareGuest-VirtualizationHardwareExtensions%26nbsp%3B"></a>Virtualization Hardware Extensions&nbsp;</h3>
+
+<p>If you are using VMware Fusion 5 or newer on a system with Intel VT-x extensions such as a newer MacBook Pro, you can enable pass through to allow nested virtualization capabilities allowing you to use KVM within SmartOS on top of VMware. To enable this, go to your VM's settings while its powered down and change the compatibility to "Fusion 5 or higher".</p>
+
+<p>Virtual Machine &gt; Settings &gt; Compatibility</p>
+
+
+<p><span class="image-wrap" style=""><img src="attachments/756741/1146977.png" style="border: 1px solid black"/></span></p>
+
+<p>Then go to Virtual Machine &gt; Settings &gt;&nbsp;"Processors &amp; Memory" and expand the "Advanced Options" to select "Enable hypervisor applications in this virtual machine":</p>
+
+
+<p><span class="image-wrap" style=""><img src="attachments/756741/1146978.png" style="border: 1px solid black"/></span></p>
+
+				    					    <br/>
+                        <div class="tabletitle">
+                            <a name="attachments">
+                                <h2>Attachments:</h2>
+                            </a>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/756741/1146973.png">VMware-Open.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/756741/4358149.png">VMware-Select.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/756741/5210113.png">VMware-GRUB.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/756741/5210114.png">VMware-Setup.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/756741/1146977.png">Screen Shot 2012-10-26 at 12.34.49 AM.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/756741/1146978.png">Screen Shot 2012-10-26 at 12.34.22 AM.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/756741/1146974.png">VMware-Select.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/756741/4358150.png">vmware-copied-it.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/756741/1146975.png">VMware-GRUB.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/756741/1146976.png">VMware-Setup.png</a> (image/png)
+                                <br/>
+                                                    </div>
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

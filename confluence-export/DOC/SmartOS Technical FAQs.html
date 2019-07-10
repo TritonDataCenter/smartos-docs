@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : SmartOS Technical FAQs</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : SmartOS Technical FAQs
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on May 30, 2014 by <font color="#0050B2">elizabeth.fee@joyent.com</font>.
+				    </div>
+
+				    <div>
+<ul>
+    <li><a href='#SmartOSTechnicalFAQs-What%27sthedefaultusernameandpassword%3F'>What's the default username and password?</a></li>
+    <li><a href='#SmartOSTechnicalFAQs-Where%27stop%3F'>Where's top?</a></li>
+    <li><a href='#SmartOSTechnicalFAQs-HowdoIstartorstopsystemservices%3F'>How do I start or stop system services?</a></li>
+    <li><a href='#SmartOSTechnicalFAQs-HowdoIcreatemyownzonesorVMs%3F'>How do I create my own zones or VMs?</a></li>
+    <li><a href='#SmartOSTechnicalFAQs-Where%27s%3Ccommontool%3E%3F'>Where's &lt;common tool&gt;?</a></li>
+    <li><a href='#SmartOSTechnicalFAQs-WhataboutAMDsupport%3F'>What about AMD support?</a></li>
+    <li><a href='#SmartOSTechnicalFAQs-IfIuseaUSBKeytoboot%2ChowcanIupgradeSmartOSsafelylater%3F'>If I use a USB Key to boot, how can I upgrade SmartOS safely later?</a></li>
+    <li><a href='#SmartOSTechnicalFAQs-IsitpossibletouseJoyent%27sKVMdatasetswithoutSmartDataCenter%28SDC%29%3F'>Is it possible to use Joyent's KVM datasets without SmartDataCenter (SDC)?</a></li>
+    <li><a href='#SmartOSTechnicalFAQs-HowdoIautomatesettinguphostnames%2FstaticnetworkingatdeploytimeforLinuxdatasets%3F'>How do I automate setting up hostnames/static networking at deploy-time for Linux datasets?</a></li>
+    <li><a href='#SmartOSTechnicalFAQs-WherecanIgetmorequestionsanswered%3F'>Where can I get more questions answered?</a></li>
+</ul></div>
+
+
+<h3><a name="SmartOSTechnicalFAQs-What%27sthedefaultusernameandpassword%3F"></a>What's the default username and password?</h3>
+
+
+<p>When the SmartOS Live Image is booted for the first time you will be prompted to set a root password.&nbsp; In the event that you boot SmartOS without importing your Zpool, you will require the default root password.&nbsp; When using the noimport=true option, the login is root/root. Otherwise, the randomly generated root password for each build and can be found in the "SINGLE_USER_ROOT_PASSWORD.(BUILD_DATE).txt" file found in the <a href="https://download.joyent.com/pub/iso/">standard SmartOS download location</a>.&nbsp;</p>
+
+
+<h3><a name="SmartOSTechnicalFAQs-Where%27stop%3F"></a>Where's top?</h3>
+
+<p>SmartOS uses 'prstat' instead of top; it understands SmartOS better and has lower overhead. 'prstat &#45;Z' is a popular invocation, although there are many other command-line options; see the <a href="http://www.illumos.org/man/1m/prstat">prstat man page</a> for more details.</p>
+
+
+<h3><a name="SmartOSTechnicalFAQs-HowdoIstartorstopsystemservices%3F"></a>How do I start or stop system services?</h3>
+
+<p>SmartOS uses SMF, which has some similarities with OSX's launchd or Ubuntu's Upstart: it tracks dependencies between services, can initialize them in parallel, provides logging, and so forth. Here are some common commands:</p>
+
+
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre>svcs: lists enabled services, even if they're not running. To see all services use 'svcs -a'
+svcs -vx: lists services that have failed for some reason, as well as the location of their logfiles
+svcs -Z: lists services in zones as well
+svcadm enable &lt;foo&gt;: start the service named &lt;foo&gt;
+svcadm disable &lt;foo&gt;: stop the service named &lt;foo&gt;
+svcadm restart &lt;foo&gt;: restart the service named &lt;foo&gt;
+svcadm clear &lt;foo&gt;: if a service is in maintenance mode, this clears it so it can be enabled
+svccfg export &lt;foo&gt;: shows the service manifest in case you're curious about what binary is being run and how
+</pre>
+</div></div>
+
+
+<h3><a name="SmartOSTechnicalFAQs-HowdoIcreatemyownzonesorVMs%3F"></a>How do I create my own zones or VMs?</h3>
+
+<p> <a href="How to create a zone ( OS virtualized machine ) in SmartOS.html" title="How to create a zone ( OS virtualized machine ) in SmartOS">How to create a zone ( OS virtualized machine ) in SmartOS</a></p>
+
+
+
+<p><a href="How to create a KVM VM ( Hypervisor virtualized machine ) in SmartOS.html" title="How to create a KVM VM ( Hypervisor virtualized machine ) in SmartOS">How to create a KVM VM ( Hypervisor virtualized machine ) in SmartOS</a></p>
+
+
+
+
+
+
+<h3><a name="SmartOSTechnicalFAQs-Where%27s%3Ccommontool%3E%3F"></a>Where's &lt;common tool&gt;?</h3>
+
+<p>The current SmartOS release is fairly stripped down. You can add more goodies using <a href="Working with Packages.html" title="Working with Packages">pkgsrc/pkgin</a>.</p>
+
+<h3><a name="SmartOSTechnicalFAQs-WhataboutAMDsupport%3F"></a>What about AMD support?</h3>
+
+<p>You can use SmartOS with zones on AMD Hardware. KVM on AMD is currently not supported.<br/>
+We at Joyent have no plans to add this (for sheer lack of time), but it's being worked on in the community.<br/>
+There are <a href="http://imgapi.uqcloud.net/builds">eait-images</a> with AMD KVM support.</p>
+
+<h3><a name="SmartOSTechnicalFAQs-IfIuseaUSBKeytoboot%2ChowcanIupgradeSmartOSsafelylater%3F"></a>If I use a USB Key to boot, how can I upgrade SmartOS safely later?</h3>
+
+<p>The USB key is just a FAT32 filesystem with grub installed on it. It's a simple delivery mechanism to get the kernel &amp; boot archive in to memory, which is why it doesn't matter if you netboot, drop the platform directory in to your linux partition and add a smartos entry to grub, or some other third option.</p>
+
+<p>You can just mount the USB key, move platform to platform.old, then drop in the new platform directory from another build. You can also just drop in a new platform directory to platform.new ( or platform.date or whatever ), edit boot/grub/menu.list to point at the right place ( you can even add new menu entries ) and boot.</p>
+
+
+
+<h3><a name="SmartOSTechnicalFAQs-IsitpossibletouseJoyent%27sKVMdatasetswithoutSmartDataCenter%28SDC%29%3F"></a>Is it possible to use Joyent's KVM datasets without SmartDataCenter (SDC)?</h3>
+
+<p>It is, &nbsp;but you're likely better off making your own dataset by following these <a href="How to create a Virtual Machine in SmartOS.html" title="How to create a Virtual Machine in SmartOS">instructions</a>. Without SDC you'll need to restart the vm and login into the guest in single user mode via grub in order to set the root ssh keys. SDC uses some 'magic' to setup these ssh keys for its customers.&nbsp;</p>
+
+<p>Once you're happy with this guest VM, halt it, take a zfs snapshot. This snapshot can then be used as the dataset for future VMs without having to install the guest OS again. Detailed instructions are <a href="Managing Images.html" title="Managing Images">here</a>.</p>
+
+<p>(For some newer Joyent-distributed KVM images, you can set root's SSH authorized keys using customer_metadata - see "Passing SSH Keys to the VM" on&nbsp;﻿<a href="How to create a KVM VM ( Hypervisor virtualized machine ) in SmartOS.html" title="How to create a KVM VM ( Hypervisor virtualized machine ) in SmartOS">How to create a KVM VM ( Hypervisor virtualized machine ) in SmartOS</a>.)</p>
+
+<h3><a name="SmartOSTechnicalFAQs-HowdoIautomatesettinguphostnames%2FstaticnetworkingatdeploytimeforLinuxdatasets%3F"></a>How do I automate setting up hostnames/static networking at deploy-time for Linux datasets?</h3>
+
+<p>There's no need. Qemu handles this for you via dhcp. Just set the IP in the VM json spec.</p>
+
+<h3><a name="SmartOSTechnicalFAQs-WherecanIgetmorequestionsanswered%3F"></a>Where can I get more questions answered?</h3>
+
+<p>&#35;illumos and #joyent on irc.freenode.net.</p>
+
+<p>email: smartos [at]&nbsp;joyent [dot]&nbsp;com</p>
+
+<p>Other communications tools coming soon.</p>
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-755039"></a>
+                                    <font class="smallfont"><p>Could not login with root/root or admin/admin on the 20120223 build.</p>
+
+<p>Thanks to Tenzer in IRC, default root passwords can be found <a href="https://download.joyent.com/pub/iso/">next to the downloads</a>.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by ingenthr at Mar 18, 2012 20:43
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

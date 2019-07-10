@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Joining SmartOS to an Active Directory domain</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Joining SmartOS to an Active Directory domain
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Aug 13, 2013 by <font color="#0050B2">leecallen35</font>.
+				    </div>
+
+				    <p>Why would you want to join SmartOS to an AD domain?&nbsp;</p>
+
+<p>I am using SmartOS as both a file server for Windows clients and as a virtual machine host (hypervisor) running Windows Server and Linux VMs.&nbsp; The CIFS feature allows SmartOS to serve files to Windows clients from the GZ using just kernel code &#8211; no extra software required.&nbsp; But SmartOS does not support the definition of users, groups, etc., in the GZ, so how can we implement any sort of security?&nbsp; So it makes sense to utilize an Active Directory for this.&nbsp; If you join the SmartOS GZ to an AD domain, CIFS can use the AD to authenticate users and check access control lists.</p>
+
+<p>The AD doesn't have to be a Windows Server: it can be Samba4 running in a VM.&nbsp;</p>
+
+<p>(By the way, an alternative approach for serving files to Windows clients is to install Samba3, in the GZ or in a OS zone.&nbsp; While that involves another layer of software, it supports the SMB2 protocol [CIFS does not], so it's not clear how that would affect performance &#8211; it might improve it. &nbsp;It also supports shared printers.&nbsp; That approach is not documented here.)</p>
+
+<p>Only the GZ can be joined to a domain.&nbsp; And changes made to the GZ are not persistent.&nbsp; So that complicates things a little.&nbsp; Here is how to do it.</p>
+
+<p>In the following examples...</p>
+<ul>
+	<li>My domain name is allenlan.net</li>
+	<li>My AD server is hostname samba-ad (samba-ad.allenlan.net), IP address 192.168.0.13</li>
+	<li>My SmartOS GZ is hostname smartos, IP address 192.168.0.94</li>
+</ul>
+
+
+<p>First we will do everything interactively.</p>
+
+<p>Edit /etc/hosts &#8211; insert your AD host (this step is helpful but not essential). Example:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">127.0.0.1       localhost loghost
+192.168.0.94    smartos  smartos.allenlan.net	# my SmartOS GZ
+192.168.0.13    samba-ad  samba-ad.allenlan.net	# my AD server</pre>
+		</div>
+</div></div>
+<p>Edit /etc/resolv.conf &#8211; insert a 'domain' line with your domain name, and a 'nameserver' line pointing to your AD server. If your AD server is a VM, you may want a secondary 'nameserver' that is always available. Example:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">domain allenlan.net
+nameserver 192.168.0.13	# my AD server
+nameserver 192.168.0.1	# my 'always on' DNS</pre>
+		</div>
+</div></div>
+<p>Edit /etc/krb5/krb5.conf. Example:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">[libdefaults]
+	default_realm = ALLENLAN.NET
+[realms]   
+	ALLENLAN.NET = {
+		kdc = samba-ad.allenlan.net
+		admin_server = samba-ad.allenlan.net
+		kpasswd_server = samba-ad.allenlan.net
+		kpasswd_protocol = SET_CHANGE
+	}
+[domain_realm]
+	.example.com = ALLENLAN.NET</pre>
+		</div>
+</div></div>
+<p>And then:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># cp /etc/nsswitch.ad /etc/nsswitch.conf</pre>
+		</div>
+</div></div>
+<p><b>Important:</b> Make sure the SmartOS&nbsp;clock is synchronized to your AD server.</p>
+
+<p>Then substitute your AD IP address or hostname in the first command, and your domain or OU administrator username in the last command:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># sharectl set -p ads_site=192.168.0.13 smb
+# svcadm enable -r smb/server
+# smbadm join -u administrator allenlan.net</pre>
+		</div>
+</div></div>
+<p>The 'smbadm join' command should return at least 5 lines of information showing that you are joined to the domain. &nbsp;To further test the join, substitute a domain username in this command:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># getent passwd domainuser@allenlan.net</pre>
+		</div>
+</div></div>
+<p>This should return information about the user.</p>
+
+<p>Once this is working, we need to make all of the above changes persistent.&nbsp; The /etc/ files will be overwritten by the next boot, and the idmap &amp; smb/server services will start up not joined to a domain.&nbsp; So copy the modified /etc/ files someplace permanent.&nbsp; I am saving them in /opt/custom/domain-join/</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># mkdir -p /opt/custom/domain-join
+# cd /etc
+# cp hosts resolv.conf nsswitch.conf krb5/krb5.conf /opt/custom/domain-join/
+# svccfg export -a smb/server &gt; /opt/custom/domain-join/smb-server.exp
+# svccfg export -a idmap &gt; /opt/custom/domain-join/idmap.exp</pre>
+		</div>
+</div></div>
+<p>Let's make sure everything is still working.&nbsp; Reboot the system, then perform the following commands:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># svcadm disable idmap smb/server
+# cd /opt/custom/domain-join
+# cp hosts resolv.conf nsswitch.conf /etc/
+# cp krb5.conf /etc/krb5/
+# svccfg import idmap.exp
+# svccfg import smb-server.exp
+# svcadm enable idmap smb/server
+# smbadm list</pre>
+		</div>
+</div></div>
+<p>Does it show the system is joined to the domain?&nbsp; If so, good so far.</p>
+
+<p>Finally we need an SMF service that will perform these steps for us on each boot.&nbsp; The SMF XML itself is very basic, here is what the script looks like:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">#!/bin/bash
+#
+# domain-join.sh - refresh the status of the domain join upon boot
+set -o xtrace
+. /lib/svc/share/smf_include.sh
+cd /
+#PATH=/usr/sbin:/usr/bin; export PATH
+case "$1" in
+'start')
+ /usr/sbin/svcadm disable idmap smb/server
+ cp /opt/custom/domain-join/hosts /etc/
+ cp /opt/custom/domain-join/resolv.conf /etc/
+ cp /opt/custom/domain-join/krb5.conf /etc/krb5/
+ cp /opt/custom/domain-join/nsswitch.conf /etc/
+ /usr/sbin/svccfg import /opt/custom/domain-join/idmap.exp
+ /usr/sbin/svccfg import /opt/custom/domain-join/smb-server.exp
+ /usr/sbin/svcadm enable idmap smb/server ;;
+'stop')
+ ;;
+*)
+ echo "Usage: $0 start"
+ exit $SMF_EXIT_ERR_FATAL
+ ;;
+esac
+exit $SMF_EXIT_OK</pre>
+		</div>
+</div></div>
+<p>If your AD is a VM running on this SmartOS, it's probably a good idea to wait for that VM to be fully up &amp; running before performing the 'svccfg import' command which restarts the smb/server service.</p>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

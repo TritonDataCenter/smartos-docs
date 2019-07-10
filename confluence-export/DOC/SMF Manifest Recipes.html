@@ -1,0 +1,287 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : SMF Manifest Recipes</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : SMF Manifest Recipes
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Jun 25, 2013 by <font color="#0050B2">jonathan.s.fisher</font>.
+				    </div>
+
+				    <p>The following are working examples of manifests for running servers through <a href="Using the Service Management Facility.html" title="Using the Service Management Facility">SMF</a>.</p>
+
+<p><b>In this topic:</b></p>
+<div>
+<ul>
+    <li><a href='#SMFManifestRecipes-mongrelcluster'>mongrel_cluster</a></li>
+    <li><a href='#SMFManifestRecipes-CouchDB'>CouchDB</a></li>
+    <li><a href='#SMFManifestRecipes-Nginx'>Nginx</a></li>
+    <li><a href='#SMFManifestRecipes-TomEE%2FTomcat'>TomEE / Tomcat</a></li>
+</ul></div>
+
+<h1><a name="SMFManifestRecipes-mongrelcluster"></a>mongrel_cluster</h1>
+
+<p>This SMF profile is for running Rails apps with mongrel_cluster. It allows you to create an instance for each different Rails app you are running.</p>
+
+<p>Make a copy of the instance tags for each mongrel_cluster app and fill in the details (replace INSTANCE_NAME, /PATH/TO/RAILS/APP, USERNAME, and GROUP).</p>
+
+<p>Start the mongrel cluster instance with</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">$ sudo svcadm enable mongrel/cluster:INSTANCE_NAME</pre>
+		</div>
+</div></div>
+
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>mongrel_cluster Recipe</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: xml; gutter: false">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'&gt;
+&lt;service_bundle type='manifest' name='mongrel/cluster'&gt;
+  &lt;service name='network/mongrel/cluster' type='service' version='0'&gt;
+    &lt;dependency
+		name='fs'
+		grouping='require_all'
+		restart_on='none'
+		type='service'&gt;
+      &lt;service_fmri value='svc:/system/filesystem/local'/&gt;
+    &lt;/dependency&gt;
+    &lt;dependency
+		name='net'
+		grouping='require_all'
+		restart_on='none'
+		type='service'&gt;
+      &lt;service_fmri value='svc:/network/loopback'/&gt;
+	  &lt;!-- uncomment the following line if you are on an L+ Accelerator since /home is mounted through nfs --&gt;
+	  &lt;!-- &lt;service_fmri value='svc:/network/nfs/client'/&gt; --&gt;
+    &lt;/dependency&gt;
+    &lt;dependent
+		name='mongrel_multi-user'
+		restart_on='none'
+		grouping='optional_all'&gt;
+      &lt;service_fmri value='svc:/milestone/multi-user'/&gt;
+    &lt;/dependent&gt;
+    &lt;exec_method
+		name='start'
+		type='method'
+		exec='/opt/csw/bin/mongrel_rails cluster::start'
+		timeout_seconds='60'&gt;
+    &lt;/exec_method&gt;
+    &lt;exec_method
+		name='stop'
+		type='method'
+		exec=':kill'
+		timeout_seconds='60'&gt;
+    &lt;/exec_method&gt;
+	&lt;!--
+	Define instances
+	--&gt;
+	&lt;instance name='INSTANCE_NAME' enabled='false'&gt;
+		&lt;method_context working_directory='/PATH/TO/RAILS/APP'&gt;
+			&lt;method_credential user='USERNAME' group='GROUP' /&gt;
+			&lt;method_environment&gt;
+			  &lt;envvar name="PATH" value="/usr/bin:/bin:/opt/csw/bin" /&gt;
+			&lt;/method_environment&gt;
+		&lt;/method_context&gt;
+	&lt;/instance&gt;
+	&lt;instance name='SECOND_INSTANCE_NAME' enabled='false'&gt;
+		&lt;method_context working_directory='/PATH/TO/OTHER/RAILS/APP'&gt;
+			&lt;method_credential user='USERNAME2' group='GROUP2' /&gt;
+			&lt;method_environment&gt;
+			  &lt;envvar name="PATH" value="/usr/bin:/bin:/opt/csw/bin" /&gt;
+			&lt;/method_environment&gt;
+		&lt;/method_context&gt;
+	&lt;/instance&gt;
+  &lt;/service&gt;
+&lt;/service_bundle&gt;</pre>
+		</div>
+</div></div>
+
+
+<h1><a name="SMFManifestRecipes-CouchDB"></a>CouchDB</h1>
+
+<p>This recipe assumes that you have installed CouchDB and are running it with the couchdb user/group.</p>
+
+<p>This manifest is for CouchDB 0.7.3/0.8.0 and assumes that you have <a href="http://icu-project.org">ICU</a> installed in <tt>/opt/local</tt> and <a href="http://www.mozilla.org/js/spidermonkey/">SpiderMonkey</a> installed in <tt>/opt/local/spidermonkey</tt>. Change the <tt>LD_LIBRARY_PATH</tt> envar name to suit your configuration.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>CouchDB Recipe</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: xml; gutter: false">&lt;?xml version='1.0'?&gt;
+
+&lt;!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'&gt;
+
+&lt;service_bundle type='manifest' name='export'&gt;
+  &lt;service name='application/database/couch' type='service' version='0'&gt;
+    &lt;create_default_instance enabled='false'/&gt;
+    &lt;single_instance/&gt;
+    &lt;dependency name='network' grouping='require_all' restart_on='none' type='service'&gt;
+      &lt;service_fmri value='svc:/milestone/network:default'/&gt;
+    &lt;/dependency&gt;
+    &lt;dependency name='filesystem-local' grouping='require_all' restart_on='none' type='service'&gt;
+      &lt;service_fmri value='svc:/system/filesystem/local:default'/&gt;
+    &lt;/dependency&gt;
+    &lt;exec_method name='start' type='method' exec='/opt/local/bin/couchdb -b -o /opt/local/var/run/couchdb/couchdb.stdout -e /opt/local/var/run/couchdb/couchdb.stderr -p /opt/local/var/run/couchdb/couchdb.pid' timeout_seconds='300'&gt;
+      &lt;method_context&gt;
+        &lt;method_credential user='couchdb' group='couchdb'/&gt;
+        &lt;method_environment&gt;
+          &lt;envvar name="HOME" value="/opt/local/var/lib/couchdb" /&gt;
+          &lt;envvar name="LD_LIBRARY_PATH" value="/opt/local/lib:/opt/local/spidermonkey/lib" /&gt;
+        &lt;/method_environment&gt;
+      &lt;/method_context&gt;
+    &lt;/exec_method&gt;
+    &lt;exec_method name='stop' type='method' exec='/opt/local/bin/couchdb -d -p /opt/local/var/run/couchdb/couchdb.pid' timeout_seconds='300'&gt;
+      &lt;method_context&gt;
+        &lt;method_credential user='couchdb' group='couchdb'/&gt;
+        &lt;method_environment&gt;
+          &lt;envvar name="HOME" value="/opt/local/var/lib/couchdb" /&gt;
+          &lt;envvar name="LD_LIBRARY_PATH" value="/opt/local/lib:/opt/local/spidermonkey/lib" /&gt;
+        &lt;/method_environment&gt;
+      &lt;/method_context&gt;
+    &lt;/exec_method&gt;
+    &lt;stability value='Evolving'/&gt;
+    &lt;template&gt;
+      &lt;common_name&gt;
+        &lt;loctext xml:lang='C'&gt;Apache CouchDB&lt;/loctext&gt;
+      &lt;/common_name&gt;
+      &lt;documentation&gt;
+        &lt;manpage title='couchdb' section='1M'/&gt;
+        &lt;doc_link name='incubator.apache.org' uri='http://incubator.apache.org/couchdb/'/&gt;
+      &lt;/documentation&gt;
+    &lt;/template&gt;
+  &lt;/service&gt;
+
+&lt;/service_bundle&gt;</pre>
+		</div>
+</div></div>
+
+<h1><a name="SMFManifestRecipes-Nginx"></a>Nginx</h1>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>Nginx Recipe</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: xml; gutter: false">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'&gt;
+&lt;service_bundle type='manifest' name='export'&gt;
+  &lt;service name='network/nginx' type='service' version='0'&gt;
+    &lt;create_default_instance enabled='true'/&gt;
+    &lt;single_instance/&gt;
+    &lt;dependency name='fs' grouping='require_all' restart_on='none' type='service'&gt;
+      &lt;service_fmri value='svc:/system/filesystem/local'/&gt;
+    &lt;/dependency&gt;
+    &lt;dependency name='net' grouping='require_all' restart_on='none' type='service'&gt;
+      &lt;service_fmri value='svc:/network/loopback'/&gt;
+    &lt;/dependency&gt;
+    &lt;dependent name='nginx' restart_on='none' grouping='optional_all'&gt;
+      &lt;service_fmri value='svc:/milestone/multi-user'/&gt;
+    &lt;/dependent&gt;
+    &lt;exec_method name='start' type='method' exec='/opt/local/nginx/sbin/nginx -c /opt/local/nginx/conf/nginx.conf' timeout_seconds='60'&gt;
+      &lt;method_context working_directory='/var/log'&gt;
+        &lt;method_credential user='root' group='root'/&gt;
+        &lt;method_environment&gt;
+          &lt;envvar name='PATH' value='/usr/bin:/bin:/opt/csw/bin:/opt/local/bin'/&gt;
+        &lt;/method_environment&gt;
+      &lt;/method_context&gt;
+    &lt;/exec_method&gt;
+    &lt;exec_method name='stop' type='method' exec=':kill' timeout_seconds='60'&gt;
+      &lt;method_context/&gt;
+    &lt;/exec_method&gt;
+  &lt;/service&gt;
+&lt;/service_bundle&gt;</pre>
+		</div>
+</div></div>
+
+<h1><a name="SMFManifestRecipes-TomEE%2FTomcat"></a>TomEE / Tomcat</h1>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeHeader panelHeader" style="border-bottom-width: 1px;"><b>TomEE or Tomcat</b></div><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: xml; gutter: false">&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1"&gt;
+&lt;service_bundle
+	type="manifest"
+	name="tomee"&gt;
+	&lt;service
+		name="application/servers/tomee"
+		type="service"
+		version="1"&gt;
+		&lt;create_default_instance enabled="false" /&gt;
+		&lt;single_instance /&gt;
+		&lt;exec_method
+			type="method"
+			name="start"
+			exec="/opt/local/java/tomee/bin/startup.sh"
+			timeout_seconds="30"&gt;
+			&lt;method_context working_directory="/opt/local/java/tomee/bin"&gt;
+				&lt;method_credential
+					user="tomee"
+					group="tomee"
+					privileges="BASIC,PRIV_NET_PRIVADDR" /&gt;
+				&lt;method_environment&gt;
+					&lt;envvar
+						name="CATALINA_BASE"
+						value="/opt/local/java/tomee" /&gt;
+					&lt;envvar
+						name="CATALINA_HOME"
+						value="/opt/local/java/tomee" /&gt;
+					&lt;envvar
+						name="JAVA_HOME"
+						value="/opt/local/java/jdk7" /&gt;
+				&lt;/method_environment&gt;
+			&lt;/method_context&gt;
+		&lt;/exec_method&gt;
+		&lt;exec_method
+			type="method"
+			name="stop"
+			exec="/opt/local/java/tomee/bin/shutdown.sh"
+			timeout_seconds="60"&gt;
+			&lt;method_context working_directory="/opt/local/java/tomee/bin"&gt;
+				&lt;method_credential
+					user="tomee"
+					group="tomee" /&gt;
+				&lt;method_environment&gt;
+					&lt;envvar
+						name="CATALINA_BASE"
+						value="/opt/local/java/tomee" /&gt;
+					&lt;envvar
+						name="CATALINA_HOME"
+						value="/opt/local/java/tomee" /&gt;
+					&lt;envvar
+						name="JAVA_HOME"
+						value="/opt/local/java/jdk7" /&gt;
+				&lt;/method_environment&gt;
+			&lt;/method_context&gt;
+		&lt;/exec_method&gt;
+		&lt;stability value="Unstable" /&gt;
+		&lt;template&gt;
+			&lt;common_name&gt;
+				&lt;loctext xml:lang="C"&gt;tomee&lt;/loctext&gt;
+			&lt;/common_name&gt;
+		&lt;/template&gt;
+	&lt;/service&gt;
+&lt;/service_bundle&gt;</pre>
+		</div>
+</div></div>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

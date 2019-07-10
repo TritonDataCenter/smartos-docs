@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : How to contribute</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : How to contribute
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Sep 21, 2017 by <font color="#0050B2">cnb</font>.
+				    </div>
+
+				    <div class='panelMacro'><table class='warningMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/forbidden.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>THIS IS CURRENTLY A ROUGH DRAFT The goal here is to establish best practice principles and concrete guidelines for contributing to the SmartOS development effort.</td></tr></table></div>
+
+<p>We need your help&#33; This wiki is geared towards people interested in SmartOS code but you do not need to stop there. Contributions to documentation, language support, and infrastructure are equally welcome. Blog posts, how to's, and documentation right here on this wiki are also welcome.</p>
+
+<p>If you have something to say or you just want to interface with the rest of the SmartOS community, you are welcome to<a href="Mailing Lists and IRC.html" title="Mailing Lists and IRC">&nbsp;sign up on our&nbsp;mailing lists&nbsp;or drop into&nbsp;our chat channel on IRC</a>.</p>
+
+
+<p><b>In this topic:</b></p>
+
+<div>
+<ul>
+    <li><a href='#Howtocontribute-FindinganAreawhereYouwanttoContribute'>Finding an Area where You want to Contribute</a></li>
+    <li><a href='#Howtocontribute-WritingTheCode'>Writing The Code</a></li>
+<ul>
+    <li><a href='#Howtocontribute-Mercurialtools'>Mercurial tools</a></li>
+</ul>
+    <li><a href='#Howtocontribute-Testing'>Testing</a></li>
+<ul>
+    <li><a href='#Howtocontribute-Allchanges'>All changes</a></li>
+    <li><a href='#Howtocontribute-Changingasingleprogram'>Changing a single program</a></li>
+    <li><a href='#Howtocontribute-Changingtheimplementationofalibrary'>Changing the implementation of a library</a></li>
+    <li><a href='#Howtocontribute-Changingtheimplementationofadriveroraddinganewdriver'>Changing the implementation of a driver or adding a new driver</a></li>
+    <li><a href='#Howtocontribute-Changingthecorekernelormultipleinterconnectedbinaries'>Changing the core kernel or multiple interconnected binaries</a></li>
+</ul>
+    <li><a href='#Howtocontribute-CodeReview'>Code Review</a></li>
+<ul>
+    <li><a href='#Howtocontribute-Generateakeypair'>Generate a key pair</a></li>
+    <li><a href='#Howtocontribute-Creating%26nbsp%3Banduploading%26nbsp%3Bawebrev'>Creating&nbsp;and uploading&nbsp;a webrev</a></li>
+    <li><a href='#Howtocontribute-Creatinganduploadingawebrevinonestep'>Creating and uploading a webrev in one step</a></li>
+    <li><a href='#Howtocontribute-Ensuringadequatereview'>Ensuring adequate review</a></li>
+</ul>
+    <li><a href='#Howtocontribute-SubmittingAPatch'>Submitting A Patch</a></li>
+</ul></div>
+
+<p>While there is more to SmartOS than just code, here are some basic guidelines that are important to follow when contributing code:</p>
+<ul>
+	<li><b>The gate is production quality</b>&nbsp;&#45; With multiple downstream consumers operating on their own schedules, there is no regular SmartOS-gate stability cycle - all changes are expected to be production quality.</li>
+	<li><b>Trust the SmartOS team</b>&nbsp;&#45; <a href="Who's Who in the SmartOS Family.html" title="Who's Who in the SmartOS Family">The SmartOS team</a> act as stewards of the code and responsible for maintaining the quality of the gate. When in doubt, reach out to them for help.</li>
+	<li><b>Shrink to fit</b>&nbsp;&#45; Changes come in all shapes and sizes. Integration of simple fixes should be straightforward, while larger changes must always receive adequate review and testing.</li>
+</ul>
+
+
+<h1><a name="Howtocontribute-FindinganAreawhereYouwanttoContribute"></a>Finding an Area where You want to Contribute</h1>
+
+<p>If you're not sure what you want to work on, you can start by looking at our&nbsp;<a href="https://www.illumos.org/issues?query_id=15">list of bite-site bugs</a>&nbsp;which should be easy for newcomers to pick up. You can also look at the entire&nbsp;<a href="https://www.illumos.org/projects/illumos-gate/issues">list of issues</a>&nbsp;and see if any with status "New" fit your skill set.</p>
+
+<p>If you're looking for a longer-term project, we have a list of&nbsp;<a href="http://wiki.illumos.org/display/illumos/Project+Ideas">ideas for new projects</a>&nbsp;for different levels skill and expertise. Alternatively you may look through the&nbsp;<a href="https://www.illumos.org/projects/site/boards">forums</a>&nbsp;and&nbsp;<a href="https://www.illumos.org/projects/site/wiki/Mailing_Lists">mailing lists</a>&nbsp;for suggestions for improvements. You may be able to find a mentor for your projects through&nbsp;<a href="https://www.illumos.org/projects/site/wiki/Students">illumos Students</a>.</p>
+
+<p><del>The&nbsp;</del><a href="http://bugs.opensolaris.org/">OpenSolaris bug database</a><del>&nbsp;also has a list of bugs for which patches are accepted. You can use the following list of&nbsp;</del><a href="http://hub.opensolaris.org/bin/view/Main/oss_bite_size">bite-size bugs</a><del>&nbsp;to find easy problems to tackle, but be sure to check if the bug in question is already fixed by checking its status, since that list was last updated in October 2009.</del></p>
+
+<p>While the OpenSolaris bug database is no longer available, a third-party archive of the OpenSolaris bugs has a&nbsp;<a href="http://wesunsolve.net/bsearch/form/1/synopsis/oss-bite-size/start/0">list of bite-size bugs</a>&nbsp;which can help you find to find easy problems to tackle.</p>
+
+<p>If you are adding a new feature or addressing a problem not currently on our&nbsp;<a href="https://www.illumos.org/projects/illumos-gate/issues">list of issues</a>, please&nbsp;<a href="https://www.illumos.org/projects/illumos-gate/issues/new">create a new issue</a>&nbsp;describing it. You need to be&nbsp;<a href="https://www.illumos.org/login">signed in</a>&nbsp;to use the issue tracker (sorry&#33;).</p>
+
+<p>Before you start working on the code, it is advisable to first ask on either the&nbsp;<a href="https://www.listbox.com/subscribe/?listname=developer@lists.illumos.org">developer mailing list</a>&nbsp;or&nbsp;<a href="irc://irc.freenode.net/illumos">&#35;illumos on freenode</a>&nbsp;for advice on the particular area you're interested in.</p>
+
+<h1><a name="Howtocontribute-WritingTheCode"></a>Writing The Code</h1>
+
+<p>Our&nbsp;<a href="http://wiki.illumos.org/display/illumos/How+To+Build+illumos">guide to building illumos</a>&nbsp;covers setting up a build environment and getting the source. You should try a build once or twice to get accustomed to the build system and source tree layout.</p>
+
+<p>Since much of the code in illumos at this stage comes directly from the OpenSolaris project, you will find their&nbsp;<a href="https://illumos.org/books/dev/">Developers Reference Guide</a>&nbsp;useful. In particular, the chapters on <a href="https://illumos.org/books/dev/workflow.html">Getting the Source</a>,&nbsp;<a href="https://illumos.org/books/dev/layout.html">Tour of the Source Tree</a>&nbsp;and&nbsp;<a href="https://illumos.org/books/dev/integrating.html">Integrating Changes</a>. As a general guideline, read&nbsp;<a href="http://wiki.illumos.org/display/illumos/On+Developing+illumos">On Developing illumos</a>.</p>
+
+<p>An unparalleled resource for understanding the operating system is the the book,&nbsp;<a href="http://www.amazon.com/Solaris-Internals-OpenSolaris-Kernel-Architecture/dp/0131482092">Solaris Internals: Solaris 10 and OpenSolaris Kernel Architecture</a>&nbsp;and its companion wiki,&nbsp;<a href="http://www.solarisinternals.com/">solarisinternals.com</a>.</p>
+
+<p>We have an OpenGrok source browser and search engine at&nbsp;<a href="http://src.illumos.org/">src.illumos.org</a>&nbsp;which is very useful for development.</p>
+
+<p>Feel free to ask the&nbsp;<a href="https://www.listbox.com/subscribe/?listname=developer@lists.illumos.org">developer mailing list</a>&nbsp;or&nbsp;<a href="irc://irc.freenode.net/illumos">&#35;illumos on freenode</a>&nbsp;for help.</p>
+
+<p>We encourage you to "commit early, commit often" as you work, using your personal clone of illumos-gate.</p>
+
+<h2><a name="Howtocontribute-Mercurialtools"></a>Mercurial tools</h2>
+
+<p><font color="#1a1a1a">If you are using Mercurial, there are some tools to make life easier for you and your reviewers.</font><br/>
+<font color="#1a1a1a">The&nbsp;</font>hgsetup<font color="#1a1a1a">&nbsp;command will edit your Mercurial configuration file,&nbsp;</font>&#126;/.hgrc<font color="#1a1a1a">, automatically to add:</font></p>
+<ul>
+	<li>The Cadmium (<em>cdm</em>) extension for Mercurial.</li>
+	<li>Some configuration for merge tools<br/>
+/opt/onbld/bin/hgsetup &#45;e &lt;your email address&gt; &#45;n &lt;your name&gt;</li>
+</ul>
+
+
+<p>If you have the OpenSolaris&nbsp;<a href="http://pkg/developer/build/onbld">pkg:/developer/build/onbld</a>&nbsp;installed rather than the one from an illumos build, you also want to use the '-c' flag to hgsetup to specify the cdm.py within your workspace (-c /path/to/workspace/usr/src/tools/onbld/hgext/cdm.py). If you do use the cdm.py from your workspace, you will need to alter your &#126;/.hgrc whenever you delete that workspace. It is better to have an illumos /opt/onbld and to use the cdm from within it.</p>
+
+<p>This notably adds the&nbsp;hg recommit&nbsp;(reci) and&nbsp;hg pbchk&nbsp;commands, which allow you to collapse multiple commits (provided that they haven't been pushed to another repository yet) and verify your outgoing changes are free of some common errors.</p>
+
+<p>See&nbsp;<a href="https://www.illumos.org/projects/illumos-gate/wiki/Mercurial_Workflow">Mercurial Workflow</a>&nbsp;fore more details.</p>
+
+<p>Cadmium's&nbsp;pbchk&nbsp;command will warn you about various stylistic problems with your code, the vast majority of which you must fix. Some exceptions are:</p>
+<ol>
+	<li>For certain large bodies of 3rd party code, the C, Java, and Header style rules are waived. Ask an&nbsp;<a href="http://wiki.illumos.org/display/illumos/RTI+Advocacy">advocate</a>&nbsp;for guidance.</li>
+	<li>You do not&nbsp;<em>have</em>&nbsp;to add a copyright (or update your own copyright) if you do not wish to.</li>
+	<li>You&nbsp;<em>MUST NEVER</em>&nbsp;update or alter the copyright or license text of anyone else. This is mostly obvious, but it also applies to accidentally splitting up a 3rd party copyright, or separating that 3rd party copyright from its associated license text. (If you're adding yours, add it after all the other copyright text).</li>
+</ol>
+
+
+
+<h1><a name="Howtocontribute-Testing"></a>Testing</h1>
+
+<p>The illumos gate is a core technology leveraged by several commercial vendors that rely on it to be a stable, well-tested platform. As such, integration into the core illumos-gate requires both code review by relevant parties and reasonable testing to ensure that the changes are stable enough for others to rely upon.</p>
+
+<p><b>Your&nbsp;</b><a href="http://wiki.illumos.org/display/illumos/RTI+Advocacy">RTI advocate</a><b>&nbsp;is the ultimate arbiter of whether your testing is sufficient.</b></p>
+
+<p>The scope of required testing depends on the nature of the change and a discussion with your advocate, but in general advocates adopt a "shrink to fit" mentality. Here are some examples of reasonable testing based on the collective experience of the current RTI advocates. Your advocate may always ask for more testing depending on the nature of the change.</p>
+
+<h2><a name="Howtocontribute-Allchanges"></a>All changes</h2>
+
+<p>Make sure you test the results of the illumos-gate build with only your changesets applied.&nbsp;To do this, you will need to&nbsp;<a href="http://wiki.illumos.org/display/illumos/How+To+Build+illumos">build the illumos code</a>. It is generally insufficient to test the build results of a downstream fork that contains other non-trivial changes as there may be implicit dependencies that break other consumers of the core illumos gate.</p>
+
+<p>If your code has been running in production in another distro or has gone through other testing downstream, please include that information, though by itself may be insufficient to constitute sufficient testing.</p>
+
+<h2><a name="Howtocontribute-Changingasingleprogram"></a>Changing a single program</h2>
+
+<p>If your change affects only a single binary, it is likely sufficient to copy this binary to a downstream distro of reasonable similarity and running your tests there. These tests should cover enough functionality to demonstrate the correctness of your changes, and could involve stress tests in addition to functional tests depending on the nature of the change. This assumes that the binary has a trivial set of library dependencies that are reasonably standard across distros.</p>
+
+<h2><a name="Howtocontribute-Changingtheimplementationofalibrary"></a>Changing the implementation of a library</h2>
+
+<p>If your change affects the implementation of a library without changing external interfaces, you should run tests against a reasonable subset of programs that exercise the code in question. As with a single binary, it is likely sufficient to copy this library to a distro which has identical interfaces, though for some core libraries (most notably libc), you will probably need to bootstrap a complete distro given the challenges with swapping such libraries on a running system, though this depends on the distro in question.</p>
+
+<h2><a name="Howtocontribute-Changingtheimplementationofadriveroraddinganewdriver"></a>Changing the implementation of a driver or adding a new driver</h2>
+
+<p>If your change affects a single driver, you may or may not be able to get away with copying over that driver to an alternate distro. On one hand, the kernel interfaces are likely identical, but if the core implementation of that distro has diverged significantly from illumos-gate, you may be asked to bootstrap a complete environment from your illumos build. Driver tests should demonstrate a reasonable amount of functional and stress testing on appropriate hardware.</p>
+
+<h2><a name="Howtocontribute-Changingthecorekernelormultipleinterconnectedbinaries"></a>Changing the core kernel or multiple interconnected binaries</h2>
+
+<p>If you are making a change to the core kernel, or have a series of changes across a number of libraries, commands, or kernel components that need to be tested as a cohesive whole, you should bootstrap a usable environment from your illumos-gate build that is sufficient to demonstrate the correctness of your changes. Exactly what "bootstrapping" means is dependent on the distro, but the goal is to run the entirety of the your illumos-gate build (not a combination of downstream and upstream illumos-gate bits) in a testable environment. Not all distros are capable of bootstrapping a bare illumos-gate build - check the&nbsp;<a href="http://wiki.illumos.org/display/illumos/Distributions">distribution list</a>&nbsp;and ask on the&nbsp;<a href="https://www.listbox.com/subscribe/?listname=developer@lists.illumos.org">developer list</a>&nbsp;if you are unsure how to do this. Running 'onu' on OpenIndiana or building an illumos-live distribution are two such ways to demonstrate this testing that have been used in the past, but they are not the only ones.</p>
+
+<p>The scope of testing here will likely be more substantial, and should focus on stability of the system as well as the functionality of the changed component(s).</p>
+
+<p>As always, contact your advocate (or the advocates list if you don't yet have someone in mind) if you have more questions about what constitutes sufficient testing for a particular change.</p>
+
+<h1><a name="Howtocontribute-CodeReview"></a>Code Review</h1>
+
+<p>At least one person (other than you, of course) should review your changes. These reviewers should have demonstrated expertise in the area in question or are trusted as knowledgeable by the illumos community at large. If you work for a commercial entity, it is best to include reviewers from outside your company, but this is not required.</p>
+
+<p><b>Your&nbsp;</b><a href="http://wiki.illumos.org/display/illumos/RTI+Advocacy">RTI advocate</a><b>&nbsp;is the ultimate arbiter of whether your review is sufficient.</b></p>
+
+<p>If you don't know how to find adequate review, you may post the changes to the&nbsp;<a href="https://www.listbox.com/subscribe/?listname=developer@lists.illumos.org">developer mailing list</a>&nbsp;to ask for feedback, or ask the RTI advocates if there is anyone in particular they'd like to see review the code.</p>
+
+<p>For larger changes, please link to a resource on the web, instead of attaching a patch file. You may use a webrev (see below), a private&nbsp;<a href="http://mercurial.selenic.com/wiki/PublishingRepositories#hgweb">hgweb</a>&nbsp;or&nbsp;<a href="http://progit.org/book/ch4-6.html">gitweb</a>&nbsp;or online services like&nbsp;<a href="http://bitbucket.org/">Bitbucket</a>,&nbsp;<a href="http://github.com/">Github</a>, or&nbsp;<a href="http://gitorious.org/">Gitorious</a>&nbsp;to share your changes. Remember to mention the issue ID in the email - if one does not yet exist, please create one&#33;</p>
+
+<h2><a name="Howtocontribute-Generateakeypair"></a>Generate a key pair</h2>
+
+<p>If you don't already have an SSH public key in your account at&nbsp;<a href="http://bugs.illumos.org/">http://bugs.illumos.org</a>, generate a key pair like this on your machine (usually as the building/development user account):</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: plain; gutter: false">$ ssh-keygen \-t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/USER/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/USER/.ssh/id_rsa.
+Your public key has been saved in /home/USER/.ssh/id_rsa.pub.
+$ cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3...</pre>
+		</div>
+</div></div>
+<p>Then paste your public key into the box on your account settings page at&nbsp;<a href="http://bugs.illumos.org/">http://bugs.illumos.org</a>&nbsp;and save the changes.&nbsp; Wait for a while for the change to propagate to the webrev server. &nbsp;</p>
+
+<div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/warning.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>If you leave your&nbsp;passphrase&nbsp;blank you will be able to both publish and delete your webrev's as per the latest instructions on the main page at&nbsp;<a href="http://cr.illumos.org/">http://cr.illumos.org/</a>&nbsp;(this both creates and uploads your webrev - see "Creating and Uploaded in one step" ) however if you use a&nbsp;passphrase&nbsp;you will not be able to delete your webrev's as only publish will ask you for your&nbsp;passphrase.</td></tr></table></div>
+
+<h2><a name="Howtocontribute-Creating%26nbsp%3Banduploading%26nbsp%3Bawebrev"></a>Creating&nbsp;and uploading&nbsp;a webrev</h2>
+
+<p>The&nbsp;<em>weberev</em>&nbsp;tool is an easy way to show other people changes you have made. It presents changes (including commit messages) in multiple formats viewable from a web browser. If you have installed an illumos build, you can run&nbsp;<em>webrev</em>&nbsp;like this:/opt/onbld/bin/webrev &#45;O &#45;o illumos-123-webrev<font color="#1a1a1a">Else, from your workspace if you have built the tools:</font>ksh93 bldenv.sh illumos.sh &#45;c 'webrev &#45;O &#45;o illumos-123-webrev'<font color="#1a1a1a">Or to use&nbsp;</font><em>webrev</em><font color="#1a1a1a">&nbsp;provided by installed ON build tools on a non-illumos system:</font>/opt/onbld/bin/webrev &#45;I usr/src/tools/scripts/its.reg &#45;O &#45;o illumos-123-webrev'<font color="#1a1a1a">Note: The reason reason for the &#45;I option is to provide links to our issue tracker. If you see&nbsp;</font>&#42;*&#42; failed to import extension hgext.cdm from .../usr/src/tools/proto/root_i386-nd/opt/onbld/lib/python2.6/onbld/hgext/cdm.py: cannot import name WorkList<font color="#1a1a1a">, try running webrev from the workspace instead.</font></p>
+
+<p>Upload the directory somewhere people can access it from the web, such as a personal web site.</p>
+
+<p>We provide a convenient upload form on&nbsp;<a href="http://cr.illumos.org/">cr.illumos.org</a>. To use the service, first create a zip file of your webrev:zip &#45;r illumos-123-webrev.zip illumos-123-webrevThen add the file on&nbsp;<a href="http://cr.illumos.org/">cr.illumos.org</a>&nbsp;and click "Publish". &nbsp;&nbsp;<ins>Warning there appears to no longer be a "Publish" as such you should follow the next section "</ins><em><ins>Creating and uploading a webrev in one step</ins></em><ins>"</ins>. &nbsp;There is may still be a way to upload your&nbsp;<em>webrev</em>&nbsp;as created above, however the next "all at once create and upload" seems to be the currently preferred method.</p>
+
+<h2><a name="Howtocontribute-Creatinganduploadingawebrevinonestep"></a>Creating and uploading a webrev in one step</h2>
+
+<p>It seems that the "Publish" button is no longer available on&nbsp;<a href="http://cr.illumos.org/">http://cr.illumos.org/</a>&nbsp;as such the prior section can not be used to upload a&nbsp;<em>webrev</em>.</p>
+
+<p>Currently in order to publish a webrev, you'll first need to make sure your SSH key is up-to-date in&nbsp;<a href="https://www.illumos.org/my/account">redmine</a>&nbsp;(in&nbsp;<a href="https://www.illumos.org/my/account">https://www.illumos.org/my/account</a>&nbsp;)&nbsp;&#45; refer to instructions above in "<em>Generate a key pair</em>". Then, you can use&nbsp;<b>webrev(1)</b>&nbsp;to generate and upload your webrev, all at once in a single step (to both create and upload your&nbsp;<em>webrev</em>), thus:    webrev &#45;t rsync://webrev@cr.illumos.org:SOME_NAME &#45;O &#45;UYou can delete a previously uploaded webrev thus:    webrev &#45;t rsync://webrev@cr.illumos.org:SOME_NAME &#45;DNote that&nbsp;<b>SOME_NAME</b>&nbsp;is an arbitrary string that will form part of the URL to your webrev. This is not your user name but rather a descriptive name of the issue and/or fix. Note, also, that you should always use "webrev@" in the rsync URL, not your redmine username.</p>
+
+<p>Once uploaded, your webrev will be in your directory here:&nbsp;<a href="http://cr.illumos.org/~webrev">http://cr.illumos.org/~webrev</a>&nbsp;for example assuming your login name is jondoe and your&nbsp;<b>SOME_NAME</b>&nbsp;is 1023 the final&nbsp;<em>webrev</em>&nbsp;will be located as&nbsp;<b>SOME_NAME</b>&nbsp;e.g.1023 under your directory&nbsp;<a href="http://cr.illumos.org/~webrev/jondoe/">http://cr.illumos.org/~webrev/jondoe/</a>&nbsp;or with a complete path of&nbsp;<a href="http://cr.illumos.org/~webrev/jondoe/1023">http://cr.illumos.org/~webrev/jondoe/1023</a></p>
+
+<h2><a name="Howtocontribute-Ensuringadequatereview"></a>Ensuring adequate review</h2>
+
+<p>It is up to you as a contributor to gather reasonable review to satisfy your RTI advocate that the code is correct and of high quality. Exactly what this means will vary based on the nature and scope of the change, but here are some guidelines that will give the advocates confidence in your changes. As always, trust your avocate and apply "shrink to fit".</p>
+<ul>
+	<li>There should be at least one code reviewer (focused on the implementation details) that is different from the advocate (focused on ensuring overall quality of contributions).</li>
+	<li>For non-trivial changes to major technology areas (ZFS, DTrace, etc), at least one of the reviewers should be regarded as a subject matter expert by the community.</li>
+	<li>Changes with significant impact should participate in a public review when appropriate, or otherwise ensure that alternate opinions are represented.</li>
+	<li>When there are disagreements, every attempt should be made to adequately address reviewer's comments. In the event they cannot, it is acceptable to submit an RTI with known dissent. Such disagreements must be noted in the RTI submission with an explanation as to why the review comments were not addressed.</li>
+</ul>
+
+
+<p>When in doubt, more review is generally better, and you can always ask the advocates for guidance.</p>
+
+<h1><a name="Howtocontribute-SubmittingAPatch"></a>Submitting A Patch</h1>
+
+<p>The illumos&nbsp;<a href="http://wiki.illumos.org/display/illumos/RTI+Advocacy">Advocates</a>&nbsp;are the gatekeepers of the source repository and responsible for approving and integrating changes into the repository. After you have get positive feedback on your changes you can prepare a "request to integrate", (RTI). You'll need to include:</p>
+<ul>
+	<li>The patch, or a link to the changes online (like a webrev or web repository view if you already created one).</li>
+	<li>Some information about how the changes were tested.</li>
+	<li>A list of people who have reviewed your code (if you're not including a commit message).</li>
+	<li>The&nbsp;mail_msg&nbsp;file from a<a href="https://www.illumos.org/projects/illumos-gate/wiki/How_To_Build_illumos">&nbsp;nightly</a>&nbsp;build, which should be free of warnings.</li>
+</ul>
+
+
+<p>If you're using Mercurial, you can create the patch withhg export. If you're using Git,&nbsp;git show &#45;-format="From: %an &lt;%ae&gt;%n%n%B%n%b" &#45;U8&nbsp;(an alias is probably useful to you). &nbsp;This should create patches that Mercurial can import correctly.</p>
+
+<p>For either SCM, the commit message should be in this format:123 Description of the issue in our tracker<br/>
+Reviewed by: Jack &lt;jack@eng.sun.com&gt;<br/>
+Reviewed by: Ohana Matsumae &lt;ohana@kissui.ishikawa.jp&gt;<font color="#1a1a1a">In addition, it would make life for us easier if you include:</font></p>
+<ul>
+	<li>The output of&nbsp;hg outgoing &#45;v&nbsp;(or&nbsp;git whatchanged origin/master..)</li>
+	<li>The output of&nbsp;hg pbchk&nbsp;(or&nbsp;git pbchk, indicating clearly if there was no output)</li>
+</ul>
+
+
+<p>When you are ready, send an email to the&nbsp;<a href="mailto:advocates@lists.illumos.org">illumos Advocates</a>. (You don't need to subscribe to this list, just send an email to&nbsp;<a href="mailto:advocates@lists.illumos.org">advocates@lists.illumos.org</a>. If you're interested in what past RTIs looked like, you can browse&nbsp;<a href="https://www.listbox.com/member/archive/182187/=now">past messages to the Advocates</a>&nbsp;(<a href="http://lists.illumos.org/pipermail/advocates/">Older messages</a>&nbsp;)). &nbsp;Your email needs to be less than 2MB in size. &nbsp;If your change is large, compress the patch or make it available over HTTP. &nbsp;If your mail_msg is large, something is wrong.</p>
+
+<p>You should soon get a reply with additional feedback if needed, or a "thank you" for being part of the illumos developer community&#33;</p>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

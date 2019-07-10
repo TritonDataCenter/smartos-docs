@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Creating a SmartOS Bootable USB Key</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Creating a SmartOS Bootable USB Key
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Apr 29, 2019 by <font color="#0050B2">rejohnst</font>.
+				    </div>
+
+				    <div>
+<ul>
+    <li><a href='#CreatingaSmartOSBootableUSBKey-Macintosh'>Macintosh</a></li>
+    <li><a href='#CreatingaSmartOSBootableUSBKey-Linux'>Linux</a></li>
+    <li><a href='#CreatingaSmartOSBootableUSBKey-Windows'>Windows</a></li>
+    <li><a href='#CreatingaSmartOSBootableUSBKey-OpenIndiana'>OpenIndiana</a></li>
+    <li><a href='#CreatingaSmartOSBootableUSBKey-Andthen...'>And then...</a></li>
+<ul>
+    <li><a href='#CreatingaSmartOSBootableUSBKey-DiscussionList'>Discussion List</a></li>
+</ul>
+</ul></div>
+
+<p>Download the image from&nbsp;<a href="http://wiki.smartos.org/display/DOC/Download+SmartOS">SmartOS Download</a>&nbsp;<b>updated</b> Feb 11, 2013&#33;</p>
+
+
+<h2><a name="CreatingaSmartOSBootableUSBKey-Macintosh"></a>Macintosh</h2>
+
+<ol>
+	<li>Insert your USB key.<br/>
+<img class="emoticon" src="images/icons/emoticons/forbidden.gif" height="16" width="16" align="absmiddle" alt="" border="0"/> All data on the USB key will be replaced.
+<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	<li>Find the USB key's disk identifier.
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre>$ diskutil list
+/dev/disk0
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *500.1 GB   disk0
+   1:                        EFI                         209.7 MB   disk0s1
+   2:                  Apple_HFS Macintosh HD            499.8 GB   disk0s2
+/dev/disk2
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:     Apple_partition_scheme                        *998.1 GB   disk2
+   1:        Apple_partition_map                         32.3 KB    disk2s1
+   2:                 Apple_HFSX Time Machine Backups    998.1 GB   disk2s2
+/dev/disk3
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:     FDisk_partition_scheme                        *4.0 GB     disk3
+   1:             Windows_FAT_32 NONAME                  995.2 MB   disk3s1
+</pre>
+</div></div>
+<p><br class="atl-forced-newline" />
+In this case, the USB key disk identifier <tt>/dev/disk3</tt>.<br/>
+<img class="emoticon" src="images/icons/emoticons/warning.gif" height="16" width="16" align="absmiddle" alt="" border="0"/> It's likely that your device location will be different.
+<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></p></li>
+	<li>Unmount the USB key and copy the image to it. Use <tt>/dev/rdiskX</tt> instead of <tt>/dev/diskX</tt> with the <tt>dd</tt> command to speed the transfer.
+<br class="atl-forced-newline" />  <img class="emoticon" src="images/icons/emoticons/forbidden.gif" height="16" width="16" align="absmiddle" alt="" border="0"/> Be sure to double check the disk identifier. <b>The</b> <tt><b>dd</b></tt> <b>command will destroy any existing data on the target disk.</b>
+<br class="atl-forced-newline" />
+<br class="atl-forced-newline" />
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre>$ diskutil unmountDisk /dev/disk3
+$ gunzip smartos-latest-USB.img.gz 
+$ sudo dd bs=1m if=smartos-latest-USB.img of=/dev/rdisk3
+</pre>
+</div></div></li>
+	<li>Eject the volume
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre>$ diskutil eject /dev/disk3
+</pre>
+</div></div>
+<p><br class="atl-forced-newline" /></p></li>
+</ol>
+
+
+<h2><a name="CreatingaSmartOSBootableUSBKey-Linux"></a>Linux</h2>
+
+
+<ol>
+	<li>Insert your USB key.<br/>
+<img class="emoticon" src="images/icons/emoticons/forbidden.gif" height="16" width="16" align="absmiddle" alt="" border="0"/> All data on the USB key will be replaced.
+<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	<li>Find the USB key's disk identifier.
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre>$ fdisk -l
+255 heads, 63 sectors/track, 60801 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x7ecb51e2
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1          52      409600   27  Unknown
+Partition 1 does not end on cylinder boundary.
+/dev/sda2              52       18959   151870464    7  HPFS/NTFS
+/dev/sda3           18959       30432    92158977    f  W95 Ext'd (LBA)
+/dev/sda4           30432       60802   243944472    7  HPFS/NTFS
+/dev/sda5           18959       30432    92158976   83  Linux
+
+Disk /dev/sdb: 7958 MB, 7958691840 bytes
+255 heads, 63 sectors/track, 967 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x00000000
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1               1         243     1951866    c  W95 FAT32 (LBA)
+</pre>
+</div></div>
+<p><br class="atl-forced-newline" />
+In this case, the USB key disk identifier <tt>/dev/sdb</tt>.<br/>
+<img class="emoticon" src="images/icons/emoticons/warning.gif" height="16" width="16" align="absmiddle" alt="" border="0"/> It's likely that your device location will be different.
+<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></p></li>
+	<li>Copy the image to the USB key.
+<br class="atl-forced-newline" />
+<br class="atl-forced-newline" />  <img class="emoticon" src="images/icons/emoticons/forbidden.gif" height="16" width="16" align="absmiddle" alt="" border="0"/> Be sure to double check the disk identifier. <b>The</b> <tt><b>dd</b></tt> <b>command will destroy any existing data on the target disk.</b>
+<br class="atl-forced-newline" />
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre>$ gunzip smartos-$RELEASE-usb.img.gz
+$ dd if=smartos-$RELEASE-usb.img of=/dev/sdb bs=1024
+</pre>
+</div></div></li>
+</ol>
+
+
+<h2><a name="CreatingaSmartOSBootableUSBKey-Windows"></a>Windows</h2>
+
+
+<ol>
+	<li>Install Zip Utility<br/>
+Joyent provides compressed images in the GZIP file format.  7-Zip <a href="http://www.7-zip.org/">http://www.7-zip.org/</a> is a free open source utility that supports .gz files on Windows.
+<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	<li>Install Disk Imaging Utility<br/>
+The open-source utility "win32diskimager" <a href="https://wiki.ubuntu.com/Win32DiskImager">https://wiki.ubuntu.com/Win32DiskImager</a> from the Ubuntu project will safely and properly burn the .img file.
+<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	<li>Download the .gz image from <a href="https://download.joyent.com/pub/iso/">https://download.joyent.com/pub/iso/</a>.</li>
+	<li>Unzip the .gz file<br/>
+Use 7-Zip to extract the .img file from the .gz file.
+<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	<li>Insert your USB key.<br/>
+<img class="emoticon" src="images/icons/emoticons/forbidden.gif" height="16" width="16" align="absmiddle" alt="" border="0"/> All data on the USB key will be replaced.
+<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	<li>Burn the .img file<br/>
+Use win32diskimager to burn the .img file to the USB key.</li>
+</ol>
+
+
+<h2><a name="CreatingaSmartOSBootableUSBKey-OpenIndiana"></a>OpenIndiana</h2>
+
+<ol>
+	<li>Insert your USB key.<br/>
+<img class="emoticon" src="images/icons/emoticons/forbidden.gif" height="16" width="16" align="absmiddle" alt="" border="0"/> All data on the USB key will be replaced.</li>
+</ol>
+
+
+<ol>
+	<li>Find the USB key's disk identifier.
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre>$ rmformat
+Looking for devices...
+     1. Logical Node: /dev/rdsk/c2t0d0p0
+        Physical Node: /pci@0,0/pci-ide@1f,1/ide@0/sd@0,0
+        Connected Device: QSI      DVD-RAM SDW-086  ES71
+        Device Type: CD Reader
+    Bus: IDE
+    Size: &lt;Unknown&gt;
+    Label: &lt;Unknown&gt;
+    Access permissions: &lt;Unknown&gt;
+     2. Logical Node: /dev/rdsk/c6t0d0p0
+        Physical Node: /pci@0,0/pci104d,8212@1d,7/storage@3/disk@0,0
+        Connected Device: Kingston DataTravelerMini PMAP
+        Device Type: Removable
+    Bus: USB
+    Size: 984.0 MB
+    Label: USBKEY
+    Access permissions: Medium is not write protected.
+</pre>
+</div></div></li>
+</ol>
+
+
+<p>In this case, the USB key disk identifier <tt>/dev/rdsk/c6t0d0p0</tt>.<br/>
+<img class="emoticon" src="images/icons/emoticons/warning.gif" height="16" width="16" align="absmiddle" alt="" border="0"/> It's likely that your device location will be different.</p>
+
+<ol>
+	<li>Unmount the USB (if necessary) key and copy the image to it.</li>
+</ol>
+
+
+<p> <img class="emoticon" src="images/icons/emoticons/forbidden.gif" height="16" width="16" align="absmiddle" alt="" border="0"/> Be sure to double check the disk identifier. <b>The</b> <tt><b>dd</b></tt> <b>command will destroy any existing data on the target disk.</b></p>
+<div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+<pre>$ umount /media/USBKEY
+$ gunzip smartos-$RELEASE-usb.img.gz
+$ dd if=smartos-$RELEASE-usb.img of=/dev/rdsk/c2t0d0p0 bs=1024k
+</pre>
+</div></div>
+
+<h2><a name="CreatingaSmartOSBootableUSBKey-Andthen..."></a>And then...</h2>
+
+<p>Stick the USB key in a port and boot from it&#33;</p>
+
+<h3><a name="CreatingaSmartOSBootableUSBKey-DiscussionList"></a>Discussion List</h3>
+
+<p>The smartos-discuss list is a forum for useful questions and answers - see the searchable archives <a href="https://www.listbox.com/member/archive/184463/">here</a>; sign up <a href="http://smartos.org/smartos-mailing-list/">here</a>.</p>
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-2326750"></a>
+                                    <font class="smallfont"><p>In the Mac portion of the explanation:</p>
+
+<p>dd bs=1M .... doesn't seem to work on OS X 10.8.4 - bs=1m seem to work though</p>
+
+<p>also, both the dd command and fdisk require sudo</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by ct@tineo.com at Jun 23, 2013 09:33
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

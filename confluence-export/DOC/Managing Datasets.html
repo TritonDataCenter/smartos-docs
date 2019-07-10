@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Managing Datasets</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Managing Datasets
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Oct 04, 2012 by <font color="#0050B2">nahamu</font>.
+				    </div>
+
+				    <div class='panelMacro'><table class='warningMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/forbidden.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Deprecated</b><br />This page has been deprecated.  Please see <a href="Managing Images.html" title="Managing Images">Managing Images</a></td></tr></table></div>
+
+<div>
+<ul>
+    <li><a href='#ManagingDatasets-KVMDatasets'>KVM Datasets</a></li>
+<ul>
+    <li><a href='#ManagingDatasets-CreatingTheInitial%27Prototype%27%26nbsp%3BVM'>Creating The Initial 'Prototype'&nbsp;VM</a></li>
+    <li><a href='#ManagingDatasets-CreatingADatasetFromanExistingVM'>Creating A Dataset From an Existing VM</a></li>
+    <li><a href='#ManagingDatasets-TransportingDatasets'>Transporting Datasets</a></li>
+</ul>
+    <li><a href='#ManagingDatasets-OSLevelVirtualizationZoneImages'>OS Level Virtualization Zone Images</a></li>
+</ul></div>
+
+<h1><a name="ManagingDatasets-KVMDatasets"></a>KVM Datasets</h1>
+
+<h2><a name="ManagingDatasets-CreatingTheInitial%27Prototype%27%26nbsp%3BVM"></a>Creating The Initial 'Prototype'&nbsp;VM</h2>
+
+<p>Follow the instructions <a href="How to create a Virtual Machine in SmartOS.html" title="How to create a Virtual Machine in SmartOS">here</a>.</p>
+
+<h2><a name="ManagingDatasets-CreatingADatasetFromanExistingVM"></a>Creating A Dataset From an Existing VM</h2>
+
+<p>Once you have a VM you're happy with it can easily be cloned.  First, halt your vm from inside the guest. You can double check it shut down with the command 'vmadm list &#45;v'.</p>
+
+<p>First, find the name of the zvol being used by your protoype VM:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># zfs list
+NAME                                               USED  AVAIL  REFER  MOUNTPOINT
+zones                                             10.6G   136G   681M  /zones
+zones/184adf96-f4f7-4013-99e6-dbf10cbe85ae         681M   136G   681M  /zones/184adf96-f4f7-4013-99e6-dbf10cbe85ae
+zones/184adf96-f4f7-4013-99e6-dbf10cbe85ae-disk0  1.64G   136G  1.63G  -
+zones/184adf96-f4f7-4013-99e6-dbf10cbe85ae/cores    31K  2.25G    31K  /zones/184adf96-f4f7-4013-99e6-dbf10cbe85ae/cores
+zones/config                                        68K   136G    68K  legacy
+zones/cores                                         31K  10.0G    31K  /zones/global/cores
+zones/dump                                        4.00G   136G  4.00G  -
+zones/opt                                         68.4M   136G  68.4M  legacy
+zones/usbkey                                       127K   136G   127K  legacy
+zones/var                                         6.49M   136G  6.49M  legacy</pre>
+		</div>
+</div></div>
+
+<p>This will most likely be the uuid of the form '&lt;uuid&gt;-disk0', in this case it's '184adf96-f4f7-4013-99e6-dbf10cbe85ae-disk0'.</p>
+
+<p>With the latest versions of SmartOS requiring that all uuid's be real uuid's, you now need to snapshot and clone your zvol to a new uuid for use as another VM.</p>
+
+<p>Pick a new uuid with the "uuid" command, then snapshot, clone, and promote:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># uuid
+f97638de-b666-11e1-84ae-5f23bb25050c
+# zfs snapshot zones/184adf96-f4f7-4013-99e6-dbf10cbe85ae-disk0@f97638de-b666-11e1-84ae-5f23bb25050c
+# zfs clone zones/184adf96-f4f7-4013-99e6-dbf10cbe85ae-disk0@f97638de-b666-11e1-84ae-5f23bb25050c zones/f97638de-b666-11e1-84ae-5f23bb25050c</pre>
+		</div>
+</div></div>
+
+<p>Create a new VM json spec for use with vmadm. The key is to add the new image_uuid in the disk section. Be sure to change the hostname, ip, and anything else you want to be different:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false">{
+  "brand": "kvm",
+  "vcpus": 1,
+  "autoboot": false,
+  "ram": 1024,
+  "hostname": "clone01",
+  "default_gateway": "192.168.2.1",
+  "resolvers" : ["66.207.192.6", "206.223.173.7" ], 
+  "disks": [
+    {
+      "boot": true,
+      "model": "virtio",
+      "image_uuid": "f97638de-b666-11e1-84ae-5f23bb25050c",
+      "size": 40960
+    }
+  ],
+  "nics": [
+    {
+      "nic_tag": "admin",
+      "model": "virtio",
+      "ip": "192.168.2.73",
+      "netmask": "255.255.255.0",
+      "gateway": "192.168.2.1"
+    }
+  ]
+}</pre>
+		</div>
+</div></div>
+
+<p>Create the new VM:</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># vmadm create &lt; new_spec.json</pre>
+		</div>
+</div></div>
+
+<p>This takes a snapshot of the prototype zvol and then uses this to form the basis of a 'zfs clone'. In other words, until your VM differ's significantly from the snapshot, it won't be taking up very much space&#33;</p>
+
+<h2><a name="ManagingDatasets-TransportingDatasets"></a>Transporting Datasets</h2>
+
+<p>Note that you can also also use 'zfs send' and 'zfs recv' to transport your VM prototype to other hosts. Simply send and receive the zvol.</p>
+
+<h1><a name="ManagingDatasets-OSLevelVirtualizationZoneImages"></a>OS Level Virtualization Zone Images</h1>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><b>Under Development</b><br />The full set of features for doing this properly is still under development.<br/>
+For now, a set of instructions from the mailing list has been placed here as a place holder and initial guide.</td></tr></table></div>
+
+<p>There are two parts to the process:</p>
+
+<p>First, there is a 'sm-prepare-image' script to be run inside a SmartMachine that 'prepares' it for snapshotting. You can get this script as part of the 'smtools' pkgsrc package that's available on the 2012Q1 package set. The best way to install this package is to 1) start with the base/base64 image just released; or 2) install the package directly using e.g. 'pkg_add <a href="http://pkgsrc.joyent.com/sdc6/2012Q1/i386/All/smtools">http://pkgsrc.joyent.com/sdc6/2012Q1/i386/All/smtools</a>'. The script finishes by shutting down the image.</p>
+
+<p>The second part will soon be encapsulated in a script to be run in the global zone (still being tested), but it's not a big deal to do it manually for now:</p>
+
+<ul>
+	<li>snapshot the machine's ZFS filesystem (using 'zfs snapshot zones/xxx');</li>
+	<li>import the snapshot as a new UUID ('zfs send zones/xxx@snapshot|zfs recv zones/new-image');</li>
+	<li>optionally, send the snapshot into a ZFS stream file ('zfs send zones/xxx@snapshot|bzip2 &gt; image.zfs.tbz2') that you can pass around as needed and import on other systems using 'zfs recv';</li>
+	<li>provision a machine using the new image.</li>
+</ul>
+
+
+<p>See Also: <a href="https://gist.github.com/3090799">https://gist.github.com/3090799</a></p>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : dtrace.conf 2012 - DTrace Your Node.js JS</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : dtrace.conf 2012 - DTrace Your Node.js JS
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Feb 12, 2013 by <font color="#0050B2">deirdre</font>.
+				    </div>
+
+				    <iframe class="youtube-player" type="text/html" style="width: 400px; height: 300px"
+	src="http://www.youtube.com/embed/0ZMvSh7lUdM" frameborder="0">
+</iframe>
+    
+
+<p>DTrace Your Node.js JS<br/>
+Mark Cavage<br/>
+dtrace.conf April 03, 2012<br/>
+Me<br/>
+@mcavage (Twitter)<br/>
+mcavage (GitHub)<br/>
+mcavage at gmail dot com</p>
+
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-What%27sNode.js%3F"></a>What's Node.js?</h3>
+
+<p>Server-side Javascript.<br/>
+Always non-blocking (threads aren't exposed to you)<br/>
+And networking/HTTP are first class</p>
+
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-WhywouldyouuseNode.js%3F"></a>Why would you use Node.js?</h3>
+
+<p>You want to spin up some new network service (relatively) quickly<br/>
+You want it to talk to other things<br/>
+And you care about performance/scalability</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Borednow.What%27sthistalkabout%3F"></a>Bored now. What's this talk about?</h3>
+<p>(Briefly) What DTrace is available for node itself<br/>
+How to DTrace your application with node-dtrace-provider<br/>
+Some example usage of dtrace-provider (ldapjs/restify)</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-DTracetheNodecore"></a>DTrace the Node core</h3>
+<p>Basically, you've got USDT probes for socket, http and gc<br/>
+Those let you get the basics of what your app is doing<br/>
+But it's a pretty course granularity</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-SomeOneliners%28thanks@bmc%29"></a>Some One-liners (thanks @bmc)</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-CooldoIneedanythingelse%3F"></a>Cool - do I need anything else?</h3>
+<p>As said before, those probes tell you a lot about what the interpreter sees<br/>
+They don't tell you much about your app's components<br/>
+Wouldn't you like to know if say a DB call or a FS call were what was slowing your app down?</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Whatifyourinfrastructurelookslikethis%3F"></a>What if your infrastructure looks like this?</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Supposeyouhadsome%28crappy%29RESTapi..."></a>Suppose you had some (crappy) REST api...</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Wouldn%27titbenicetoseethatslowdown%3F"></a>Wouldn't it be nice to see that slowdown?</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Inaction%3F"></a>In action?</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Wait.What%3F"></a>Wait. What?</h3>
+<p>There was some magic in restify<br/>
+Under the covers it creates DTrace probes for all the handlers in a server<br/>
+The rest of this talk is about showing you how to do that</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-ThanksChrisAndrews%5C%21"></a>Thanks Chris Andrews&#33;</h3>
+<p>$ npm install dtrace-provider<br/>
+Allows you to DTrace for your Node.js application code<br/>
+Installs everywhere; useful on Solaris derivations/OSX<br/>
+You don't need to be root</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Whatisnodedtraceprovider%3F"></a>What is node-dtrace-provider?</h3>
+<p>Allows you to define DTrace USDT probes on the fly in JS<br/>
+This is the third time he's done it. Used the same technique for Ruby and Perl<br/>
+He's currently "normalizing" all three implementations into libusdt.</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Isthismagic%3FHowdoesthiswork%3F"></a>Is this magic? How does this work?</h3>
+<p>Dynamically create tracepoints in the running process<br/>
+Dynamically creates DOF to describe the provider to the kernel<br/>
+ioctl said DOF into the kernel<br/>
+For more information, see Chris' blog</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Howdoyouuseit%3F"></a>How do you use it?</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Node%27sreadvssystemread"></a>Node's read vs system read</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Prettydecentintermsofinterpreteroverhead%28%CE%BCs%29"></a>Pretty decent in terms of interpreter overhead (μs)</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-%28Tangent%29What%27swiththegoofyread%3Areturn%3F"></a>(Tangent) What's with the goofy read:return?</h3>
+<p>man &#45;s 2 read says if (read(fd) == 0) then EOF<br/>
+node however decides to keep calling it. and calling it. and calling it.<br/>
+Hence, that janky D script to get the timing of the first return 0 (since the system is ready to move on)</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Bah%5C%21Showmesomeexamples%5C%21"></a>Bah&#33; Show me some examples&#33;</h3>
+<p>Ok, ok. Clearly the availability heuristic is going to kick in...now&#33;<br/>
+Let's look at:<br/>
+ldapjs<br/>
+restify</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-ldapjs%3Ahelloworldserver"></a>ldapjs: hello world server</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Showmetheprobes%5C%21"></a>Show me the probes&#33;</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Somesearchone%28ish%29liners"></a>Some search one(ish) liners</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Fancy%3AVisualizationofldapjs"></a>Fancy: Visualization of ldapjs</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Thatsaid%3Ait%27sprettycoarsegranularity"></a>That said: it's pretty coarse granularity</h3>
+<p>This was my first pass at integrating dtrace into node app code.<br/>
+Really there's just start/done for each LDAP operation<br/>
+Lets us see what a server is doing, but not very well broken out</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Taketwo%3Arestify"></a>Take two: restify</h3>
+<p>Restify lets you build a REST api by pipelining handlers<br/>
+After having done ldapjs, what I really wanted was to be able to visualize all the steps in a request<br/>
+DTrace start/done probes get inserted for every distinct handler</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-A%28slightly%29biggerexampe"></a>A (slightly) bigger exampe</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Nowwe%27retalking%5C%21"></a>Now we're talking&#33;</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-ThesameDscriptasbefore..."></a>The same D script as before...</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Showsusalotmoredata"></a>Shows us a lot more data</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Everytimearoute%2Fhandlerisadded"></a>Every time a route/handler is added</h3>
+<p>restify sets up a start/done DTrace probe for the route<br/>
+plus a start/done probe for each handler in the route<br/>
+plus a start/done probe for the shared handlers to track in that route<br/>
+You can glob to your heart's content in D scripts, since the names are predictable</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-mappingcode"></a>mapping code</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Routerunnerfires"></a>Route runner fires</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Sometipsonhowtousedtraceprovider..."></a>Some tips on how to use dtrace-provider...</h3>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Rideontopofotherprobes"></a>Ride on top of other probes</h3>
+<p>Whenever possible, piggyback on system probes by using an argument you can correlate (like filename in the nodecat example)</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Pickingarguments"></a>Picking arguments</h3>
+<p>There's no support for argument structs (yet), and you only get 6 arguments to play with, so choose your args wisely</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Buildintoyourframework"></a>Build into your framework</h3>
+<p>ldapjs and restify are two examples where DTrace isn't in user code at all, but provides substantial value.<br/>
+Most nodey things end up in a control-flow problem<br/>
+I.e., everybody I know uses async or a home-grown thing like it.<br/>
+But that makes an excellent place to put probes.</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Easylatencytracking"></a>Easy latency tracking</h3>
+<p>For any given probe, add &#45;start and &#45;done so latency can be calculated<br/>
+Where it makes sense, make arg0 be a monotonically increasing integer</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Whatwouldbeniceinthefuture%3F"></a>What would be nice in the future?</h3>
+<p>JS objects as probe arguments (i.e., structs)<br/>
+Being able to tack on more probes on the fly (i.e., after calling enable())<br/>
+Minimizing the disabled probe effect</p>
+<h3><a name="dtrace.conf2012-DTraceYourNode.jsJS-Andwiththat..."></a>And with that...</h3>
+<p>Questions?<br/>
+→1 / 43<br/>
+<a href="https://twitter.com/mcavage">Mark Cavage</a></p>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

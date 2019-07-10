@@ -1,0 +1,398 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : DTrace FAQs</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : DTrace FAQs
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Nov 03, 2011 by <font color="#0050B2">deirdre</font>.
+				    </div>
+
+				    <p>originally written by <a href="http://dtrace.org/blogs/brendan/">Brendan Gregg</a> in 2005</p>
+<div>
+<ul>
+    <li><a href='#DTraceFAQs-General'>General</a></li>
+<ul>
+    <li><a href='#DTraceFAQs-Isit%22DTrace%22%2C%22Dtrace%22%2C%22dTrace%22or%22DTRACE%22%3F'>Is it "DTrace", "Dtrace", "dTrace" or "DTRACE"?</a></li>
+    <li><a href='#DTraceFAQs-WhatisDTrace%3F'>What is DTrace?</a></li>
+    <li><a href='#DTraceFAQs-WhataretherisksofDTrace%3F'>What are the risks of DTrace?</a></li>
+    <li><a href='#DTraceFAQs-WhatOperatingSystemshaveDTrace%3F%5C'>What Operating Systems have DTrace?*</a></li>
+    <li><a href='#DTraceFAQs-WhyisDTracedifferentfromotherperformancetools%3F'>Why is DTrace different from other performance tools?</a></li>
+    <li><a href='#DTraceFAQs-WhatisDTraceusedfor%3F'>What is DTrace used for?</a></li>
+    <li><a href='#DTraceFAQs-WhocanuseDTrace%3F'>Who can use DTrace?</a></li>
+    <li><a href='#DTraceFAQs-DoIneedtoknowkernelinternalstouseDTrace%3F'>Do I need to know kernel internals to use DTrace?</a></li>
+    <li><a href='#DTraceFAQs-IsthereaneasierwaytousethepowerofDTrace%3F'>Is there an easier way to use the power of DTrace?</a></li>
+    <li><a href='#DTraceFAQs-WhataresomeDTracesuccessstories%3F'>What are some DTrace success stories?</a></li>
+    <li><a href='#DTraceFAQs-Wasn%27tthisinvented20yearsagoonmainframes%3F'>Wasn't this invented 20 years ago on mainframes?</a></li>
+    <li><a href='#DTraceFAQs-Isthesourcecodeavailable%3F'>Is the source code available?</a></li>
+    <li><a href='#DTraceFAQs-AretherebooksforDTrace%3F'>Are there books for DTrace?</a></li>
+    <li><a href='#DTraceFAQs-WillDTracebereleasedforSolaris9%3F'>Will DTrace be released for Solaris 9?</a></li>
+</ul>
+    <li><a href='#DTraceFAQs-DLanguage'>D Language</a></li>
+<ul>
+    <li><a href='#DTraceFAQs-WhatlanguageisDmostlike%3F'>What language is D most like?</a></li>
+    <li><a href='#DTraceFAQs-WhatareProbesandProviders%3F'>What are Probes and Providers?</a></li>
+</ul>
+    <li><a href='#DTraceFAQs-HowdoIDTrace...%3F'>How do I DTrace ...?</a></li>
+<ul>
+    <li><a href='#DTraceFAQs-Syscalls'>Syscalls</a></li>
+    <li><a href='#DTraceFAQs-DiskI%2FO'>Disk I/O</a></li>
+</ul>
+    <li><a href='#DTraceFAQs-ErrorMessages'>Error Messages</a></li>
+<ul>
+    <li><a href='#DTraceFAQs-DTracerequiresadditionalprivileges'>DTrace requires additional privileges</a></li>
+    <li><a href='#DTraceFAQs-dropsonCPU%23dtrace%3A864476dropsonCPU0'>drops on CPU #dtrace: 864476 drops on CPU 0</a></li>
+    <li><a href='#DTraceFAQs-invalidaddress%280x...%29inaction'>invalid address (0x...) in action</a></li>
+    <li><a href='#DTraceFAQs-failedtocreateprobe...Notenoughspace'>failed to create probe ... Not enough space</a></li>
+</ul>
+    <li><a href='#DTraceFAQs-SeeAlso'>See Also</a></li>
+</ul></div>
+
+<h2><a name="DTraceFAQs-General"></a>General</h2>
+
+
+<h3><a name="DTraceFAQs-Isit%22DTrace%22%2C%22Dtrace%22%2C%22dTrace%22or%22DTRACE%22%3F"></a>Is it "DTrace", "Dtrace", "dTrace" or "DTRACE"?</h3>
+
+<p>It's "DTrace".</p>
+
+<h3><a name="DTraceFAQs-WhatisDTrace%3F"></a>What is DTrace?</h3>
+
+<p>DTrace is a performance analysis and troubleshooting tool that provides a comprehensive view of operating system and application behaviour. It has functionality similar to many other performance tools combined, bundled into a single scriptable tool that can examine both userland activity and the kernel.  DTrace was designed to be safe for use on live production servers, and to operate with minimum performance overhead.</p>
+
+<h3><a name="DTraceFAQs-WhataretherisksofDTrace%3F"></a>What are the risks of DTrace?</h3>
+
+<p>Safety was a <a href="http://dtrace.org/blogs/bmc/2005/07/19/dtrace-safety/">key design tenet</a> in the development of DTrace. Since its release in 2005, DTrace has proven safe for production use, as it was designed to be. In some production environments DTrace is running continually 24x7 without harm or even serious performance degradation.</p>
+
+<h3><a name="DTraceFAQs-WhatOperatingSystemshaveDTrace%3F%5C"></a>What Operating Systems have DTrace?&#42;</h3>
+
+<p>DTrace was developed as key Solaris 10 technology by former Sun Microsystems engineers <a href="http://dtrace.org/blogs/bmc">Bryan Cantrill</a>, <a href="http://blogs.sun.com/mws">Mike Shapiro</a> and <a href="http://dtrace.org/blogs/ahl">Adam Leventhal</a>, and was released in March 2005 with the first release of Solaris 10. It's now available for <a href="https://www.illumos.org/">Illumos</a>, SmartOS, <a href="http://wiki.freebsd.org/DTrace">FreeBSD</a> and <a href="http://dtrace.org/blogs/brendan/2011/10/10/top-10-dtrace-scripts-for-mac-os-x/">Mac OS X</a>, and two different ports for Linux are in early stages.</p>
+
+<h3><a name="DTraceFAQs-WhyisDTracedifferentfromotherperformancetools%3F"></a>Why is DTrace different from other performance tools?</h3>
+
+<ul>
+	<li>greater observability</li>
+	<li>production safe</li>
+	<li>realtime data</li>
+</ul>
+
+
+<p>For example, DTrace can fetch latency metrics from functions in the kernel and applications at the same time, summarizing the data in a low cost manner, and passing the summaries every second to user-land for real-time visualization.</p>
+
+<h3><a name="DTraceFAQs-WhatisDTraceusedfor%3F"></a>What is DTrace used for?</h3>
+
+<p>Performance analysis, observability, troubleshooting, debugging. Examples include watching disk I/O details live, and timing userland functions to determine hotspots.</p>
+
+<h3><a name="DTraceFAQs-WhocanuseDTrace%3F"></a>Who can use DTrace?</h3>
+
+<p>Firstly, you need to be root or have one of the DTrace privileges to be able to invoke DTrace.</p>
+<ul>
+	<li>Sysadmins can use DTrace to understand the behaviour of the operating system and applications.</li>
+	<li>Application Programmers can use DTrace to fetch timing and argument details from the functions that they wrote, both in development and from live customer production environments.</li>
+	<li>Kernel and Device Driver Engineers can use DTrace to debug a live running kernel and all its modules, without needing to run drivers in debug mode.</li>
+</ul>
+
+
+<h3><a name="DTraceFAQs-DoIneedtoknowkernelinternalstouseDTrace%3F"></a>Do I need to know kernel internals to use DTrace?</h3>
+
+<p>No, although it can help. The following points should explain:</p>
+<ul>
+	<li>You can get value from DTrace by using the many pre-written and documented scripts available from:
+	<ul>
+		<li>the&nbsp;<a href="http://www.opensolaris.org/os/community/dtrace/dtracetoolkit">DTraceToolkit</a>&nbsp;&#45; many of which are <a href="http://dtrace.org/blogs/brendan/2011/10/10/top-10-dtrace-scripts-for-mac-os-x/">included in Mac OS X</a></li>
+		<li>the scripts and one-liners documented in&nbsp;<a href="http://www.solarisinternals.com/">Solaris Peformance and Tools</a>&nbsp;(2005)</li>
+		<li>the scripts and one-liners documented in the <a href="http://dtrace.org/blogs/brendan/2011/02/23/dtrace-book-sample-chapter-file-systems/">DTrace book</a> (2011)</li>
+	</ul>
+	</li>
+	<li>However, it's useful to learn to write your own custom scripts, to solve your specific issues.</li>
+	<li>There are many high level "providers" carefully designed to provide a succinct, stable and documented abstraction of the kernel (see the&nbsp;<a href="http://download.oracle.com/docs/cd/E19253-01/817-6223/817-6223.pdf">DTrace Guide</a>, eg: proc, io, sched, sysinfo, vminfo), which make tracing the kernel much easier than it may sound.</li>
+	<li>No kernel knowledge is required to study user-level application code only. Application developers can study the functions that they wrote, and that they are already familiar with.</li>
+	<li>Understanding the OS kernel is necessary for writing advanced DTrace scripts for which there is currently no high level provider; for example, to examine TCP and IP activity in detail. <a href="http://www.solarisinternals.com/">Solaris Internals 2nd Edition</a>&nbsp;is highly recommended.</li>
+</ul>
+
+
+<h3><a name="DTraceFAQs-IsthereaneasierwaytousethepowerofDTrace%3F"></a>Is there an easier way to use the power of DTrace?</h3>
+
+<p>The power of DTrace underlies several observability tools, including a <a href="http://wiki.netbeans.org/DTrace">GUI for Netbeans</a>, <a href="http://developer.apple.com/technologies/tools/">Mac OS X Instruments</a>, Analytics for the Oracle ZFS Storage product family.</p>
+
+<p>And we've been tapping Joyent's internal DTrace expertise (<a href="http://en.wikipedia.org/wiki/Bryan_Cantrill">Bryan Cantrill</a>, <a href="http://en.wikipedia.org/wiki/Brendan_Gregg">Brendan Gregg</a>, <a href="http://dtrace.org/blogs/dap/">Dave Pacheco</a>, <a href="http://dtrace.org/blogs/rm/">Robert Mustacchi</a>) to make the power of DTrace ever more accessible:</p>
+
+<ul>
+	<li>If you're a customer of the Joyent Public Cloud (including <a href="https://no.de/">no.de</a>), you can use Joyent's powerful <a href="http://www.joyentcloud.com/carousel/joyent-rocks/powerful-analytics/">Cloud Analytics</a> to observe the performance of your Joyent SmartMachine.&nbsp;</li>
+	<li>With Joyent's SmartDataCenter, you can <a href="http://www.joyent.com/products/smartdatacenter/cloud-analytics/">apply the power of Cloud Analytics across all nodes</a>, to see what's going on throughout your cloud datacenter.</li>
+	<li>You can also use Joyent's&nbsp;<a href="http://apidocs.joyent.com/sdcapidoc/clan/">Cloud Analytics API</a> to create custom instrumentations and visualizations for any or all of your nodes in the Joyent Public Cloud, or your entire SmartDataCenter.</li>
+</ul>
+
+
+
+
+<h3><a name="DTraceFAQs-WhataresomeDTracesuccessstories%3F"></a>What are some DTrace success stories?</h3>
+
+<p>DTrace has had countless wins, see the blogs on <a href="http://dtrace.org/">dtrace.org</a> for some examples.</p>
+
+<h3><a name="DTraceFAQs-Wasn%27tthisinvented20yearsagoonmainframes%3F"></a>Wasn't this invented 20 years ago on mainframes?</h3>
+
+<p>No&#33; DTrace can dynamically trace every function entry and return in the live kernel (around 36,000 probes); plus every function in user-level application code and libraries (for example, mozilla + libraries is over 100,000 probes); and user-level instructions (over 200,000 probes - just for the Bourne shell).&nbsp;</p>
+
+<h3><a name="DTraceFAQs-Isthesourcecodeavailable%3F"></a>Is the source code available?</h3>
+
+<p>Yes, Sun Microsystems released it in January, 2005, and it was the first major component of the Solaris source to be open-sourced.</p>
+
+
+<h3><a name="DTraceFAQs-AretherebooksforDTrace%3F"></a>Are there books for DTrace?</h3>
+
+<p>Yes&#33;&nbsp;</p>
+<ul>
+	<li>The&nbsp;<a href="http://download.oracle.com/docs/cd/E19253-01/817-6223/817-6223.pdf">DTrace Guide</a>&nbsp;is a superb reference for DTrace which covers the language, providers, and is packed with examples. It was written by the DTrace engineers, and is the authorative reference. This entire book is available online in both HTML and PDF format, at no charge. A hardcopy is available to&nbsp;<a href="http://corppub.iuniverse.com/marketplace/sun/0595285481.html">purchase</a>&nbsp;from iUniverse.</li>
+	<li><a href="http://vig.prenhall.com/catalog/academic/product/0,1144,0131568191,00.html">Solaris Performance and Tools</a>&nbsp;demonstrates using DTrace in practical ways for performance observability and debugging. It was written by Richard McDougall and Jim Mauro (who also wrote&nbsp;<a href="http://www.solarisinternals.com/">Solaris Internals</a>), and&nbsp;<a href="http://www.opensolaris.org/os/community/dtrace/FAQ/dtracetoolkit">Brendan Gregg</a>&nbsp;(DTraceToolkit).</li>
+	<li>The <a href="http://www.dtracebook.com">DTrace book</a> by Brendan Gregg and Jim Mauro, published in early 2011, is a comprehensive "cookbook" on all aspects of DTrace. Sample chapter <a href="http://dtrace.org/blogs/brendan/2011/02/23/dtrace-book-sample-chapter-file-systems/">here</a>.</li>
+</ul>
+
+
+<p>There are also lots of videos about DTrace, search YouTube or start <a href="http://wiki.smartos.org/display/DOC/DTrace+Resources">here</a>.</p>
+
+<h3><a name="DTraceFAQs-WillDTracebereleasedforSolaris9%3F"></a>Will DTrace be released for Solaris 9?</h3>
+
+<p>No.  (this used to be FAQ #1 back in '05).</p>
+
+
+<h2><a name="DTraceFAQs-DLanguage"></a>D Language</h2>
+
+
+<h3><a name="DTraceFAQs-WhatlanguageisDmostlike%3F"></a>What language is D most like?</h3>
+
+<p>The D programming language is based on C, and so any background in C programming will help. D is arguably far easier than C, as you only need to know a small number of functions and variable types to be able to write powerful scripts.</p>
+
+<p>D programs are similar in form to awk programs: they are not a top-down programS, but action-based.</p>
+
+<h3><a name="DTraceFAQs-WhatareProbesandProviders%3F"></a>What are Probes and Providers?</h3>
+
+<p>A&nbsp;<b>probe</b>&nbsp;is an instrumentation point that can be traced by DTrace. For example, the probe "syscall::read:entry" is called when a read(2) syscall is called, and "syscall::read:return" is called when a read(2) syscall completes. There are four components to the probe name, provider:module:function:name. Provider is the most significant, the role of the other names are explained in the&nbsp;<a href="http://download.oracle.com/docs/cd/E19253-01/817-6223/817-6223.pdf">DTrace guide</a>.</p>
+
+<p>A&nbsp;<b>provider</b>&nbsp;is a collection of related probes, much like a library is a collection of functions. For example, the "syscall" provider provides probes for the entry and return for all system calls. The DTrace guide lists the providers as seperate chapters.</p>
+
+
+<h2><a name="DTraceFAQs-HowdoIDTrace...%3F"></a>How do I DTrace ...?</h2>
+
+
+<h3><a name="DTraceFAQs-Syscalls"></a>Syscalls</h3>
+
+<p>System calls can be easily traced using the syscall provider, which provides a probe for both the entry and the return of the syscall, and variables for the entry arguments and the return code. As the midway point between user-land and the kernel, the syscall interface often reflects application behaviour well. Each syscall is also well documented in section 2 of the man pages. The following are some example DTrace one-liners.</p>
+
+<p>Files opened by process name</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dtrace -n 'syscall::open*:entry { printf("%s %s",execname,copyinstr(arg0)); }'
+dtrace: description 'syscall::open*:entry ' matched 2 probes
+CPU     ID                    FUNCTION:NAME
+0   6329                       open:entry df /var/ld/ld.config
+0   6329                       open:entry df /usr/lib/libcmd.so.1
+0   6329                       open:entry df /usr/lib/libc.so.1
+0   6329                       open:entry df /etc/mnttab</pre>
+		</div>
+</div></div>
+
+<p>Syscall count by process name</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dtrace -n 'syscall:::entry { @num[execname] = count(); }'
+dtrace: description 'syscall:::entry ' matched 228 probes
+^C
+svc.startd                                                        1
+mozilla-bin                                                      26
+sshd                                                             58
+bash                                                             88
+dtrace                                                           95
+df                                                              108</pre>
+		</div>
+</div></div>
+
+<p>Syscall count by syscall</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dtrace -n 'syscall:::entry { @num[probefunc] = count(); }'
+
+# dtrace: description 'syscall:::entry ' matched 228 probes
+^C
+lwp_self                                                          1
+&lt;i&gt;...&lt;/i&gt;
+write                                                            33
+sigaction                                                        33
+lwp_sigmask                                                      53
+ioctl                                                            95</pre>
+		</div>
+</div></div>
+
+<p>Of particular value may be to measure the elapsed time and on-CPU time of system calls, to both explain response time and CPU load. The procsystime tool from the&nbsp;<a href="http://www.opensolaris.org/os/community/dtrace/dtracetoolkit">DTraceToolkit</a>&nbsp;does this using the&nbsp;-e&nbsp;and&nbsp;-o&nbsp;flags.</p>
+
+<h3><a name="DTraceFAQs-DiskI%2FO"></a>Disk I/O</h3>
+
+<p>Disk events can be traced using the&nbsp;io&nbsp;provider, which provides probes for the request and completion of both disk and client NFS I/O. Each probe provides extensive details of the I/O through the&nbsp;args[]&nbsp;array, as documented in the DTrace guide. The following lists the disk related probes.</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dtrace -ln 'io:genunix::'
+ID   PROVIDER            MODULE                          FUNCTION NAME
+9571         io           genunix                           biodone done
+9572         io           genunix                           biowait wait-done
+9573         io           genunix                           biowait wait-start
+9582         io           genunix                    default_physio start
+9583         io           genunix                     bdev_strategy start
+9584         io           genunix                           aphysio start</pre>
+		</div>
+</div></div>
+
+<p>Points to bear in mind when using the io provider for tracing disk activity:</p>
+<ul>
+	<li>This is actual disk I/O requests. Your application may be doing loads of I/O which is being absorbed by the file system cache.</li>
+	<li>I/O completions (io:::done) are asynchronous, so&nbsp;pid&nbsp;and&nbsp;execname&nbsp;will not identify the responsible process.</li>
+	<li>Disk write requests (io:::start) often occur asynchronously to the responsible process, as the file system has cached the write and is flushed to storage at a later time.</li>
+	<li>io&nbsp;events don't necessarily mean that disk heads are moving somewhere - many disks have buffers to cache I/O activity, especially storage arrays.</li>
+</ul>
+
+
+<p>The following are some example one-liners.</p>
+
+<p>Disk size by process ID</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dtrace -n 'io:::start { printf("%d %s %d",pid,execname,args[0]-&gt;b_bcount); }'
+dtrace: description 'io:::start ' matched 6 probes
+CPU     ID                    FUNCTION:NAME
+0   9583              bdev_strategy:start 8238 tar 1024
+0   9583              bdev_strategy:start 8238 tar 4096
+0   9583              bdev_strategy:start 8238 tar 4096
+0   9583              bdev_strategy:start 8238 tar 1024
+0   9583              bdev_strategy:start 8238 tar 1024
+0   9583              bdev_strategy:start 8238 tar 2048</pre>
+		</div>
+</div></div>
+
+<p>Disk size aggregation</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dtrace -n 'io:::start { @size[execname] = quantize(args[0]-&gt;b_bcount); }'
+dtrace: description 'io:::start ' matched 6 probes
+^C
+tar
+value  ------------- Distribution ------------- count
+512 |                                         0
+1024 |@@                                       37
+2048 |@@@@@@@                                  114
+4096 |@@@@@@@                                  116
+8192 |@@@@@@@@@@@@@@@@@                        286
+16384 |@@                                       33
+32768 |@@@@@                                    87
+65536 |                                         0</pre>
+		</div>
+</div></div>
+
+<p>The <a href="http://www.opensolaris.org/os/community/dtrace/dtracetoolkit">DTraceToolkit</a> contains many tools for analysing disk I/O, including:</p>
+<ul>
+	<li>iosnoop - snoop I/O events as they occur</li>
+	<li>iotop - display top disk I/O events by process</li>
+	<li>bitesize.d - print disk event size report</li>
+	<li>iofile.d - I/O wait time by filename and process</li>
+	<li>iopattern - print disk I/O pattern</li>
+	<li>seeksize.d - print disk seek size report</li>
+</ul>
+
+
+<h2><a name="DTraceFAQs-ErrorMessages"></a>Error Messages</h2>
+
+
+<h3><a name="DTraceFAQs-DTracerequiresadditionalprivileges"></a>DTrace requires additional privileges</h3>
+
+<p>You must either be root or have additional privileges to be able to use DTrace. Those privileges are:</p>
+<ul>
+	<li>dtrace_user - allows the use of profile, syscall and fasttrap providers, on processes that the user owns.</li>
+	<li>dtrace_proc - allows the use of the pid provider on processes that the user owns.</li>
+	<li>dtrace_kernel - allows most providers to probe everything, in read only mode.</li>
+</ul>
+
+
+<p>Privileges can be added to a process (such as a user's shell) temporarily by using the ppriv(1) command. For example, to add dtrace_user to PID 1851, ppriv &#45;s A+dtrace_user 1851<br/>
+usermod can be used to make this a permanent change to a user account. For example, usermod &#45;K defaultpriv=basic,dtrace_user brendan</p>
+
+<h3><a name="DTraceFAQs-dropsonCPU%23dtrace%3A864476dropsonCPU0"></a>drops on CPU #dtrace: 864476 drops on CPU 0</h3>
+
+<p>dtrace: 2179050 drops on CPU 0<br/>
+dtrace: 1343451 drops on CPU 0</p>
+
+<p>The DTrace kernel buffer is overflowing due to output being generated too quickly for /usr/sbin/dtrace to read. This usually happens when your script would output hundreds of screens of text per second. Some remedies:</p>
+<ul>
+	<li>Increase the switchrate of /usr/sbin/dtrace, so that rather than flushing the buffer at 1 Hertz (default), it is reading the buffer faster. At the command line this can be&nbsp;-x switchrate=10hz.</li>
+	<li>Increase the size of the DTrace primary buffer. By default this is usually 4 Mbytes per CPU. At the command line it can be increased, eg&nbsp;-b 8m.</li>
+	<li>Do you really want that much data to be output? Try to probe fewer events. Also, aggregations can be used so that DTrace can summarise the data and output the the final report, avoiding an output buffer overflow.</li>
+</ul>
+
+
+<h3><a name="DTraceFAQs-invalidaddress%280x...%29inaction"></a>invalid address (0x...) in action</h3>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dtrace -n 'syscall::open:entry { trace(stringof(arg0)); }'
+
+dtrace: description 'syscall::open:entry ' matched 1 probe
+dtrace: error on enabled probe ID 1 (ID 6329: syscall::open:entry):
+invalid address (0xd27f7a24) in action #1
+dtrace: error on enabled probe ID 1 (ID 6329: syscall::open:entry):
+invalid address (0xd27fbf38) in action #1</pre>
+		</div>
+</div></div>
+
+<p>This error is caused when DTrace attempts to dereference a memory address which isn't mapped. In the above example, the&nbsp;arg0&nbsp;variable for the open(2) syscall refers to a user-land address, however DTrace executes in the kernel address space; this example can be fixed by changing stringof to copyinstr. Listing remedies:</p>
+<ul>
+	<li>Use either&nbsp;copyin()&nbsp;or&nbsp;copyinstr()&nbsp;to copy the data from user-land into the kernel.</li>
+	<li>Attempt to dereference on the return of a function, not the entry. On the entry, an address may be valid but not faulted in.</li>
+</ul>
+
+
+<h3><a name="DTraceFAQs-failedtocreateprobe...Notenoughspace"></a>failed to create probe ... Not enough space</h3>
+
+<p>DTrace ran out of RAM when trying to create probes. This can happen if you attempt to probe far too many events. For example, here we leave fields blank in our probe description (wildcards), and so our probe description will attempt to match every instruction from every function of mozilla (which would be millions of probes).</p>
+
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<div id="root">
+		<pre class="theme: Confluence; brush: java; gutter: false"># dtrace -ln 'pid$target:::' -p `pgrep mozilla-bin`
+dtrace: invalid probe specifier pid$target:::: failed to create probe in process 7424:
+Not enough space
+#</pre>
+		</div>
+</div></div>
+
+<p>In this case, perhaps we meant to probe just function entries &#45;&nbsp;pid$target:::entry, or perhaps instructions from just one library &#45;&nbsp;pid$target:libaio::.</p>
+
+<h2><a name="DTraceFAQs-SeeAlso"></a>See Also</h2>
+
+<ul>
+	<li><a href="http://blogs.sun.com/roller/resources/bmc/dtrace_tips.pdf">DTrace Tips, Tricks and Gotchas</a></li>
+</ul>
+
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

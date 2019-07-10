@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Installing pkgin</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Installing pkgin
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Mar 25, 2017 by <font color="#0050B2">dlaflamme</font>.
+				    </div>
+
+				    <p><b>Note:</b> Ignore the comments below, they relate to a previous version of this page.</p>
+
+<h2><a name="Installingpkgin-InaSmartOSzone"></a>In a SmartOS zone</h2>
+
+<p>If you are working in a SmartOS zone, pkgin is already installed. See the "Post-Install Steps" section on <a href="https://pkgsrc.joyent.com/install-on-illumos/">https://pkgsrc.joyent.com/install-on-illumos/</a> to see some commonly-used pkgin/pkgsrc commands.</p>
+
+
+<h2><a name="Installingpkgin-IntheGlobalzone"></a>In the Global zone</h2>
+
+<p>If you wish to install pkgsrc into the global zone, go to <a href="https://pkgsrc.joyent.com/install-on-illumos/">https://pkgsrc.joyent.com/install-on-illumos/</a> and run the commands listed under the "<b>64-bit tools (SmartOS GZ)</b>" package set.</p>
+
+				    
+                                            <div class="tabletitle">
+                            <a name="comments">
+                                <h2>Comments:</h2>
+                            </a>
+                        </div>
+
+                        <table border="0" width="100%">
+                                                        <tr>
+                                <td >
+                                    <a name="comment-756101"></a>
+                                    <font class="smallfont"><p>or the later repository bootstrap:</p>
+
+<p><a href="http://pkgsrc.joyent.com/sdc/2012Q1/x86_64/bootstrap.tar.gz">http://pkgsrc.joyent.com/sdc/2012Q1/x86_64/bootstrap.tar.gz</a></p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by magnayn at Jul 12, 2012 10:56
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-2326573"></a>
+                                    <font class="smallfont"><p>Or</p>
+
+<p><a href="http://pkgsrc.joyent.com/packages/SmartOS/bootstrap/">http://pkgsrc.joyent.com/packages/SmartOS/bootstrap/</a></p>
+
+
+<p><a href="http://pkgsrc.joyent.com/packages/SmartOS/bootstrap/bootstrap-2013Q1-x86_64.tar.gz">http://pkgsrc.joyent.com/packages/SmartOS/bootstrap/bootstrap-2013Q1-x86_64.tar.gz</a></p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by pts at Apr 16, 2013 18:00
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-2686979"></a>
+                                    <font class="smallfont"><p>I have followed those exact same steps above using&nbsp;</p>
+
+<p>&#35; cd /<br/>
+&#35; curl &#45;k <a href="http://pkgsrc.joyent.com/packages/SmartOS/bootstrap/bootstrap-2013Q1-x86_64.tar.gz">http://pkgsrc.joyent.com/packages/SmartOS/bootstrap/bootstrap-2013Q1-x86_64.tar.gz</a> &#124; gzcat &#124; tar &#45;xf -<br/>
+&#35; pkg_admin rebuild<br/>
+&#35; pkgin &#45;y up</p>
+
+<p>Output of that was:</p>
+
+<p><b>pkg_admin: heimdal-1.5.2nb2: Symlink `/opt/local/man/man5/qop.5' exists and is in &#43;CONTENTS but target does not exist&#33;</b><br/>
+<b>Stored 138992 files and 68 explicit directories from 687 packages in /opt/local/pkg/pkgdb.byfile.db.</b><br/>
+<b>Done.</b></p>
+
+<p>I thought it all went well, except it didn't&#33;</p>
+
+<p>now whatever command i run i get this error:<br/>
+<b>&#35; ls</b><br/>
+<b>ld.so.1: ls: fatal: /opt/local/lib/libintl.so.8: wrong ELF class: ELFCLASS64</b><br/>
+<b>Killed</b></p>
+
+<p><b>&#35; vim</b><br/>
+<b>ld.so.1: vim: fatal: /opt/local/lib/libncurses.so.5: wrong ELF class: ELFCLASS64</b><br/>
+<b>Killed</b></p>
+
+<p>Please help&#33;</p>
+
+<p>thanks</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by bachirk@gmail.com at Sep 04, 2013 13:50
+                                    </div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td  style="border-top: 1px dashed #666666">
+                                    <a name="comment-2687019"></a>
+                                    <font class="smallfont"><p>Bach, try with this package: <a href="http://pkgsrc.smartos.org/packages/SmartOS/bootstrap/bootstrap-trunk.tar.gz">http://pkgsrc.smartos.org/packages/SmartOS/bootstrap/bootstrap-trunk.tar.gz</a></p>
+
+<p>works for me nicely, just installed on fresh SmartOS install.</p></font>
+                                    <div align="left" class="smallfont" style="color: #666666; width: 98%; margin-bottom: 10px;">
+                                        <img src="images/icons/comment_16.gif" height="16" width="16" border="0" align="absmiddle"/>
+                                        Posted by mkuchar at Sep 21, 2013 04:04
+                                    </div>
+                                </td>
+                            </tr>
+                                                    </table>
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

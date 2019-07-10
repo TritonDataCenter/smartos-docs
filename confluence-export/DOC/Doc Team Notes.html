@@ -1,0 +1,385 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>SmartOS Documentation : Doc Team Notes</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            SmartOS Documentation : Doc Team Notes
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Sep 05, 2012 by <font color="#0050B2">benr@joyent.com</font>.
+				    </div>
+
+				    <p>This was previous the SmartOS Doc Wiki home page.</p>
+
+<div>
+<ul>
+    <li><a href='#DocTeamNotes-ProposedOutlineandStructureofSmartOSWiki'>Proposed Outline and Structure of SmartOS Wiki</a></li>
+<ul>
+    <li><a href='#DocTeamNotes-TypeofcontentneededinSmartOSwiki'>Type of content needed in SmartOS wiki</a></li>
+    <li><a href='#DocTeamNotes-AudienceProfiles'>Audience Profiles</a></li>
+    <li><a href='#DocTeamNotes-Proposedoutline'>Proposed outline</a></li>
+    <li><a href='#DocTeamNotes-SmartOSWikiFeedback'>SmartOS Wiki Feedback</a></li>
+<ul>
+    <li><a href='#DocTeamNotes-TopiconhowtoIntegrate%22mystuff%22withSmartOS'>Topic on how to Integrate "my stuff" with SmartOS</a></li>
+    <li><a href='#DocTeamNotes-Toomuchoverlapincurrentwiki'>Too much overlap in current wiki</a></li>
+    <li><a href='#DocTeamNotes-Useofvmadmbiggestculpritwhenitcomestooverlap'>Use of vmadm biggest culprit when it comes to overlap</a></li>
+    <li><a href='#DocTeamNotes-Perspectiveonwhyyoudon%27tinstallSmartOStodisk'>Perspective on why you don't install SmartOS to disk</a></li>
+    <li><a href='#DocTeamNotes-Moreintroduction%2FperspectiveonSmartOSfeatures'>More introduction/perspective on SmartOS features</a></li>
+    <li><a href='#DocTeamNotes-MoredirectionfromSmartOSdevheavyweights'>More direction from SmartOS dev heavy-weights</a></li>
+    <li><a href='#DocTeamNotes-Needsectionsonmigration'>Need sections on migration</a></li>
+    <li><a href='#DocTeamNotes-Needtoemphasizepkgin'>Need to emphasize pkgin</a></li>
+    <li><a href='#DocTeamNotes-Cheatsheets'>Cheatsheets</a></li>
+    <li><a href='#DocTeamNotes-Sectiononcreatingyourownservices'>Section on creating your own services</a></li>
+<ul>
+    <li>Recently Updated</li>
+</ul>
+</ul>
+</ul>
+</ul></div>
+
+<h1><a name="DocTeamNotes-ProposedOutlineandStructureofSmartOSWiki"></a>Proposed Outline and Structure of SmartOS Wiki</h1>
+
+<p>The SmartOS wiki is an excellent hub for community resources where the community can learn about SmartOS and directly contribute to the SmartOS development effort. However, the wiki can use a helping hand. So, I put together this proposed outline in the hope of imbuing the SmartOS wiki with a logical structure. My goal with this outline is to make the content easier to consume and also make it easier for people to contribute.&nbsp;</p>
+
+<p>Please take a look and let me know what you think&#33; At some point, I will compile all feedback and share it with the community.&nbsp;You can comment directly on this page or you can send an email directly to me at jason.davis@joyent.com.&nbsp;</p>
+
+
+<h2><a name="DocTeamNotes-TypeofcontentneededinSmartOSwiki"></a>Type of content needed in SmartOS wiki</h2>
+
+<p>My general approach is to identify how I can compartmentalize the content into discrete and semantic sections. I don't know if that approach is appropriate for this content. So, I want to start first by identifying the type of content the community needs based on what we already have.<br/>
+&#42; Configuration tasks<br/>
+&#42; Management tasks<br/>
+&#42; FAQs and additional resources<br/>
+&#42; Community engagement<br/>
+&#42; Context and historical relevance<br/>
+&#42; Issue tracking/change log</p>
+
+<h2><a name="DocTeamNotes-AudienceProfiles"></a>Audience Profiles</h2>
+
+<p>Here are a few audience profiles that I have identified as the type of people most likely to look for information in this wiki. Once we have a better idea of who is looking for what, we can mold the wiki so that people know how to zero in on the information they need. I'm not sure if the below designations work but they do provide context for how best to structure the wiki. Does this adequately cover all use cases?</p>
+
+<p>&#42; <font color="#222222"><b>Beginner:</b></font> <font color="#222222">Don't know anything about SmartOS and are curious. These people need access to introductory content, links to videos, use cases, historical content, etc.</font><br/>
+&#42; <font color="#222222"><b>Intermediate:</b></font> <font color="#222222">Just downloaded the ISO and want to fire up their first VMs. These people need short and sweet quickstart guides.</font><br/>
+&#42; <font color="#222222"><b>Advanced:</b></font> <font color="#222222">Want to modify SmartOS and/or recompile it themselves, w</font><font color="#222222">ant to migrate from a different virtualization product, etc.</font></p>
+
+<h2><a name="DocTeamNotes-Proposedoutline"></a>Proposed outline</h2>
+
+<p>Here is my proposed outline. I consider this fluid at the moment. This outline is based on how my brain compartmentalizes stuff and how we currently structure the SmartOS wiki. To my untrained eye, most of what we have in the SmartOS wiki could go into a "tips and tricks" section. &nbsp;That is probably a misguided view.</p>
+
+<p>So, the challenge here is to figure out how the content we have fits in with the core SmartOS setup/usage experience vs. ancillary tasks/useful tips. This should then lead to a better understanding of current gaps and what we need to do with the wiki going forward.<br/>
+&#35; Introduction/Home<br/>
+&#35;# Why SmartOS, KVM, DTrace<br/>
+&#35;# SmartOS Virtualization<br/>
+&#35;# SmartOS changelog. Optionally I can stuff this in the back of the wiki somewhere and just link to it from the Introduction page.<br/>
+&#35; Community Engagement<br/>
+&#35;# Annoucements<br/>
+&#35;# Events<br/>
+&#35;## Event suggestions<br/>
+&#35;# Historical relevance<br/>
+&#35;## Who is who<br/>
+&#35;# Wish list or Requests<br/>
+&#35; Install it<br/>
+&#35;# Download<br/>
+&#35;# Getting started<br/>
+&#35;# Hardware support<br/>
+&#35;# Creating bootable USB key<br/>
+&#35;# Guest OSs<br/>
+&#35; Use it<br/>
+&#35;# How to create a VM<br/>
+&#35;## "...a single page (easy to locate) that describes (in copy'n'paste form) how to install your server and get your first vm up'n'running."<br/>
+&#35;## Using VM admn<br/>
+&#35;# How create a zone<br/>
+&#35;# Managing Datasets<br/>
+&#35;# Working with Packages<br/>
+&#35; Extend it<br/>
+&#35;# How to integrate your stuff with SmartOS<br/>
+&#35;## "What I do have (and I'm pretty sure I'm not alone there) is a fair amount of experience from various opensource projects I'd &#95;love<br class="atl-forced-newline" />_ to see running on SmartOS."<br/>
+&#35;## "...tips about hooks and libraries we may utilize to get an even better 'out of the box' experience running under SmartOS."<br/>
+&#35;# Contributing to SmartOS<br/>
+&#35;# Building your own packages<br/>
+&#35;# Building your own dataset<br/>
+&#35;## SmartOS based<br/>
+&#35;## VM based<br/>
+&#35;# Building SmartOS on SmartOS<br/>
+&#35;# Extending SmartOS-live<br/>
+&#35;# 3rd Party SmartOS Extensions<br/>
+&#35; FAQs<br/>
+&#35;# Extra configuration options<br/>
+&#35;# How do I take obtain a system crash dump via IPMI?<br/>
+&#35;# Questions from SmartOS the Modern OS Webinar<br/>
+&#35; Tips and tricks<br/>
+&#35;# Tuning the IO throttle<br/>
+&#35;# Enlarging a Windows 7 VM disk<br/>
+&#35;# Managing NICs<br/>
+&#35;# Migrating from ESXi 4.x<br/>
+&#35;# Remotely upgrading a USB key based deployment<br/>
+&#35;# SmartOS remote management<br/>
+&#35; Resources<br/>
+&#35;# Consolidate videos here<br/>
+&#35;## SmartOS KVM screencast demo<br/>
+&#35;# More information and resources</p>
+
+<h2><a name="DocTeamNotes-SmartOSWikiFeedback"></a>SmartOS Wiki Feedback</h2>
+
+<p>Here are some notable comments on the SmartOS wiki and thoughts on improvement. Names and faces have been omitted to protect the innocent.</p>
+
+<h3><a name="DocTeamNotes-TopiconhowtoIntegrate%22mystuff%22withSmartOS"></a>Topic on how to Integrate "my stuff" with SmartOS</h3>
+
+<p>"...there should be a page describing 'How do I integrate my stuff to SmartOS'. I would love to contribute to SmartOS itself, but unfortunately I don't have enough time to sit down to get my head above the water to learn about how all the nice stuff in the kernel works. What I do have (and I'm pretty sure I'm not alone there) is a fair amount of experience from various opensource projects I'd &#95;love<br class="atl-forced-newline" />_ to see running on SmartOS. It would be great to have some tips about hooks and libraries we may utilize to get an even better "out of the box" experience running under SmartOS."</p>
+
+<h3><a name="DocTeamNotes-Toomuchoverlapincurrentwiki"></a>Too much overlap in current wiki</h3>
+
+<p>"One of the biggest issues I have with the wiki is that duplicate information is sometimes spread across multiple pages (in slightly different forms on each) and when someone comes onto IRC it's not always obvious which (if any) wiki page will best answer a question they've asked."</p>
+
+<h3><a name="DocTeamNotes-Useofvmadmbiggestculpritwhenitcomestooverlap"></a>Use of vmadm biggest culprit when it comes to overlap</h3>
+
+<p>"The biggest culprit when it comes to overlap is information on use of vmadm to create KVM VMs and SmartMachine zones. If that stuff could be cleaned up and properly consolidated / reorganized, I think that would be a big win."</p>
+
+<h3><a name="DocTeamNotes-Perspectiveonwhyyoudon%27tinstallSmartOStodisk"></a>Perspective on why you don't install SmartOS to disk</h3>
+
+<p>"Somewhere in Section 2 (Installation) there probably ought to be some space set aside to discuss why SmartOS works better without actually being installed to disk."</p>
+
+<h3><a name="DocTeamNotes-Moreintroduction%2FperspectiveonSmartOSfeatures"></a>More introduction/perspective on SmartOS features</h3>
+
+<p>"Several key features are named over &amp; over when selling SmartOS, but in &amp; around the Illumos community it can be very hard to find good introductory doc on what they are and how to use them: DTrace, Crossbow, etc."</p>
+
+<h3><a name="DocTeamNotes-MoredirectionfromSmartOSdevheavyweights"></a>More direction from SmartOS dev heavy-weights</h3>
+
+<p>"As part of the Community section, I think it's very important for the well-versed "silverback" devs to take a step back and define a foundation to help bring new contributors in quickly. How to set up a build zone, what's the workflow for keeping up with SCM &amp; getting patches pulled in, how to contribute patches, etc."</p>
+
+<h3><a name="DocTeamNotes-Needsectionsonmigration"></a>Need sections on migration</h3>
+
+<p>"There's two sections that weren't mentioned in your outline: "Migrating from Linux KVM" and "Migrating from VirtualBox". I know the former is quite easy, and the latter is possible. I've heard a number of people asking questions about both."</p>
+
+<h3><a name="DocTeamNotes-Needtoemphasizepkgin"></a>Need to emphasize pkgin</h3>
+
+<p>"Another section is pkgin. Zones without pkgin are a hostile place &#45;&#45; I've been there, and I'd never do it again. pkgin really deserves emphasizing."</p>
+
+<p>&#42;JD: Do you mind sharing some of your pitfalls on working in a zone without pkgin?&#42;</p>
+
+<p>"It's a pain in the arse&#33;</p>
+
+<p>Zones exist to do things with. Typically a zone doesn't contain the application code or many of the libraries you want, so they have to come from somewhere.</p>
+
+<p>Here are some alternatives:</p>
+
+<p>a) blastwave - they're trying, but my experience with that stuff was unpleasant<br/>
+b) sunfreeware - worse than blastwave<br/>
+c) compile from source - on Linux this'd be easy, but fudging is often required to get things compiling on Solaris-derivatives</p>
+
+<p>Just use pkgin. The End.</p>
+
+<p>Well, not quite. The stuff in pkgsrc isn't thoroughly tested, so often some package or another doesn't work properly. It's important that the community get feedback about these failures so we can fix it for others as well. One alternative is letting us know on #joyent@irc.freenode.net. A second is writing an issue on [https://github.com/mamash]. The third is probably writing to smartos-discuss email list.</p>
+
+<p>We really need to make this as simple as possible, because without a good package manager SmartOS zones become nigh useless."</p>
+
+<h3><a name="DocTeamNotes-Cheatsheets"></a>Cheatsheets</h3>
+
+<p>"I strongly urge a cheatsheet section that quickly summarizes important things. Many of my favourite textbooks take such an approach, leaving the details for later chapters. This section could (and arguably should) serve double purpose: IIRC, some BSD's have a "man firstboot" which serves as a crashdrive into the system, and content from such a section in the wiki could be copied into this manpage too."</p>
+
+<p>&#42;JD: Can you elaborate on this a bit more? Do you have an example you could share with me?&#42;</p>
+
+<p>"Not offhand, no.</p>
+
+<p>By double-purpose, I think it'd be nice to have all this material in a manpage too. Someone on IRC once mentioned that some BSD's have a manpage for newcomers that summarizes various common commands, filesystem locations, and differences with other unicies. I think we should copy that.&nbsp;If you're writing that material for the wiki anyway, might as well copy it into a man page.&nbsp;</p>
+
+<p>As an aside, the major problem with most manpages is they don't provide any examples. Examples make life so much easier. Perhaps the cheatsheet should be a table divided in two, one side a common command, the other an example:&nbsp;[^cheatsheet example.rtf]</p>
+
+<p>&#42;Nahum:&#42; I don't have code I can point to, so this suggestion is only partly useful... If there's something that can parse confluence markup, perhaps a tool could be written that pulls some cheetsheet pages from the wiki and converts them into man pages to be included in SmartOS.</p>
+
+<h3><a name="DocTeamNotes-Sectiononcreatingyourownservices"></a>Section on creating your own services</h3>
+
+<p>"It just occurred to me that it'd be nice to have a section on the wiki about how to create your own services. This is common for any server application, yet making a service is a somewhat tedious affair that usually involves cargo-culting. There are a number of small apps out there which make the creation of a service manifest much simpler. Beyond packages, I think services are the second most likely thing to scare people off."</p>
+
+<table class="sectionMacro" border="0" cellpadding="5" cellspacing="0" width="100%"><tbody><tr>
+<td class="confluenceTd" valign="top" width="60%">
+    
+
+<div class="recently-updated recently-updated-concise" >
+
+        <h4 class="sub-heading">Recently Updated</h4>
+        <fieldset class="hidden parameters">
+    <input type="hidden" id="changesUrl" value="/plugins/recently-updated/changes.action?theme=concise&pageSize=15&startIndex=0&spaceKeys=DOC">
+</fieldset>
+    <div class="results-container">
+        <ul>
+                    <li class="first update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/Building+SmartOS+on+SmartOS" title="SmartOS Documentation">Building SmartOS on SmartOS</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="cjr" href="null/display/~cjr">Chris Ridd</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=754234&selectedPageVersions=83&selectedPageVersions=82">view change</a>)</div>
+                <div class="update-item-date">Jun 28, 2019</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/Building+SmartOS+on+SmartOS" title="SmartOS Documentation">Building SmartOS on SmartOS</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="bbennett" href="null/display/~bbennett">Brian Bennett</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=754234&selectedPageVersions=82&selectedPageVersions=81">view change</a>)</div>
+                <div class="update-item-date">May 15, 2019</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/Remotely+Upgrading+A+USB+Key+Based+Deployment" title="SmartOS Documentation">Remotely Upgrading A USB Key Based Deployment</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="rejohnst" href="null/display/~rejohnst">Rob Johnston</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=754556&selectedPageVersions=23&selectedPageVersions=22">view change</a>)</div>
+                <div class="update-item-date">Apr 30, 2019</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/Download+SmartOS" title="SmartOS Documentation">Download SmartOS</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="rejohnst" href="null/display/~rejohnst">Rob Johnston</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=753728&selectedPageVersions=89&selectedPageVersions=88">view change</a>)</div>
+                <div class="update-item-date">Apr 29, 2019</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/pages/viewpage.action?pageId=754743" title="SmartOS Documentation">How do I obtain a system crash dump via IPMI?</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="rejohnst" href="null/display/~rejohnst">Rob Johnston</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=754743&selectedPageVersions=6&selectedPageVersions=5">view change</a>)</div>
+                <div class="update-item-date">Apr 29, 2019</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/Creating+a+SmartOS+Bootable+USB+Key" title="SmartOS Documentation">Creating a SmartOS Bootable USB Key</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="rejohnst" href="null/display/~rejohnst">Rob Johnston</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=753670&selectedPageVersions=29&selectedPageVersions=28">view change</a>)</div>
+                <div class="update-item-date">Apr 29, 2019</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/Mailing+Lists+and+IRC" title="SmartOS Documentation">Mailing Lists and IRC</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="jclulow" href="null/display/~jclulow">Joshua M. Clulow</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=755485&selectedPageVersions=21&selectedPageVersions=20">view change</a>)</div>
+                <div class="update-item-date">Apr 03, 2019</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/Building+SmartOS+on+SmartOS" title="SmartOS Documentation">Building SmartOS on SmartOS</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="catalinbostan" href="null/display/~catalinbostan">Catalin Bostan</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=754234&selectedPageVersions=81&selectedPageVersions=80">view change</a>)</div>
+                <div class="update-item-date">Mar 08, 2019</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/Hardware+Requirements" title="SmartOS Documentation">Hardware Requirements</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="wiedi" href="null/display/~wiedi">Sebastian Wiedenroth</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=754915&selectedPageVersions=47&selectedPageVersions=46">view change</a>)</div>
+                <div class="update-item-date">Feb 11, 2019</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/How+to+create+a+KVM+VM+%28+Hypervisor+virtualized+machine+%29+in+SmartOS" title="SmartOS Documentation">How to create a KVM VM ( Hypervisor virtualized machine ) in SmartOS</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="shaner" href="null/display/~shaner">Shane Peters</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=755505&selectedPageVersions=18&selectedPageVersions=17">view change</a>)</div>
+                <div class="update-item-date">Jan 31, 2019</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/NAT+using+Etherstubs" title="SmartOS Documentation">NAT using Etherstubs</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="bbennett" href="null/display/~bbennett">Brian Bennett</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=755846&selectedPageVersions=20&selectedPageVersions=19">view change</a>)</div>
+                <div class="update-item-date">Oct 02, 2018</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/Why+SmartOS+-+ZFS%2C+KVM%2C+DTrace%2C+Zones+and+More" title="SmartOS Documentation">Why SmartOS - ZFS, KVM, DTrace, Zones and More</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="bbennett" href="null/display/~bbennett">Brian Bennett</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=754218&selectedPageVersions=42&selectedPageVersions=41">view change</a>)</div>
+                <div class="update-item-date">Sep 28, 2018</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/Download+SmartOS" title="SmartOS Documentation">Download SmartOS</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="bbennett" href="null/display/~bbennett">Brian Bennett</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=753728&selectedPageVersions=88&selectedPageVersions=87">view change</a>)</div>
+                <div class="update-item-date">Sep 28, 2018</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/Managing+NICs" title="SmartOS Documentation">Managing NICs</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="bbennett" href="null/display/~bbennett">Brian Bennett</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=754315&selectedPageVersions=29&selectedPageVersions=28">view change</a>)</div>
+                <div class="update-item-date">Aug 22, 2018</div>
+    </li>
+        <li class=" update-item">
+        <span class="icon-container content-type-page"><a href="null/display/DOC/Building+SmartOS+on+SmartOS" title="SmartOS Documentation">Building SmartOS on SmartOS</a></span>
+        <div class="update-item-desc">updated by <a class="confluence-userlink url fn" data-username="sjorge" href="null/display/~sjorge">Jorge Schrauwen</a></div>
+                <div class="update-item-changes">(<a href="null/pages/diffpagesbyversion.action?pageId=754234&selectedPageVersions=77&selectedPageVersions=76">view change</a>)</div>
+                <div class="update-item-date">May 23, 2018</div>
+    </li>
+        <li class="more-link-container">
+    <a class="more-link more-link-base" href="/plugins/recently-updated/changes.action?theme=concise&pageSize=15&startHandle=com.atlassian.confluence.pages.Page-6225928&spaceKeys=DOC&contentType=-mail,page,comment,blogpost,attachment,userinfo,spacedesc,personalspacedesc,status">
+        <span class="more-link-text">More</span>&nbsp;
+        <img class="waiting-image hidden" alt="Please wait" src="s/en/2166/1/_/images/icons/wait.gif">
+    </a>
+</li>
+        </ul>
+    </div>
+</div>
+</td>
+<td class="confluenceTd" valign="top" width="5%"></td>
+<td class="confluenceTd" valign="top" width="35%">
+    
+    
+
+<div id="pagetreesearch">
+
+
+<form method="POST" action="https://wiki.smartos.org/plugins/pagetreesearch/pagetreesearch.action" name="pagetreesearchform"
+     >
+    <input type="hidden" name="ancestorId" value="756407">
+    <input type="hidden" name="spaceKey" value="DOC">
+    <input type="text"  size="20" name="queryString">
+	<input type="submit" value="Search" disabled="yes">
+</form>
+
+</div>
+    
+
+    
+    
+
+<div class="plugin_pagetree">
+
+        
+        
+    <ul class="plugin_pagetree_children_list plugin_pagetree_children_list_noleftspace">
+        <div class="plugin_pagetree_children">
+        </div>
+    </ul>
+
+    <fieldset class="hidden">
+        <input type="hidden" name="treeId" value="">
+        <input type="hidden" name="treeRequestId" value="/plugins/pagetree/naturalchildren.action?decorator=none&amp;excerpt=false&amp;sort=position&amp;reverse=false&amp;disableLinks=false">
+        <input type="hidden" name="treePageId" value="">
+
+        <input type="hidden" name="noRoot" value="false">
+        <input type="hidden" name="rootPageId" value="753667">
+
+        <input type="hidden" name="rootPage" value="">
+        <input type="hidden" name="startDepth" value="0">
+        <input type="hidden" name="spaceKey" value="DOC" >
+
+        <input type="hidden" name="i18n-pagetree.loading" value="Loading...">
+        <input type="hidden" name="i18n-pagetree.error.permission" value="Unable to load page tree. It seems that you do not have permission to view the root page.">
+        <input type="hidden" name="i18n-pagetree.eeror.general" value="There was a problem retrieving the page tree. Please check the server log file for more information.">
+        <input type="hidden" name="loginUrl" value="">
+
+                <fieldset class="hidden">
+                            <input type="hidden" name="ancestorId" value="753667">
+                    </fieldset>
+    </fieldset>
+</div>
+
+</td></tr></tbody></table>
+
+				    
+                    			    </td>
+		    </tr>
+	    </table>
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="12" background="https://wiki.smartos.org/images/border/border_bottom.gif"><img src="images/border/spacer.gif" width="1" height="1" border="0"/></td>
+			</tr>
+		    <tr>
+			    <td align="center"><font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font></td>
+		    </tr>
+	    </table>
+    </body>
+</html>

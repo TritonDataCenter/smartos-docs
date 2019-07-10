@@ -1,0 +1,193 @@
++--------------------------------------------------------------------------+
+<div class="pageheader">
+
+<span class="pagetitle"> SmartOS Documentation : Tuning the IO Throttle
+</span>
+
+</div>
+
+<div class="pagesubheading">
+
+This page last changed on Sep 21, 2011 by
+<font color="#0050B2">deirdre</font>.
+
+</div>
+
+<iframe class="youtube-player" type="text/html" style="width: 400px; hei
+ght: 300px" src="http://www.youtube.com/embed/a6AJxAYmP-M" frameborder="
+0">
+</iframe>
+A drawback of multi-tenancy in classic Solaris is that, where storage is
+shared, a single application on a system can monopolize access to local
+storage by a stream of synchronous I/O requests, effectively blocking
+the system from servicing I/O requests from other zones and
+applications, and causing performance slowdowns for other tenants.
+
+In SmartOS, we've added a feature to track I/O, and throttle it from
+misbehaving zones by adding a small delay to each read or write, thus
+ensuring that other zones also get a turn at reading/writing to disk.
+This is an operator-configurable setting, see below.
+
+Disk I/O throttling only comes into effect when a system is under load
+from multiple tenants. When a system is relatively quiet, a single
+tenant can enjoy faster I/O without bothering the neighbors.
+
+A detailed overview of the I/O throttle is available
+[here](http://dtrace.org/blogs/wdp/2011/03/our-zfs-io-throttle/).
+
+I/O priority
+----------------
+
+Each zone has an I/O priority which determines its priority relative to
+other zones. Unlike RAM and CPU shares, which correspond to a finite
+resource, the I/O priorities are all relative, so three zones with
+priorities (200, 200, 100) will elicit the same behavior as three zones
+with priorities (100, 100, 50).
+
+If priority is not explicitly set for a zone, it gets the default
+priority (1).
+
+It can be set via zonecfg:
+
+<div class="code panel" style="border-width: 1px;">
+
+<div class="codeContent panelContent">
+
+<div id="root">
+
+``` {.theme: .Confluence; .brush: .java; .gutter: .false}
+[root@bh1-live ~]# zonecfg -z wdpzone
+wdpzone: No such zone configured
+Use 'create' to begin configuring a new zone.
+zonecfg:wdpzone> create
+zonecfg:wdpzone> set zfs-io-priority=100
+zonecfg:wdpzone> info zfs-io-priority
+[zfs-io-priority: 100]
+zonecfg:wdpzone>
+```
+
+</div>
+
+</div>
+
+</div>
+
+or get/set using prctl:
+
+<div class="code panel" style="border-width: 1px;">
+
+<div class="codeContent panelContent">
+
+<div id="root">
+
+``` {.theme: .Confluence; .brush: .java; .gutter: .false}
+[root@bh1-live ~]# prctl -n zone.zfs-io-priority  -i zone  z01
+zone: 1: z01
+NAME    PRIVILEGE       VALUE    FLAG   ACTION                       REC
+IPIENT
+zone.zfs-io-priority
+        usage             100
+        privileged        100       -   none
+     -
+        system          1.02K     max   none
+[root@bh1-live ~]# prctl -n zone.zfs-io-priority -v 200 -r -i zone  z01
+[root@bh1-live ~]# prctl -n zone.zfs-io-priority  -i zone  z01
+zone: 1: z01
+NAME    PRIVILEGE       VALUE    FLAG   ACTION                       REC
+IPIENT
+zone.zfs-io-priority
+        usage             200
+        privileged        200       -   none
+     -
+        system          1.02K     max   none
+     -                                 -
+```
+
+</div>
+
+</div>
+
+</div>
+
+<div class="tabletitle">
+
+
+Comments:
+---------
+
+</a>
+
+</div>
+
++-----------------------------------------------------------------------
+---+
+|  <font class="smallfont">
+   |
+| Is there a way to use I/O throttling for the ZFS volumes/filesystem,
+   |
+| such that it can throttle VMs that are KVM based rather than OS
+   |
+| virtualization based?
+   |
+|
+   |
+| </font>
+   |
+| <div class="smallfont" align="left"
+   |
+| style="color: #666666; width: 98%; margin-bottom: 10px;">
+   |
+|
+   |
+| ![](images/icons/comment_16.gif){width="16" height="16"} Posted by
+   |
+| gwleong@gmail.com at Nov 02, 2011 17:57
+   |
+|
+   |
+| </div>
+   |
++-----------------------------------------------------------------------
+---+
+|  <font class="smallfont">
+   |
+| Obviously, you run KVM virtual machines, under Solaris zones.
+   |
+|
+   |
+| And as they are inside Zone, they get benefits of it, (they get no
+   |
+| overhead for being inside the zone).
+   |
+|
+   |
+| It is how Joyent's cloud in working actually.
+   |
+|
+   |
+| </font>
+   |
+| <div class="smallfont" align="left"
+   |
+| style="color: #666666; width: 98%; margin-bottom: 10px;">
+   |
+|
+   |
+| ![](images/icons/comment_16.gif){width="16" height="16"} Posted by
+   |
+| nikolam at Dec 02, 2012 02:18
+   |
+|
+   |
+| </div>
+   |
++-----------------------------------------------------------------------
+---+
++--------------------------------------------------------------------------+
+
+  ----------------------------------------------------------------------------------
+  ![](images/border/spacer.gif){width="1" height="1"}
+  <font color="grey">Document generated by Confluence on Jul 07, 2019 00:15</font>
+  ----------------------------------------------------------------------------------
+
+

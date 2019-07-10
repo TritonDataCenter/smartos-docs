@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "$@"
+
+files=( "$@" )
+
+for infile in "${files[@]}"; do
+    infile="$infile"
+    out=$(echo $(basename "${infile}") | tr 'A-Z ' 'a-z-' | sed 's/html$/md/')
+    echo "infile: $infile"
+    echo "out: $out"
+
+    # Do the conversion and clean up some junk
+    # You'll need to do a lot more of your own clean up too.
+    pandoc -R --verbose --from=html --to=markdown "$infile" | sed '
+    s/^| //;
+    s/|$//;
+    s/[[:space:]]*$//;
+    s/\[\]()//;
+    s/^-   /- /;
+    ' > "dirty-docs/$out"
+done
