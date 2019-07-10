@@ -1,17 +1,4 @@
-+--------------------------------------------------------------------------+
-<div class="pageheader">
-
-<span class="pagetitle"> SmartOS Documentation : Migrating from ESXi 4.x
-</span>
-
-</div>
-
-<div class="pagesubheading">
-
-This page last changed on May 21, 2012 by
-<font color="#0050B2">nahamu</font>.
-
-</div>
+# Migrating from ESXi 4.x
 
 A simple step-by-step migration guide from a ESXi VMware to a SmartOS
 KVM branded vm.
@@ -19,23 +6,15 @@ KVM branded vm.
 Disclaimer: the steps are developed based on advice from Orlando Vazquez
 on the mailing list and refined with some trial and error.
 
-Getting stuff out of ESXi
------------------------------
+## Getting stuff out of ESXi
 
 This might be the most tricky part since the obvious choice, vCenter
 Converter is a surprisingly bad one. Instead the trick is to use a
 semi-secret tool:
-[ovftool](http://communities.vmware.com/community/vmtn/server/vsphere/au
-tomationtools/ovf).
+[ovftool](http://communities.vmware.com/community/vmtn/server/vsphere/automationtools/ovf).
 It is a command line tool, sadly it does not work directly on SmartOS,
 for my tests I ran it on my laptop and it worked fine. The syntax is
 about the following:
-
-<div class="code panel" style="border-width: 1px;">
-
-<div class="codeContent panelContent">
-
-<div id="root">
 
 ``` {.theme: .Confluence; .brush: .java; .gutter: .false}
 ovftool vi://<your ESXi host>/<vm Name> <outfile>.vmx
@@ -78,13 +57,13 @@ wobble.vmx wobble-disk1.vmdk
 And now for something completely different
 ----------------------------------------------
 
-Now comes the fun part, create the new VM. Look at [How to create a
-Virtual Machine in
-SmartOS](How%20to%20create%20a%20Virtual%20Machine%20in%20SmartOS.html "
-How to create a Virtual Machine in SmartOS")
+Now comes the fun part, create the new VM. Look at
+[How to create a Virtual Machine in SmartOS][create-vm]
 for details. Only addition here: you need to create a disk with the
 correct size for each .vmdk you want to import. You can double-check the
 size of the virtual disk with qemu-img:
+
+[create-vm]: how-to-create-a-virtual-machine-in-smartos.md
 
 <div class="code panel" style="border-width: 1px;">
 

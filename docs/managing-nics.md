@@ -369,6 +369,6 @@ mac `00:53:37:00:db:08`).
 
 ## NAT and other crazy tricks
 
-- [NAT using Etherstubs](nat-using-etherstubs.html)
+- [NAT using Etherstubs](nat-using-etherstubs.md)
 - [Gist about NAT](https://gist.github.com/2639064)
 - [Gist about etherstubs](https://gist.github.com/e18d343cde4509afaa51)
