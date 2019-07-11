@@ -45,21 +45,19 @@ cut and paste from the Windows 7 instructions for the most part.
         [root@00-19-99-b6-fa-12 ~]# zfs set volsize=65g zones/708c73e3-48f2-4da5-a0a6-e161215a4215-disk0
 
 5. cd into the root directory of the zone and download the GParted Live ISO
- image available [here](http://gparted.sourceforge.net/).
-
-    <!-- markdownlint-disable line-length -->
+   image available [here](http://gparted.sourceforge.net/).
+   <!-- markdownlint-disable line-length -->
 
         [root@00-19-99-b6-fa-12 ~]# cd /zones/708c73e3-48f2-4da5-a0a6-e161215a4215/root
         [root@00-19-99-b6-fa-12 /zones/708c73e3-48f2-4da5-a0a6-e161215a4215/root]# wget <lastest stable>
         [root@00-19-99-b6-fa-12 /zones/708c73e3-48f2-4da5-a0a6-e161215a4215/root]# cd /zones/global
 
-    <!-- markdownlint-enable line-length -->
+   <!-- markdownlint-enable line-length -->
 
 6. Boot the VM from the GParted Live ISO using vmadm, then use vnc to connect
- to it.  An ssh tunnel works well as long as you specify the host as presented
- in the JSON (not localhost).
-
-    <!-- markdownlint-disable line-length -->
+   to it.  An ssh tunnel works well as long as you specify the host as presented
+   in the JSON (not localhost).
+   <!-- markdownlint-disable line-length -->
 
         [root@00-19-99-b6-fa-12 /zones/global]# vmadm start 708c73e3-48f2-4da5-a0a6-e161215a4215 order=cd,once=d cdrom=/gparted-live-0.12.1-1.iso,ide
         [root@00-19-99-b6-fa-12 /zones/global]# vmadm info 708c73e3-48f2-4da5-a0a6-e161215a4215 vnc
@@ -71,17 +69,17 @@ cut and paste from the Windows 7 instructions for the most part.
             }
         }
 
-    <!-- markdownlint-enable line-length -->
+   <!-- markdownlint-enable line-length -->
 
 7. Use the GParted GUI to resize your primary partitions. For my VMs I
-need to increase the size of logical partition then move the swap to
-the end, then resize the logical partition towards the end. This
-frees up space for the first (boot/root) partition to be expanded.
-Just be sure to double check your swap is still working by logging
-into the guest and issuing 'swapon -s'.
+   need to increase the size of logical partition then move the swap to
+   the end, then resize the logical partition towards the end. This
+   frees up space for the first (boot/root) partition to be expanded.
+   Just be sure to double check your swap is still working by logging
+   into the guest and issuing 'swapon -s'.
 
 8. Exit from GParted desktop and then halt and then reboot the host.
-You should now see that your hard drive has expanded.
+   You should now see that your hard drive has expanded.
 
 ## Decreasing Disk Size
 
