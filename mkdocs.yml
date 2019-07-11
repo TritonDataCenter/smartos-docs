@@ -1,4 +1,4 @@
-site_name: 'SmartOS Wiki'
+site_name: 'SmartOS Docs'
 repo_name: 'joyent/smartos-live'
 repo_url: 'https://github.com/joyent/smartos-live'
 edit_uri: '/joyent/smartos-docs/edit/master/docs/'
@@ -38,8 +38,17 @@ nav:
         - 'PXE Booting SmartOS': 'pxe-booting-smartos.md'
     - 'SmartOS Core Technologies':
         - 'Overview': 'smartos-core-technologies.md'
-    - 'SmartOS Developers Guide':
-        - 'Overview': 'smartos-developers-guide.md'
+        - 'Performance': 'performance.md'
+        - 'Virtualization':
+            - 'Overview': 'smartos-virtualization.md'
+            - 'Zones': 'zones.md'
+            - 'KVM': 'kvm.md'
+            - 'Bhyve': 'bhyve.md'
+        - 'ZFS': 'zfs.md'
+        - 'Networking and Network Virtualization': 'networking-and-network-virtualization.md'
+        - 'SMF - Service Management Facility': 'basic-smf-commands.md'
+        - 'DTrace': 'dtrace.md'
+        - 'Modular Debugger (mdb)': 'mdb.md'
     - 'SmartOS Users Guide':
         - 'Overview': 'smartos-users-guide.md'
         - 'Getting Started with SmartOS': 'getting-started-with-smartos.md'
@@ -52,6 +61,7 @@ nav:
         - 'Managing NICs': 'managing-nics.md'
         - 'Working with Packages': 'working-with-packages.md'
         - 'Using the Service Management Facility': 'basic-smf-commands.md'
+        - 'SmartOS Command Line Tips': 'smartos-command-line-tips.md'
         - 'Configuration Management on SmartOS':
             - 'Overview': 'configuration-management-on-smartos.md'
             - 'Persistent Configuration for the Global Zone': 'persistent-configuration-for-the-global-zone.md'
@@ -63,5 +73,16 @@ nav:
         - 'Configuring SMB in SmartOS': 'configuring-smb-in-smartos.md'
         - 'Changing virtual hardware of KVM zones': 'changing-virtual-hardware-of-kvm-zones.md'
         - 'Extra Configuration Options': 'extra-configuration-options.md'
+    - 'SmartOS Developers Guide':
+        - 'Overview': 'smartos-developers-guide.md'
+        - 'Extending smartos-live': 'extending-smartos-live.md'
+        - 'Building Individual Drivers in SmartOS': 'building-individual-drivers-in-smartos.md'
+        - 'Porting Network Device Drivers from FreeBSD': 'porting-network-device-drivers-from-freebsd.md'
+        - 'LX Branded Zones': 'lx-branded-zones.md'
+        - 'Running SmartOS on OmniOS KVM': 'running-smartos-on-omnios-kvm.md'
     - 'The SmartOS Community':
-        - 'The SmartOS Community': 'the-smartos-community.md'
+        - 'Mailing Lists & IRC': 'mailing-lists-and-irc.md'
+        - 'History': 'community-history.md'
+        - 'Community Experiments':
+            - 'Overview': 'community-experiments.md'
+            - 'Third Party SmartOS Extensions': '3rd-party-smartos-extensions.md'

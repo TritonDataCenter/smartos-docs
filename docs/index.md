@@ -107,7 +107,7 @@ Once installed, refer to our [Users Guide][smartos-users-guide] to help
 you learn your way around SmartOS.
 
 When you have questions, refer to the
-[SmartOS Community section](the-smartos-community.md) for pointers to
+[SmartOS Community section](mailing-lists-and-irc.md) for pointers to
 our IRC chat rooms and mailing lists.  When you're ready to start
 improving and adding your own customizations to SmartOS please refer to our
 [Developers Guide](smartos-developers-guide.md).
