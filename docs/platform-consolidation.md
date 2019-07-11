@@ -6,7 +6,7 @@
 
 Once upon a time Smart Data Center (SDC) was still closed source. Back
 then it made a lot of sense to segregate open source SmartOS
-functionality from closed source SDC functionality.\
+functionality from closed source SDC functionality.
 The differences between the two can be seen in the differences between
 the [sample SmartOS build configuration](https://github.com/joyent/smartos-live/blob/master/sample.configure.smartos)
 and the [sample SDC platform build configuration](https://github.com/joyent/smartos-live/blob/master/sample.configure.sdc)

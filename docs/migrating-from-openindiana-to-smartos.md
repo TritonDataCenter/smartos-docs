@@ -19,7 +19,7 @@ needs and interests :)
 ## History
 
 When I decided to run OpenIndiana as my storage box a few years ago,
-SmartOS wasn't around.\
+SmartOS wasn't around.
 Quickly it became evident that the development of OpenIndiana became
 slow and the IPS package repositories didn't give me the packages I was
 looking for.
@@ -116,8 +116,7 @@ pool:
     [root@00-1b-21-98-51-c1 ~]# zpool status zones
       pool: zones
      state: ONLINE
-      scan: resilvered 1.36G in 0h0m with 0 errors on Sat Mar  2 16:16:1
-5 2013
+      scan: resilvered 1.36G in 0h0m with 0 errors on Sat Mar  2 16:16:15 2013
     config:
 
             NAME        STATE     READ WRITE CKSUM

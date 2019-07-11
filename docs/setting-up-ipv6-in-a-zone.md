@@ -14,7 +14,7 @@ addrconf are specified, in.ndpd will be automatically enabled.
 In this example, the expected IPv6 address has been derived from the
 `mac` field via EUI-64 and added to `allowed_ips`.
 
-    [root@00-53-37-42-47-37 ~]# vmadm get 94ff50ad-ac74-46ac-8b9d-c05ddf55f434 | json -a nics
+    # vmadm get 94ff50ad-ac74-46ac-8b9d-c05ddf55f434 | json -a nics
     [
       {
         "interface": "net0",
