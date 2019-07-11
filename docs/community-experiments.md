@@ -34,5 +34,5 @@ on your own!
 
 **Blog posts, etc:**
 
-- [Run Things at Boot](http://www.psychicfriends.net/blog/archives/2012/03/21/smartosorg_run_things_at_boot.md)
+- [Run Things at Boot](http://www.psychicfriends.net/blog/archives/2012/03/21/smartosorg_run_things_at_boot.html)
 - [Creating and deploying a SmartOS image at bare**metal**cloud](http://documentation.baremetalcloud.com/display/bmc/SmartOS)
