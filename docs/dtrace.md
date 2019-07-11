@@ -122,7 +122,7 @@ For a good overview and wrap-up, see
 | [DTrace in node.js](http://mcavage.github.com/presentations/dtrace_conf_2012-04-03/) - [video](http://www.youtube.com/watch?v=0ZMvSh7lUdM) | [Mark Cavage](https://twitter.com/mcavage) |
 | [User-land probes for Erlang virtual machine](http://www.snookles.com/scott/publications/dtrace.conf-2012.erlang-vm.pdf) - [video](http://smartos.org/2012/04/09/dtrace-conf-2012-dtrace-and-erlang/) | Scott Lystig Fritchie |
 | DTrace on Linux - [video](http://www.youtube.com/watch?v=NElog3MvUC8) | Kris Van Hees |
-| [ZFS DTrace provider](dtrace.conf-2012---zfs-dtrace-provider.md) | [Matt Ahrens](http://blog.delphix.com/matt/) |
+| [ZFS DTrace provider](dtrace.conf-2012-zfs-dtrace-provider.md) | [Matt Ahrens](http://blog.delphix.com/matt/) |
 | DTrace on FreeBSD - [video](http://smartos.org/2012/04/09/dtrace-conf-2012-dtrace-on-freebsd/) | Ryan Stone |
 | Barriers to Adoption - [video](http://www.youtube.com/watch?v=P95LHZ-WOWw) | Jarod Jenson |
 <!-- markdownlint-enable line-length -->
