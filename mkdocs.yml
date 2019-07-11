@@ -83,6 +83,4 @@ nav:
     - 'The SmartOS Community':
         - 'Mailing Lists & IRC': 'mailing-lists-and-irc.md'
         - 'History': 'community-history.md'
-        - 'Community Experiments':
-            - 'Overview': 'community-experiments.md'
-            - 'Third Party SmartOS Extensions': '3rd-party-smartos-extensions.md'
+        - 'Community Experiments': 'community-experiments.md'
