@@ -268,3 +268,7 @@ Using SMF to uncover information about a service is easy.
 ## Links
 
 - Ben Rockwood's [SMF CheatSheet](http://www.cuddletech.com/blog/pivot/entry.php?id=182).
+
+## Videos
+
+- [Hardware and Software Fault Management Architecture](https://www.youtube.com/watch?v=1ow7Q5yTWrY)

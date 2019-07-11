@@ -1,6 +1,7 @@
-site_name: SmartOS Wiki
-repo_name: 'joyent/smartos-docs'
-repo_url: 'https://github.com/joyent/smartos-docs'
+site_name: 'SmartOS Wiki'
+repo_name: 'joyent/smartos-live'
+repo_url: 'https://github.com/joyent/smartos-live'
+edit_uri: '/joyent/smartos-docs/edit/master/docs/'
 
 theme:
     name: null
@@ -21,3 +22,28 @@ theme:
 markdown_extensions:
     - toc:
         permalink: true
+
+nav:
+    - 'Home': 'index.md'
+    - 'Welcome to SmartOS':
+        - 'SmartOS Quick Start Guide': 'smartos-quick-start-guide.md'
+        - 'SmartOS Technical FAQs': 'smartos-technical-faqs.md'
+        - 'illumos and SmartOS Basics': 'illumos-and-smartos-basics.md'
+        - 'extra configuration options': 'extra-configuration-options.md'
+        - 'How do I obtain a system crash dump via IPMI?': 'how-do-i-obtain-a-crash-dump-via-ipmi.md'
+        - 'Questions from SmartOS the Modern OS Webinar': 'questions-from-smartos-the-modern-os-webinar.md'
+        - 'Why SmartOS - ZFS, KVM, DTrace, Zones and More': 'why-smartos-zfs-kvm-dtrace-zones-and-more.md'
+    - 'Installing SmartOS':
+        - 'Download SmartOS': 'download-smartos.md'
+        - 'Creating a SmartOS Bootable USB Key': 'creating-a-smartos-bootable-usb-key.md'
+        - 'SmartOS as a VMware Guest': 'smartos-as-a-vmware-guest.md'
+        - 'SmartOS as a VirtualBox Guest': 'smartos-as-a-virtualbox-guest.md'
+        - 'PXE Booting SmartOS': 'pxe-booting-smartos.md'
+    - 'SmartOS Core Technologies':
+        - 'Overview': 'smartos-core-technologies.md'
+    - 'SmartOS Developers Guide':
+        - 'Overview': 'smartos-developers-guide.md'
+    - 'SmartOS Users Guide':
+        - 'Overview': 'smartos-users-guide.md'
+    - 'The SmartOS Community':
+        - 'The SmartOS Community': 'the-smartos-community.md'
