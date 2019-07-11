@@ -38,12 +38,12 @@ preferred installation type:
 
 * [Creating a SmartOS Bootable USB Key][create-usb]
 * [SmartOS as a VMware Guest][vmware-guest]
-* [SmartOS as a Sandboxed VirtualBox Guest][vbox-guest]
+* [SmartOS as a VirtualBox Guest][vbox-guest]
 * [PXE Booting SmartOS][pxe]
 
 [create-usb]: creating-a-smartos-bootable-usb-key.md
 [vmware-guest]: smartos-as-a-vmware-guest.md
-[vbox-guest]: smartos-as-a-sandboxed-virtualbox-guest.md
+[vbox-guest]: smartos-as-a-virtualbox-guest.md
 [pxe]: pxe-booting-smartos.md
 
 ### Understanding SmartOS Builds

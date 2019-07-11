@@ -25,9 +25,9 @@ found in the [SmartOS Changelog][smartos-changelog].
 ## Quick Start
 
 Not sure where to begin? Try the
-[SmartOS Quick Start Guide][smartos-users-guide]!
+[SmartOS Quick Start Guide][smartos-qs]!
 
-[smartos-users-guide]: smartos-users-guide.md
+[smartos-qs]: smartos-quick-start-guide.md
 
 ## SmartOS In a Nutshell
 
