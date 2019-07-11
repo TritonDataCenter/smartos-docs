@@ -93,7 +93,7 @@ important are:
 
 With most images you won't be able to log in to unless you pass an SSH
 public key to validate your connection with. Adjust your config to
-contain a customer\_metadata block:
+contain a `customer_metadata` block:
 
 <!-- markdownlint-disable line-length -->
 

@@ -15,7 +15,7 @@ current sources [here][smartos-sources] - suggestions for others welcome!).
 
 [intro-video]: http://smartos.org/2012/08/21/introduction-to-smartos/
 
-Welcome to the SmartOS Documentation Wiki. Here you'll find everything
+Welcome to the SmartOS Documentation. Here you'll find everything
 you need to get started using SmartOS and participating in the
 community. Information about what's new in recent releases can be
 found in the [SmartOS Changelog][smartos-changelog].
@@ -98,16 +98,16 @@ tools, `imgadm` and `vmadm`, accept and return all data in JSON
 format.  This provides a simple, consistent, and programmatic
 interface for creating and managing VM's.
 
-## How to Use this Wiki
+## How to Use this Site
 
-This wiki can provide you with a variety of resources for users at
+This documenataion can provide you with a variety of resources for users at
 all levels.  To get started, [download SmartOS now](download-smartos.md),
 and be sure to review the [Hardware Requirements](hardware-requirements.md).
 Once installed, refer to our [Users Guide][smartos-users-guide] to help
 you learn your way around SmartOS.
 
 When you have questions, refer to the
-[SmartOS Community section](the-smartos-community.md) for pointers to
+[SmartOS Community section](mailing-lists-and-irc.md) for pointers to
 our IRC chat rooms and mailing lists.  When you're ready to start
 improving and adding your own customizations to SmartOS please refer to our
 [Developers Guide](smartos-developers-guide.md).

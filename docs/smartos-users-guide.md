@@ -2,7 +2,7 @@
 
 ## SmartOS Basics
 
-- [Finding Your Way Around a SmartMachine][around-smartos]
+- [Finding Your Way Around in SmartOS][around-smartos]
   - This document from the Joyent cloud wiki is helpful to Linux users
     approaching SmartOS for the first time.
 - [The Joyent Linux-to-SmartOS Cheat Sheet][linux-smartos-cheatsheet]

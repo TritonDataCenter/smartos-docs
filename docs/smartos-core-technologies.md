@@ -2,28 +2,19 @@
 
 ## Documentation
 
-- [Dynamic Tracing Guide](http://illumos.org/books/dtrace/)
-- [Modular Debugger Guide](http://illumos.org/books/mdb/)
-- [Writing Device Drivers](http://illumos.org/books/wdd/)
-- [Memory and Thread Placement Optimization Developer's Guide][lgrps]
-
-[lgrps]: http://illumos.org/books/lgrps/
-
-### More pages in this section
-
-- [DTrace][core-01]
+<!-- markdownlint-disable ul-indent -->
 - [Performance][core-02]
-- [Zones][core-03]
+- [Virtualization][core-05]
+    - [Zones][core-03]
+    - [KVM][core-07]
+    - [Bhyve][core-bhyve]
 - [ZFS][core-04]
-- [SmartOS Virtualization][core-05]
 - [Networking and Network Virtualization][core-06]
-- [KVM][core-07]
-- [Bhyve][core-bhyve]
-- [Tips and Tricks][core-08]
-- [illumos Documentation][core-09]
 - [SMF - Service Management Facility][core-10]
+- [DTrace][core-01]
 - [Modular Debugger (mdb)][core-11]
-- [SmartOS Change Log][core-12]
+- [illumos Documentation][core-09]
+<!-- markdownlint-enable ul-indent -->
 
 [core-01]: dtrace.md
 [core-02]: performance.md
@@ -34,10 +25,18 @@
 [core-07]: kvm.md
 [core-bhyve]: bhyve.md
 [core-08]: tips-and-tricks.md
-[core-09]: illumos-documentation.md
+[core-09]: https://illumos.org/docs/
 [core-10]: basic-smf-commands.md
 [core-11]: mdb.md
-[core-12]: http://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos.md
+
+## Guides
+
+- [Dynamic Tracing Guide](http://illumos.org/books/dtrace/)
+- [Modular Debugger Guide](http://illumos.org/books/mdb/)
+- [Writing Device Drivers](http://illumos.org/books/wdd/)
+- [Memory and Thread Placement Optimization Developer's Guide][lgrps]
+
+[lgrps]: http://illumos.org/books/lgrps/
 
 ## SmartOS Training
 

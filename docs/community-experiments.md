@@ -24,7 +24,6 @@ on your own!
 - [Joining SmartOS to an Active Directory domain](joining-smartos-to-an-active-directory-domain.md)
 - [Migrating from OpenIndiana to SmartOS](migrating-from-openindiana-to-smartos.md)
 - [NAT using Etherstubs](nat-using-etherstubs.md)
-- [Packaging ON build products with pkgsrc](packaging-on-build-products-with-pkgsrc.md)
 - [Persistent root dotfiles](persistent-root-dotfiles.md)
 - [Persistent Users and RBAC in the Global Zone](persistent-users-and-rbac-in-the-global-zone.md)
 - [Platform Consolidation](platform-consolidation.md)
