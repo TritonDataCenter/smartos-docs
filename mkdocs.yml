@@ -1,6 +1,7 @@
-site_name: SmartOS Wiki
-repo_name: 'joyent/smartos-docs'
-repo_url: 'https://github.com/joyent/smartos-docs'
+site_name: 'SmartOS Wiki'
+repo_name: 'joyent/smartos-live'
+repo_url: 'https://github.com/joyent/smartos-live'
+edit_uri: '/joyent/smartos-docs/edit/master/docs/'
 
 theme:
     name: null
