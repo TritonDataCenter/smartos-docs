@@ -2,11 +2,10 @@
 
 **In this section:**
 
-- [Creating a SmartOS Bootable USB Key](Creating%20a%20SmartOS%20Bootable%20USB%20Key.html "Creating a SmartOS Bootable USB Key")
-- [PXE Booting SmartOS](PXE%20Booting%20SmartOS.html "PXE Booting SmartOS")
-- [SmartOS as a VMware Guest](SmartOS%20as%20a%20VMware%20Guest.html "SmartOS as a VMware G uest")
-- [SmartOS Clean Re-install](SmartOS%20Clean%20Re-install.html "SmartOS Clean Re-inst all")
-- [SmartOS as a Sandboxed VirtualBox Guest](SmartOS%20as%20a%20Sandboxed%20VirtualBox%20Guest.html "Smart OS as a Sandboxed VirtualBox Guest")
+- [Creating a SmartOS Bootable USB Key](creating-a-smartos-bootable-usb-key.md)
+- [PXE Booting SmartOS](pxe-booting-smartos.md)
+- [SmartOS as a VMware Guest](smartos-as-a-vmware-guest.md)
+- [SmartOS as a VirtualBox Guest](smartos-as-a-virtualbox-guest.md)
 
 SmartOS is a
 [live image](smartos-users-guide.md) distribution of
@@ -107,7 +106,7 @@ capacities, and RAID-Z support.
 ## Further Reading
 
 [How to create a zone](how-to-create-a-zone.md)
-and [How to create an HVM Virtual Machine](how-to-create-an-hvm-vm.md)
+and [How to create an HVM Virtual Machine](how-to-create-an-hvm-zone.md)
 give more detail about `vmadm create`.
 
 For detailed information on ZFS and ZFS features, see the
