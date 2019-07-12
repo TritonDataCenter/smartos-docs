@@ -100,7 +100,7 @@ interface for creating and managing VM's.
 
 ## How to Use this Site
 
-This documenataion can provide you with a variety of resources for users at
+This documentation can provide you with a variety of resources for users at
 all levels.  To get started, [download SmartOS now](download-smartos.md),
 and be sure to review the [Hardware Requirements](hardware-requirements.md).
 Once installed, refer to our [Users Guide][smartos-users-guide] to help
