@@ -33,6 +33,16 @@ dependencies
 
     make deps
 
-## Converting Confluence Content
+## Contributing
 
+Pull requests welcome! Unlike other Joyent repositories, this repo only uses
+github pull requests in order to make it as easy to contribute as possible.
 
+Please feel free to update anything that needs fixing and send us a pull
+request. Pull requests must pass `make check` before they'll be approved.
+Once merged, changes should show up on the live site within about five minutes.
+
+Before submitting a pull request, you should run ensure that your changes will
+pass `make check`, and run `make serve` and check it with your local browser
+to make sure that everything looks the way you expect. Pull requests that do
+not pass `make check` will not be merged.
