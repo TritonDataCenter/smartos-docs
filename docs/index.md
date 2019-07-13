@@ -61,7 +61,7 @@ format. This provides a simple, consistent, and programmatic interface for creat
 
 ## How to Use this Site
 
-This documenataion can provide you with a variety of resources for users at all levels.  To get started, [download SmartOS now](download-smartos.md), and be sure to review the [Hardware Requirements](hardware-requirements.md).
+This documentation can provide you with a variety of resources for users at all levels.  To get started, [download SmartOS now](download-smartos.md), and be sure to review the [Hardware Requirements](hardware-requirements.md).
 Once installed, refer to our [Users Guide][smartos-users-guide] to help you learn your way around SmartOS.
 
 When you have questions, refer to the [SmartOS Community section](mailing-lists-and-irc.md) for pointers to
