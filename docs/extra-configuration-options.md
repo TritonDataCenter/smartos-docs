@@ -59,6 +59,12 @@ pairs in `/usbkey/config` are set to the path to the file relative to
 | `root_authorized_keys_file` | `authorized_keys` | This file is copied to `/root/.ssh/authorized_keys` for public key authentication on login. The exact commands to set this up can be found on the [SmartOS global zone tweaks](http://www.perkin.org.uk/posts/smartos-global-zone-tweaks.html) blog post. |
 | `ntp_conf_file`             | `ntp.conf`        |  This file is copied to `/etc/inet/ntp.conf` and overrides the `ntp_hosts` variable |
 
+## OS configuration options
+
+| Key                       |    Example Value    | Description |
+| ------------------------- | ------------------- | ----------------- |
+| `smt_enabled`             | false                | Whether SMT siblings are enabled on the CPU. Defaults to true. |
+
 ## Other
 
 | Key                       |    Example Value    | Description |
