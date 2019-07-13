@@ -18,8 +18,8 @@ and non-global zones in SmartOS.
 This video explains why and how SmartOS boots from a USB thumb drive.
 
 This video was originally produced for Joyent's SmartDataCenter product.
-References to things such as "headnode", "computenode", or authentication a
-gainst APIs do not apply.
+References to things such as "headnode", "computenode", or authentication
+against APIs do not apply.
 
 [VIDEO: Discussion about diskless booting in SmartOS between Bryan Cantrill
 and Josh Wilsdon of Joyent](http://www.youtube.com/watch?v=ieGWbo94geE)
