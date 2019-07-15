@@ -59,15 +59,17 @@ For example, to install `tidy`, you run this:
 
 The pkgsrc utility installs files in several directories within `/opt/local`.
 
+<!-- markdownlint-disable no-inline-html -->
+<!-- If the path names below will wrap funny without this -->
+
 | Directory                            | Description |
-| -------------------------------------+-------------------------------- |
-| `/opt/local`                         | This is where pkgsrc installs software including binaries, libraries, configuration files, supporting files, examples, documentation etc.  |
-+--------------------------------------+-------------------------------- ------+
-| `/opt/local/etc`                     | Contains configuration files.  |
-+--------------------------------------+-------------------------------- ------+
-| `/opt/local/share/examples`          | Example configuration files. When you add a new package, pkg src installs sample configuration f iles here, and then copies them to `/opt/local/etc` if they do not already exist.  |
-+--------------------------------------+-------------------------------- ------+
-| `/var/db/pkg`                        | This directory contains two directories that contain the database of installed and avail able  packages. If you delete or damage these directories, you will not be able to use the pkgsrc management tools. |
+| -------------------------------------|-------------------------------- |
+| <span style="white-space:nowrap">`/opt/local`</span>                | This is where pkgsrc installs software including binaries, libraries, configuration files, supporting files, examples, documentation etc.  |
+| <span style="white-space:nowrap">`/opt/local/etc`</span>            | Contains configuration files.  |
+| <span style="white-space:nowrap">`/opt/local/share/examples`</span> | Example configuration files. When you add a new package, pkg src installs sample configuration f iles here, and then copies them to `/opt/local/etc` if they do not already exist.  |
+| <span style="white-space:nowrap">`/var/db/pkg`</span>               | This directory contains two directories that contain the database of installed and avail able  packages. If you delete or damage these directories, you will not be able to use the pkgsrc management tools. |
+
+<!-- markdownlint-disable no-inline-html -->
 
 As noted in the table above, pkgsrc copies configuration files
 into `/opt/local/etc` only if they do not already exist. That means that
