@@ -84,3 +84,4 @@ nav:
         - 'Mailing Lists & IRC': 'mailing-lists-and-irc.md'
         - 'History': 'community-history.md'
         - 'Community Experiments': 'community-experiments.md'
+        - 'Edit This Documentation': 'https://github.com/joyent/smartos-docs/'

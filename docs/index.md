@@ -103,7 +103,7 @@ interface for creating and managing VM's.
 This documentation can provide you with a variety of resources for users at
 all levels.  To get started, [download SmartOS now](download-smartos.md),
 and be sure to review the [Hardware Requirements](hardware-requirements.md).
-Once installed, refer to our [Users Guide][smartos-users-guide] to help
+Once installed, refer to our [Users Guide](smartos-users-guide.md) to help
 you learn your way around SmartOS.
 
 When you have questions, refer to the
@@ -113,8 +113,10 @@ improving and adding your own customizations to SmartOS please refer to our
 [Developers Guide](smartos-developers-guide.md).
 
 SmartOS is a community effort, as you explore and experiment with
-SmartOS please feel free to edit and contribute to this wiki to
+SmartOS please feel free to [edit and contribute][src] to this site to
 improve the documentation for other users in the community.
+
+[src]: https://github.com/joyent/smartos-docs/
 
 ## About Triton &amp; Joyent
 
