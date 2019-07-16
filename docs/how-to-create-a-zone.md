@@ -71,6 +71,8 @@ important are:
   zone's `/etc/resolv.conf` file)
 - `nics`: One or more network interfaces attached to this zone
 
+Here is an example json payload.
+
     {
      "brand": "joyent",
      "image_uuid": "643de2c0-672e-11e7-9a3f-ff62fd3708f8",

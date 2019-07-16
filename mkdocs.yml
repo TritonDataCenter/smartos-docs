@@ -57,6 +57,7 @@ nav:
         - 'How to create a zone': 'how-to-create-a-zone.md'
         - 'How to create a HVM VM': 'how-to-create-an-hvm-zone.md'
         - 'How to create a Virtual Machine From Scratch': 'how-to-create-a-virtual-machine-from-scratch.md'
+        - 'Managing instances': 'managing-instances-with-vmamd.md'
         - 'Changing the Root Password in the Global Zone': 'changing-the-root-password-in-the-global-zone.md'
         - 'Managing NICs': 'managing-nics.md'
         - 'Working with Packages': 'working-with-packages.md'
