@@ -15,4 +15,4 @@ asciinema below to skip ahead to essential commands.
 
 View a demonstration of this process.
 
-[![asciicast](https://asciinema.org/a/156658.svg)](https://asciinema.org/a/156658)
+<script id="asciicast-156658" src="https://asciinema.org/a/156658.js" async></script>
