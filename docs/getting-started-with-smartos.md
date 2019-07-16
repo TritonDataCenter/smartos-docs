@@ -37,7 +37,7 @@ SmartOS and the benefits it provides breakdown in the following way:
     when you have a large number of machines.
 
 For details on the benefit of running SmartOS as a live image,
-[watch th is video](https://www.youtube.com/watch?v=ieGWbo94geE).
+[watch this video](https://www.youtube.com/watch?v=ieGWbo94geE).
 
 The SmartOS ISO is a bootable CD image containing GRUB, the Illumos
 kernel, and the SmartOS boot archive. You can copy the image to any
@@ -47,7 +47,7 @@ image. You can even copy `/platform` to your Linux system, add an entry
 to the GRUB `menu.lst` file, and dual boot without needing to
 repartition.
 
-You ca n find the default single user mode root password for a given release
+You can find the default single user mode root password for a given release
 on the boot media in `/platform/root.password`. The default single user
 mode root password changes from release to release. Otherwise the root pas
 sword is simply "root".
