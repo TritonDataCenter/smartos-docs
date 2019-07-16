@@ -19,6 +19,7 @@ Developer.
 - [SmartOS Command Line Tips][dev-08]
 - [LX Branded Zones][dev-09]
 - [Running SmartOS on OmniOS KVM][dev-10]
+- [Joyent Technology Discussion video series][dev-11] (updated regularly!)
 
 [dev-01]: https://github.com/joyent/smartos-live#contributing
 [dev-02]: https://github.com/joyent/smartos-live#building-smartos
@@ -30,3 +31,12 @@ Developer.
 [dev-08]: smartos-command-line-tips.md
 [dev-09]: lx-branded-zones.md
 [dev-10]: running-smartos-on-omnios-kvm.md
+[dev-11]: https://www.youtube.com/playlist?list=PLfHkpKdowDoi6pWLkwdSpCQs2obgRX4VZ
+
+Tim Foster recently did a JTD on setting up a Triton & Manta development
+environment (which also covers SmartOS).
+
+<iframe width="560" height="315" frameborder="0"
+    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+    src="https://www.youtube.com/embed/c2ETwKsTMAI"
+    allowfullscreen></iframe>
