@@ -62,6 +62,7 @@ nav:
         - 'Managing NICs': 'managing-nics.md'
         - 'Working with Packages': 'working-with-packages.md'
         - 'Using the Service Management Facility': 'basic-smf-commands.md'
+        - 'Debugging problems': 'debugging.md'
         - 'SmartOS Command Line Tips': 'smartos-command-line-tips.md'
         - 'Configuration Management on SmartOS':
             - 'Overview': 'configuration-management-on-smartos.md'
