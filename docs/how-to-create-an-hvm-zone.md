@@ -1,10 +1,8 @@
-# How to create a HVM VM
+# How to create an HVM zone
 
-SmartOS has two different virtual machine monitors. [KVM][kvm.md] and
-[Bhyve.md], collectively reffered to as **HVM**
-(**H**ardware **V**irtual **M**achine)
-instances. There are differences with the
-implementation, and each has it's advantages, but for the most part,
+SmartOS has two different virtual machine monitors: [KVM](kvm.md) and
+[Bhyve](bhyve.md), collectively referred to as **HVM**
+(**H**ardware **V**irtual **M**achine) instances.
 
 ## Creating HVM VMs
 
@@ -116,8 +114,8 @@ it's primary interface on the internet. Please be aware of what services
 you're exposing, and apply firewall rules as necessary.
 
 RealVNC VNC Viewer will crash when connecting unless you set FullColour to
-True in the options.  On Windows make sure to go to Options, click Adva
-nced, go to the Expert tab and set FullColour to True.
+True in the options.  On Windows make sure to go to Options, click Advanced,
+go to the Expert tab and set FullColour to True.
 
 ### Passing cloud-init data to the VM
 
@@ -169,3 +167,19 @@ contain a `customer_metadata` block:
       }
 
 <!-- markdownlint-enable line-length -->
+
+### Granting the VM access to an entire physical disk
+
+In the `"disks"` section of your [VM definition file](#creating-hvm-vms), add
+an object like this:
+
+    {
+      "boot": false,
+      "nocreate": true,
+      "model": "virtio",
+      "media": "disk",
+      "size": 5725225,
+      "path": "/dev/dsk/c2t0d0"
+    }
+
+The `"size"` value is in megabytes.
