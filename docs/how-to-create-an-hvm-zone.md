@@ -2,7 +2,9 @@
 
 SmartOS has two different virtual machine monitors: [KVM](kvm.md) and
 [Bhyve](bhyve.md), collectively referred to as **HVM**
-(**H**ardware **V**irtual **M**achine) instances.
+(**H**ardware **V**irtual **M**achine) instances. There are differences with
+the implementation, and each has it's advantages, but for the most part,
+operators manage them in almost exactly the same way.
 
 ## Creating HVM VMs
 
