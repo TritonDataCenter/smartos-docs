@@ -172,8 +172,11 @@ contain a `customer_metadata` block:
 
 ### Granting the VM access to an entire physical disk
 
-In the `"disks"` section of your [VM definition file](#creating-hvm-vms), add
-an object like this:
+In general, using zvols and not dedicated disks for instance is almost always
+preferred, however there are some circumstances where it may be useful to
+access an entire raw disk from a VM. This will pass through a physical disk
+to the HVM guest. In the `"disks"` section of your
+[VM definition file](#creating-hvm-vms), add an object like this:
 
     {
       "boot": false,
@@ -184,4 +187,4 @@ an object like this:
       "path": "/dev/dsk/c2t0d0"
     }
 
-The `"size"` value is in megabytes.
+Note: The `"size"` value is in megabytes.
