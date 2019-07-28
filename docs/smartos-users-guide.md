@@ -2,14 +2,9 @@
 
 ## SmartOS Basics
 
-- [Finding Your Way Around in SmartOS][around-smartos]
-  - This document from the Joyent cloud wiki is helpful to Linux users
-    approaching SmartOS for the first time.
 - [The Joyent Linux-to-SmartOS Cheat Sheet][linux-smartos-cheatsheet]
-- [Commands that Work Differently (from Linux) in SmartOS][commands-different]
 - [SmartOS: A System Administrator's Primer][sa-primer] (video, Ben Rockwood)
 
-[around-smartos]: http://wiki.joyent.com/display/jpc2/Finding+Your+Way+Around+in+SmartOS
 [linux-smartos-cheatsheet]: the-linux-to-smartos-cheat-sheet.md
 [sa-primer]: http://smartos.org/2012/08/22/smartos-an-sa-primer/
 
