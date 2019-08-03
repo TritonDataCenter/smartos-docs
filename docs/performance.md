@@ -6,7 +6,7 @@
 ## Cloud Performance Training: What's in the Course
 
 <iframe class="youtube-player" type="text/html" style="width: 400px;
-    height: 300px" src="http://www.youtube.com/embed/pb95K_2Xt-0"
+    height: 300px" src="https://www.youtube.com/embed/pb95K_2Xt-0"
     frameborder="0">
 </iframe>
 
