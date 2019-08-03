@@ -19,7 +19,7 @@ Some/much of the below (so far) comes from
 [Fork Yeah! The Rise and Development of illumos][fork-yeah]
 (embedded above) given at USENIX LISA, December, 2011.
 
-[fork-yeah]: (http://www.slideshare.net/bcantrill/fork-yeah-the-rise-and-development-of-illumos)
+[fork-yeah]: http://www.slideshare.net/bcantrill/fork-yeah-the-rise-and-development-of-illumos
 
 ## SunOS: A peopleʼs history
 
