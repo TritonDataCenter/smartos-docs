@@ -58,7 +58,7 @@ general.
 ## Security
 
 <iframe class="youtube-player" type="text/html" style="width: 400px;
-    height: 300px" src="http://www.youtube.com/embed/0EEf9y1nwYo"
+    height: 300px" src="https://www.youtube.com/embed/0EEf9y1nwYo"
     frameborder="0">
 </iframe>
 Jack Adams learns why you can't Telnet into a Solaris machine.

@@ -1,7 +1,7 @@
 # Community History
 
 <iframe class="youtube-player" type="text/html" style="width: 400px;
-  height: 300px" src="http://www.youtube.com/embed/-zRN7XLCRhc"
+  height: 300px" src="https://www.youtube.com/embed/-zRN7XLCRhc"
   frameborder="0">
 </iframe>
 
@@ -403,6 +403,6 @@ A video I (Deirdré) made just before leaving Oracle for Joyent,
 featuring many of the people mentioned above.
 
 <iframe class="youtube-player" type="text/html" style="width: 400px;
-    height: 300px" src="http://www.youtube.com/embed/UHOBoWJHTyc"
+    height: 300px" src="https://www.youtube.com/embed/UHOBoWJHTyc"
     frameborder="0">
 </iframe>

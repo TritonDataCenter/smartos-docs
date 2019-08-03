@@ -17,7 +17,7 @@
 ### SmartOS, a Primer for Sysadmins
 
 <iframe class="youtube-player" type="text/html" style="width: 400px;
-    height: 300px" src="http://www.youtube.com/embed/dxZExLeJz2I"
+    height: 300px" src="https://www.youtube.com/embed/dxZExLeJz2I"
     frameborder="0"> </iframe>
 
 Ben Rockwood speaking at the BayLISA meetup at Joyent, August 16, 2012
@@ -25,7 +25,7 @@ Ben Rockwood speaking at the BayLISA meetup at Joyent, August 16, 2012
 ### SmartOS Operations
 
 <iframe class="youtube-player" type="text/html" style="width: 400px;
-    height: 300px" src="http://www.youtube.com/embed/96PGoXHli3Q"
+    height: 300px" src="https://www.youtube.com/embed/96PGoXHli3Q"
     frameborder="0"> </iframe>
 
 Ben Rockwood at illumos Day, Oct 2012, gives a look at tools and
