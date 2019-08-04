@@ -11,7 +11,7 @@ password.  When using the noimport=true option, the login is root/root.
 Otherwise, the randomly generated root password for each build and can
 be found in the "SINGLE\_USER\_ROOT\_PASSWORD.(BUILD\_DATE).txt" file
 found in the [standard SmartOS download
-location](https://download.joyent.com/pub/iso/).
+location](https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/latest.html).
 
 ## Where's top?
 
