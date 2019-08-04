@@ -44,7 +44,7 @@ general.
 
 ## General
 
-- [Glossary](http://sdcdoc.joyent.com/sdcdoc/display/sdc/SmartDataCenter+Glossary)
+- [Glossary](illumos-and-smartos-basics/glossary.md)
 - [Illumos Meetup June 15, 2011](http://www.youtube.com/playlist?list=PLDCCD08516746DB82),
   Companies and individuals involved in the development of the Illumos
   operating system
