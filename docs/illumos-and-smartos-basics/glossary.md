@@ -4,17 +4,17 @@
 
 ## API
 
-"An application programming interface (API) is a particular set of rules and
-specifications that software programs can follow to communicate with each other.
-" - [wikipedia](https://en.wikipedia.org/wiki/Api)
+> "An application programming interface (API) is a particular set of rules and
+> specifications that software programs can follow to communicate with each
+> other." - [wikipedia](https://en.wikipedia.org/wiki/Api)
 
 ## CDN
 
 Content Delivery Network  
-"A system of computers containing copies of data placed at various nodes of a
-network. When properly designed and implemented, a CDN can improve access to the
-data it caches by increasing access bandwidth and redundancy and reducing access
-latency." - [wikipedia](https://en.wikipedia.org/wiki/Content_delivery_network)
+> "A system of computers containing copies of data placed at various nodes of a
+> network. When properly designed and implemented, a CDN can improve access to
+> the data it caches by increasing access bandwidth and redundancy and reducing
+> access latency." - [wikipedia](https://en.wikipedia.org/wiki/Content_delivery_network)
 
 ## Clone
 
@@ -22,38 +22,37 @@ A writable [snapshot](glossary.md#snapshot) of a file system.
 
 ## Cloud
 
-"... a style of computing in which dynamically scalable and often virtualized
-resources are provided as a service over the internet." -
-[wikipedia](https://en.wikipedia.org/wiki/Cloud_computing)
+> "... a style of computing in which dynamically scalable and often virtualized
+> resources are provided as a service over the internet." - [wikipedia](https://en.wikipedia.org/wiki/Cloud_computing)
 
 The [National Institute of Standards and Technology](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf)
-(pdf): "Cloud computing is a model for enabling ubiquitous, convenient,
-on-demand network access to a shared pool of configurable computing resources
-(e.g., networks, servers, storage, applications, and services) that can be
-rapidly provisioned and released with minimal management effort or service
-provider interaction."
+(pdf):  
+> "Cloud computing is a model for enabling ubiquitous, convenient,
+> on-demand network access to a shared pool of configurable computing resources
+> (e.g., networks, servers, storage, applications, and services) that can be
+> rapidly provisioned and released with minimal management effort or service
+> provider interaction."
 
 ## Colocation
 
-"A type of data center... Colocation allows multiple customers to locate
-network, server, and storage gear - and connect them to a variety of
-telecommunications and network service providers - with a minimum of cost and
-complexity." - [wikipedia](https://en.wikipedia.org/wiki/Colocation_centre)
+> "A type of data center... Colocation allows multiple customers to locate
+> network, server, and storage gear - and connect them to a variety of
+> telecommunications and network service providers - with a minimum of cost and
+> complexity." - [wikipedia](https://en.wikipedia.org/wiki/Colocation_centre)
 
 ## Compute node
 
 Compute nodes are the physical servers in a [datacenter](glossary.md#datacenter)
-that are managed by a [head node](glossary.md#head-node).
+that are managed by a [headnode](glossary.md#headnode).
 
 ## CRM
 
 Customer Relationship Management  
-"... a widely-implemented strategy for managing a company’s interactions with
-customers, clients and sales prospects. It involves using technology to
-organize, automate, and synchronize business processes---principally sales
-activities, but also those for marketing, customer service, and technical
-support." -
-[wikipedia](https://en.wikipedia.org/wiki/Customer_Relationship_Management)
+> "... a widely-implemented strategy for managing a company’s interactions with
+> customers, clients and sales prospects. It involves using technology to
+> organize, automate, and synchronize business processes---principally sales
+> activities, but also those for marketing, customer service, and technical
+> support." - [wikipedia](https://en.wikipedia.org/wiki/Customer_Relationship_Management)
 
 ## Customer portal
 
@@ -63,9 +62,9 @@ The customer portal is a reference portal that consumers can use to manage their
 ## Datacenter
 
 A datacenter is both a physical and virtual location that connects to the
-Internet, and holds a [head node](glossary.md#head-node) and one or more
+Internet, and holds a [headnode](glossary.md#headnode) and one or more
 [compute nodes](glossary.md#compute-node). A datacenter may have several head
-nodes. In this case each head node has its own name to differentiate between
+nodes. In this case each headnode has its own name to differentiate between
 each of their instances.
 
 ## Dataset
@@ -74,10 +73,6 @@ A dataset describes the software that's going to end up on a newly provisioned
 machine. A dataset is sometimes called an image. All machines provisioned from
 the same dataset have the same software. On Virtual Machines, the dataset also
 includes the operating system and the disk that contains it.
-
-## DIRT
-
-Data-intensive real-time applications.
 
 ## DTrace
 
@@ -88,17 +83,17 @@ various operating systems. See [DTrace.org](http://dtrace.org/blogs/about/)
 ## Endpoint
 
 A URL, the end of an API that communicates with the rest of the world.  
-"An endpoint can call and be called. It generates and terminates the information
-stream." - [webopedia](https://www.webopedia.com/TERM/E/endpoint.html)
+> "An endpoint can call and be called. It generates and terminates the
+> information stream." - [webopedia](https://www.webopedia.com/TERM/E/endpoint.html)
 
 ## Global zone
 
 The native name of the system that holds all the other [zones](glossary.md#zone)
-in a [compute node](glossary.md#compute-node) or a [head node](glossary.md#head-node)
+in a [compute node](glossary.md#compute-node) or a [headnode](glossary.md#headnode)
 . The operating system which is running directly on bare metal. This is a
 Solaris term.
 
-## Head node
+## Headnode
 
 This is the physical server/node that controls all the other physical and
 virtual servers. It controls the provisioning and maintenance of
@@ -106,9 +101,9 @@ virtual servers. It controls the provisioning and maintenance of
 
 ## Hypervisor
 
-"A hypervisor, also called virtual machine manager (VMM), is one of many
-hardware virtualization techniques that allow multiple operating systems to run
-concurrently on a host computer." - [wikipedia](https://en.wikipedia.org/wiki/Hypervisor)
+> "A hypervisor, also called virtual machine manager (VMM), is one of many
+> hardware virtualization techniques that allow multiple operating systems to
+> run concurrently on a host computer." - [wikipedia](https://en.wikipedia.org/wiki/Hypervisor)
 
 ## IP-KVM
 
@@ -116,14 +111,14 @@ Keyboard/video/mouse.
 
 ## IaaS
 
-"Cloud infrastructure services, also known as Infrastructure as a Service
-(IaaS), deliver computer infrastructure – typically a platform virtualization
-environment – as a service. Rather than purchasing servers, software,
-data-center space or network equipment, clients instead buy those resources as
-a fully outsourced service. Suppliers typically bill such services on a utility
-computing basis; the amount of resources consumed (and therefore the cost) will
-typically reflect the level of activity. IaaS evolved from virtual private
-server offerings." - [wikipedia](https://en.wikipedia.org/wiki/IaaS)
+> "Cloud infrastructure services, also known as Infrastructure as a Service
+> (IaaS), deliver computer infrastructure – typically a platform virtualization
+> environment – as a service. Rather than purchasing servers, software,
+> data-center space or network equipment, clients instead buy those resources as
+> a fully outsourced service. Suppliers typically bill such services on a
+> utility computing basis; the amount of resources consumed (and therefore the
+> cost) will typically reflect the level of activity. IaaS evolved from virtual
+> private server offerings." - [wikipedia](https://en.wikipedia.org/wiki/IaaS)
 
 ## illumos
 
@@ -152,17 +147,12 @@ better.
 ## Logical Network
 
 A mechanism that SmartDataCenter uses to associate network segments with
-physical network adapters on the head node and on compute nodes.
+physical network adapters on the headnode and on compute nodes.
 
 ## Managed hosting
 
-"A type of Internet hosting in which the client leases an entire server not
-shared with anyone." - [wikipedia](https://en.wikipedia.org/wiki/Managed_hosting)
-
-## MAPI
-
-The Cloud Management API provides low-level access to SmartDataCenter. Every
-head node runs an instance of MAPI.
+> "A type of Internet hosting in which the client leases an entire server not
+> shared with anyone." - [wikipedia](https://en.wikipedia.org/wiki/Managed_hosting)
 
 ## NAS
 
@@ -185,17 +175,13 @@ NIC tags (network interface card/controller tags) are the physical network label
 Each active network interface port will have a MAC (media access control) from
 the NIC vendor and SDC NIC_tag.
 
-## NoSQL
-
-Non Relational Database.
-
 ## Object storage
 
-"An Object-based Storage Device (OSD) is a computer storage device, similar to
-disk storage but working at a higher level. Instead of providing a
-block-oriented interface that reads and writes fixed sized blocks of data, an
-OSD organizes data into flexible-sized data containers, called objects." -
-[wikipedia](https://en.wikipedia.org/wiki/Object_storage_device)
+> "An Object-based Storage Device (OSD) is a computer storage device, similar to
+> disk storage but working at a higher level. Instead of providing a
+> block-oriented interface that reads and writes fixed sized blocks of data, an
+> OSD organizes data into flexible-sized data containers, called objects." -
+> [wikipedia](https://en.wikipedia.org/wiki/Object_storage_device)
 
 ## OpenSolaris
 
@@ -213,17 +199,17 @@ The Operations Portal can be used to:
 
 ## Orchestration
 
-"... the automated arrangement, coordination, and management of complex computer
-systems, [middleware](https://en.wikipedia.org/wiki/Middleware), and services" -
-[wikipedia](https://en.wikipedia.org/wiki/Orchestration_(computing)). In
-cloud computing, refers to a platform for managing cloud infrastructure from
+> "... the automated arrangement, coordination, and management of complex
+> computer systems, [middleware](https://en.wikipedia.org/wiki/Middleware), and
+> services" - [wikipedia](https://en.wikipedia.org/wiki/Orchestration_(computing))
+
+In cloud computing, refers to a platform for managing cloud infrastructure from
 multiple providers.
 
 ## PaaS
 
-"Platform as a Service (PaaS) is the delivery of a computing platform and
-solution stack as a service." -
-[wikipedia](https://en.wikipedia.org/wiki/Platform_as_a_service)
+> "Platform as a Service (PaaS) is the delivery of a computing platform and
+> solution stack as a service." - [wikipedia](https://en.wikipedia.org/wiki/Platform_as_a_service)
 
 ## Package
 
@@ -250,27 +236,31 @@ Redundant Array of Independent (originally "Inexpensive") Disks.
 
 ## REST
 
-Representational State Transfer  
-[Wikipedia](https://en.wikipedia.org/wiki/Representational_State_Transfer):
-"A style of software architecture for distributed hypermedia systems such as
-the World Wide Web... REST-style architectures consist of clients and servers.
-Clients initiate requests to servers; servers process requests and return
-appropriate responses. Requests and responses are built around the transfer of
-representations of resources. A resource can be essentially any coherent and
-meaningful concept that may be addressed. A representation of a resource is
-typically a document that captures the current or intended state of a resource.
+Representational State Transfer.
 
-At any particular time, a client can either be in transition between application
-states or "at rest". A client in a rest state is able to interact with its user,
-but creates no load and consumes no per-client storage on the servers or on the
-network."
+[Wikipedia](https://en.wikipedia.org/wiki/Representational_State_Transfer):
+> "A style of software architecture for distributed hypermedia systems such as
+> the World Wide Web... REST-style architectures consist of clients and servers.
+> Clients initiate requests to servers; servers process requests and return
+> appropriate responses. Requests and responses are built around the transfer of
+> representations of resources. A resource can be essentially any coherent and
+> meaningful concept that may be addressed. A representation of a resource is
+> typically a document that captures the current or intended state of a
+> resource.
+>
+> At any particular time, a client can either be in transition between
+> application states or "at rest". A client in a rest state is able to interact
+> with its user, but creates no load and consumes no per-client storage on the
+> servers or on the network."
 
 ## SaaS
 
-Software as a Service, "a software delivery model in which software and its
-associated data are hosted centrally (typically in the cloud) and are typically
-accessed by users using a thin client, normally using a web browser over the
-Internet." - [wikipedia](https://en.wikipedia.org/wiki/Software_as_a_service)
+Software as a Service.
+
+> "A software delivery model in which software and its associated data are
+> hosted centrally (typically in the cloud) and are typically accessed by users
+> using a thin client, normally using a web browser over the Internet." -
+> [wikipedia](https://en.wikipedia.org/wiki/Software_as_a_service)
 
 ## SDC
 
@@ -329,9 +319,9 @@ machine.
 
 ## Virtualization
 
-"The creation of a virtual (rather than actual) version of something, such as a
-hardware platform, operating system, a storage device or network resources." -
-[wikipedia](https://en.wikipedia.org/wiki/Virtualization)
+> "The creation of a virtual (rather than actual) version of something, such as
+> a hardware platform, operating system, a storage device or network
+> resources." - [wikipedia](https://en.wikipedia.org/wiki/Virtualization)
 
 ## VLAN
 
@@ -348,9 +338,9 @@ operates like and appears to the system as a physical NIC." -
 
 ## VPS (Virtual Private Server)
 
-"A marketing term used by Internet hosting services to refer to a virtual
-machine for use exclusively by an individual customer of the service." -
-[wikipedia](https://en.wikipedia.org/wiki/Virtual_private_server)
+> "A marketing term used by Internet hosting services to refer to a virtual
+> machine for use exclusively by an individual customer of the
+> service." - [wikipedia](https://en.wikipedia.org/wiki/Virtual_private_server)
 
 ## ZFS
 
