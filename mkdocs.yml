@@ -75,6 +75,7 @@ nav:
         - 'Configuring SMB in SmartOS': 'configuring-smb-in-smartos.md'
         - 'Changing virtual hardware of KVM zones': 'changing-virtual-hardware-of-kvm-zones.md'
         - 'Extra Configuration Options': 'extra-configuration-options.md'
+        - 'Glossary': 'illumos-and-smartos-basics/glossary.md'
     - 'SmartOS Developers Guide':
         - 'Overview': 'smartos-developers-guide.md'
         - 'Extending smartos-live': 'extending-smartos-live.md'

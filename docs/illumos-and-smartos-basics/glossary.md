@@ -8,9 +8,14 @@
 > specifications that software programs can follow to communicate with each
 > other." - [wikipedia](https://en.wikipedia.org/wiki/Api)
 
+## Bhyve
+
+The bhyve virtual machine hypervisor. Ported to illumos from FreeBSD.
+
 ## CDN
 
-Content Delivery Network  
+Content Delivery Network
+
 > "A system of computers containing copies of data placed at various nodes of a
 > network. When properly designed and implemented, a CDN can improve access to
 > the data it caches by increasing access bandwidth and redundancy and reducing
@@ -25,13 +30,15 @@ A writable [snapshot](glossary.md#snapshot) of a file system.
 > "... a style of computing in which dynamically scalable and often virtualized
 > resources are provided as a service over the internet." - [wikipedia](https://en.wikipedia.org/wiki/Cloud_computing)
 
-The [National Institute of Standards and Technology](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf)
-(pdf):  
+The [National Institute of Standards and Technology][nist-cloud] (pdf):
+
 > "Cloud computing is a model for enabling ubiquitous, convenient,
 > on-demand network access to a shared pool of configurable computing resources
 > (e.g., networks, servers, storage, applications, and services) that can be
 > rapidly provisioned and released with minimal management effort or service
 > provider interaction."
+
+[nist-cloud]: https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf
 
 ## Colocation
 
@@ -47,7 +54,8 @@ that are managed by a [headnode](glossary.md#headnode).
 
 ## CRM
 
-Customer Relationship Management  
+Customer Relationship Management
+
 > "... a widely-implemented strategy for managing a company’s interactions with
 > customers, clients and sales prospects. It involves using technology to
 > organize, automate, and synchronize business processes---principally sales
@@ -56,8 +64,8 @@ Customer Relationship Management
 
 ## Customer portal
 
-The customer portal is a reference portal that consumers can use to manage their
-[SmartMachine](glossary.md#smartmachine).
+The customer portal is a reference portal that consumers can use to manage
+their [instances](glossary.md#instance).
 
 ## Datacenter
 
@@ -82,11 +90,11 @@ various operating systems. See [DTrace.org](http://dtrace.org/blogs/about/)
 
 ## Endpoint
 
-A URL, the end of an API that communicates with the rest of the world.  
+A URL, the end of an API that communicates with the rest of the world.
 > "An endpoint can call and be called. It generates and terminates the
 > information stream." - [webopedia](https://www.webopedia.com/TERM/E/endpoint.html)
 
-## Global zone
+## Global Zone
 
 The native name of the system that holds all the other [zones](glossary.md#zone)
 in a [compute node](glossary.md#compute-node) or a [headnode](glossary.md#headnode)
@@ -97,13 +105,17 @@ Solaris term.
 
 This is the physical server/node that controls all the other physical and
 virtual servers. It controls the provisioning and maintenance of
-[SmartMachines](glossary.md#smartmachine) and Virtual Machines.
+[instances](glossary.md#instance).
 
 ## Hypervisor
 
 > "A hypervisor, also called virtual machine manager (VMM), is one of many
 > hardware virtualization techniques that allow multiple operating systems to
 > run concurrently on a host computer." - [wikipedia](https://en.wikipedia.org/wiki/Hypervisor)
+
+## Instances
+
+A single virtual execution environment. This can be a zone, or virtual machine.
 
 ## IP-KVM
 
@@ -122,7 +134,8 @@ Keyboard/video/mouse.
 
 ## illumos
 
-An operating system derived from Sun Microsystems' [OpenSolaris](https://en.wikipedia.org/wiki/Opensolaris).
+An operating system derived from Sun Microsystems'
+[OpenSolaris](https://en.wikipedia.org/wiki/Opensolaris).
 
 ## Kernel
 
@@ -133,7 +146,8 @@ on the system.
 ## KVM
 
 Kernel virtual machine: a virtual machine implementation using the operating
-system's kernel. - [wikipedia](https://en.wikipedia.org/wiki/Kernel-based_Virtual_Machine)
+system's kernel. Ported to illumos from Linux. -
+[wikipedia](https://en.wikipedia.org/wiki/Kernel-based_Virtual_Machine)
 
 ## LAN
 
@@ -149,6 +163,13 @@ better.
 A mechanism that SmartDataCenter uses to associate network segments with
 physical network adapters on the headnode and on compute nodes.
 
+## LX
+
+**LX** refers to an `lx` brand zone. LX zones use system call translation to
+execute native Linux binaries on an illumos kernel. LX zones also have the
+SmartOS system mounted under `/native`, and can execute any native SmartOS
+binary. Linux binaries cannot execute in the global zone or native zones.
+
 ## Managed hosting
 
 > "A type of Internet hosting in which the client leases an entire server not
@@ -157,6 +178,13 @@ physical network adapters on the headnode and on compute nodes.
 ## NAS
 
 Network-attached storage.
+
+## Native Zone
+
+A native zone a [SmartOS](glossary.md#smartos) `joyent` brand zone.
+Native zones share `/` and `/usr` from the
+[compute node's](glossary.md#compute-node) global zone. Users store their
+files in a dataset that belongs exclusively to a particular zone.
 
 ## Network virtualization
 
@@ -170,10 +198,10 @@ Network Interface Card (or Controller).
 
 ## NIC tags
 
-NIC tags (network interface card/controller tags) are the physical network label
-(a name not a number) that is associated with an active network interface port.
-Each active network interface port will have a MAC (media access control) from
-the NIC vendor and SDC NIC_tag.
+NIC tags (network interface card/controller tags) are the physical network
+label (a name not a number) that is associated with an active network interface
+port.  Each active network interface port will have a MAC (media access
+control) from the NIC vendor and SDC NIC_tag.
 
 ## Object storage
 
@@ -193,9 +221,9 @@ The Operations Portal is a web application that allows administrators to manage
 a [datacenter](glossary.md#datacenter).
 The Operations Portal can be used to:
 
-- Manage data centers, racks, physical servers, and SmartMachines
-- Provision SmartMachines for new and existing customers
-- Maintain accounts of customers, compute nodes, SmartMachine, and IP addresses
+- Manage data centers, racks, physical servers, and instances
+- Provision instances for new and existing customers
+- Maintain accounts of customers, compute nodes, instances, and IP addresses
 
 ## Orchestration
 
@@ -270,17 +298,9 @@ SmartDataCenter.
 
 Service Level Agreement.
 
-## SmartMachine
-
-A SmartMachine a [SmartOS](glossary.md#smartos) zone created by Joyent.
-SmartMachines share / and /usr from the [compute node's](glossary.md#compute-node)
-global zone. Users store their files in a dataset that belongs exclusively to
-a particular SmartMachine.
-
 ## SmartOS
 
-SmartOS is a Joyent-developed live image-based operating system derived from
-the OpenSolaris 147 build.
+SmartOS is an illumos-based cloud native operating system developed by Joyent.
 
 ## Snapshot
 
@@ -288,10 +308,6 @@ A snapshot is a copy of an entire file system at a particular point in time.
 SmartOS uses copy-on-write snapshotting. (The initial snapshot is empty. When
 blocks are about to be written on the original volume, the original data is
 copied to the snapshot)
-
-## TLA
-
-Three Letter Acronym.
 
 ## Template
 
