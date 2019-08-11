@@ -1,11 +1,11 @@
 # dtrace.conf 2012 - ZFS DTrace Provider
 
 <!-- markdownlint-disable no-inline-html -->
-
 <div class="youtube-player">
   <iframe type="text/html" src="https://www.youtube.com/embed/m_V7yrrn49Y"
     frameborder="0" allowfullscreen></iframe>
 </div>
+<!-- markdownlint-enable no-inline-html -->
 
 Matt Ahrens and George Wilson of Delphix.
 

@@ -1,12 +1,12 @@
 # Community History
 
 <!-- markdownlint-disable no-inline-html -->
-<!-- markdownlint-disable no-trailing-punctuation -->
-
 <div class="youtube-player">
   <iframe type="text/html" src="https://www.youtube.com/embed/-zRN7XLCRhc"
     frameborder="0" allowfullscreen></iframe>
 </div>
+<!-- markdownlint-enable no-inline-html -->
+<!-- markdownlint-disable no-trailing-punctuation -->
 
 ## Yes, this is relevant!
 
@@ -404,7 +404,9 @@ hammer-swinging butt-kickers who attended!
 A video I (Deirdré) made just before leaving Oracle for Joyent,
 featuring many of the people mentioned above.
 
+<!-- markdownlint-disable no-inline-html -->
 <div class="youtube-player">
   <iframe type="text/html" src="https://www.youtube.com/embed/UHOBoWJHTyc"
     frameborder="0" allowfullscreen></iframe>
 </div>
+<!-- markdownlint-enable no-inline-html -->

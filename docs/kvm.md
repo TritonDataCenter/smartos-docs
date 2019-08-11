@@ -1,11 +1,11 @@
 # KVM
 
 <!-- markdownlint-disable no-inline-html -->
-
 <div class="youtube-player">
   <iframe Wtype="text/html" src="https://www.youtube.com/embed/mzz_NehKaMo"
     frameborder="0" allowfullscreen></iframe>
 </div>
+<!-- markdownlint-enable no-inline-html -->
 
 ## SmartOS: Virtualization with ZFS and KVM
 
