@@ -1,7 +1,5 @@
 # SmartOS Developers Guide
 
-<!-- markdownlint-disable no-inline-html -->
-
 An open source operating system is only as powerful and diverse as its
 community of developers. Success requires drawing upon a wide variety of
 talents, skills, and passions.  From innovative new groundbreaking
@@ -38,7 +36,9 @@ Developer.
 Tim Foster recently did a JTD on setting up a Triton & Manta development
 environment (which also covers SmartOS).
 
+<!-- markdownlint-disable no-inline-html -->
 <div class="youtube-player">
   <iframe type="text/html" src="https://www.youtube.com/embed/c2ETwKsTMAI"
     frameborder="0" allowfullscreen></iframe>
 </div>
+<!-- markdownlint-enable no-inline-html -->
