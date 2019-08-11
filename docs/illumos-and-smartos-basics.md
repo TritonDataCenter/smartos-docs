@@ -6,6 +6,7 @@ general.
 ## Books
 
 <!-- markdownlint-disable ul-indent -->
+<!-- markdownlint-disable no-inline-html -->
 <!-- markdownlint wants 2 spaces, mkdocs needs 4 spaces per level -->
 - The
   [OpenSolaris Bible](http://www.amazon.com/OpenSolaris-Bible-Wiley-Nicholas-Solter/dp/0470385480/ref=sr_1_1?s=books&ie=UTF8&qid=1318187762&sr=1-1)
@@ -57,8 +58,9 @@ general.
 
 ## Security
 
-<iframe class="youtube-player" type="text/html" style="width: 400px;
-    height: 300px" src="https://www.youtube.com/embed/0EEf9y1nwYo"
-    frameborder="0">
-</iframe>
+<div class="youtube-player">
+  <iframe type="text/html" src="https://www.youtube.com/embed/0EEf9y1nwYo"
+    frameborder="0" allowfullscreen></iframe>
+</div>
+
 Jack Adams learns why you can't Telnet into a Solaris machine.

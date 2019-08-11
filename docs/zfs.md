@@ -1,9 +1,11 @@
 # ZFS
 
-<iframe class="youtube-player" type="text/html" style="width: 400px;
-    height: 300px" src="https://www.youtube.com/embed/6F9bscdqRpo"
-    frameborder="0">
-</iframe>
+<!-- markdownlint-disable no-inline-html -->
+
+<div class="youtube-player">
+  <iframe type="text/html" src="https://www.youtube.com/embed/6F9bscdqRpo"
+    frameborder="0" allowfullscreen></iframe>
+</div>
 
 ZFS keeps your data safe and makes data and disk administration fast
 and easy by removing traditional limitations in filesystem design. It

@@ -1,9 +1,12 @@
 # dtrace.conf 2012 - ZFS DTrace Provider
 
-<iframe class="youtube-player" type="text/html" style="width: 400px;
-    height: 300px" src="https://www.youtube.com/embed/m_V7yrrn49Y"
-    frameborder="0">
-</iframe>
+<!-- markdownlint-disable no-inline-html -->
+
+<div class="youtube-player">
+  <iframe type="text/html" src="https://www.youtube.com/embed/m_V7yrrn49Y"
+    frameborder="0" allowfullscreen></iframe>
+</div>
+
 Matt Ahrens and George Wilson of Delphix.
 
 ZFS DTrace Provider
