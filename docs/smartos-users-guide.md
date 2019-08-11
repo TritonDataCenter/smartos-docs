@@ -1,5 +1,7 @@
 # SmartOS Users Guide
 
+<!-- markdownlint-disable no-inline-html -->
+
 ## SmartOS Basics
 
 - [The Joyent Linux-to-SmartOS Cheat Sheet][linux-smartos-cheatsheet]
@@ -16,17 +18,19 @@
 
 ### SmartOS, a Primer for Sysadmins
 
-<iframe class="youtube-player" type="text/html" style="width: 400px;
-    height: 300px" src="https://www.youtube.com/embed/dxZExLeJz2I"
-    frameborder="0"> </iframe>
+<div class="youtube-player">
+  <iframe type="text/html" src="https://www.youtube.com/embed/dxZExLeJz2I"
+    frameborder="0" allowfullscreen></iframe>
+</div>
 
 Ben Rockwood speaking at the BayLISA meetup at Joyent, August 16, 2012
 
 ### SmartOS Operations
 
-<iframe class="youtube-player" type="text/html" style="width: 400px;
-    height: 300px" src="https://www.youtube.com/embed/96PGoXHli3Q"
-    frameborder="0"> </iframe>
+<div class="youtube-player">
+<iframe type="text/html" src="https://www.youtube.com/embed/96PGoXHli3Q"
+    frameborder="0" allowfullscreen></iframe>
+</div>
 
 Ben Rockwood at illumos Day, Oct 2012, gives a look at tools and
 techniques for large-scale operations in a SmartOS environment, from

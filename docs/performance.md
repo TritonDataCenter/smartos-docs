@@ -1,14 +1,16 @@
 # Performance
 
+<!-- markdownlint-disable no-inline-html -->
+
 - [About Memory Usage and Capping](about-memory-usage-and-capping.md)
 - [Managing CPU Cycles in a Zone](managing-cpu-cycles-in-a-zone.md)
 
 ## Cloud Performance Training: What's in the Course
 
-<iframe class="youtube-player" type="text/html" style="width: 400px;
-    height: 300px" src="https://www.youtube.com/embed/pb95K_2Xt-0"
-    frameborder="0">
-</iframe>
+<div class="youtube-player">
+  <iframe type="text/html" src="https://www.youtube.com/embed/pb95K_2Xt-0"
+    frameborder="0" allowfullscreen></iframe>
+</div>
 
 See the
 [Course Calendar](http://www.joyent.com/developers/training-services/upcoming-courses)

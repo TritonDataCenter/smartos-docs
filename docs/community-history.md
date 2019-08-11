@@ -1,11 +1,13 @@
 # Community History
 
-<iframe class="youtube-player" type="text/html" style="width: 400px;
-  height: 300px" src="https://www.youtube.com/embed/-zRN7XLCRhc"
-  frameborder="0">
-</iframe>
-
+<!-- markdownlint-disable no-inline-html -->
 <!-- markdownlint-disable no-trailing-punctuation -->
+
+<div class="youtube-player">
+  <iframe type="text/html" src="https://www.youtube.com/embed/-zRN7XLCRhc"
+    frameborder="0" allowfullscreen></iframe>
+</div>
+
 ## Yes, this is relevant!
 
 To understand illumos and the illumos community, it helps to know the
@@ -402,7 +404,7 @@ hammer-swinging butt-kickers who attended!
 A video I (Deirdré) made just before leaving Oracle for Joyent,
 featuring many of the people mentioned above.
 
-<iframe class="youtube-player" type="text/html" style="width: 400px;
-    height: 300px" src="https://www.youtube.com/embed/UHOBoWJHTyc"
-    frameborder="0">
-</iframe>
+<div class="youtube-player">
+  <iframe type="text/html" src="https://www.youtube.com/embed/UHOBoWJHTyc"
+    frameborder="0" allowfullscreen></iframe>
+</div>
