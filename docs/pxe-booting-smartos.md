@@ -59,23 +59,23 @@ your selected platform. We'll focus on the important points of using
 each for booting SmartOS.
 
 Before we get into the guts, lets just recap for those new to
-netbooting. When you boil it all down, remove bootp and all those other
-protocols you won't notice, at its core, when you boot your server and
+netbooting. Remove bootp and all those other protocols you won't notice. 
+When you boot your server and
 tell it to PXE/Network boot, it will send a DHCP request which the
-server will answer and it will include two special things a
-"next-server" and file name. The "next-server" is your TFTP server and
-the file is the file your server will download and run from it. That
+server will answer and it will include two special things: a
+"next-server" and filename. The "next-server" is your TFTP server and
+filename is the file your server will download and run. That
 file is usually a bootloader such as Syslinux or GRUB (more correctly,
 the PXE variations of them: pxelinux or pxegrub). In our case the file
 will be the iPXE program named "undionly.kpxe". iPXE can execute scripts
 and do other net things your normal PXE client on your network card
-can't, we will use it to actually boot SmartOS which will involve
-downloading and booting the SmartOS kernel and archive from the TFTP
+can't. We will use it to actually boot SmartOS which will involve
+downloading and booting the SmartOS kernel and archive from the TFTP/HTTP
 server.
 
 #### ISC DHCP
 
-There are many tutorials on the net about configuring ISC DHCP, but
+There are many tutorials on the net about configuring ISC DHCP, but the
 important part is allowing it to execute iPXE correctly. You'll want to
 create a DHCP pool that looks similar to the following:
 
@@ -108,8 +108,8 @@ We'll assume that your TFTP root directory is **/tftpboot**. Within that
 directory, install iPXE and create a "smartos/" directory.
 
 You can download a binary distribution of iPXE here:
-[IPXE-100612_undionly.kpxe](http://cuddletech.com/IPXE-100612_undionly.kpxe).
-To use it, copy to `/tftpboot` and rename to `undionly.kpxe`.
+[undionly.kpxe](http://boot.ipxe.org/undionly.kpxe).
+To use it, copy to `/tftpboot`.
 
 To install a SmartOS release:
 
@@ -207,52 +207,6 @@ As a side benefit, you now have an excellent platform for netbooting a
 variety of OS's in a variety of configurations. If you want maximum l337
 points, use iPXE SAN Boot to boot a SmartOS ISO on iSCSI served up by a
 COMSTAR iSCSI target on ZFS!
-
-### PXEGRUB & OpenSolaris Legacy
-
-OpenSolaris traditionally was netbooted using PXEGRUB. The procedure was
-to copy the boot framework from the OpenSolaris ISO to `/tftpboot` and
-symlink `/tftpboot/I86PC.Solaris_11-XXX/grub/pxegrub` to
-`/tftpboot/nbp.SUNW.i86pc`. The grub menu would be found in
-`/tftboot/boot/grub/menu.lst`.
-
-Booting SmartOS using PXEGRUB is now obsolete. You certainly can do it
-if you wish, particularly for compatibility with existing deployments,
-but we strongly recommend using iPXE for all new deployments.
-
-For those who insist on using GRUB, here is an example GRUB
-`menu.lst`:
-
-    default=0
-    timeout=5
-
-    title SmartOS Live 64-bit
-    kernel /smartos/20121004T212912Z/platform/i86pc/kernel/amd64/unix -B smartos=true
-    module /smartos/20121004T212912Z/platform/i86pc/amd64/boot_archive
-
-    title Live 64-bit +kmdb
-      kernel /smartos/20121004T212912Z/platform/i86pc/kernel/amd64/unix -kd -B smartos=true
-      module /smartos/20121004T212912Z/platform/i86pc/amd64/boot_archive
-
-    title Live 64-bit Serial (ttyb)
-      kernel /smartos/20121004T212912Z/platform/i86pc/kernel/amd64/unix -B smartos=true,console=ttyb,ttyb-mode="115200,8,n,1,-"
-      module /smartos/20121004T212912Z/platform/i86pc/amd64/boot_archive
-
-    title Live 64-bit Serial (ttyb) +kmdb
-      kernel /smartos/20121004T212912Z/platform/i86pc/kernel/amd64/unix -kd -B smartos=true,console=ttyb,ttyb-mode="115200,8,n,1,-"
-      module /smartos/20121004T212912Z/platform/i86pc/amd64/boot_archive
-
-    title Live 64-bit Serial (ttya)
-      kernel /smartos/20121004T212912Z/platform/i86pc/kernel/amd64/unix -B smartos=true,console=ttya,ttya-mode="115200,8,n,1,-"
-      module /smartos/20121004T212912Z/platform/i86pc/amd64/boot_archive
-
-    title Live 64-bit Serial (ttya) +kmdb
-      kernel /smartos/20121004T212912Z/platform/i86pc/kernel/amd64/unix -kd -B smartos=true,console=ttya,ttya-mode="115200,8,n,1,-"
-      module /smartos/20121004T212912Z/platform/i86pc/amd64/boot_archive
-
-    title Live 64-bit Rescue (no importing zpool)
-      kernel /smartos/20121004T212912Z/platform/i86pc/kernel/amd64/unix -B standalone=true,noimport=true
-      module /smartos/20121004T212912Z/platform/i86pc/amd64/boot_archive
 
 ## Kernel Boot Options
 
