@@ -96,6 +96,31 @@ brand zones.
 
 <!-- markdownlint-enable line-length -->
 
+Use `-p` to generate parsable output, without header and with fields separated by `:`.
+Notice `nics.0.ip` to obtain ip address of first NIC.
+
+<!-- markdownlint-disable line-length -->
+
+    [root@headnode (bh1-kvm1:0) ~]# vmadm list -p -o uuid,nics.0.ip
+    ad170576-3ad3-e201-cd89-ad4260c3a3ce:10.0.0.1
+    c843e9b9-b937-c55f-c8dd-a4f6d1bb2ec0:10.0.0.2
+    a4212873-e04a-ef84-b85c-c5aea32ce5f8:10.0.0.3
+    2b99a408-7dfb-445e-cfa1-bed4e14a2509:10.0.0.4
+    d104e56e-43df-4d0f-b5ce-43f39d0fef46:10.0.0.5
+    c3a03fac-dc2c-42ba-aff7-d6fd7a36967a:10.0.0.6
+    8d01d99b-2b18-41c6-8fec-7209e2a9eef3:10.0.0.7
+    2811071a-5edc-438a-9b7b-e3b81e8829c5:10.0.0.8
+    5c12a3ef-e60c-479a-a6be-ba93712a3893:10.0.0.9
+    384de5e9-c9d9-4382-9dd3-949ab410be45:10.0.0.10
+    20de2bfc-56de-4cd9-8e25-80b017615788:10.0.0.11
+    29bdabe1-ff9e-4387-9316-39961d5dbe5c:10.0.0.12
+    a7a4cb02-210a-4ccf-9744-99e3982148b0:10.0.0.13
+    56a47549-bceb-48d7-b67e-fd390d083f09:10.0.0.14
+    1e6ea123-dca0-44e6-8c0c-34c7f543fe82:10.0.0.15
+    2508eead-dc8f-4df5-baf9-4ce6341f08ed:10.0.0.16
+
+<!-- markdownlint-enable line-length -->
+
 ## Creating new instances
 
 See:
@@ -437,7 +462,7 @@ You can do the same thing with CD-ROMs.
     [root@headnode (bh1-kvm1:0) ~]# vmadm reboot 54f1cc77-68f1-42ab-acac-5c4f64f5d6e0
     Succesfully completed reboot for 54f1cc77-68f1-42ab-acac-5c4f64f5d6e0
 
-### Delet an instance
+### Delete an instance
 
 Note: This will permenantly delete all data in that zone.
 
