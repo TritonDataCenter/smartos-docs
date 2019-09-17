@@ -49,18 +49,18 @@ The configuration breaks down in the following way:
 
 - `/`: The root filesystem is a ramdisk which you should write to
   sparingly under normal circumstances. All files written here
-  are non-persistant. This includes `/root` (the root user
+  are non-persistent. This includes `/root` (the root user
   home directory) and `/etc` with exception (see below).
 - `/usr`: This filesystem is a loopback filesystem (located in
   `/usr.lgz`) mounted read-only. This includes `/usr/local` which is
   commonly used on other OS's such as Linux (see below).
-- `/var`, `/opt`: Both these filesystems are persistant and created on
+- `/var`, `/opt`: Both these filesystems are persistent and created on
   the zpool during initial setup. Any data written here is safe.
 
   Contrary to many Linux distros, `/var/run` is tmpfs but `/var/tmp` is not.
   For temp files you want deleted on reboot, use `/tmp` or `/var/run`.
 
-- `/usbkey`: This filesystem is a persistant configuration which is
+- `/usbkey`: This filesystem is a persistent configuration which is
   applied on boot. It includes a small configuration file (config), a
   shadow file linked to `/etc/shadow`, and SSH directory linked to `/etc/ssh`.
 
