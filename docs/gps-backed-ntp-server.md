@@ -97,7 +97,7 @@ If you also want to use a GPS in the zone, uncomment those lines.
     }
 
 The `limit_priv` line is important, it allows for: higher resolution
-timers to be used, ntpd to change it's niceness, ntpd to change the hw
+timers to be used, ntpd to change its niceness, ntpd to change the hw
 clock.
 
 If you want to use a gps device you need to include it in the zone,
@@ -318,7 +318,7 @@ global zone's ntp smf manifest.
     deb=`svcprop -c -p config/debuglevel $SMF_FMRI`
 
     # Start the daemon. If debugging is requested, put it in the background,
-    # since it won't do it on it's own.
+    # since it won't do it on its own.
     if [ "$deb" -gt 0 ]; then
             /usr/sbin/ntpd ${NTPD_OPTIONS} "$@" --set-debug-level=$deb >/var
     /ntp/ntp.debug &

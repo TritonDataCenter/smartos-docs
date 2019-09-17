@@ -3,7 +3,7 @@
 SmartOS has two different virtual machine monitors: [KVM](kvm.md) and
 [Bhyve](bhyve.md), collectively referred to as **HVM**
 (**H**ardware **V**irtual **M**achine) instances. There are differences with
-the implementation, and each has it's advantages, but for the most part,
+the implementation, and each has its advantages, but for the most part,
 operators manage them in almost exactly the same way.
 
 ## Creating HVM VMs
@@ -112,7 +112,7 @@ viewer.
 
 Be aware that the VNC console service is NOT authenticated, and is intended
 to run on a private network. Typically, your SmartOS machine won't have
-it's primary interface on the internet. Please be aware of what services
+its primary interface on the internet. Please be aware of what services
 you're exposing, and apply firewall rules as necessary.
 
 RealVNC VNC Viewer will crash when connecting unless you set FullColour to

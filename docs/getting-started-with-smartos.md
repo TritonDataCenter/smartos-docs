@@ -76,7 +76,7 @@ unavailable, some HVM features will not function.
 
 ## Creating a Persistent zpool
 
-Everything on SmartOS is transient due to the nature of it's design.
+Everything on SmartOS is transient due to the nature of its design.
 That is, it does not persist across reboots and any changes made on the
 running system are destroyed as soon as the system is no longer running.
 This really is not a problem as you typically want changes to your data
