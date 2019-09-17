@@ -216,7 +216,7 @@ Here is example of what bootstrapping using the Fat Client looks like:
 ## Managing SmartOS using Chef Solo & A Web Server
 
 Chef Solo provides a means of executing cookbooks without the need for a
-Chef server. This is ideal in both very small (where its not worth the
+Chef server. This is ideal in both very small (where it's not worth the
 trouble) and very large (where a single server may be overwhelmed)
 deployments. The following is a description of the process of building a
 Chef Solo implementation similar to that used by Joyent Operations.

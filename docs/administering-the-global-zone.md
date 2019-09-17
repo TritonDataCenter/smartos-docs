@@ -139,7 +139,7 @@ Walking briefly through this XML:
    restart automatically.
 4. Finally, the manifest specifies the common name of the service and
    notes its stability as "unstable".
-   This has no real meaning, its simply an old convention indicating it
+   This has no real meaning, it's simply an old convention indicating it
    may change in the future.
 
 The method scripts that would correspond to the above manifest might
