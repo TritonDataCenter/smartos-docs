@@ -101,7 +101,7 @@ This is the real critical part, if you simple boot the VM as is, you
 will have networking in SmartOS's Global Zone but networking in zones will
 not work.
 
-This is because a vnic only allows traffic form it's MAC to make it up
+This is because a vnic only allows traffic form its MAC to make it up
 the stack.
 
 ### Retrieve the mac from your recently created zone
