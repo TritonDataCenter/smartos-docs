@@ -6,7 +6,7 @@ and AMD processors for running hardware based virutal machines.
 
 Bhyve offers a number of advantages over KVM, among them:
 
-* Better tracking of, and ingegration wth, upstream FreeBSD
+* Better tracking of, and integration wth, upstream FreeBSD
 * Higher performance for CPU, and I/O operations (including disk and
   network I/O).
 * Lower overhead, resulting in lower host CPU utilization while guests are
