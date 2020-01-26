@@ -2,7 +2,7 @@
 
 SmartOS includes the Bhyve virtual machine manager, originally ported
 from [FreeBSD](https://wiki.freebsd.org/bhyve). Bhyve supports most Intel
-and AMD processors for running hardware based virutal machines.
+and AMD processors for running hardware based virtual machines.
 
 Bhyve offers a number of advantages over KVM, among them:
 
