@@ -130,6 +130,79 @@ Before you begin, [download the image](download-smartos.md).
         gunzip smartos-$RELEASE-usb.img.gz
         dd if=smartos-$RELEASE-usb.img of=/dev/rdsk/c2t0d0p0 bs=1024k
 
+## FreeBSD
+
+1. Insert your USB key. **All data on the USB key will be replaced.**
+2. Find the USB key's disk identifier using `gpart`.
+
+        # gpart list
+        Geom name: ada0
+        modified: false
+        state: OK
+        fwheads: 16
+        fwsectors: 63
+        last: 468862087
+        first: 40
+        entries: 152
+        scheme: GPT
+        Providers:
+        1. Name: ada0p1
+           Mediasize: 209715200 (200M)
+           Sectorsize: 512
+           Stripesize: 4096
+           Stripeoffset: 0
+           Mode: r0w0e0
+           efimedia: HD(1,GPT,abb52720-44c0-11ea-a4dc-0025902dffd4,0x28,0x64000)
+           rawuuid: abb52720-44c0-11ea-a4dc-0025902dffd4
+           rawtype: c12a7328-f81f-11d2-ba4b-00a0c93ec93b
+           label: efiboot0
+           length: 209715200
+           offset: 20480
+           type: efi
+           index: 1
+           end: 409639
+           start: 40
+        2. Name: ada0p2
+
+        ... skipping
+
+        Geom name: da0
+        modified: false
+        state: OK
+        fwheads: 255
+        fwsectors: 63
+        last: 15248831
+        first: 63
+        entries: 4
+        scheme: MBR
+        Providers:
+        1. Name: da0s1
+           Mediasize: 1999564800 (1.9G)
+           Sectorsize: 512
+           Stripesize: 0
+           Stripeoffset: 307200
+           Mode: r1w1e2
+           efimedia: HD(1,MBR,00000000,0x258,0x3b9778)
+           attrib: active
+           rawtype: 12
+           length: 1999564800
+           offset: 307200
+           type: fat32lba
+           index: 1
+           end: 3905999
+           start: 600
+        Consumers:
+        1. Name: da0
+           Mediasize: 7807401984 (7.3G)
+           Sectorsize: 512
+           Mode: r1w1e3
+
+The USB device `da0` is our target. In our case it already had a partition.
+Don't mount the stick.  Copy img file using dd (may need root depending on
+your setup):
+
+        # dd if=smartos-latest-USB.img of=/dev/da0 bs=1024
+
 <!-- markdownlint-disable no-trailing-punctuation -->
 ## And then...
 <!-- markdownlint-enable no-trailing-punctuation -->
