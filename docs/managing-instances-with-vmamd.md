@@ -96,8 +96,8 @@ brand zones.
 
 <!-- markdownlint-enable line-length -->
 
-Use `-p` to generate parsable output, without header and with fields separated by `:`.
-Notice `nics.0.ip` to obtain ip address of first NIC.
+Use `-p` to generate parsable output, without header and with fields separated
+by `:`. Notice `nics.0.ip` to obtain ip address of first NIC.
 
 <!-- markdownlint-disable line-length -->
 

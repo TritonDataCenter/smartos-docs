@@ -59,7 +59,7 @@ your selected platform. We'll focus on the important points of using
 each for booting SmartOS.
 
 Before we get into the guts, lets just recap for those new to
-netbooting. Remove bootp and all those other protocols you won't notice. 
+netbooting. Remove bootp and all those other protocols you won't notice.
 When you boot your server and
 tell it to PXE/Network boot, it will send a DHCP request which the
 server will answer and it will include two special things: a
