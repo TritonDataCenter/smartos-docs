@@ -516,7 +516,7 @@ Then send
 
 <!-- markdownlint-disable line-length -->
 
-    zfs send -R zones/<uuid>@migration | ssh -c aes128-gcm@openssh.com <ip_address> 'zfs recv -d /zones
+    zfs send -R zones/<uuid>@migration | ssh -c aes128-gcm@openssh.com <ip_address> 'zfs recv -d zones
 
 <!-- markdownlint-enable line-length -->
 
