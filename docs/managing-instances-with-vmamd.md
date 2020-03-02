@@ -513,7 +513,7 @@ You'll need to create a snapshot first.
     zfs snapshot -r zones/<uuid>@migration
 
 When you send, it's preferable to [pre-load the image][managing-images] on the
-destination compute noad and send an incremental from the zone's image.  That
+destination compute node and send an incremental from the zone's image.  That
 is, the image the zone was created from (e.g., `base-64`).
 
 [managing-images]: managing-images.md
