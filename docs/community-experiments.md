@@ -27,7 +27,6 @@ on your own!
 - [Persistent root dotfiles](persistent-root-dotfiles.md)
 - [Persistent Users and RBAC in the Global Zone](persistent-users-and-rbac-in-the-global-zone.md)
 - [Platform Consolidation](platform-consolidation.md)
-- [Refer to Virtual Machines by Alias](refer-to-virtual-machines-by-alias.md)
 - [Setting up IPv6 in a Zone](setting-up-ipv6-in-a-zone.md)
 - [PXE Booting SmartOS](pxe-booting-smartos.md)
 
