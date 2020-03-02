@@ -39,6 +39,7 @@ nav:
         - 'SmartOS as a VMware Guest': 'smartos-as-a-vmware-guest.md'
         - 'SmartOS as a VirtualBox Guest': 'smartos-as-a-virtualbox-guest.md'
         - 'PXE Booting SmartOS': 'pxe-booting-smartos.md'
+        - 'Installation Walkthrough': 'install.md'
     - 'SmartOS Core Technologies':
         - 'Overview': 'smartos-core-technologies.md'
         - 'Performance': 'performance.md'
