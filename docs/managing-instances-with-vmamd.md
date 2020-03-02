@@ -512,9 +512,18 @@ You'll need to create a snapshot first.
 
     zfs snapshot -r zones/<uuid>@migration
 
-Then send
+When you send, it's preferable to [pre-load the image][managing-images] on the
+destination compute noad and send an incremental from the zone's image.  That
+is, the image the zone was created from (e.g., `base-64`).
+
+[managing-images]: managing-images.md
 
 <!-- markdownlint-disable line-length -->
+
+    zfs send -R -I zones/<image_uuid>@final zones/<uuid>@migration | ssh -c aes128-gcm@openssh.com <ip_address> 'zfs recv -d zones'
+
+If for some reason you're unable to get the image on the destination, you can
+do a full send.
 
     zfs send -R zones/<uuid>@migration | ssh -c aes128-gcm@openssh.com <ip_address> 'zfs recv -d zones'
 
@@ -525,6 +534,20 @@ particular, read up on resumable transfers. This helps if you have a large
 dataset and/or an unreliable network.
 
 [zfs-man]: https://smartos.org/man/1m/zfs
+
+You now (unfortunately) need to edit /etc/zones/index and set the zone state
+to `installed` instead of `configured`, and finally restart `vminfod`
+
+    svcadm restart vminfod
+
+The zone should be ready to boot up.
+
+Here is a demonstration of this process that manually copies the zone xml file
+and edits the zones index file.
+
+<!-- markdownlint-disable line-length -->
+<script id="asciicast-Fkm3tAFnEoKnC8IkBEjcBeuKv" src="https://asciinema.org/a/Fkm3tAFnEoKnC8IkBEjcBeuKv.js" async></script>
+<!-- markdownlint-enable line-length -->
 
 ### Using vmadm send/receive
 
