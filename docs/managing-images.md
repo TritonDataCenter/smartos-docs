@@ -217,7 +217,7 @@ image server.
 ### Importing Images Locally
 
 Typically images are downloaded from an image server, however they can
-also be imported locally using: `imgadm -m <manifest> -f <file>`
+also be imported locally using: `imgadm install -m <manifest> -f <file>`
 
 The process looks like this:
 
