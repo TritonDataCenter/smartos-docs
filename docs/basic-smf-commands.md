@@ -55,7 +55,7 @@ exposes the FMRI of the MySQL service, which is `cswmysql5`:
     $ svcs -a | grep -i mysql
     enabled  May_31  svc:/network/cswmysql5:default
 
-You ca n abbreviate an FMRI by specifying the instance name or the
+You can abbreviate an FMRI by specifying the instance name or the
 trailing portion of the service name. For example, valid abbreviations
 for `svc:/network/http:cswapache2` are:
 
@@ -261,13 +261,13 @@ Using SMF to uncover information about a service is easy.
 | Command          | Description
 | ---------------- | ----------------------------------------------------- |
 | `svcs -a`        | List all services for this SmartMachine, including disabled services. |
-| `svcs -x`        | List explanations for all services that are running but not enabled or services that are preventing another service from runn ing. |
+| `svcs -x`        | List explanations for all services that are running but not enabled or services that are preventing another service from running. |
 | `svcs -p NAME`   | List all processes for the service you specify. |
 <!-- markdownlint-enable line-length -->
 
 ## Links
 
-- Ben Rockwood's [SMF CheatSheet](http://www.cuddletech.com/blog/pivot/entry.php?id=182).
+- Ben Rockwood's [SMF CheatSheet](http://web.archive.org/web/20140728232915/http://www.cuddletech.com/blog/pivot/entry.php?id=182).
 
 ## Videos
 
