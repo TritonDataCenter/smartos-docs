@@ -1,0 +1,21 @@
+name: markdownlint
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: dependency
+      run: npm install
+
+    - name: check
+      run: make check
