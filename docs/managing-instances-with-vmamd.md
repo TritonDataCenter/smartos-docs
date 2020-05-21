@@ -545,9 +545,9 @@ The zone should be ready to boot up.
 Here is a demonstration of this process that manually copies the zone xml file
 and edits the zones index file.
 
-<!-- markdownlint-disable line-length -->
+<!-- markdownlint-disable no-inline-html line-length -->
 <script id="asciicast-Fkm3tAFnEoKnC8IkBEjcBeuKv" src="https://asciinema.org/a/Fkm3tAFnEoKnC8IkBEjcBeuKv.js" async></script>
-<!-- markdownlint-enable line-length -->
+<!-- markdownlint-enable no-inline-html line-length -->
 
 ### Using vmadm send/receive
 
