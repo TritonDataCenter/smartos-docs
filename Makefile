@@ -1,4 +1,5 @@
-export PATH:=$(PATH):$(PWD)/node_modules/.bin:$(PWD)/py-venv/bin/
+export PATH:=$(PWD)/node_modules/.bin:$(PWD)/py-venv/bin/:$(PATH)
+SHELL:=/bin/bash
 
 .PHONY: deps gh-deploy deploy
 
@@ -19,9 +20,3 @@ build:
 
 serve:
 	sh -c "mkdocs serve"
-
-gh-deploy: publish
-deploy: publish
-
-publish:
-	sh -c "mkdocs gh-deploy"
