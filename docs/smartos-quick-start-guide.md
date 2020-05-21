@@ -15,4 +15,6 @@ asciinema below to skip ahead to essential commands.
 
 View a demonstration of this process.
 
+<!-- markdownlint-disable no-inline-html -->
 <script id="asciicast-156658" src="https://asciinema.org/a/156658.js" async></script>
+<!-- markdownlint-enable no-inline-html -->

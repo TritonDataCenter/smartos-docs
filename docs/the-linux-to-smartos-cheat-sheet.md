@@ -1,10 +1,10 @@
 # The Linux-to-SmartOS Cheat Sheet
 
-The things that make a SmartMachine different from other Unix-like systems
+The things that make SmartOS different from other Unix-like systems
 generally fall in two categories:
 
-- Similar commands with different names in SmartOS.
-- Different procedures for accomplishing similar things in SmartOS.
+* Similar commands with different names in SmartOS.
+* Different procedures for accomplishing similar things in SmartOS.
 
 The following is a list of commands to help Linux users find
 equivalent commands in SmartOS and SmartMachines.  Note that some
@@ -17,9 +17,19 @@ install `top(1)`.
 
 This list is derived from <http://bhami.com/rosetta.html>
 
+## We apologize for this table
+
+This table was a mess in the old Confluence wiki, and the automated conversion
+did not go well. We'd love help with:
+
+* Cleaning this up
+* Updating the CSS to accomodate the width of the table
+* Revamping and modernizing this content
+
 ## Linux and SmartOS Commands
 
-<!-- markdownlint-disable no-inline-html no-trailing-spaces -->
+<!-- markdownlint-disable no-space-in-emphasis no-inline-html -->
+<!-- markdownlint-disable no-trailing-spaces -->
 
 <table border="1">
 <tbody>
@@ -42,12 +52,12 @@ SmartOS Virtual Instance (zone)
 *table key*
 </td>
 <td >
-*(rh)* = Red Hat, Mandrake, SUSE,...
-*(deb)* = Debian, Libranet,...
-*(fed)* = Fedora 
-*(gen)* = Gentoo 
-*(md)* = Mandrake/Mandriva
-*(SUSE)* = SUSE
+* (rh) = Red Hat, Mandrake, SUSE,...
+* (deb) = Debian, Libranet,...
+* (fed) = Fedora 
+* (gen) = Gentoo 
+* (md) = Mandrake/Mandriva
+* (SUSE) = SUSE
 </td>
 <td >
 Joyent SmartOS
@@ -170,7 +180,7 @@ parted *(if you have it)*
 cfdisk
 fdisk
 pdisk *(on a Mac)*
-*(deb)* *mac-fdisk *(on a Mac)_
+*(deb)* *mac-fdisk* (on a Mac)_
 *(md)* _diskdrake
 </td>
 <td >
