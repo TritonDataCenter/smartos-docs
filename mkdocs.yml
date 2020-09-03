@@ -71,6 +71,7 @@ nav:
         - 'Configuration Management on SmartOS':
             - 'Overview': 'configuration-management-on-smartos.md'
             - 'Persistent Configuration for the Global Zone': 'persistent-configuration-for-the-global-zone.md'
+            - 'Modifying Kernel Boot Files': 'modifying-boot-files.md'
             - 'Using Ansible': 'using-ansible.md'
             - 'Using Chef': 'using-chef.md'
             - 'Using Puppet': 'using-puppet.md'
