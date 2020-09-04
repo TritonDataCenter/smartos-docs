@@ -44,7 +44,7 @@ just that.
 
 Now we want loader to prepare this file as a bootfs module.
 
-    cat << EOF >> boot/loader.rc.local
+    cat << EOF >> boot/loader.conf.local
     etc_system_load=YES
     etc_system_type=file
     etc_system_name=/bootfs/etc/system
