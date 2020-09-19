@@ -62,7 +62,7 @@ it's being worked on in the community.
 There are [eait-images](http://imgapi.uqcloud.net/builds) with AMD KVM
 support.
 
-## If I use a USB Key to boot, how can I upgrade SmartOS safely lat er?
+## If I use a USB Key to boot, how can I upgrade SmartOS safely later?
 
 The USB key is just a FAT32 filesystem with grub installed on it. It's a
 simple delivery mechanism to get the kernel & boot archive in to memory,
@@ -98,7 +98,9 @@ VM" on [How to create an HVM VM in SmartOS](how-to-create-an-hvm-zone.md).
 ## How do I automate setting up hostnames/static networking at deploy-time for Linux datasets?
 <!-- markdownlint-enable line-length -->
 
-There's no need. Qemu handles this for you via dhcp. Just set the IP in
+When using a Linux instance with cloud-init this is handled automatically.
+
+For FreeBSD KVM instances, Qemu handles this for via dhcp. Just set the IP in
 the VM json spec.
 
 ## Where can I get more questions answered?
@@ -106,5 +108,3 @@ the VM json spec.
 \#illumos and \#joyent on irc.freenode.net.
 
 email: smartos \[at\] joyent \[dot\] com
-
-Other communications tools coming soon.
