@@ -1,19 +1,6 @@
 # Home
 
-## Search All Things SmartOS
-
-Useful information about SmartOS, illumos et al is scattered among
-a number of sources. You can now search them all at once with
-[SmartOS Search][smartos-search] (a Google custom search). On the
-results page, you'll be able to narrow down by source (list of
-current sources [here][smartos-sources] - suggestions for others welcome!).
-
-[smartos-search]: http://smartos.org/search/
-[smartos-sources]: http://smartos.org/2013/02/04/smartos-news-feb-4-2013/
-
-## VIDEO: [Introduction to SmartOS][intro-video]
-
-[intro-video]: http://smartos.org/2012/08/21/introduction-to-smartos/
+## Introduction to SmartOS
 
 Welcome to the SmartOS Documentation. Here you'll find everything
 you need to get started using SmartOS and participating in the
