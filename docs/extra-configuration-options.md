@@ -44,7 +44,7 @@ There two predefined `nic_tag`'s:
 
 | Key              | Value                 | Description |
 | ---------------- | --------------------- | ---------------------------- |
-| `root_shadow`    | &lt;password-hash&gt; | Can be set to a password hash for the root user. This setting is only used if the boot parameter `root_shadow` is not set and the file `/usbkey/s hadow` does not exist |
+| `root_shadow`    | &lt;password-hash&gt; | Can be set to a password hash for the root user. This setting is only used if the boot parameter `root_shadow` is not set and the file `/usbkey/shadow` does not exist |
 | `default_keymap` | us                    | This sets the default keycap for all local logins. Valid values/filenames can be found here: `/usr/share/lib/keytables/type_6/`. |
 
 ## Including files
