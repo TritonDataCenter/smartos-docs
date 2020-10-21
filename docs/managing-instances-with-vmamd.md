@@ -535,18 +535,18 @@ dataset and/or an unreliable network.
 
 [zfs-man]: https://smartos.org/man/1m/zfs
 
-You now (unfortunately) need to edit /etc/zones/index and set the zone state
-to `installed` instead of `configured`, and finally restart `vminfod`
+On the destination compute node, attach the zone. This will move the zone from
+`configured` to `stopped`. Note: You don't need to explictly copy or create the
+cores dataset because it gets created at attach time.
 
-    svcadm restart vminfod
+    zoneadm -z <zone_uuid> attach
 
 The zone should be ready to boot up.
 
-Here is a demonstration of this process that manually copies the zone xml file
-and edits the zones index file.
+Here is a demonstration of a manual migration.
 
 <!-- markdownlint-disable no-inline-html line-length -->
-<script id="asciicast-Fkm3tAFnEoKnC8IkBEjcBeuKv" src="https://asciinema.org/a/Fkm3tAFnEoKnC8IkBEjcBeuKv.js" async></script>
+<script id="asciicast-O4WvBHZYgronNoxurbRFud8l8" src="https://asciinema.org/a/O4WvBHZYgronNoxurbRFud8l8.js" async></script>
 <!-- markdownlint-enable no-inline-html line-length -->
 
 ### Using vmadm send/receive
@@ -560,7 +560,7 @@ Use at your own risk.
 
     vmadm send <uuid> |ssh -c aes128-gcm@openssh.com 'vmadm receive'
 
-### Re-create the cores dataset
+Re-create the cores dataset
 
 As mentioned above, you'll need to manually recreate the `cores` dataset.
 See [OS-6789](https://smartos.org/bugview/OS-6789) for more details.
@@ -571,10 +571,18 @@ See [OS-6789](https://smartos.org/bugview/OS-6789) for more details.
 
 <!-- markdownlint-enable line-length -->
 
-### Remove the Instance from the source compute node
+Remove the Instance from the source compute node
 
     # vmadm delete 54f1cc77-68f1-42ab-acac-5c4f64f5d6e0
     Successfully deleted 54f1cc77-68f1-42ab-acac-5c4f64f5d6e0
+
+Here is a demonstration of using `vmadm send`.
+
+<!-- markdownlint-disable no-inline-html line-length -->
+
+<script id="asciicast-v6dt6tQfWSWZFmEH7G611TS28" src="https://asciinema.org/a/v6dt6tQfWSWZFmEH7G611TS28.js" async></script>
+
+<!-- markdownlint-enable no-inline-html line-length -->
 
 ### Troubleshooting Migration Failure
 
