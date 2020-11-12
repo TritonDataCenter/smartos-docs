@@ -9,7 +9,7 @@ In VirtualBox, create a **New** machine. Set the OS as "Solaris 11
 64bit". Attach the ISO image to the CD-ROM drive and selecte it as the
 boot volume. Give the VM at least 2GB of RAM, preferably more.
 
-Before booting the machine, go to the "Storage Section and add another
+Before booting the machine, go to the "Storage Section" and add another
 hard disk (at least 20GB in size, preferably more) named "Zpool", VMDK
 type, for your ZFS pool.
 
