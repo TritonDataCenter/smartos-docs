@@ -47,7 +47,7 @@ technologies inherited from OpenSolaris, namely:
 - Crossbow (`dladm`) for [network virtualization][networking]
 - [Zones][zones] for virtualization and containment
 - [DTrace][dtrace] for introspection
-- [SMF][smf] for servicemanagement
+- [SMF][smf] for service management
 - RBAC/BSM for auditing and role based security
 - And more
 
