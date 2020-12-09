@@ -17,8 +17,8 @@ examples in the module documentation and on the module author's blog at:
 - [Running Ansible in the SmartOS global zone][ansible-gz]
 - [Ansible modules for SmartOS imgadm and vmadm][ansible-imgadm-vmadm]
 
-[ansible-gz]: https://blog.jasper.la/running-ansible-in-the-smartos-global-zone/
-[ansible-imgadm-vmadm]: https://blog.jasper.la/ansible-modules-for-smartos-imgadm-and-vmadm/
+[ansible-gz]: https://blog.jasper.la/posts/running-ansible-in-the-smartos-global-zone/
+[ansible-imgadm-vmadm]: https://blog.jasper.la/posts/ansible-modules-for-smartos-imgadm-and-vmadm/
 
 Thanks to Jasper Lievisse Adriaanse for writing and sharing these
 modules!
