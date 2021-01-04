@@ -129,9 +129,20 @@ are also deleted.
 ## Advertising SMB Services via Bonjour
 
 You can optionally advertise services using DNS Service Discovery and Multicast
-DNS. This helps if you have macOS clients, especially if you want to use your
-SMB share as a Time Machine target. SmartOS includes `dns-sd` as part of the
-platform image which will be used to advertise services.
+DNS (aka *Bonjour* on macOS). This helps if you have macOS clients, especially
+if you want to use your SMB share as a Time Machine target. This comes in two
+parts:
+
+1. `mdnsd` - aka, `mDNSResponder`. This responds to network requests from other
+   hosts.
+2. `dns-sd` - This is used to register services that mdnsd will then serve when
+   queried.
+
+First enable mdnsd
+
+    svcadm enable dns/multicast
+
+Which services you register will depend on how you want the system to behave.
 
 ### Advertising SMB Only
 
