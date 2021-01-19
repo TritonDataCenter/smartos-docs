@@ -1,7 +1,7 @@
 # Configuration Management on SmartOS
 
 It is highly recommended that you manage your SmartOS nodes using one of
-the available configuration management tools available. Joyent
+the configuration management tools available. Joyent
 Operations prefers Chef, however all the major tools can work with
 SmartOS. Here you will find details on getting started with those tools
 on SmartOS.
