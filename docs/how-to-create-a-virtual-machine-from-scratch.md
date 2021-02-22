@@ -109,6 +109,11 @@ ISO image the first time it comes up.
 Please note that the path for the ISO image will be the relative path of
 the ISO to the zone you are in. This is why it starts with the '/'
 
+If you are booting from an img file rather than an iso, this may not work.  
+Instead try:
+
+    vmadm boot b8ab5fc1-8576-45ef-bb51-9826b52a4651 disk=/debian.img,ide
+
 ## Use VNC to Connect to the VM
 
 The `vmadm` tool can print out the information on the VM. You can also
