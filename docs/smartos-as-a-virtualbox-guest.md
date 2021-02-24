@@ -6,7 +6,7 @@ The best method for using SmartOS under VirtualBox is to download the
 latest ISO image.
 
 In VirtualBox, create a **New** machine. Set the OS as "Solaris 11
-64bit". Attach the ISO image to the CD-ROM drive and selecte it as the
+64bit". Attach the ISO image to the CD-ROM drive and select it as the
 boot volume. Give the VM at least 2GB of RAM, preferably more.
 
 Before booting the machine, go to the "Storage Section" and add another
@@ -28,7 +28,7 @@ you use the secondary disk (likely named "c0t2d0") as your Zpool.
 The following links detail setup, configuration, and runtime of SmartOS
 within a sandboxed / self-contained VirtualBox environment.
 
-Your mileage may vary when attempting to use any of these link. Your use of
+Your mileage may vary when attempting to use any of these links. Your use of
 these links is at your own risk.
 
 ### Links
@@ -37,7 +37,7 @@ these links is at your own risk.
   and router infrastructure VM (IVM) for the SmartOS sandbox environment
 - [Intro SmartOS Setup pt2][intro-2] - Configuration of services
   infrastructure VM (IVM), including the image repository
-- [Intro SmartOS Setup pt 3][intro-3] - Install and configure of a SmartOS
+- [Intro SmartOS Setup pt 3][intro-3] - Install and configure a SmartOS
   host (cn40)
 - [Intro SmartOS Setup pt 4][intro-4] - Checking out handling and
   management of SmartOS OS VMs
