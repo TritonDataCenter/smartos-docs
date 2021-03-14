@@ -28,7 +28,7 @@ to COM1 (ttya), which in a VMware environment you do not.
 On first boot, the "SmartOS Setup" program will run.  Follow its prompts
 to do the initial setup of your machine.
 
-Do not use the first disk presented for the storage pool (c0t0d0).
+Do not use the first disk presented for the storage pool (`c0t0d0`).
 This is the boot media and overwriting it will make the machine not boot
 anymore.
 

@@ -5,7 +5,7 @@
 * [Download SmartOS VMWare VM][download-vmx] - Ready-made image for VMware.
   (Note: Do not use the first disk presented during disk selection (`c0t0d0`).
   This is the boot media and overwriting it will make the machine not boot
-  anymore.
+  anymore).
 
 [download-iso]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos-latest.iso
 [download-usb]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos-latest-USB.img.gz
