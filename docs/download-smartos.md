@@ -2,7 +2,7 @@
 
 * [Download SmartOS ISO][download-iso] - For running in Virtual Box or VMware
 * [Download SmartOS USB Image][download-usb] - For booting on real hardware
-* [Download SmartOS VMWare VM][download-vmx] - Ready-made image for VMware.
+* [Download SmartOS VMware VM][download-vmx] - Ready-made image for VMware.
   (Note: Do not use the first disk presented during disk selection (`c0t0d0`).
   This is the boot media and overwriting it will make the machine not boot
   anymore).
