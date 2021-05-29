@@ -61,7 +61,7 @@ answers - see the searchable archives
 [here](https://www.listbox.com/member/archive/184463/); sign up
 [here](http://smartos.org/smartos-mailing-list/).
 
-There's a `#smartos` room on `irc.freenode.net`, and you'll also find the
+There's a `#smartos` room on `irc.libera.chat`, and you'll also find the
 SmartOS crowd hanging out in `#illumos` and `#joyent`.
 
 ## illumos User Group

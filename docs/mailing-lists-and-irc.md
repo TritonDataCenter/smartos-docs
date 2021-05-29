@@ -27,7 +27,7 @@ IRC is a great place to interact in real time with other SmartOS users,
 and (perhaps) get quick answers to questions when you're in the middle
 of something and need advice.
 
-We can be found in the following channels on freenode.net:
+We can be found in the following channels on `irc.libera.chat`:
 
 - `#smartos`: The Official SmartOS/Triton Channel
   ([Channel Logs](http://echelog.com/logs/browse/smartos))

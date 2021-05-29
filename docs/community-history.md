@@ -377,8 +377,8 @@ Start playing around with the code: <http://src.illumos.org> or
 <https://github.com/illumos/illumos-gate>
 
 If youʼre looking for something to do or have questions, donʼt hesitate
-to ask: Mailing list: developer@lists.illumos.org IRC: \#illumos on
-irc.freenode.net
+to ask: Mailing list: developer@lists.illumos.org IRC: `#illumos` on
+`irc.libera.chat`.
 
 If you donʼt know where to go, you can always tweet or message Deirdré
 Straughan (@deirdres), Joyentʼs SmartOS/illumos community manager

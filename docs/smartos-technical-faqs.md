@@ -9,7 +9,7 @@ prompted to set a root password.  In the event that you boot SmartOS
 without importing your Zpool, you will require the default root
 password.  When using the noimport=true option, the login is root/root.
 Otherwise, the randomly generated root password for each build and can
-be found in the "SINGLE\_USER\_ROOT\_PASSWORD.(BUILD\_DATE).txt" file
+be found in the `SINGLE_USER_ROOT_PASSWORD.(BUILD_DATE).txt` file
 found in the [standard SmartOS download
 location](https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/latest.html).
 
@@ -105,6 +105,6 @@ the VM json spec.
 
 ## Where can I get more questions answered?
 
-\#illumos and \#joyent on irc.freenode.net.
+`#illumos` and `#smartos` on `irc.libera.chat`.
 
-email: smartos \[at\] joyent \[dot\] com
+email: `smartos [at] joyent [dot] com`
