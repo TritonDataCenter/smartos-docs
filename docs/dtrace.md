@@ -30,7 +30,7 @@ the overhead of gathering and presenting data.
 - [Top 10 DTrace scripts for Mac OS X][dt-beginner-03]
 - [Introducción a DTrace][dt-beginner-04] (in Spanish)
 
-[dt-beginner-01]: http://developers.sun.com/solaris/articles/dtrace_tutorial.html
+[dt-beginner-01]: https://web.archive.org/web/20120626144504/http://developers.sun.com/solaris/articles/dtrace_tutorial.html
 [dt-beginner-02]: http://www.youtube.com/watch?v=47mgwxnbM9M
 [dt-beginner-03]: http://dtrace.org/blogs/brendan/2011/10/10/top-10-dtrace-scripts-for-mac-os-x/
 [dt-beginner-04]: http://www.youtube.com/watch?v=rM48nvJiZAQ
