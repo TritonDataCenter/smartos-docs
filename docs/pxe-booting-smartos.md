@@ -13,7 +13,68 @@ system. Advantages of netbooting include:
     place which could leave you stranded on a bad upgrade. This applies
     equally to upgrades and downgrades.
 
-## The NetBoot Environment
+## Booting SmartOS Over the Internet
+
+The easiest way to boot SmartOS over the Internet is to use [iPXE][ipxe] to
+chainload SmartOS from the following URL:
+
+    https://netboot.smartos.org/smartos.ipxe
+
+This can be done either from the iPXE command line with a default iPXE image,
+or by compiling your own with an embedded script.
+
+    #!ipxe
+
+    dhcp
+    chain https://netboot.smartos.org/smartos.ipxe
+
+[ipxe]: https://ipxe.org/
+
+### netboot.xyz
+
+SmartOS is also included in the [netboot.xyz][xyz] boot menu. Selecting SmartOS
+from the netboot.xyz menu will chain load the `netboot.smartos.org` ipxe script.
+
+Whether you use a bas iPXE image or a `netboot.xyz` image is largely up to
+preference.
+
+[xyz]: https://netboot.xyz/
+
+### Booting SmartOS on Equinix Metal
+
+We also provide an enhanced iPXE script for use with Equinix Metal. This version
+loads the Equinix Metal metadata to a JSON file in the filesystem. To boot
+SmartOS on Equinix Metal set your `custom_pxe` URL to:
+
+    https://netboot.smartos.org/packet.ipxe
+
+The Equinix Metal metadata file will be at:
+
+    /system/boot/tinkerbell.json
+
+This is file contains the contents of
+`http://metadata.platformequinix.com/metadata`, and in a future release will be
+used to pre-configure SmartOS on Equinix Metal.
+
+Equinix Metal has additional documentation for running
+[SmartOS on Equinix Metal][eqm-docs].
+
+[eqm-docs]: https://metal.equinix.com/developers/guides/smart-os/
+
+## Creating a Private NetBoot Environment
+
+If for any reason you need or prefer to have your own netboot environment, or if
+you need custom options, settting up your own environment is fairly
+straightforward.
+
+First of all, you can clone and customize Joyent's
+[smartos-netboot-server][netboot-repo]. This is what we use for
+`netboot.smartos.org`.
+
+Secondly, you can add SmartOS images to an existing PXE environment, or create
+a new environment from scratch with DHCP, TFTP, and optionally HTTP(s).
+
+[netboot-repo]: https://github.com/joyent/smartos-netboot-server
 
 ### Adding SmartOS Images to an Existing PXE Environment
 
@@ -35,7 +96,7 @@ an error saying "krtld: error during initial load/link phase"; in this
 case the image make sure your path is in the proper form. The important
 point being, don't just untar the latest platform image into your TFTP
 directory and boot it, you'll have problems unless you change the
-typical "platform\_20121004T212912Z/" to simply "platform/".
+typical `platform_20121004T212912Z/` to simply `platform/`.
 
 For details on the boot parameters you may wish to pass to the kernel,
 see below.
@@ -51,6 +112,7 @@ server have the following:
 
 - A DHCP Server. We recommend ISC DHCP.
 - A TFTP Server.
+- Optionally, an HTTP server.
 - iPXE. (If you wish to use PXEGRUB directly see the appropriate
   section below.)
 
@@ -113,7 +175,7 @@ To use it, copy to `/tftpboot`.
 
 To install a SmartOS release:
 
-1. Download the latest "platform-\*" build
+1. Download the latest `platform-*` build
 2. Unpack it in `/tftboot/smartos/`
 3. Rename the "platform-(buildnumber)" directory to just the build
    number
@@ -125,7 +187,7 @@ When the above is done properly your kernel will be in (for example)
 and your boot archive will be in
 `/tftpboot/smartos/20121004T212912Z/platform/i86pc/amd64/boot_archive`.
 This is very important; the kernel and archive must contain the path
-"/platform/i86pc/kernel/amd64/unix", if you don't the PXE boot will fail
+`/platform/i86pc/kernel/amd64/unix`, if you don't the PXE boot will fail
 with an ugly error message saying "krtld: error during initial load/link
 phase"
 
@@ -146,6 +208,10 @@ to load iPXE and then let it do the heavy lifting.
 In previous steps we put iPXE ("undionly.kpxe") in our /tftpboot
 directory, added a SmartOS image and configured DHCP to use it. Now we
 simply create the iPXE script we referenced earlier to actually boot it.
+
+Note that the following examples load the kernel and `boot_archive` via TFTP.
+iPXE supports HTTP and HTTPS, which can be used instead if you prefer. Simply
+use the full URL instead of just the path.
 
 The simplest possible iPXE script would look like this:
 
@@ -216,7 +282,7 @@ would be comma-delimited following "-B", as seen in examples above.
 - `smartos=`: If set true and `/usbkey/shadow` is present, it will
   use the root password within `/usbkey/shadow`
 - `root_shadow=`: A root password hash as would be found
-  in /etc/shadow. If present, and "smartos=" is not present, this will
+  in /etc/shadow. If present, and `smartos=` is not present, this will
   override the default platform password in `/usbkey/shadow`
 - `hostname=`: Set the hostname
 - `noimport=true`: Don't import the Zpool
