@@ -44,8 +44,8 @@ got it to work with a few caveats.
 
 Substitude your own pool and paths below (my VM is called **muon**)
 
-    pfexec create -o quota=25G core/vms/hosts/muon
-    pfexec create -V 20G -o compression=lz4 core/vms/hosts/muon/disk0
+    pfexec zfs create -o quota=25G core/vms/hosts/muon
+    pfexec zfs create -V 20G -o compression=lz4 core/vms/hosts/muon/disk0
 
 `muon.json`
 
