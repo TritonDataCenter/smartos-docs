@@ -59,55 +59,59 @@ There are a few known hardware related issues with illumos.
   their C-States. SmartOS has worked around them, but you should
   consider disabling them in your BIOS.
 
-"SmartOS/Triton" Specific Known issues
+SmartOS/Triton
 
 - SmartOS depends upon the hardware bios serial number in order to
   generate a UUID on boot; which is then assigned to a given compute
-  node. (As displayed by the `sysinfo` command) In some rare cases,
-  such as with the "Dell PowerEdge c6100" blade-type line of servers,
-  the chassis sometimes incorrectly assigns the same serial number
-  across all of the blades installed in the same unit. This can cause
-  issues for some software such as "Triton Datacenter", "VMware ESXi",
-  as well as others that directly rely on the chassis serial number to
-  be entirely unique.
+  node. (As displayed by the `sysinfo` command) In some rare cases, such
+  as with the "Dell PowerEdge c6100" blade-type line of servers, the
+  chassis sometimes incorrectly assigns the same serial number across
+  all of the blades installed in the same unit. This can cause issues
+  for some software such as "Triton Datacenter" that directly rely upon
+  the chassis serial number and the subsequent UUID generated on boot
+  by SmartOS, to be entirely unique.
 
-  In the case of "Triton Data Center" and the "Dell c6100", 1 compute
-  node, will be properly detected by "cnapi" and consequently, the
-  "Operator Portal", while the others will quietly PXE boot and never
-  be detected by Triton. To determine if this is the cause of your
-  issue, simply ssh into each of the compute nodes in question, and
-  run: `sysinfo | json UUID`. If more than 1 compute node share the
-  same UUID then this is probably the cause of the issue. You can
-  also verify the serial number matches on each node with:
+  Example:
 
-      `ipmitool fru print 0`
+  In the case of "Triton Data Center" and the aforementioned, "Dell
+  c6100" chassis, 1 compute node (blade/sled), will be properly detected
+  by "cnapi" and consequently, the "Operator Portal" on boot, while the
+  other 3 quietly PXE boot without detection by Triton. To determine if
+  a duplicate server UUID is the cause of your issue, simply ssh into
+  each of the compute nodes in question, and run: `sysinfo | json UUID`.
+  If more than 1 compute node share the same UUID, then a duplicate
+  serial number is likely the cause of the issue. You can also verify
+  the duplicate serial numbers on each node with the following:
 
-  you should receive output like the following:
+  `ipmitool fru print 0`
 
-   `Chassis Type          : Rack Mount Chassis
-    Chassis Part Number   :    
-    Chassis Serial        :          
+  You should receive output resembling this:  
+
+    Chassis Type          : Rack Mount Chassis
+    Chassis Part Number   :
+    Chassis Serial        :  
     Board Mfg Date        : Wed Nov  7 02:43:00 2012
     Board Mfg             : Dell Inc.
-    Board Product         : PowerEdge
+    Board Product         : PowerEdge  
     Board Serial          : CN0D61XP747512B60255A08
     Board Part Number     : 282BNP0616
     Product Manufacturer  : Dell Inc.
     Product Name          : C6100
-    Product Part Number   :    
-    Product Version       :    
-    Product Serial        : DB3KYV1  
-    Product Asset Tag`
-
+    Product Part Number   :
+    Product Version       :
+    Product Serial        : DB3KYV1
+    Product Asset Tag:
 
   To work around the issue, you must set a unique serial number for
   each compute node using `ipmitool`. SmartOS compute nodes come with
   `ipmitool` preinstalled so this is as easy as:
 
   1. SSH to the affected compute node
-  2. On your local machine, randomly generate, as unicast as possible,
+  2. On your local desktop, randomly generate, as unicast as possible,
   a new serial number. In my scenario I simply used `pwgen` on my Mac
-  to generate a 7 digit, random, alpha-numeric string.
+  to generate a 7 digit, random, alpha-numeric string. But you can
+  probably use "/dev/urandom", python, openssl or a myriad of other
+  tools to achieve the same result.
       `pwgen -sB 7 1`
   3. On each node run the following three commands:
       `ipmitool fru edit 0 field c 1 <NEW_SERIAL>`
