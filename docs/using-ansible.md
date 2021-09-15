@@ -2,8 +2,8 @@
 
 Ansible has two SmartOS specific modules:
 
-- [imgadm](http://docs.ansible.com/ansible/latest/imgadm_module.html)
-- [vmadm](http://docs.ansible.com/ansible/latest/vmadm_module.html)
+- [imgadm](https://docs.ansible.com/ansible/latest/collections/community/general/imgadm_module.html)
+- [vmadm](https://docs.ansible.com/ansible/latest/collections/community/general/vmadm_module.html)
 
 To run these you need python 2 in the global zone. This doesn't exist on
 SmartOS, so an easy way is to use pkgsrc to install it. See the
