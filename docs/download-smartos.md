@@ -34,7 +34,7 @@ SmartOS][getting-started] guide for information on getting up to speed
 quickly and refer to one of the following pages applicable to your
 preferred installation type:
 
-[getting-started]: getting-started
+[getting-started]: getting-started-with-smartos.md
 
 * [Creating a SmartOS Bootable USB Key][create-usb]
 * [SmartOS as a VMware Guest][vmware-guest]
