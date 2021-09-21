@@ -48,12 +48,12 @@ concepts and you can use them in whichever order is best for you.
 
 Many of the tools and cookbooks referenced on this page can be found in
 the
-[joyent/smartos\_cookbooks](https://github.com/joyent/smartos_cookbooks)
+[`joyent/smartos_cookbooks`](https://github.com/joyent/smartos_cookbooks)
 Github repository.
 
 For cookbooks and scripts to be used with SmartMachines/Zones, please
 refer to the
-[joyent/smartmachine\_cookbooks](https://github.com/joyent/smartmachine_cookbooks)
+[`joyent/smartmachine_cookbooks`](https://github.com/joyent/smartmachine_cookbooks)
 repo.
 
 ## Installing Chef
@@ -67,13 +67,16 @@ Solaris.
 **Please note that this client distribution is not official or supported
 by either Chef, illumos, or Joyent.**
 
-We offer two version of the distribution: a plain tarball, and a pkgsrc
-package you can install with `pkg_add` or add to your own pkgsrc repo.
+Due to licensing changes, `13.7.6` is the last version that will be provided.
+This bundle has patched a bug in package handling.
 
-- [tarball](http://us-east.manta.joyent.com/illumos/public/chef/chef-12.18.31-1.sunos.tar.gz)
-- [package](http://us-east.manta.joyent.com/illumos/public/chef/pkgin/chef-12.18.31-1.tgz)
+- <https://us-east.manta.joyent.com/smartos/public/3rd-party/chef/chef-13.7.16-1a.sunos.tar.gz>
 
-The package installs itself to `/opt/chef`.
+To extract the tarball, run
+
+    tar zxf chef-13.7.16-1a.sunos.tar.gz -C /opt
+
+Chef will be located in `/opt/chef`.
 
 ### Installation via pkgsrc and gem
 
@@ -106,11 +109,11 @@ both keys, copy them into the `/.chef/` directory.
     benr@magnolia:~$ cp Downloads/*.pem ~/.chef
 
 Next we need to download some cookbooks. Get a head start by pulling the
-[smartos\_cookbooks](https://github.com/joyent/smartos_cookbooks)
+[`smartos_cookbooks`](https://github.com/joyent/smartos_cookbooks)
 repository from Github. The cookbook root is
-`smartos\_cookbooks/cookbooks`. You'll want to then update your Knife
+`smartos_cookbooks/cookbooks`. You'll want to then update your Knife
 configuration to use this directory as your cookbook path, by modifying
-the "cookbook\_path" line in `\~/.chef/knife.rb`.
+the `cookbook_path` line in `~/.chef/knife.rb`.
 
     benr@magnolia:~/git$ git clone https://github.com/joyent/smartos_cookbooks.git
     Cloning into 'smartos_cookbooks'...
@@ -223,7 +226,7 @@ Chef Solo implementation similar to that used by Joyent Operations.
 
 At a high level, the process will look like this:
 
-1. Fork the smartos\_cookbooks Repository
+1. Fork the `smartos_cookbooks` Repository
 2. Modify the bootstrap script to match your web server IP's and URL scheme
 3. Create one or more Node Attribute files
 4. Review, modify, or add to the Cookbooks as you wish
@@ -250,12 +253,12 @@ In your web directory you will host the following files:
     -rw-r--r--   1 benr     other         41 Sep 21 01:17 smartos.json
     -rw-r--r--   1 benr     other       234K Sep 21 01:17 smartos_cookbooks.tar.gz
 
-All but the fatclient come directly from the [smartos\_cookbooks git
+All but the fatclient come directly from the [`smartos_cookbooks` git
 repository](https://github.com/joyent/smartos_cookbooks). Clone the
-repository to your load system, then edit the `Makefile` SERVER\_DEST
-variable to the host and path where your files will be `scp`'ed to. Once
-done, you can modify and commit changes to your local repo and send them
-all to the server by simply typing "make":
+repository to your load system, then edit the `SERVER_DEST`
+variable in the `Makefile` to the host and path where your files will be
+`scp`'ed to. Once done, you can modify and commit changes to your local repo
+and send them all to the server by simply typing "make":
 
 <!-- markdownlint-disable line-length -->
 
