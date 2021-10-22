@@ -25,7 +25,7 @@
 * [All Releases, with Changelogs][changelog]
 
 [latest]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/latest.html
-[changelog]: http://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos.html
+[changelog]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos.html
 
 ## Using These Images
 

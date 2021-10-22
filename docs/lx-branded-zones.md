@@ -281,7 +281,7 @@ it doesn't work in a recent release.
 - <https://github.com/joyent/centos-lx-brand-image-builder>
 - <https://github.com/joyent/sdc-vmtools-lx-brand>
 - <https://github.com/joyent/lx-brand-image-tests>
-- <http://us-east.manta.joyent.com/jperkin/public/lximg/README>
+- <https://us-east.manta.joyent.com/jperkin/public/lximg/README>
 
 ### Joyent CI builds
 
