@@ -110,7 +110,7 @@ improve the documentation for other users in the community.
 SmartOS is a fundamental component of the [Joyent Triton Data
 Center](http://www.joyent.com/triton/) (Triton) product. Triton
 source and images are available for at no cost and powers several
-public and private clouds around the globe, namely the[Joyent Public
+public and private clouds around the globe, namely the [Joyent Public
 Cloud](http://www.joyentcloud.com) (JPC).  As you use SmartOS you
 will come across hooks that are used by Triton, such as file systems
 and services named "smartdc".
