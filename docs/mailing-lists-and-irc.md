@@ -30,11 +30,11 @@ of something and need advice.
 We can be found in the following channels on `irc.libera.chat`:
 
 - `#smartos`: The Official SmartOS/Triton Channel
-  ([Channel Logs](http://echelog.com/logs/browse/smartos))
+  ([Channel Logs](https://log.omnios.org/smartos/))
 - `#manta`: The Official Manta Channel
-  ([Channel Logs](http://echelog.com/logs/browse/manta))
+  ([Channel Logs](https://log.omnios.org/manta/))
 - `#illumos`: For discussion of the Illumos project and its
-  distributions ([Channel Logs](http://echelog.com/logs/browse/illumos))
+  distributions ([Channel Logs](https://log.omnios.org/illumos))
 - `#joyent`: People often find us here, but `#smartos` is preferred.
 
 ## Other Resources
