@@ -208,8 +208,7 @@ The process of creating a KVM image looks like this:
 2. Purge and ready the instance
 3. Halt the VM: `vmadm stop <UUID>`
 4. Snapshot the disk0 ZVol: `zfs snapshot zones/<UUID>-disk0@image`
-5. Dump & Compress the dataset: `zfs send zones/<UUID>-disk0@image | gzip
-   > image_name.zvol.gz`
+5. Dump & Compress the dataset: `zfs send zones/<UUID>-disk0@image | gzip > image_name.zvol.gz`
 
 You can now import the image locally via imgadm or transfer it to an
 image server.
