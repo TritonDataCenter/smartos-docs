@@ -1,104 +1,181 @@
 # Managing NICs
 
-## Exposing Additional NICs in the Global Zone
+## NICs and nic_tags
 
-Additional vnics can be added in the global zone. To create a vnic named
-`storage0`:
+In order for a NIC to be used in SmartOS it must be given a label called a
+`nic_tag`. The default configuration uses only one nic_tag, `admin`. Additional
+nic_tags can be created for any purpose. Broadly speaking, a nic_tag is a
+label that describes what is reachable over that nic.
 
-    # dladm create-vnic -l e1000g0 -v 128 storage0
+Some commonly used nic_tags are described in the table below:
 
-The `v 128` above creates the vnic on VLAN ID 128. For a vnic not on
-a VLAN, omit the -v option.
+| nic_tag  | Description                          |
+| -------- | ------------------------------------ |
+| admin    | The control plane for the hypervisor |
+| external | Connectivity to the global Internet  |
+| internal | Connectivity to an "intranet"        |
+| underlay | VXLAN / Software Defined Networking  |
 
-Now plumb and bring up the interface as you would any interface:
+Because nic_tags are just a text string, it can be anything you want. Nothing
+prevents you from having a `dmz` or `private`. If you use Juniper network
+hardware, you may prever `trust` and `untrust`.
 
-    ifconfig storage0 plumb
-    ifconfig storage0 inet 10.77.77.7 netmask 255.255.255.0 up
+Interfaces, both for the global zone, and for instances, are configured by
+associating them with a nic_tag.
 
-Or with a DHCP IP:
+### Configuring NICs in the global zone
 
-    ifconfig storage0 plumb
-    ifconfig storage0 dhcp
+Nictags are configured in the node config file (usually `/usbkey/config`), or
+for more complex configurations, a JSON file (usually provided during PXE boot,
+and will not be described here).
 
-### Persisting vnics across reboots
+Valid config keys:
 
-First determine the mac address of the physical nic:
+| Key Name               | Value |
+| ---------------------- | --- |
+| `<nic_tag>_nic`        | The MAC address of the physical NIC    |
+| `<nic_tag>XX_ip`       | A valid IPv4 address or `dhcp`         |
+| `<nic_tag>XX_ip6`      | A valid IPv6 address or `addrconf`     |
+| `<nic_tag>XX_mac`      | A persistent vanity MAC address        |
+| `<nic_tag>XX_mtu`      | MTU value for this nic_tag (see below) |
+| `<nic_tag>XX_netmask`  | A valid dotted decimal subnet mask     |
+| `<nic_tag>XX_gateway`  | IPv4 default gateway                   |
+| `<nic_tag>XX_gateway6` | IPv6 default gateway                   |
+| `<nic_tag>XX_vlan_id`  | VLAN ID number (`2` - `4096`)          |
 
-    # dladm show-phys -m
-    LINK         SLOT     ADDRESS            INUSE CLIENT
-    e1000g0      primary  0:c:29:18:ec:10    yes  e1000g0
+The `<nic_tag>_nic` key is the only parameter necessary to define a nic_tag. In
+general, it is not recomended that the global zone plumb an interface one very
+nic_tag.
 
-Now add the config options for storage0 to `usbkey/config`
+To configure an interface over a nic_tag, it needs to be assigned an *instance
+number*, and additional parameters as necessary. All parameters are optional,
+except that `_ip` requires `_netmask`. When using IPv6, even if a static
+address is assigned, router-advertisements will still be accepted and
+configured. Interfaces are always configured as `vnic`s. Instance numbers can
+be `0` to `99`. By default a random MAC is generated for the vnic.
 
-NOTE: the omission of the `0` in `storage\_nic` below is NOT a typo.
-That line defines a `nic_tag`. The other lines define an instance (instance 0)
-of a vnic on the hardware referenced by that `nic_tag`.
+If there are multiple nic_tags assigned to the same physical NIC, the highest
+value MTU will be used at the link-layer.
 
-    storage_nic=0:c:29:18:ec:10
-    storage0_ip=10.77.77.7
+NIC Example:
+
+    storage_nic=00:53:00:ca:b1:e5
+    storage0_ip=198.51.100.7
     storage0_netmask=255.255.255.0
-    storage0_gateway=10.77.77.1
+    storage0_gateway=198.51.100.1
     storage0_vlan_id=128
 
-You can omit the `storage0\_vlan\_id` option if you don't want
-storage0 on a VLAN. For a DHCP IP with no VLAN:
+In this example, the nic_tag `storage` is defined. One network interface will
+be created as a vnic named `storage0`.
 
-    storage0_ip=dhcp
-    storage0_netmask=...
+#### `admin` and `external`
 
-If you would like to make the changes in `usbkey/config` active
-without a reboot, you will need to make them visible to "sysinfo" by
-running the following command:
+The `admin` and `external` nic_tags are special cased in the following ways:
 
-    sysinfo -u
+* The `admin` interface is not configured using a vnic.
+* The `external` vnic does not use an instance number in the config. Instance
+  `0` is assumed. E.g., `external_ip` will create vnic `external0`.
 
-Exposing Additional NICs in VMs
+### LACP NIC aggregation
 
-Additional physical NICs can be exposed to the VMs, via VNICs, running
-under your SmartOS hypervisor.
+Multiple NICs can be aggregated together to form a single virtual data-link.
+Linux calls this *bonding*. In order for aggregations to be created, the
+port on the network switch must also be configured for LACP.
 
-First determine the mac address of the physical nic:
+To create an aggregation, use the following syntax:
 
-    # dladm show-phys -m
-    LINK         SLOT     ADDRESS            INUSE CLIENT
-    e1000g1      primary  8:0:27:19:64:7d    no   --
-    e1000g0      primary  8:0:27:ac:2:fc     yes  e1000g0
+    <name>X_aggr=<mac1>,<nic2>
 
-In this example the mac address for the nic I want to expose is
-`8:0:27:19:64:7d` and is associated with link `e1000g1`.
+You can then assign nic_tags to the aggregation instead of to a physical NIC.
 
-Next, modify `/usbkey/config` which holds the persistent network
-configuration for your hypervisor. Add the following line:
+Example:
 
-    # this line is of the form '<nic_tag>_nic=<mac_address>'
-    external_nic=8:0:27:19:64:7d
+    aggr1_aggr=00:53:00:ca:b1:e5,00:53:00:ca:b1:ed
+    external_nic=aggr1
 
-Finally in the JSON spec for your VM, reference this new tag under the
-'nics' section:
+In this example, aggregation `aggr1` is created over two physical NICs and
+the `external` nic_tag is assigned to the aggregation.
+
+### Configuring NICs in instances
+
+In the instance create payload each nic is assigned a nic_tag. If the specified
+nic_tag does not exist creating the instance will fail. See the `vmadm` man
+page for additional documentation.
+
+Example configuration:
 
     "nics": [
         {
-          "nic_tag": "admin",
-          "ip": "192.168.0.20",
-          "netmask": "255.255.255.0",
-          "gateway": "192.168.0.1"
-        },
-          {
           "nic_tag": "external",
-          "ip": "192.168.0.21",
+          "ip": "198.51.100.21",
           "netmask": "255.255.255.0",
-          "gateway": "192.168.0.1"
+          "gateway": "198.51.100.1"
           "primary": true,
           "vlan_id": 128
+        },
+        {
+          "nic_tag": "internal",
+          "ip": "192.0.2.21",
+          "netmask": "255.255.255.0",
+          "gateway": "192.0.2.1"
+          "vlan_id": 200
         }
       ]
     }
 
-This updated JSON spec will create a VM with multiple NICS, exposing the
-physical NIC tagged with external to the VM/Zone. See managing VMs with
-vmadm for more information on updating existing vms.
+## Low Level Networking Commands
 
-### Adding VRRP nics to VMs
+In addition to using the config file, networking commands may be run manually
+to investigate (or verify) the state of the network configuration or to apply
+a temporary state. At boot, networking will reflect the config file.
+
+Networking in illumos, has *data links*, *interfaces*, and *addresses*.
+
+### Data links
+
+A data-link is a physical interface, a vnic, an aggregation, or a VLAN. The
+`dladm` command is used to operate on dada links.
+
+Here are some common examples:
+
+    dladm show-phys -m # Show physical interfaces only (with MAC address)
+    dladm show-vnic    # Show VNICs only
+    dladm show-aggr    # Show link aggregations only
+    dladm show-link    # Show all data link devices
+
+See the `dladm` man page for more information.
+
+### Interfaces and Addresses
+
+An *interface* is an abstratction where addresses can be configured. Multiple
+addresses can be configured on a single interface. E.g., you can have multiple
+IPv4 and/or IPv6 addresses on a single interface.
+
+An interface is created on a data link, and has an instance number. E.g.,
+`e1000g0` or `external0`.
+
+An address object is a tag appended to the interface name. E.g., `external0/_a`.
+Every address object must be unique. Address objects (or `addrobj`s) that begin
+with `_` are assigned by the system.
+
+The `ipadm` utility is used to operate on interfaces and addresses
+Here are some common usage patterns:
+
+    ipadm show-addr       # Show configured addresses
+    ipadm create-addr ... # Configure a new address on an interface
+    ipadm show-if         # Show interface objects without address information
+
+See the `ipadm` man page for more information.
+
+### Other Commands
+
+In addition to the `dladm` and `ipadm` commands, `ifconfig` can also be used,
+which some people prefer. See the `ifconfig` man page for more information.
+
+Routing is configured using the `route` command. See the `route` man page for
+more information.
+
+## Using VRRP in Zones
 
 To provision a VM with a VRRP nic, you must set the `vrrp_vrid`
 (router ID) and `vrrp_primary_ip` attributes in that nic:
@@ -126,16 +203,17 @@ To provision a VM with a VRRP nic, you must set the `vrrp_vrid`
 
 Notes:
 
-- `vrrp\_primary\_ip` must be the IP address of one of the other
-    nics in the system, since this address will be used to send
-    router advertisements.
-- No MAC address is necessary for the VRRP nic, since its MAC address
-    will be based on the router ID
-- For the time being, the NIC with the `ip` matching the
-    `vrrp\_primary\_ip` needs to have
-    `allow\_ip\_spoofing` ([joyent-live Issue
-    136](https://github.com/joyent/smartos-live/issues/136))
-- This does not work with kvm zones
+* `vrrp_primary_ip` must be the IP address of one of the other
+  nics in the system, since this address will be used to send
+  router advertisements.
+* No MAC address is necessary for the VRRP nic, since its MAC address
+  will be based on the router ID
+* For the time being, the NIC with the `ip` matching the `vrrp_primary_ip`
+  needs to have `allow_ip_spoofing` ([smartos-live#136][sl136])
+* This does not work with kvm or bhyve zones
+* VRRP in zones is not well tested
+
+[sl136]: https://github.com/joyent/smartos-live/issues/136
 
 Logging into the VM, you can see that net0 has the VRRP flag set. The
 interface isn't up yet - that will be handled by vrrpd, which handles
@@ -177,150 +255,7 @@ ifconfig shows that net0 is now UP:
 You should now be able to ping this VM on both its primary and virtual
 IP.
 
-## Link Aggregations in the Global Zone
-
-First, determine the MAC addresses of the nics you want to include in
-the aggregation:
-
-    # dladm show-phys -m
-    LINK         SLOT     ADDRESS            INUSE CLIENT
-    e1000g0      primary  0:50:56:3d:a7:95   yes  e1000g0
-    e1000g1      primary  0:50:56:34:60:4c   yes  e1000g1
-
-Now add a `lt;aggregation name&gt;\_aggr` config key to
-`/usbkey/config`. The value of that key is a comma-separated list of the
-MAC addresses of the nics in the aggregation:
-
-    aggr0_aggr=00:50:56:34:60:4c,00:50:56:3d:a7:95
-    # The following line is optional - the LACP mode will default to "off":
-    # This needs to match the switch config
-    aggr0_lacp_mode=active
-
-    # VM nics with admin or storage nic_tags will now have their vnics creat
-    ed on the aggregation:
-    admin_nic=aggr0
-    storage_nic=aggr0
-
-    # Configure IPs as you would for regular nics
-    admin_ip=...
-    storage0_ip=...
-
-Save and reboot. Once the system is back up, you should see the
-aggregations with sysinfo:
-
-    # sysinfo | json "Link Aggregations"
-    {
-      "aggr0": {
-        "LACP mode": "active",
-        "Interfaces": [
-          "e1000g1",
-          "e1000g0"
-        ]
-      }
-    }
-
-dladm should also show the aggregation:
-
-    # dladm show-aggr
-    LINK            POLICY   ADDRPOLICY           LACPACTIVITY  LACPTIMER
-    FLAGS
-    aggr0           L4       auto                 active        short
-
-VM nics provisioned on the `admin` and `storage` nic tags will now
-be over aggregation `aggr0`
-
-To manually create a link aggregation with the `dladm create-aggr` command
-in the Global Zone without rebooting, you will first need to disable
-the `lldp/server` service. By default `lldpd` will have a lock on
-all otherwise unused devices. After you've created the aggregation,
-you can re-enable it.
-
-## Modifying the MTU
-
-By default, all VMs that do not have an explicit MTU requested have
-their VNICs match the MTU of the physical nic of their nic tag. In
-addition, any VNIC that's created has a valid range of an MTU ranging
-from 1500 to the current MTU of the physical NIC. The best way to view
-this is by running the dladm command as follows:
-
-    [root@00-0c-29-37-80-28 ~]# dladm show-linkprop -p mtu
-    LINK         PROPERTY        PERM VALUE          DEFAULT        POSSIBLE
-    e1000g0      mtu             rw   1500           1500           1500-163
-    62
-    net0         mtu             rw   1500           1500           1500
-    etherstub0   mtu             rw   9000           1500           576-9000
-
-The MTU of a physical device or VNIC only impacts the maximum MTU you
-can use on an IP interface. Even though the smallest MTU e1000g0 supports
-is 1500, the IP stack can use a lower MTU.
-
-A nic tag now has the concept of a MTU. If unset, it defaults to the
-default value of the NIC, usually 1500. The nictagadm command can be
-used to update an existing nic tag with a MTU or set one when a new one
-is created. When the system next boots, it will set the MTU of the
-physical nic to the maximum of all of the MTUs specified by the nic tags
-for that NIC. See the following examples below:
-
-    [root@headnode (rm-sf0) ~]# nictagadm add -p mtu=5000 mtu_tag0 00:50:56:3d:a7:95
-    MTU changes will not take effect until next reboot
-    [root@headnode (rm-sf0) ~]# nictagadm update -p mtu=9000 external
-    MTU changes will not take effect until next reboot
-
-### Updating the MTU for VMs
-
-vmadm has a new property 'nics.\*.mtu'. If this property is set, it will
-always try to set the MTU to the specified value when the VM is booted.
-If that MTU cannot be honored, then it will cause the boot process to
-fail explicitly rather than come up with a different MTU. If an MTU is
-not specified, then it will always default to the current MTU of the
-physical device that corresponds to the nic tag.
-
-### Updating the MTU for aggrs and global zone vnics
-
-You can also specify the MTU for an aggregation and a VNIC in the
-configuration file. Recall the storage0 and aggr0 example from earlier.
-If you wanted to set `storage0`s MTU to 9000, you would add line
-`storage0\_mtu=9000`. You also do something similar for an aggregation.
-That makes the whole stanza for our aggregation and vnic look like:
-
-    #
-    # Create an aggregation whose default MTU is 9000.
-    #
-    aggr0_aggr=00:50:56:34:60:4c,00:50:56:3d:a7:95
-    aggr0_lacp_mode=active
-    aggr0_mtu=9000
-
-    #
-    # Create a vnic storage0 with an MTU of 9000.
-    # We will have to have run nictagdm update to set the mtu on the storage nic_tag.
-    #
-    storage0_ip=10.77.77.7
-    storage0_netmask=255.255.255.0
-    storage0_gateway=10.77.77.1
-    storage0_vlan_id=128
-    storage0_mtu=9000
-
-<!-- markdownlint-disable no-trailing-punctuation -->
-## Why don't all my NICs appear in ifconfig?
-<!-- markdownlint-enable no-trailing-punctuation -->
-
-All NICs are enabled, but they aren't plumbed up in the global zone.
-
-They can be used in local zones without being plumbed in the global
-zone.
-
-NICs that aren't plumbed in the global zone will not appear in ifconfig.
-
-To show all physical NICs from the global zone:
-
-    dladm show-phys
-
-You can also plumb additional NICs in the global zone with ifconfig if
-needed, (this will not persist across reboots - see above):
-
-    ifconfig -a plumb
-
-## DHCP Support
+## Running a DHCP Server in a Zone
 
 Zone NICs will by default have dhcp hosting blocked on them and need to
 be opened up before a DHCP server will operate correctly.
@@ -369,6 +304,6 @@ mac `00:53:37:00:db:08`).
 
 ## NAT and other crazy tricks
 
-- [NAT using Etherstubs](nat-using-etherstubs.md)
-- [Gist about NAT](https://gist.github.com/2639064)
-- [Gist about etherstubs](https://gist.github.com/e18d343cde4509afaa51)
+* [NAT using Etherstubs](nat-using-etherstubs.md)
+* [Gist about NAT](https://gist.github.com/2639064)
+* [Gist about etherstubs](https://gist.github.com/e18d343cde4509afaa51)
