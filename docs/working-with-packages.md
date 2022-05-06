@@ -18,9 +18,9 @@ software en mass for OS's like ours without reinventing the wheel as
 well as allowing us to participate in and contribute to the larger
 pkgsrc community at large.
 
-pkgsrc is not present in the SmartOS global zone out of the box but can
+pkgsrc is not present by default in the SmartOS global zone but can
 be easily installed using a bootstrap. Please refer to
-[Installing pkgin][installing].
+[Installing pkgsrc-tools][installing].
 
 In SmartOS Zones, however, pkgsrc takes center stage by providing all
 the software you require from compilers to web servers to editors.
@@ -31,48 +31,49 @@ view already installed packages. Use `pkgin in somepackage` to install a
 package. All software will be installed under `/opt/local` and should
 therefore be included in your path.
 
-[installing]: https://pkgsrc.joyent.com
+[installing]: https://pkgsrc.joyent.com/illumos
 [building]: https://github.com/joyent/pkgsrc/wiki/pkgdev:setup
 
 ## Using `pkgin`
 
 <!-- markdownlint-disable line-length -->
 
-This table lists common `pkgin` commands.
+This table lists common `pkgin` commands.
 
 | Command    | Description |
 | -----------| --------------------------------------------------------- |
-| `pkgin up` | Updates the `pkgin` database. You should run this command before installing any new packages just in case. |
+| `pkgin up` | Updates the `pkgin` database. You should run this command before installing any new packages just in case. |
 | `pkgin ls` | Lists all the installed packages |
 | `pkgin av` | Lists all of the available packages |
 | `pkgin in` | Installs a package |
 | `pkgin rm` | Removes a package |
 | `pkgin se` | Searches for a package |
-| `pkgin`    | With no additional arguments, lists all of the available `pkgin` commands. |
+| `pkgin`    | With no additional arguments, lists all of the available `pkgin` commands. |
 
-For example, to install `tidy`, you run this:
+For example, to install `tidy`, you run this:
 
     sudo pkgin update
     sudo pkgin in tidy
 
 ## Directory Paths used by pkgsrc
 
-The pkgsrc utility installs files in several directories within `/opt/local`.
+The pkgsrc utility installs files into `/opt/local` (or `/opt/tools` in the
+global zone). Under this root, pkgsrc uses a fairly standard filesystem
+heirarchy layout (e.g., `bin`, `lib`, `etc`, etc.).
 
 <!-- markdownlint-disable no-inline-html -->
-<!-- If the path names below will wrap funny without this -->
 
-| Directory                            | Description |
-| -------------------------------------|-------------------------------- |
-| <span style="white-space:nowrap">`/opt/local`</span>                | This is where pkgsrc installs software including binaries, libraries, configuration files, supporting files, examples, documentation etc.  |
-| <span style="white-space:nowrap">`/opt/local/etc`</span>            | Contains configuration files.  |
-| <span style="white-space:nowrap">`/opt/local/share/examples`</span> | Example configuration files. When you add a new package, pkg src installs sample configuration f iles here, and then copies them to `/opt/local/etc` if they do not already exist.  |
-| <span style="white-space:nowrap">`/var/db/pkg`</span>               | This directory contains two directories that contain the database of installed and avail able  packages. If you delete or damage these directories, you will not be able to use the pkgsrc management tools. |
+| Directory                   | Description |
+| ----------------------------|-------------------------------- |
+| `/opt/local`<br />(`/opt/tools` in gz)               | This is where pkgsrc installs software including binaries, libraries, configuration files, supporting files, examples, documentation etc.  |
+| `/opt/local/etc`<br />(`/opt/tools/etc` in gz)            | Contains configuration files.  |
+| `/opt/local/share/examples`<br />(`/opt/tools/share/examples` in gz) | Example configuration files. When you add a new package, pkg src installs sample configuration f iles here, and then copies them to `/opt/local/etc` if they do not already exist.  |
+| `/var/db/pkg`<br />(`/opt/tools/var/db` in gz)               | This directory contains two directories that contain the database of installed and avail able  packages. If you delete or damage these directories, you will not be able to use the pkgsrc management tools. |
 
 <!-- markdownlint-enable no-inline-html -->
 
 As noted in the table above, pkgsrc copies configuration files
-into `/opt/local/etc` only if they do not already exist. That means that
+into `/opt/local/etc` only if they do not already exist. That means that
 you will not lose any custom configurations when you update, remove, or
 reinstall a pacakage. If you break your configuration file, you can
 always get a clean one from `/opt/local/share/examples`.
