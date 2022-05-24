@@ -70,7 +70,7 @@ by either Chef, illumos, or Joyent.**
 Due to licensing changes, `13.7.6` is the last version that will be provided.
 This bundle has patched a bug in package handling.
 
-- <https://us-east.manta.joyent.com/smartos/public/3rd-party/chef/chef-13.7.16-1a.sunos.tar.gz>
+- <https://us-central.manta.mnx.io/smartos/public/3rd-party/chef/chef-13.7.16-1a.sunos.tar.gz>
 
 To extract the tarball, run
 
