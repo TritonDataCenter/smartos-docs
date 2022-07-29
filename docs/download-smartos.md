@@ -1,31 +1,36 @@
 # Download SmartOS
 
-* [Download SmartOS ISO][download-iso] - For running in Virtual Box or VMware
+## Latest Release
+
+* [Download SmartOS ISO][download-iso] - For running in Virtual Box, VMware,
+  or booting hardware from read-only media.
 * [Download SmartOS USB Image][download-usb] - For booting on real hardware
+  using read/write media.
 * [Download SmartOS VMware VM][download-vmx] - Ready-made image for VMware.
   (Note: Do not use the first disk presented during disk selection (`c0t0d0`).
   This is the boot media and overwriting it will make the machine not boot
   anymore).
+* [Download SmartOS Platform Archive][download-pi] - Platform image only. This
+  is not a bootable media, but can be extracted to existing bootable
+  media such as a USB drive or a PXE server.
+* [View a list of all objects for the latest release][latest] - This includes
+  everything above, plus things like the build environment, build log,
+  default root password, etc.
 
-[download-iso]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos-latest.iso
-[download-usb]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos-latest-USB.img.gz
-[download-vmx]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos-latest.vmwarevm.tar.gz
+If you already have SmartOS installed, see [Upgrading SmartOS][upgrade].
+
+[download-iso]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos-latest.iso
+[download-usb]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos-latest-USB.img.gz
+[download-vmx]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos-latest.vmwarevm.tar.gz
+[download-pi]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/platform-latest.tgz
+[upgrade]: remotely-upgrading-a-usb-key-based-deployment.md
+[latest]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/latest.html
 
 ## Additional Downloads
 
-* [Download SmartOS (Platform Archive)][platform] - Extract this to an
-  existing USB to ["upgrade"][upgrade].
+* [All SmartOS releases][releases]
 
-[platform]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/platform-latest.tgz
-[upgrade]: remotely-upgrading-a-usb-key-based-deployment.md
-
-## Helpful Links
-
-* [All "latest" Downloads including MD5 Sums][latest]
-* [All Releases, with Changelogs][changelog]
-
-[latest]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/latest.html
-[changelog]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos.html
+[releases]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos.html
 
 ## Using These Images
 

@@ -33,7 +33,8 @@ nav:
         - 'SmartOS Technical FAQs': 'smartos-technical-faqs.md'
         - 'illumos and SmartOS Basics': 'illumos-and-smartos-basics.md'
         - 'Why SmartOS - ZFS, KVM, DTrace, Zones and More': 'why-smartos-zfs-kvm-dtrace-zones-and-more.md'
-    - 'Installing SmartOS':
+    - 'Download SmartOS': 'download-smartos.md'
+    - 'Install SmartOS':
         - 'Download SmartOS': 'download-smartos.md'
         - 'Creating a SmartOS Bootable USB Key': 'creating-a-smartos-bootable-usb-key.md'
         - 'SmartOS as a VMware Guest': 'smartos-as-a-vmware-guest.md'

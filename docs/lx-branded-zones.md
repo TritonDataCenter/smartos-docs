@@ -281,7 +281,7 @@ it doesn't work in a recent release.
 - <https://github.com/TritonDataCenter/centos-lx-brand-image-builder>
 - <https://github.com/TritonDataCenter/sdc-vmtools-lx-brand>
 - <https://github.com/TritonDataCenter/lx-brand-image-tests>
-- <https://us-east.manta.joyent.com/jperkin/public/lximg/README>
+- <https://us-central.manta.mnx.io/jperkin/public/lximg/README>
 
 ### Joyent CI builds
 
@@ -295,7 +295,7 @@ SmartOS USB stick to obtain the latest and greatest code from Joyent.
 
 You can download that platform tarball like so:
 
-    MANTA_URL=https://us-east.manta.joyent.com
+    MANTA_URL=https://us-central.manta.mnx.io
     LATEST=$(curl ${MANTA_URL}/Joyent_Dev/public/builds/platform/master-latest)
     curl -O ${MANTA_URL}${LATEST}/platform/platform-master-${LATEST##*-}.tgz
 
