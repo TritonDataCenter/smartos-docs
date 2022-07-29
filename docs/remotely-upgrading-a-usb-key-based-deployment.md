@@ -14,17 +14,17 @@ Either download directly as shown below, or copy the platform tarball
 from another location onto the machine you want to upgrade.
 
     # cd /var/tmp
-    # curl -O --insecure https://us-east.manta.joyent.com/Joyent_Dev/public/
+    # curl -O --insecure https://us-central.manta.mnx.io/Joyent_Dev/public/
     SmartOS/platform-latest.tgz
     # digest -a md5 platform-latest.tgz
     b4d64f93dc51d58adb72fcdcfa27ec37
-    # curl -O --insecure https://us-east.manta.joyent.com//Joyent_Dev/public
+    # curl -O --insecure https://us-central.manta.mnx.io//Joyent_Dev/public
     /SmartOS/20140111T020931Z/md5sums.txt
     # grep platform md5sums.txt
     b4d64f93dc51d58adb72fcdcfa27ec37 platform-20140111T020931Z.tgz
 
 The URLs and MD5 sum shown above are for example purposes only. Please see
-[this](https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/latest.html)
+[this](https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/latest.html)
 document for the correct link and expected MD5 sums.
 
 ### Find and Mount the USB Key

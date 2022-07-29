@@ -10,8 +10,8 @@ without importing your Zpool, you will require the default root
 password.  When using the noimport=true option, the login is root/root.
 Otherwise, the randomly generated root password for each build and can
 be found in the `SINGLE_USER_ROOT_PASSWORD.(BUILD_DATE).txt` file
-found in the [standard SmartOS download
-location](https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/latest.html).
+found in the
+[standard SmartOS download location](https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/latest.html).
 
 ## Where's top?
 

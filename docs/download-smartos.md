@@ -1,31 +1,34 @@
 # Download SmartOS
 
+## Latest Release
+
 * [Download SmartOS ISO][download-iso] - For running in Virtual Box or VMware
 * [Download SmartOS USB Image][download-usb] - For booting on real hardware
 * [Download SmartOS VMware VM][download-vmx] - Ready-made image for VMware.
   (Note: Do not use the first disk presented during disk selection (`c0t0d0`).
   This is the boot media and overwriting it will make the machine not boot
   anymore).
+* [Download SmartOS Platform Archive][download-pi] - Platform image only. This
+  is not a bootable media, but can be extracted to existing bootable
+  media (i.e., a USB image using the [upgrade][upgrade] guide) or to a PXE
+  server. If you configured a boot pool during setup, you can use `piadm(8)` to
+  download and install this automatically.
+* [View a list of all objects for the latest release][latest] - This includes
+  everything above, plus things like the build environment, build log,
+  default root password, etc.
 
-[download-iso]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos-latest.iso
-[download-usb]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos-latest-USB.img.gz
-[download-vmx]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos-latest.vmwarevm.tar.gz
-
-## Additional Downloads
-
-* [Download SmartOS (Platform Archive)][platform] - Extract this to an
-  existing USB to ["upgrade"][upgrade].
-
-[platform]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/platform-latest.tgz
+[download-iso]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos-latest.iso
+[download-usb]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos-latest-USB.img.gz
+[download-vmx]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos-latest.vmwarevm.tar.gz
+[download-pi]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/platform-latest.tgz
 [upgrade]: remotely-upgrading-a-usb-key-based-deployment.md
+[latest]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/latest.html
 
-## Helpful Links
+## All Releases
 
-* [All "latest" Downloads including MD5 Sums][latest]
-* [All Releases, with Changelogs][changelog]
+Or you can browse [all SmartOS releases with changelogs][changelog].
 
-[latest]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/latest.html
-[changelog]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos.html
+[changelog]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos.html
 
 ## Using These Images
 

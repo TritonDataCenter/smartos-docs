@@ -7,7 +7,7 @@ you need to get started using SmartOS and participating in the
 community. Information about what's new in recent releases can be
 found in the [SmartOS Changelog][smartos-changelog].
 
-[smartos-changelog]: https://us-east.manta.joyent.com/Joyent_Dev/public/SmartOS/smartos.html
+[smartos-changelog]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos.html
 
 ## Quick Start
 
