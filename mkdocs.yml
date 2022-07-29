@@ -1,7 +1,7 @@
 site_name: 'SmartOS Docs'
 repo_name: 'joyent/smartos-live'
-repo_url: 'https://github.com/joyent/smartos-live'
-edit_uri: '/joyent/smartos-docs/edit/master/docs/'
+repo_url: 'https://github.com/TritonDataCenter/smartos-live'
+edit_uri: '/TritonDataCenter/smartos-docs/edit/master/docs/'
 
 theme:
     name: null
@@ -93,4 +93,4 @@ nav:
         - 'Mailing Lists & IRC': 'mailing-lists-and-irc.md'
         - 'History': 'community-history.md'
         - 'Community Experiments': 'community-experiments.md'
-        - 'Edit This Documentation': 'https://github.com/joyent/smartos-docs/'
+        - 'Edit This Documentation': 'https://github.com/TritonDataCenter/smartos-docs/'
