@@ -1,6 +1,69 @@
-# Remotely Upgrading A USB Key Based Deployment
+# Upgrading SmartOS
 
-## Exercise Caution
+SmartOS is upgraded by simply booting to a new platform image. How you select
+a new platform image depends on how you have chosen to boot SmartOS.
+
+## Using `piadm` with a bootable pool
+
+Using a bootable pool is by far the easiest way to manage the platform image
+for SmartOS. If you chose to create a bootable pool at setup time, you can use
+`piadm` to install and activate new images. `piadm` will also manage boot
+loader images.
+
+If you do not have a bootable pool, see the `piadm(8)` man page for help
+creating one.
+
+To list bootable pools
+
+    piadm bootable
+
+To list currently installed platform images
+
+    piadm list
+
+To list available newer verions
+
+    piadm avail
+
+To install a newer version image.
+
+* `<platform>` can be just the platform stamp (e.g., `20200701T231659Z`) or a
+  full URL. You can also use `latest` to get the latest version.
+* `<zpool>` can be any valid bootable pool. By default, the default boot pool
+  is used.
+
+<!-- -->
+
+    piadm install <platform> <pool>
+
+To select any installed platform image
+
+    piadm activate <stamp>
+
+Here's an exmaple, with output.
+
+    [root@smartos ~]# piadm list
+    PI STAMP           BOOTABLE FILESYSTEM            BOOT IMAGE   NOW   NEXT
+    20200714T195617Z   zones/boot                     next         yes   yes
+    [root@smartos ~]# piadm -v install 20200715T192200Z
+    Installing https://example.com/PIs/platform-20200715T192200Z.tgz
+            (downloaded to /tmp/tmp.Bba0Ac)
+    Installing PI 20200715T192200Z
+    [root@smartos ~]# piadm list
+    PI STAMP           BOOTABLE FILESYSTEM            BOOT IMAGE   NOW   NEXT
+    20200714T195617Z   zones/boot                     next         yes   yes
+    20200715T192200Z   zones/boot                     none         no    no
+    [root@smartos ~]# piadm -v activate 20200715T192200Z
+    Platform Image 20200715T192200Z will be loaded on next boot,
+        WARNING:  20200715T192200Z has no matching boot image, using
+        boot image  20200714T195617Z
+    [root@smartos ~]# piadm list
+    PI STAMP           BOOTABLE FILESYSTEM            BOOT IMAGE   NOW   NEXT
+    20200714T195617Z   zones/boot                     next         yes   no
+    20200715T192200Z   zones/boot                     none         no    yes
+    [root@smartos ~]#
+
+## Upgrading a USB Image
 
 As with any operating system upgrade, there's risk involved with this
 procedure. In the event that you downloaded a bad platform tarball, or
@@ -8,7 +71,7 @@ your USB key decides to malfunction, you could be left in a state where
 your host doesn't come back online. You might want to perform the first
 upgrade locally to test the build.
 
-## Download And Verify the Platform Tarball
+### Download And Verify the Platform Tarball
 
 Either download directly as shown below, or copy the platform tarball
 from another location onto the machine you want to upgrade.
@@ -27,7 +90,7 @@ The URLs and MD5 sum shown above are for example purposes only. Please see
 [this](https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/latest.html)
 document for the correct link and expected MD5 sums.
 
-### Find and Mount the USB Key
+#### Find and Mount the USB Key
 
 The [diskinfo(1M)](https://smartos.org/man/1M/diskinfo) command displays
 information about the physical disks (or other storage devices) attached
@@ -65,13 +128,13 @@ looking for.  However, if the system is using the newer Loader-based USB
 key, then the key uses a hybrid GPT+MBR partition scheme and
 the filesystem we're looking for will be on slice 2.
 
-Legacy GRUB-based USB key example:
-
-    mount -F pcfs -o foldcase /dev/dsk/c1t0d0p1 /mnt
-
 Loader-based USB key example:
 
     mount -F pcfs -o foldcase /dev/dsk/c1t0d0s2 /mnt
+
+Legacy GRUB-based USB key example:
+
+    mount -F pcfs -o foldcase /dev/dsk/c1t0d0p1 /mnt
 
 Verify that you've mounted the correct partition by examining the
 contents of the mounted filesystem:
@@ -94,7 +157,7 @@ contents of the mounted filesystem:
 This looks to be correct for a bootable SmartOS USB key, so we'll
 proceed.
 
-### Unpack the New Platform
+#### Unpack the New Platform
 
 The warnings from 'tar' may be safely ignored.
 
@@ -124,7 +187,7 @@ We now have two 'platform' directories:
     drwxrwxrwx   1 root     root        4096 Mar 22 15:48 platform-20190424T
     233834Z
 
-### Indiana Jones Style Swap
+#### Indiana Jones Style Swap
 
 Now all that's left is to start using the new platform directory. We do
 this as one atomic operation to minimize risk. We'll also save the old
@@ -144,7 +207,7 @@ Unmount the USB key and reboot at your convenience:
     # umount /mnt
     # reboot
 
-### If Something Goes Wrong
+#### If Something Goes Wrong
 
 If you find that the new platform will not boot on your hardware, you'll
 find error messages on the console.
@@ -155,7 +218,25 @@ you've attached to a serial port instead of the text console.
 Using IPMI or a remote keyboard/video system, you'll need to instruct
 the bootloader configuration to boot the previous platform image:
 
-## Instructions for Legacy GRUB-based USB keys
+### Instructions for Loader-based USB
+
+1. When the Loader menu is displayed, press ESCAPE to enter the Loader
+command prompt.
+
+2. Issue the following command to change the default platform to the
+previous platform image:
+
+        s" /previous" set-platform
+
+3. Boot the platform
+
+        boot
+
+If you get an error message from 'krtld', it means you didn't follow the
+instructions above and decided to rename the 'platform' directory itself;
+cf. [PXE Booting SmartOS](pxe-booting-smartos.md).
+
+### Instructions for Legacy GRUB-based USB
 
 1. The first menu entry is highlighted by default, press 'e' to edit
 it.
@@ -179,21 +260,3 @@ boot/grub/menu.lst file on the USB key before unmounting it, and offered
 another menu item to boot into the old platform. In the majority of
 cases the new platform will boot just fine, so this effort was
 considered unnecessary.
-
-## Instructions for Loader-based USB key
-
-1\. When thr Loader menu is displayed, press ESCAPE to enter the Loader
-command prompt.
-
-2\. Issue the following command to change the default platform to the
-previous platform image:
-
-    s" /previous" set-platform
-
-3\. Boot the platform
-
-    boot
-
-If you get an error message from 'krtld', it means you didn't follow the
-instructions above and decided to rename the 'platform' directory itself;
-cf. [PXE Booting SmartOS](pxe-booting-smartos.md).

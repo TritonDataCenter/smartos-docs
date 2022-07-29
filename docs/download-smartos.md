@@ -10,12 +10,12 @@
   anymore).
 * [Download SmartOS Platform Archive][download-pi] - Platform image only. This
   is not a bootable media, but can be extracted to existing bootable
-  media (i.e., a USB image using the [upgrade][upgrade] guide) or to a PXE
-  server. If you configured a boot pool during setup, you can use `piadm(8)` to
-  download and install this automatically.
+  media such as a USB drive or a PXE server.
 * [View a list of all objects for the latest release][latest] - This includes
   everything above, plus things like the build environment, build log,
   default root password, etc.
+
+If you already have SmartOS installed, see [Upgrading SmartOS][upgrade].
 
 [download-iso]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos-latest.iso
 [download-usb]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos-latest-USB.img.gz
@@ -24,11 +24,11 @@
 [upgrade]: remotely-upgrading-a-usb-key-based-deployment.md
 [latest]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/latest.html
 
-## All Releases
+## Additional Downloads
 
-Or you can browse [all SmartOS releases with changelogs][changelog].
+* [All SmartOS releases][releases]
 
-[changelog]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos.html
+[releases]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos.html
 
 ## Using These Images
 
