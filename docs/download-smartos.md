@@ -74,7 +74,7 @@ For a full list of changes in each build, please refer to the
 
 SmartOS source is freely available and can be accessed on [Github][github].
 
-[github]: https://github.com/joyent/smartos-live
+[github]: https://github.com/TritonDataCenter/smartos-live
 
 For more information on SmartOS Development, please refer to the
 [SmartOS Developers Guide][dev-guide]

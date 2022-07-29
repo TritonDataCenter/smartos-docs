@@ -103,7 +103,7 @@ SmartOS is a community effort, as you explore and experiment with
 SmartOS please feel free to [edit and contribute][src] to this site to
 improve the documentation for other users in the community.
 
-[src]: https://github.com/joyent/smartos-docs/
+[src]: https://github.com/TritonDataCenter/smartos-docs/
 
 ## About Triton &amp; Joyent
 

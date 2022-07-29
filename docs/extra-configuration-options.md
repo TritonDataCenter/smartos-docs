@@ -52,7 +52,7 @@ There two predefined `nic_tag`'s:
 Files saved under `/usbkey/config.inc/` can be included. Key-value
 pairs in `/usbkey/config` are set to the path to the file relative to
 `/usbkey/config.inc/`, and do not have default values. (See
-[source code](https://github.com/joyent/smartos-overlay/blob/299446b224d04d8e7eecaac892459f32c9553795/lib/svc/method/smartdc-config#L141).)
+[source code](https://github.com/TritonDataCenter/smartos-overlay/blob/299446b224d04d8e7eecaac892459f32c9553795/lib/svc/method/smartdc-config#L141).)
 
 | Key                       |    Example Value    | Description |
 | ------------------------- | ------------------- | ----------------- |

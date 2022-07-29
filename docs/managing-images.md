@@ -228,6 +228,6 @@ The process looks like this:
 ## Serving Images
 
 If you want to run your own image repository service, see the imgapi
-[Standalone Setup](https://github.com/joyent/sdc-imgapi/blob/master/docs/operator-guide.md#standalone-setup)
+[Standalone Setup](https://github.com/TritonDataCenter/sdc-imgapi/blob/master/docs/operator-guide.md#standalone-setup)
 guide and accompanying
-[imgapi documentation](https://github.com/joyent/sdc-imgapi/blob/master/docs/index.md).
+[imgapi documentation](https://github.com/TritonDataCenter/sdc-imgapi/blob/master/docs/index.md).

@@ -213,7 +213,7 @@ Notes:
 * This does not work with kvm or bhyve zones
 * VRRP in zones is not well tested
 
-[sl136]: https://github.com/joyent/smartos-live/issues/136
+[sl136]: https://github.com/TritonDataCenter/smartos-live/issues/136
 
 Logging into the VM, you can see that net0 has the VRRP flag set. The
 interface isn't up yet - that will be handled by vrrpd, which handles

@@ -135,7 +135,7 @@ If you are running SmartOS as a guest vm then you might have networking
 issues with your zones. In order to fix this we need to create a
 bridge.
 If you look at
-<https://github.com/joyent/smartos-overlay/blob/master/lib/svc/method/net-physical#L179>
+<https://github.com/TritonDataCenter/smartos-overlay/blob/master/lib/svc/method/net-physical#L179>
 You can see that the script will create a bridge for vmare products but
 if you are using VirtualBox or Parallells then you need to do it
 manually.
@@ -162,4 +162,4 @@ done.
 ## Further Reading
 
 Those versed in JavaScript can learn a lot more by reading the
-[vmadm.js source](https://github.com/joyent/smartos-live/blob/master/src/vm/sbin/vmadm.js).
+[vmadm.js source](https://github.com/TritonDataCenter/smartos-live/blob/master/src/vm/sbin/vmadm.js).

@@ -74,7 +74,7 @@ First of all, you can clone and customize Joyent's
 Secondly, you can add SmartOS images to an existing PXE environment, or create
 a new environment from scratch with DHCP, TFTP, and optionally HTTP(s).
 
-[netboot-repo]: https://github.com/joyent/smartos-netboot-server
+[netboot-repo]: https://github.com/TritonDataCenter/smartos-netboot-server
 
 ### Adding SmartOS Images to an Existing PXE Environment
 

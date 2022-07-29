@@ -20,7 +20,7 @@ To get started with this the first things that you would do are:
 4. Go back to the smartos-live root and run gmake world and gmake live
 
 The details of what needs to go into this Makefile are below.
-[Here](https://github.com/joyent/illumos-kvm-cmd/blob/master/Makefile.joyent)
+[Here](https://github.com/TritonDataCenter/illumos-kvm-cmd/blob/master/Makefile.joyent)
 is an example of the Makefile that we use for kvm-cmd.
 
 The local projects are built after illumos-joyent and illumos-extra.

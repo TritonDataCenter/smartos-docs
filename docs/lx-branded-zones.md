@@ -230,7 +230,7 @@ D script `lxsockopt.d`
      * PROTO values can be found here:
      * https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
      * SOCKOPT values can be found here:
-     * https://github.com/joyent/illumos-joyent/blob/master/usr/src/lib/brand/lx/lx_brand/common/socket.c
+     * https://github.com/TritonDataCenter/illumos-joyent/blob/master/usr/src/lib/brand/lx/lx_brand/common/socket.c
      */
     BEGIN
     {
@@ -252,10 +252,10 @@ Or, a 1-liner
 
 [Bryan's talk and demo of sdc-docker](https://www.joyent.com/developers/videos/docker-and-the-future-of-containers-in-production)
 
-- <https://github.com/joyent/smartos-live/blob/master/src/dockerinit/README.md>
-- <https://github.com/joyent/smartos-live/commit/06610676fc05aca2938eb7b8bb07485f3709e9e3>
-- <https://github.com/joyent/illumos-joyent/commit/e7225aa358c52af4e3ba284399ea8b34fb8348df>
-- <https://github.com/joyent/sdc-docker>
+- <https://github.com/TritonDataCenter/smartos-live/blob/master/src/dockerinit/README.md>
+- <https://github.com/TritonDataCenter/smartos-live/commit/06610676fc05aca2938eb7b8bb07485f3709e9e3>
+- <https://github.com/TritonDataCenter/illumos-joyent/commit/e7225aa358c52af4e3ba284399ea8b34fb8348df>
+- <https://github.com/TritonDataCenter/sdc-docker>
 
 ## Vagrant
 
@@ -276,11 +276,11 @@ it doesn't work in a recent release.
 
 ### Creating your own zone dataset
 
-- <https://github.com/joyent/debian-lx-brand-image-builder>
-- <https://github.com/joyent/ubuntu-lx-brand-image-builder>
-- <https://github.com/joyent/centos-lx-brand-image-builder>
-- <https://github.com/joyent/sdc-vmtools-lx-brand>
-- <https://github.com/joyent/lx-brand-image-tests>
+- <https://github.com/TritonDataCenter/debian-lx-brand-image-builder>
+- <https://github.com/TritonDataCenter/ubuntu-lx-brand-image-builder>
+- <https://github.com/TritonDataCenter/centos-lx-brand-image-builder>
+- <https://github.com/TritonDataCenter/sdc-vmtools-lx-brand>
+- <https://github.com/TritonDataCenter/lx-brand-image-tests>
 - <https://us-east.manta.joyent.com/jperkin/public/lximg/README>
 
 ### Joyent CI builds

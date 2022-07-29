@@ -32,7 +32,7 @@ package. All software will be installed under `/opt/local` and should
 therefore be included in your path.
 
 [installing]: https://pkgsrc.joyent.com/illumos
-[building]: https://github.com/joyent/pkgsrc/wiki/pkgdev:setup
+[building]: https://github.com/TritonDataCenter/pkgsrc/wiki/pkgdev:setup
 
 ## Using `pkgin`
 

@@ -1,6 +1,6 @@
 # Packaging ON build products with pkgsrc
 
-[See this Makefile](https://github.com/joyent/smartos-live/blob/master/pkgsrc/Makefile)
+[See this Makefile](https://github.com/TritonDataCenter/smartos-live/blob/master/pkgsrc/Makefile)
 
 Until an `onbld` package is published
  [here](https://download.joyent.com/pub/build/pkgsrc/), if you desperately

@@ -21,8 +21,8 @@ Developer.
 - [Running SmartOS on OmniOS KVM][dev-10]
 - [Joyent Technology Discussion video series][dev-11] (updated regularly!)
 
-[dev-01]: https://github.com/joyent/smartos-live#contributing
-[dev-02]: https://github.com/joyent/smartos-live#building-smartos
+[dev-01]: https://github.com/TritonDataCenter/smartos-live#contributing
+[dev-02]: https://github.com/TritonDataCenter/smartos-live#building-smartos
 [dev-03]: extending-smartos-live.md
 [dev-04]: 3rd-party-smartos-extensions.md
 [dev-05]: community-experiments.md

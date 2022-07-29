@@ -9,7 +9,7 @@ On August 15th, 2011, Joyent
 that it had
 [ported KVM](http://smartos.org/2011/09/23/video-experiences-porting-kvm-to-smartos/)
 to its operating system, SmartOS, and was
-[open sourcing](https://github.com/joyent/smartos-live)
+[open sourcing](https://github.com/TritonDataCenter/smartos-live)
 the entire OS. You might be wondering why the world needs another
 operating system, and what's so great about this one. Well, let me explain...
 
@@ -360,7 +360,7 @@ also [run faster](http://www.joyentcloud.com/resources/benchmarks/).
 SmartOS provides the underlying features;
 [Triton](http://www.joyent.com/triton/) adds the orchestration layer
 that abstracts these concepts and operations to a GUI and/or [API
-layer](https://github.com/joyent/triton/blob/master/docs/reference.md).
+layer](https://github.com/TritonDataCenter/triton/blob/master/docs/reference.md).
 
 ### Beyond the Cloud
 

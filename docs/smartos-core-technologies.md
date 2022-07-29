@@ -75,9 +75,9 @@ to start a
 
 ## SmartOS Repositories and Docs on GitHub
 
-- [smartos-live](https://github.com/joyent/smartos-live)
-- [illumos-kvm](https://github.com/joyent/illumos-kvm)
-- [illumos-kvm-cmd](https://github.com/joyent/illumos-kvm-cmd)
+- [smartos-live](https://github.com/TritonDataCenter/smartos-live)
+- [illumos-kvm](https://github.com/TritonDataCenter/illumos-kvm)
+- [illumos-kvm-cmd](https://github.com/TritonDataCenter/illumos-kvm-cmd)
 
 ## (Open)Solaris Documentation
 

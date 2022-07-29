@@ -3,7 +3,7 @@
 ## Building a single device driver
 
 The following is based on the assumption that you have done a complete build.
-See <https://github.com/joyent/smartos-live#building-smartos>.
+See <https://github.com/TritonDataCenter/smartos-live#building-smartos>.
 
 ### Prepare the environment
 

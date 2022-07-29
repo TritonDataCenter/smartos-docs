@@ -6,8 +6,8 @@ Once upon a time Smart Data Center (SDC) was still closed source. Back
 then it made a lot of sense to segregate open source SmartOS
 functionality from closed source SDC functionality.
 The differences between the two can be seen in the differences between
-the [sample SmartOS build configuration](https://github.com/joyent/smartos-live/blob/master/sample.configure.smartos)
-and the [sample SDC platform build configuration](https://github.com/joyent/smartos-live/blob/master/sample.configure.sdc)
+the [sample SmartOS build configuration](https://github.com/TritonDataCenter/smartos-live/blob/master/sample.configure.smartos)
+and the [sample SDC platform build configuration](https://github.com/TritonDataCenter/smartos-live/blob/master/sample.configure.sdc)
 and the git repositories they reference.
 
 Now that SDC is open source, the main reason for having separate builds
@@ -44,4 +44,4 @@ SmartOS when it sees that bootparam.
 
 3. Consolidate build process (Mountain Gorilla)
 
-[Github issue for the first phase](https://github.com/joyent/sdc-platform/issues/3)
+[Github issue for the first phase](https://github.com/TritonDataCenter/sdc-platform/issues/3)

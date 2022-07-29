@@ -48,12 +48,12 @@ concepts and you can use them in whichever order is best for you.
 
 Many of the tools and cookbooks referenced on this page can be found in
 the
-[`joyent/smartos_cookbooks`](https://github.com/joyent/smartos_cookbooks)
+[`joyent/smartos_cookbooks`](https://github.com/TritonDataCenter/smartos_cookbooks)
 Github repository.
 
 For cookbooks and scripts to be used with SmartMachines/Zones, please
 refer to the
-[`joyent/smartmachine_cookbooks`](https://github.com/joyent/smartmachine_cookbooks)
+[`joyent/smartmachine_cookbooks`](https://github.com/TritonDataCenter/smartmachine_cookbooks)
 repo.
 
 ## Installing Chef
@@ -109,13 +109,13 @@ both keys, copy them into the `/.chef/` directory.
     benr@magnolia:~$ cp Downloads/*.pem ~/.chef
 
 Next we need to download some cookbooks. Get a head start by pulling the
-[`smartos_cookbooks`](https://github.com/joyent/smartos_cookbooks)
+[`smartos_cookbooks`](https://github.com/TritonDataCenter/smartos_cookbooks)
 repository from Github. The cookbook root is
 `smartos_cookbooks/cookbooks`. You'll want to then update your Knife
 configuration to use this directory as your cookbook path, by modifying
 the `cookbook_path` line in `~/.chef/knife.rb`.
 
-    benr@magnolia:~/git$ git clone https://github.com/joyent/smartos_cookbooks.git
+    benr@magnolia:~/git$ git clone https://github.com/TritonDataCenter/smartos_cookbooks.git
     Cloning into 'smartos_cookbooks'...
     remote: Counting objects: 91, done.
     remote: Compressing objects: 100% (66/66), done.
@@ -152,7 +152,7 @@ There are 2 Knife Bootstraps available for the SmartOS Global Zone, one
 using the flat client and another using PKG-SRC, which can be downloaded
 here: [SmartOS GZ Knife Bootstraps on Github][smartos-knife-bootstrap].
 
-[smartos-knife-bootstrap]: https://github.com/joyent/smartos_cookbooks/tree/master/knife_bootstrap
+[smartos-knife-bootstrap]: https://github.com/TritonDataCenter/smartos_cookbooks/tree/master/knife_bootstrap
 
 Once the bootstrap template is in place, we can use `knife bootstrap
 &lt;ip addr&gt;` to setup the node. We will pass 3 optional arguments:
@@ -254,7 +254,7 @@ In your web directory you will host the following files:
     -rw-r--r--   1 benr     other       234K Sep 21 01:17 smartos_cookbooks.tar.gz
 
 All but the fatclient come directly from the [`smartos_cookbooks` git
-repository](https://github.com/joyent/smartos_cookbooks). Clone the
+repository](https://github.com/TritonDataCenter/smartos_cookbooks). Clone the
 repository to your load system, then edit the `SERVER_DEST`
 variable in the `Makefile` to the host and path where your files will be
 `scp`'ed to. Once done, you can modify and commit changes to your local repo
