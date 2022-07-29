@@ -21,7 +21,7 @@ To list currently installed platform images
 
     piadm list
 
-To list available newer verions
+To list available newer versions
 
     piadm avail
 
