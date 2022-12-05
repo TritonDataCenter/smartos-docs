@@ -108,12 +108,12 @@ improve the documentation for other users in the community.
 ## About Triton &amp; Joyent
 
 SmartOS is a fundamental component of the [Joyent Triton Data
-Center](http://www.joyent.com/triton/) (Triton) product. Triton
+Center](http://www.tritondatacenter.com/triton/) (Triton) product. Triton
 source and images are available for at no cost and powers several
-public and private clouds around the globe, namely the [Joyent Public
-Cloud](http://www.joyentcloud.com) (JPC).  As you use SmartOS you
+public and private clouds around the globe, namely the [MNX Public
+Cloud](http://mnx.io).  As you use SmartOS you
 will come across hooks that are used by Triton, such as file systems
 and services named "smartdc".
 
 If you are interested in evaluating the full Triton Data Center
-product, please contact <sales@joyent.com>.
+product, please contact <smartos@tritondatacenter.com>.

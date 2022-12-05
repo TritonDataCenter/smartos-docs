@@ -22,7 +22,8 @@ failure.
 You will need
 
 - The latest copy of SmartOS, available from
-  <http://download.joyent.com> (release details [here](download-smartos.md))
+  <https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos.html>
+  (release details [here](download-smartos.md))
 - The ISO of your OS of choice
 - A VNC client
 

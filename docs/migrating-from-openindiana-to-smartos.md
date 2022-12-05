@@ -3,7 +3,7 @@
 ## The Goal
 
 To migrate my main [OpenIndiana](http://openindiana.org) box to
-[Joyent's](http://joyent.com) [SmartOS](http://smartos.org).
+[SmartOS](http://smartos.org).
 
 ## The Motivation
 
@@ -45,7 +45,7 @@ Under OI my zpools used the following controller and targets:
 
 I went with the latest SmartOS image available which at this time is
 `smartos-20130222T000747Z` and can be downloaded from
-[download.joyent.com](http://download.joyent.com/pub/iso/).
+[Manta](https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos.html).
 My system has problems booting from usb so I got the DVD ISO, burned it
 and booted from it.
 I chose the no-install option from the SmartOS menu to verify on which

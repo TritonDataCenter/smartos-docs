@@ -8,8 +8,8 @@ Ansible has two SmartOS specific modules:
 To run these you need python 2 in the global zone. This doesn't exist on
 SmartOS, so an easy way is to use pkgsrc to install it. See the
 instructions on the
-["64-bit tools (SmartOS GZ)"](https://pkgsrc.joyent.com/install-on-illumos/)
-tab at <https://pkgsrc.joyent.com> for doing this.
+["64-bit tools (SmartOS GZ)"](https://pkgsrc.smartos.org/install-on-illumos/)
+tab at <https://pkgsrc.smartos.org> for doing this.
 
 Once that is done, you may write plays using the 2 modules. There are
 examples in the module documentation and on the module author's blog at:

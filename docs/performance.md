@@ -13,7 +13,7 @@
 <!-- markdownlint-enable no-inline-html -->
 
 See the
-[Course Calendar](http://www.joyent.com/developers/training-services/upcoming-courses)
+[Course Calendar](http://www.tritondatacenter.com/developers/training-services/upcoming-courses)
 for upcoming offerings of this and other Joyent courses.
 
 ## Text and Video

@@ -22,7 +22,7 @@ we look at how to create your own private image server.
 
 ### Viewing & Downloading Public Images
 
-The default image server is <https://images.joyent.com>. You can edit
+The default image server is <https://images.smartos.org>. You can edit
 this list of sources using the `imgadm sources -a <URL>` command,
 as documented in [imgadm(1m)](https://smartos.org/man/1m/imgadm). Using
 the command `imgadm update`, you'll cause the local cache
@@ -59,7 +59,7 @@ To download one of these images, say "base-64", we'll *import* it using
 the images UUID:
 
     # imgadm import 5c7d0d24-3475-11e5-8e67-27953a8b237e
-    Importing 5c7d0d24-3475-11e5-8e67-27953a8b237e (base-64@15.2.0) from "https://images.joyent.com"
+    Importing 5c7d0d24-3475-11e5-8e67-27953a8b237e (base-64@15.2.0) from "https://images.smartos.org"
     Gather image 5c7d0d24-3475-11e5-8e67-27953a8b237e ancestry
     Must download and install 1 image (127.2 MiB)
     Imported image 5c7d0d24-3475-11e5-8e67-27953a8b237e (base-64@15.2.0)
@@ -92,45 +92,38 @@ Here is an example of the two files:
 ### Image Manifests
 
 The following is an example manifest taken from the public repository
-<https://datasets.joyent.com/datasets/> (re-arranged and line breaks
+<https://images.smartos.org> (re-arranged and line breaks
 added for clarity).
 
 You'll notice we have properties to identify the image (UUID, name,
-version, description, etc), the author (creator\_name, creator\_uuid,
-etc), when the image was created/updated/published, and then an array
-identifying the ZFS Dataset file or files, and finally an array
+version, description, etc), when the image was created/updated/published, and
+an array identifying the ZFS Dataset file or files, and finally an array
 outlining some requirements.
 
 <!-- markdownlint-disable line-length -->
 
       {
+        "v": 2,
         "uuid": "febaa412-6417-11e0-bc56-535d219f2590",
-        "name": "smartos",
+        "owner": "00000000-0000-0000-0000-000000000000",
+        "name": "smartos-deprecated",
         "version": "1.3.12",
-        "description": "Base template to build other templates on",
-
-        "os": "smartos",
+        "state": "disabled",
+        "disabled": true,
+        "public": true,
+        "published_at": "2011-04-11T08:45:00Z",
         "type": "zone-dataset",
-        "platform_type": "smartos",
-        "cloud_name": "sdc",
-        "urn": "sdc:sdc:smartos:1.3.12",
-
-        "creator_name": "sdc",
-        "creator_uuid": "352971aa-31ba-496c-9ade-a379feaecd52",
-        "vendor_uuid": "352971aa-31ba-496c-9ade-a379feaecd52",
-
-        "created_at": "2011-04-11T08:45Z",
-        "updated_at": "2011-04-11T08:45Z",
-        "published_at": "2011-04-11T08:45Z",
-
+        "os": "smartos",
         "files": [
           {
-            "path": "smartos-1.3.12.zfs.bz2",
             "sha1": "246c9ae158dc8f204643afdd6bd4d3c4aa35e733",
             "size": 42016482,
-            "url": "https://datasets.joyent.com/datasets/febaa412-6417-11e0-bc56-535d219f2590/smartos-1.3.12.zfs.bz2"
+            "compression": "bzip2"
           }
         ],
+        "description": "Base template to build other templates on. This image is deprecated and is         replaced by the SmartOS Base image (base).",
+        "homepage": "https://docs.joyent.com/images/smartos/smartos",
+        "urn": "sdc:sdc:smartos:1.3.12",
         "requirements": {
           "networks": [
             {
@@ -138,6 +131,9 @@ outlining some requirements.
               "description": "public"
             }
           ]
+        },
+        "tags": {
+          "role": "os"
         }
       }
 
@@ -153,15 +149,6 @@ When creating your own manifest, the following properties are required:
 - **published\_at**: A timestamp for the date of publication on an
   image server (this does not need to be accurate); to output the
   current time in the proper format use the command: `date +"%Y-%m-%dT%T.000Z"`
-- **creator\_uuid**: The UUID of the author of the image (use an
-  [online UUID generator](http://www.guidgenerator.com/) if you don't
-  have one)
-- **creator\_name**: The name of the image author
-- **urn**: A special string for describing the image in the form
-  `cloud_name:creator_name:name:version`; for the `cloud_name` I
-  suggest `smartos` if you are unsure, the creator name is usually
-  your organization. The string should not contain spaces.
-  (eg: `smartos:cuddletech:plan9:1.0.0`)
 - **type**: The type of image, either `zvol` for KVM or `zone-dataset`
   for Zones
 - **os**: The OS of this image, required. As of this writing, must be
@@ -172,8 +159,6 @@ When creating your own manifest, the following properties are required:
   zfs dump)
   - **sha1**: The SHA1 for the image data file; to obtain the SHA1
   hash use: `digest -a sha1 <file>`
-  - **size**: The file size of the image data file; to obtain use:
-  `ls -l <file>`
 
 The requirements section is recommended but not currently required, nor
 is it enforced.

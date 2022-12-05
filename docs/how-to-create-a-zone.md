@@ -44,7 +44,7 @@ for building your own custom images.
 Import an image by specifying its UUID:
 
     # imgadm import 643de2c0-672e-11e7-9a3f-ff62fd3708f8
-    Importing 643de2c0-672e-11e7-9a3f-ff62fd3708f8 (base-64@17.2.0) from "https://images.joyent.com"
+    Importing 643de2c0-672e-11e7-9a3f-ff62fd3708f8 (base-64@17.2.0) from "https://images.smartos.org"
     Gather image 643de2c0-672e-11e7-9a3f-ff62fd3708f8 ancestry
     Must download and install 1 image (176.6 MiB)
     Imported image 643de2c0-672e-11e7-9a3f-ff62fd3708f8 (base-64@17.2.0)

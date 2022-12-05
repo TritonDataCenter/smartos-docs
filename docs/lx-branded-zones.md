@@ -11,7 +11,7 @@
 2. log into the SmartOS machine as user `root`
 3. `imgadm avail` | egrep lx; (I chose `e74a9cd0-f2d0-11e6-8b69-b3acf2ef87f7`
    from
-   <https://docs.joyent.com/public-cloud/instances/infrastructure/images/debian>)
+   <https://docs.tritondatacenter.com/public-cloud/instances/infrastructure/images/debian>)
 4. `imgadm import e74a9cd0-f2d0-11e6-8b69-b3acf2ef87f7` to download the
    snapshot and install in zones pool
 5. `imgadm show e74a9cd0-f2d0-11e6-8b69-b3acf2ef87f7` to figure out the
@@ -67,10 +67,10 @@ For best results, run the latest SmartOS release available.
 
 ### Import images
 
-The lx zone images are on images.joyent.com so make sure that's one of
+The lx zone images are on images.smartos.org so make sure that's one of
 your image sources. Then you can import images:
 
-    imgadm sources -a https://images.joyent.com
+    imgadm sources -a https://images.smartos.org
     imgadm avail | grep lx-dataset   # See available images
     imgadm import 05140a7e-279f-11e6-aedf-47d4f69d2887    # ubuntu-16.04 20160601
 
@@ -110,7 +110,7 @@ Please add your favorites here.
   [Thunderbird](http://i.imgur.com/hd0Spyc.png) in lx32 zone
 - Plex Media Server usable on lx32 and lx64
 - dtrace a linux binary
-- [Video of docker in SDC (coming soon to the JPC)](https://www.joyent.com/developers/videos/docker-and-the-future-of-containers-in-production)
+- [Video of docker in SDC (coming soon to the JPC)](https://www.tritondatacenter.com/developers/videos/docker-and-the-future-of-containers-in-production)
 - (your favorite demo here)
 
 ### Networking
@@ -250,7 +250,7 @@ Or, a 1-liner
 
 ## Docker
 
-[Bryan's talk and demo of sdc-docker](https://www.joyent.com/developers/videos/docker-and-the-future-of-containers-in-production)
+[Bryan's talk and demo of sdc-docker](https://www.tritondatacenter.com/developers/videos/docker-and-the-future-of-containers-in-production)
 
 - <https://github.com/TritonDataCenter/smartos-live/blob/master/src/dockerinit/README.md>
 - <https://github.com/TritonDataCenter/smartos-live/commit/06610676fc05aca2938eb7b8bb07485f3709e9e3>

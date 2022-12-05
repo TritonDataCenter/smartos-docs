@@ -16,9 +16,9 @@ There are also other related mailing lists for software included in, or
 related to, SmartOS; e.g.,
 
 - [illumos Mailing Lists](https://illumos.org/docs/community/lists/)
-- [Joyent Triton](https://smartdatacenter.topicbox.com/groups/sdc-discuss)
+- [Triton Data Center](https://smartdatacenter.topicbox.com/groups/sdc-discuss)
   (Compute Service built on SmartOS)
-- [Joyent Manta](https://mantastorage.topicbox.com/groups/manta-discuss)
+- [Manta Object Storage](https://mantastorage.topicbox.com/groups/manta-discuss)
   (Object Storage built on SmartOS)
 
 ## IRC
@@ -35,19 +35,15 @@ We can be found in the following channels on `irc.libera.chat`:
   ([Channel Logs](https://log.omnios.org/manta/))
 - `#illumos`: For discussion of the Illumos project and its
   distributions ([Channel Logs](https://log.omnios.org/illumos))
-- `#joyent`: People often find us here, but `#smartos` is preferred.
 
 ## Other Resources
 
 Most of the community can also be found on Twitter. Some other Twitter
 sources of SmartOS news include:
 
-- [@joyent](https://twitter.com/joyent) corporate steward of SmartOS and Triton
-- [@joyentsmartos](https://twitter.com/joyentsmartos) SmartOS-specific
+- [@smartosorg](https://twitter.com/joyentsmartos) SmartOS-specific
   twitter account for news and commentary
-- [@SmartDataCenter](https://twitter.com/SmartDataCenter) Triton-specific
-  twitter account for news and commentary
-- [@MantaStorage](https://twitter.com/MantaStorage) Manta-specific
+- [@Triton_DC](https://twitter.com/SmartDataCenter) Triton-specific
   twitter account for news and commentary
 
 When tweeting about SmartOS, consider using the

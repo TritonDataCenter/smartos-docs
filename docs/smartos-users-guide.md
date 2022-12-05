@@ -59,10 +59,8 @@ monitoring to configuration management and troubleshooting.
 
 - [Working with Packages][packages]
 - [Installing Chef on Joyent's SmartOS][installing-chef]
-- [Installing Software on a SmartMachine][installing-software]
 - [Converting Virtual Appliance Packages for Fun and Profit][converting-appliances]
 
 [packages]: working-with-packages.md
 [installing-chef]: http://mirrorshades.net/post/11283352457
-[installing-software]: http://wiki.joyent.com/display/jpc2/Installing+Software+on+a+SmartMachine
 [converting-appliances]: http://smartos.org/2012/03/30/converting-virtual-appliance-packages-for-fun-and-profit/

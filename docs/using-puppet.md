@@ -8,7 +8,7 @@ using Pupppet on SmartOS.
 
 The easiest way to get started with Puppet is to install it from
 PKG-SRC. To get started, ensure that pkgin is installed. See
-<https://pkgsrc.joyent.com/>
+<https://pkgsrc.smartos.org/>
 
 Now, simply install either the **ruby18-puppet** or **ruby19-puppet**
 package, as you prefer. All dependencies will be installed as needed:

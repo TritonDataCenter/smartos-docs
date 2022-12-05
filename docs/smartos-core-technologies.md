@@ -24,7 +24,6 @@
 [core-06]: networking-and-network-virtualization.md
 [core-07]: kvm.md
 [core-bhyve]: bhyve.md
-[core-08]: tips-and-tricks.md
 [core-09]: https://illumos.org/docs/
 [core-10]: basic-smf-commands.md
 [core-11]: mdb.md
@@ -41,7 +40,7 @@
 ## SmartOS Training
 
 Learn SmartOS from the experts with
-[training from Joyent](https://www.joyent.com/training-services/).
+[training from Joyent](https://www.tritondatacenter.com/training-services/).
 
 ## SmartOS Overviews
 

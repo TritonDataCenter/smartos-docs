@@ -112,7 +112,7 @@ covered in depth in future posts.
 > and the code path for performing network I/O with each technology. Read
 > the full analysis on the [DTrace blog](http://dtrace.org/blogs/brendan/2013/01/11/virtualization-performance-zones-kvm-xen/).
 
-[Joyent](http://joyent.com/blog/brendan-gregg-on-virtualization-performance-comparing-zones-kvm-and-xen)
+[Joyent](http://tritondatacenter.com/blog/brendan-gregg-on-virtualization-performance-comparing-zones-kvm-and-xen)
 
 ### ZFS
 
@@ -189,9 +189,9 @@ and FreeBSD know that [DTrace](dtrace.md) gives you an
 unprecedented view of what's going on throughout the software stack. In
 SmartOS, this allows operators to observe and troubleshoot across all
 the zones and nodes in an entire data center. In
-[Triton](http://www.joyent.com/triton/), the Joyent team have harnessed
+[Triton](http://www.tritondatacenter.com/triton/), the Joyent team have harnessed
 the power of DTrace in a more user-friendly form with
-[Cloud Analytics](https://www.joyent.com/blog/cloud-analytics-basic-visualization),
+[Cloud Analytics](https://www.tritondatacenter.com/blog/cloud-analytics-basic-visualization),
 which is available to both cloud operators and their customers.
 
 ### Security
@@ -358,7 +358,7 @@ them all phenomenal performance. Joyent's servers typically run at 70%
 CPU capacity, against an industry standard of 15%. Joyent SmartMachines
 also [run faster](http://www.joyentcloud.com/resources/benchmarks/).
 SmartOS provides the underlying features;
-[Triton](http://www.joyent.com/triton/) adds the orchestration layer
+[Triton](http://www.tritondatacenter.com/triton/) adds the orchestration layer
 that abstracts these concepts and operations to a GUI and/or [API
 layer](https://github.com/TritonDataCenter/triton/blob/master/docs/reference.md).
 

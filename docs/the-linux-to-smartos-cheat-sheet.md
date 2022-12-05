@@ -945,7 +945,7 @@ precompiled binaries* of GPLware and freeware*
 [www.blastwave.org](http://www.blastwave.org/)
 </td>
 <td >
-<http://pkgsrc.joyent.com/>
+<http://pkgsrc.smartos.org/>
 pkgin
 </td>
 </tr>
@@ -959,12 +959,11 @@ gcc
 </td>
 <td >
 gcc
-[https://download.joyent.com/pub/build/SunStudio.tar.bz2]
+[https://download.tritondatacenter.com/pub/build/SunStudio.tar.bz2]
 </td>
 <td >
 gcc (may need to be installed via pkgin)
-[https://download.joyent.com/pub/build/SunStudio.tar.bz2](https://downlo
-ad.joyent.com/pub/build/SunStudio.tar.bz2&nbsp)
+[https://download.tritondatacenter.com/pub/build/SunStudio.tar.bz2](https://download.tritondatacenter.com/pub/build/SunStudio.tar.bz2&nbsp)
 
 </td>
 </tr>
@@ -1231,7 +1230,7 @@ For example, here are some common Linux commands that work differently.
 | Command | What's different on a Smart Machine |
 | ------- | ------------------------------------------------------------
 | `df`    | On most SmartOS image this is set up to use the GNU version. Use `/usr/bin/df` for the native version. |
-| `lsof`  | SmartMachines use a different collection of tools to examine processes. See [Examining processes and memory](#procmem) later in this topic. |
+| `lsof`  | SmartMachines use a different collection of tools to examine processes. See [Examining processes and memory](#examining-processes-and-memory) later in this topic. |
 | `ping`  | Returns whether a host responds or not.  Use `ping -s` to get a continuous response.   |
 | `top`   | `top` is available in `/opt/local/bin`, but `prstat -Z` provides more zone aware (and more accurate) information than `top`. |
 

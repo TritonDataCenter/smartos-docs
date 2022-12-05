@@ -49,19 +49,12 @@ general.
   Companies and individuals involved in the development of the Illumos
   operating system
 
+<!--
+  -- This link doesn't seem to exist and there's no suitable replacement.
+  
 ## How To
 
 - [Finding Your Way Around a SmartMachine](http://wiki.joyent.com/display/smart/Finding+Your+Way+Around+a+SmartMachine),
   If you're new to SmartOS and the rest of the Solaris family but know
   Linux, this cheatsheet should help.
-
-## Security
-
-<!-- markdownlint-disable no-inline-html -->
-<div class="youtube-player">
-  <iframe type="text/html" src="https://www.youtube.com/embed/0EEf9y1nwYo"
-    frameborder="0" allowfullscreen></iframe>
-</div>
-<!-- markdownlint-enable no-inline-html -->
-
-Jack Adams learns why you can't Telnet into a Solaris machine.
+-->

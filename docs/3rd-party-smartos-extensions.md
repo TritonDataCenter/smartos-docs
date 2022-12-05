@@ -22,4 +22,4 @@ Spice is like VNC, but with support for audio and better performance.
 of [Triton][triton].
 
 [fifo]: https://docs.project-fifo.net/docs
-[triton]: https://www.joyent.com/triton/
+[triton]: https://www.tritondatacenter.com/triton/

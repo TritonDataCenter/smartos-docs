@@ -23,7 +23,7 @@ internally to the repo. You'll need the following available:
   * pip3.7
   * virtualenv3.7
 
-It's recommended to get these from [pkgsrc](https://pkgsrc.joyent.com), but
+It's recommended to get these from [pkgsrc](https://pkgsrc.smartos.org), but
 you may get them from elsewhere if you choose.
 
     pkgin -y install git nodejs-8 python-3.7 py37-pip py37-virtualenv
