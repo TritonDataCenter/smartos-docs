@@ -105,9 +105,9 @@ improve the documentation for other users in the community.
 
 [src]: https://github.com/TritonDataCenter/smartos-docs/
 
-## About Triton &amp; Joyent
+## About Triton
 
-SmartOS is a fundamental component of the [Joyent Triton Data
+SmartOS is a fundamental component of the [Triton Data
 Center](http://www.tritondatacenter.com/triton/) (Triton) product. Triton
 source and images are available for at no cost and powers several
 public and private clouds around the globe, namely the [MNX Public
