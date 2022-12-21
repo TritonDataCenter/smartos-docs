@@ -485,7 +485,7 @@ There are two ways to migrate a zone.
 - manual migration
 - `vmadm send`/`vmadm receive`
 
-Wichever method you choose, you will need to manually create the `cores`
+Whichever method you choose, you will need to manually create the `cores`
 dataset before booting the zone on the desitination. See below.
 
 Before starting, it's a good idea to make sure the origin image for the zone
