@@ -44,7 +44,7 @@ the overhead of gathering and presenting data.
 ## Books
 
 - [DTrace Guide][dt-books-01] - now ported and updated for illumos!
-- The Original [Dynamic Tracing Guide][dt0books-02] available as a 408 page
+- The Original [Dynamic Tracing Guide][dt-books-02] available as a 408 page
   PDF (2008)
 - [Solaris Performance and Tools][dt-books-03]: takes Solaris perf analysis
   further with DTrace, 440 pages (2006)
@@ -53,7 +53,7 @@ the overhead of gathering and presenting data.
   - [Introduction to the DTrace Book][dt-books-05]
   - [What's in the DTrace Book][dt-books-06]
   - [Brendan's talk at BayLISA about DTrace and the DTrace book][dt-books-07]
-  - [Updated DTrace book intro, DTrace book and Solaris 11][dt-books-07]
+  - [Updated DTrace book intro, DTrace book and Solaris 11][dt-books-08]
 
 [dt-books-01]: http://dtrace.org/guide/preface.html
 [dt-books-02]: http://download.oracle.com/docs/cd/E19253-01/817-6223/817-6223.pdf
@@ -67,18 +67,18 @@ the overhead of gathering and presenting data.
 ## Videos on DTrace
 
 - [Bryan Cantrill's Google Tech Talk][dt-vid-01]
-- [Breaking Down MySQL/Percona Query Latency With DTrace][dt-vid-01]
-- [Little Shop of Performance Horrors][dt-vid-01]
-- [DTrace BoF at LISA10][dt-vid-01]
-- [Brendan Gregg on DTrace][dt-vid-01] at Kernel Conference Australia, 2009
-- [How to Build Better Applications with Oracle Solaris DTrace][dt-vid-01]
-- [Observing Your App and Everything Else it Runs on Using DTrace][dt-vid-01]
-- [DTracing Your Website][dt-vid-01]
-- [The Problems Solaris Solves: Diagnosing Live Systems with DTrace][dt-vid-01]
-- [DTrace, Goals, Successes, Failures, and Solving Problems][dt-vid-01] - [Adam Leventhal][al]
-- [Building a monitoring framework using DTrace and MongoDB][dt-vid-01] - [DanKimmel][dk]
-- [Debugging with DTrace][dt-vid-01] - [Max Bruning][mb] - Training Director, Joyent
-- [Solving Problems with DTrace on any Platform][dt-vid-01] - [Brendan Gregg][bg]
+- [Breaking Down MySQL/Percona Query Latency With DTrace][dt-vid-02]
+- [Little Shop of Performance Horrors][dt-vid-03]
+- [DTrace BoF at LISA10][dt-vid-04]
+- [Brendan Gregg on DTrace][dt-vid-05] at Kernel Conference Australia, 2009
+- [How to Build Better Applications with Oracle Solaris DTrace][dt-vid-06]
+- [Observing Your App and Everything Else it Runs on Using DTrace][dt-vid-07]
+- [DTracing Your Website][dt-vid-08]
+- [The Problems Solaris Solves: Diagnosing Live Systems with DTrace][dt-vid-09]
+- [DTrace, Goals, Successes, Failures, and Solving Problems][dt-vid-10] - [Adam Leventhal][al]
+- [Building a monitoring framework using DTrace and MongoDB][dt-vid-11] - [DanKimmel][dk]
+- [Debugging with DTrace][dt-vid-12] - [Max Bruning][mb] - Training Director, Joyent
+- [Solving Problems with DTrace on any Platform][dt-vid-13] - [Brendan Gregg][bg]
 
 [dt-vid-01]: http://video.google.com/videoplay?docid=-8002801113289007228
 [dt-vid-02]: http://dtrace.org/blogs/brendan/2011/07/06/breaking-down-mysqlpercona-query-latency-with-dtrace/

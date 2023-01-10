@@ -75,6 +75,8 @@ For any given build, there will be 5 files available:
 For a full list of changes in each build, please refer to the
 [SmartOS Change Log][changelog].
 
+[changelog]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos.html
+
 ## Accessing the Source
 
 SmartOS source is freely available and can be accessed on [Github][github].

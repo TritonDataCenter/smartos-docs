@@ -1,6 +1,6 @@
 {
   "name": "smartos-docs",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "SmartOS Documentation",
   "main": "index.js",
   "directories": {
@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/TritonDataCenter/smartos-docs#readme",
   "dependencies": {
-    "markdownlint-cli": "^0.31.1"
+    "markdownlint-cli2": "^0.6.0"
   }
 }

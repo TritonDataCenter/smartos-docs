@@ -13,7 +13,7 @@ py-venv: requirements.txt
 	source py-venv/bin/activate; pip install -r requirements.txt
 
 check:
-	sh -c "markdownlint docs"
+	sh -c "markdownlint-cli2 **/docs/*.md"
 
 build:
 	sh -c "mkdocs build"
