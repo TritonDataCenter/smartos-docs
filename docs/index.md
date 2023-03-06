@@ -1,7 +1,5 @@
 # Home
 
-## Introduction to SmartOS
-
 Welcome to the SmartOS Documentation. Here you'll find everything
 you need to get started using SmartOS and participating in the
 community. Information about what's new in recent releases can be
@@ -63,10 +61,10 @@ a configuration utility will configure your base networking, allow
 you to set the root password, and allow you to select which disks
 to use to create the ZFS Zpool which will provide persistent storage.
 
-When you log into SmartOS you will enter the "global zone".  From
-here you can download VM Images using the *imgadm* tool, which are
-pre-configured OS and KVM virtual machines.  You can then use the
-*vmadm* tool to create and manage both OS and hardware virtual
+When you log into SmartOS you will enter the hypervisor, aka "global zone".
+From here you can download VM Images using the `imgadm` tool, which are
+pre-configured Container and HVM virtual machines.  You can then use the
+`vmadm` tool to create and manage both containers and hardware virtual
 machines.
 
 An important aspect of SmartOS is that both OS (Zones) and hardware

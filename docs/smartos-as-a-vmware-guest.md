@@ -2,19 +2,19 @@
 
 ## VMware Fusion
 
-To get started with SmartOS on VMware Fusion, [download the latest
+To get started with SmartOS on VMware Workstation, [download the latest
 VMware image](download-smartos.md).
 
-Once downloaded, extract it. Mac OS X example:
+**Note:** Using VMware Fusion for macOS requires an Intel Mac.
 
-    tar -jxvf Downloads/smartos-latest.vmwarevm.tar.bz2 -C ~/Documents/Virtual\ Machines.localized/
+Once downloaded, extract the image.
 
-The SmartOS.vmwarevm image is a ready-to-run VM. There's no need to import
+The `SmartOS.vmwarevm` image is a ready-to-run VM. There's no need to import
 or create a new VM from the image.
 
 The VM is ready to go, simply go to the "File" menu and select "Open".
 The navigate to the directory where you extract the image and the
-"SmartOS.vmwarevm". Click on it and click "Open".
+`SmartOS.vmwarevm`. Click on it and click "Open".
 The VM should immediately pop up in a new window, allowing you to start
 it.  Click the "Play" then choose "I copied it".
 

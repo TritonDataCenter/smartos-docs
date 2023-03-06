@@ -8,6 +8,8 @@ that need to be answered.
 3. Zpool Layout
 4. Root password
 5. Hostname
+6. Boot Media
+7. Packages
 
 Here's a basic example of this process. Note, this example uses the serial
 console, so the `loader` screen looks less fancy than you would see with an
@@ -54,6 +56,26 @@ see the password on the screen.
 ## Hostname
 
 You can use any valid hostname you like.
+
+## Boot Media
+
+By default SmartOS boots from read-only media, usually an ISO or USB drive.
+You may instead choose to boot from the zpool.
+
+* Choose `none` to boot using removable media.
+* Choose `zones` to boot using the zpool.
+
+If you choose `none` you can later switch to booting from the zpool using
+the [`piadm(8)`][man-piadm] command.
+
+[man-piadm]: https://smartos.org/man/8/piadm
+
+## Packages
+
+SmartOS uses the `pkgsrc` package management system that is also use by
+NetBSD. You may decline to install pkgsrc, but it is almost always preferred.
+If you decide not to install pkgsrc at this time, you can install it at any
+later time by running `pkgsrc-setup` in the global zone.
 
 ## Finishing setup
 

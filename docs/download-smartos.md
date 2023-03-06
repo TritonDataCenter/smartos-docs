@@ -60,15 +60,15 @@ UTC)
 
 For any given build, there will be 5 files available:
 
-* **platform-*(timestamp)*.tgz**: The raw kernel and boot\_archive;
+* `platform-*(timestamp)*.tgz`: The raw kernel and boot\_archive;
   this is most commonly used for PXE booting
-* **smartos-*(timestamp)*.iso**: Live Image ISO
-* **smartos-*(timestamp)*-usb.img.bz2**: Live Image USB image for booting
+* `smartos-*(timestamp)*.iso`: Live Image ISO
+* `smartos-*(timestamp)*-usb.img.bz2`: Live Image USB image for booting
   real hardware. This is the preferred installation method for production
-* **smartos-*(timestamp)*.vmwarevm.tar.bz2**: VMware Image (VMX Format)
+* `smartos-*(timestamp)*.vmwarevm.tar.bz2`: VMware Image (VMX Format)
   *Note: Make sure nested virtualization is enabled if you want to use
   KVM or BHYVE.*
-* **SINGLE\_USER\_ROOT\_PASSWORD.*(timestamp)*.txt**: Contains the
+* `SINGLE_USER_ROOT_PASSWORD.*(timestamp)*.txt`: Contains the
   default root password for the live image (needed only when booting
   without mounting the zpool)
 

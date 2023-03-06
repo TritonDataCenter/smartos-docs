@@ -1,9 +1,5 @@
 # Why SmartOS - ZFS, KVM, DTrace, Zones and More
 
-For an overview, see this
-[excellent talk at SCALE10x](http://smartos.org/2012/01/24/using-smartos-as-a-hypervisor/)
-by Joyent software engineer Robert Mustacchi.
-
 On August 15th, 2011, Joyent
 [announced](http://www.marketwire.com/press-release/joyent-announces-smartos-with-kvm-an-open-source-modern-operating-system-1549602.htm)
 that it had

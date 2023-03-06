@@ -305,7 +305,7 @@ copyright Andre van Eyssen*
 - Virtually all DTrace engineers are now in the illumos community:
   Adam Leventhal, Brendan Gregg, Eric Schrock, Dave Pacheco
 - Added a log-linear quantization action (llquantize()) Added KVM
-  support with vmregs\[\] variable
+  support with `vmregs[]` variable
 - A bunch of little stuff: allowed tracemem() to take a variable-size;
   added toupper()/tolower(); allowed lltostr() to take an optional
   base
@@ -380,9 +380,7 @@ If youʼre looking for something to do or have questions, donʼt hesitate
 to ask: Mailing list: developer@lists.illumos.org IRC: `#illumos` on
 `irc.libera.chat`.
 
-If you donʼt know where to go, you can always tweet or message Deirdré
-Straughan (@deirdres), Joyentʼs SmartOS/illumos community manager
-
+<!--
 ## Thank you!
 
 @gedamore for conceiving of illumos, birthing it, and leading the
@@ -398,15 +396,4 @@ SmartOS distribution
 
 @ahl for organizing the illumos hackathon — and all of the
 hammer-swinging butt-kickers who attended!
-
-## Farewell to Sun
-
-A video I (Deirdré) made just before leaving Oracle for Joyent,
-featuring many of the people mentioned above.
-
-<!-- markdownlint-disable no-inline-html -->
-<div class="youtube-player">
-  <iframe type="text/html" src="https://www.youtube.com/embed/UHOBoWJHTyc"
-    frameborder="0" allowfullscreen></iframe>
-</div>
-<!-- markdownlint-enable no-inline-html -->
+-->

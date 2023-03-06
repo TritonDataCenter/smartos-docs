@@ -208,10 +208,3 @@ your setup):
 <!-- markdownlint-enable no-trailing-punctuation -->
 
 Stick the USB key in a port and boot from it!
-
-### Discussion List
-
-The smartos-discuss list is a forum for useful questions and answers -
-see the searchable archives
-[here](https://www.listbox.com/member/archive/184463/); sign up
-[here](http://smartos.org/smartos-mailing-list/).

@@ -1,10 +1,10 @@
-site_name: 'SmartOS Docs'
-repo_name: 'joyent/smartos-live'
-repo_url: 'https://github.com/TritonDataCenter/smartos-live'
-edit_uri: '/TritonDataCenter/smartos-docs/edit/master/docs/'
+site_name: "SmartOS Documentation"
+repo_name: "TritonDataCenter/smartos-live"
+repo_url: "https://github.com/TritonDataCenter/smartos-live"
+edit_uri: "/TritonDataCenter/smartos-docs/edit/master/docs/"
 
 theme:
-    name: null
+    name: "mkdocs"
     custom_dir: material-smartos
     palette:
         primary: indigo
@@ -27,70 +27,72 @@ markdown_extensions:
         permalink: true
 
 nav:
-    - 'Home': 'index.md'
-    - 'Welcome to SmartOS':
-        - 'SmartOS Quick Start Guide': 'smartos-quick-start-guide.md'
-        - 'SmartOS Technical FAQs': 'smartos-technical-faqs.md'
-        - 'illumos and SmartOS Basics': 'illumos-and-smartos-basics.md'
-        - 'Why SmartOS - ZFS, KVM, DTrace, Zones and More': 'why-smartos-zfs-kvm-dtrace-zones-and-more.md'
-    - 'Download SmartOS': 'download-smartos.md'
-    - 'Install SmartOS':
-        - 'Download SmartOS': 'download-smartos.md'
-        - 'Creating a SmartOS Bootable USB Key': 'creating-a-smartos-bootable-usb-key.md'
-        - 'SmartOS as a VMware Guest': 'smartos-as-a-vmware-guest.md'
-        - 'SmartOS as a VirtualBox Guest': 'smartos-as-a-virtualbox-guest.md'
-        - 'PXE Booting SmartOS': 'pxe-booting-smartos.md'
-        - 'Installation Walkthrough': 'install.md'
-    - 'SmartOS Core Technologies':
-        - 'Overview': 'smartos-core-technologies.md'
-        - 'Performance': 'performance.md'
-        - 'Virtualization':
-            - 'Overview': 'smartos-virtualization.md'
-            - 'Zones': 'zones.md'
-            - 'KVM': 'kvm.md'
-            - 'Bhyve': 'bhyve.md'
-        - 'ZFS': 'zfs.md'
-        - 'Networking and Network Virtualization': 'networking-and-network-virtualization.md'
-        - 'SMF - Service Management Facility': 'basic-smf-commands.md'
-        - 'DTrace': 'dtrace.md'
-        - 'Modular Debugger (mdb)': 'mdb.md'
-    - 'SmartOS Users Guide':
-        - 'Overview': 'smartos-users-guide.md'
-        - 'Getting Started with SmartOS': 'getting-started-with-smartos.md'
-        - 'Administering the Global Zone': 'administering-the-global-zone.md'
-        - 'Managing Images': 'managing-images.md'
-        - 'How to create a zone': 'how-to-create-a-zone.md'
-        - 'How to create a HVM VM': 'how-to-create-an-hvm-zone.md'
-        - 'How to create a Virtual Machine From Scratch': 'how-to-create-a-virtual-machine-from-scratch.md'
-        - 'Managing instances': 'managing-instances-with-vmamd.md'
-        - 'Changing the Root Password in the Global Zone': 'changing-the-root-password-in-the-global-zone.md'
-        - 'Managing NICs': 'managing-nics.md'
-        - 'Working with Packages': 'working-with-packages.md'
-        - 'Using the Service Management Facility': 'basic-smf-commands.md'
-        - 'Debugging problems': 'debugging.md'
-        - 'SmartOS Command Line Tips': 'smartos-command-line-tips.md'
-        - 'Configuration Management on SmartOS':
-            - 'Overview': 'configuration-management-on-smartos.md'
-            - 'Persistent Configuration for the Global Zone': 'persistent-configuration-for-the-global-zone.md'
-            - 'Modifying Kernel Boot Files': 'modifying-boot-files.md'
-            - 'Using Ansible': 'using-ansible.md'
-            - 'Using Chef': 'using-chef.md'
-            - 'Using Puppet': 'using-puppet.md'
-        - 'References': 'references.md'
-        - 'Configuring NFS in SmartOS': 'configuring-nfs-in-smartos.md'
-        - 'Configuring SMB in SmartOS': 'configuring-smb-in-smartos.md'
-        - 'Changing virtual hardware of KVM zones': 'changing-virtual-hardware-of-kvm-zones.md'
-        - 'Extra Configuration Options': 'extra-configuration-options.md'
-        - 'Glossary': 'illumos-and-smartos-basics/glossary.md'
-    - 'SmartOS Developers Guide':
-        - 'Overview': 'smartos-developers-guide.md'
-        - 'Extending smartos-live': 'extending-smartos-live.md'
-        - 'Building Individual Drivers in SmartOS': 'building-individual-drivers-in-smartos.md'
-        - 'Porting Network Device Drivers from FreeBSD': 'porting-network-device-drivers-from-freebsd.md'
-        - 'LX Branded Zones': 'lx-branded-zones.md'
-        - 'Running SmartOS on OmniOS KVM': 'running-smartos-on-omnios-kvm.md'
-    - 'The SmartOS Community':
-        - 'Mailing Lists & IRC': 'mailing-lists-and-irc.md'
-        - 'History': 'community-history.md'
-        - 'Community Experiments': 'community-experiments.md'
-        - 'Edit This Documentation': 'https://github.com/TritonDataCenter/smartos-docs/'
+    - "Home": "index.md"
+    - "Quick Start Guide": "smartos-quick-start-guide.md"
+    - "Download SmartOS": "download-smartos.md"
+    - "SmartOS User's Guide":
+        - "Getting Started with SmartOS": "getting-started-with-smartos.md"
+        - "Install SmartOS":
+            - "Download SmartOS": "download-smartos.md"
+            - "Creating a SmartOS Bootable USB Key": "creating-a-smartos-bootable-usb-key.md"
+            - "SmartOS as a VMware Guest": "smartos-as-a-vmware-guest.md"
+            - "SmartOS as a VirtualBox Guest": "smartos-as-a-virtualbox-guest.md"
+            - "Installation Walkthrough": "install.md"
+        - "Virtual Instances":
+            - "How to create a native SmartOS Instance": "how-to-create-a-zone.md"
+            - "How to create a Hardware Virtual Machine": "how-to-create-an-hvm-zone.md"
+            - "How to create a Linux container without a VM (LX Branded Zones)": "lx-branded-zones.md"
+            - "Managing instances": "managing-instances-with-vmamd.md"
+        - "Managing Images": "managing-images.md"
+        - "Administering SmartOS Native Instances":
+            - "Managing Packages": "working-with-packages.md"
+            - "Managing Services": "basic-smf-commands.md"
+            - "Configuring NFS in SmartOS": "configuring-nfs-in-smartos.md"
+            - "Configuring SMB in SmartOS": "configuring-smb-in-smartos.md"
+        - "Administering The Hypervisor (Global Zone)":
+            - "Introduction to the Hypervisor (aka, Global Zone)": "administering-the-global-zone.md"
+            - "Persistent Configuration for the Global Zone": "persistent-configuration-for-the-global-zone.md"
+            - "Extra Hypervisor Configuration Options": "extra-configuration-options.md"
+            # - "Using the Service Management Facility": "basic-smf-commands.md"
+            - "Changing the Root Password in the Global Zone": "changing-the-root-password-in-the-global-zone.md"
+            - "Managing NICs": "managing-nics.md"
+        - "SmartOS Command Line Tips": "smartos-command-line-tips.md"
+        - "Configuration Management on SmartOS":
+            - "Overview": "configuration-management-on-smartos.md"
+            - "Using Ansible": "using-ansible.md"
+            - "Using Chef": "using-chef.md"
+            - "Using Puppet": "using-puppet.md"
+        - "Glossary": "illumos-and-smartos-basics/glossary.md"
+        - "References": "references.md"
+    - "Core Technologies":
+        - "Overview": "smartos-core-technologies.md"
+        - "Performance": "performance.md"
+        - "Virtualization":
+            - "Overview": "smartos-virtualization.md"
+            - "Zones": "zones.md"
+            - "KVM": "kvm.md"
+            - "Bhyve": "bhyve.md"
+        - "ZFS": "zfs.md"
+        - "Networking and Network Virtualization": "networking-and-network-virtualization.md"
+        # - "SMF - Service Management Facility": "basic-smf-commands.md"
+        - "DTrace": "dtrace.md"
+        - "Modular Debugger (mdb)": "mdb.md"
+    - "Advanced Topics":
+        - "SmartOS Technical FAQs": "smartos-technical-faqs.md"
+        - "illumos and SmartOS Basics": "illumos-and-smartos-basics.md"
+        - "PXE Booting SmartOS": "pxe-booting-smartos.md"
+        - "Modifying Kernel Boot Files": "modifying-boot-files.md"
+        - "Configuring IPv6 for Instances": "setting-up-ipv6-in-a-zone.md"
+        - "How to boot a Virtual Machine From an ISO": "how-to-create-a-virtual-machine-from-scratch.md"
+    - "Developers Guide":
+        - "Overview": "smartos-developers-guide.md"
+        - "Extending smartos-live": "extending-smartos-live.md"
+        - "Building Individual Drivers in SmartOS": "building-individual-drivers-in-smartos.md"
+        - "Porting Network Device Drivers from FreeBSD": "porting-network-device-drivers-from-freebsd.md"
+        - "Running SmartOS on OmniOS KVM": "running-smartos-on-omnios-kvm.md"
+        - "Debugging problems": "debugging.md"
+    - "The SmartOS Community":
+        - "Mailing Lists & IRC": "mailing-lists-and-irc.md"
+        - "History": "community-history.md"
+        - "Community Experiments": "community-experiments.md"
+        - "Edit This Documentation": "https://github.com/TritonDataCenter/smartos-docs/"

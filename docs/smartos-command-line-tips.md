@@ -12,8 +12,6 @@ will help you manage SmartOS. These tips were derived from a blog post
 by community member Mark Slatem. You can follow Mark and his adventures
 with the Illumos family of technology at:
 
-[Mark's blog on the awesomeness of SmartOS: SMARTCORE](http://blog.smartcore.net.au/)
-
 ## Disk
 
 These commands are specifically related to disks and ZFS pools.
