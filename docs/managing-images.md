@@ -155,10 +155,10 @@ When creating your own manifest, the following properties are required:
   one of smartos, linux, windows, bsd, illumos, other.
 - **files**: An array of one or more file objects, containing the
   following properties for each:
-  - **path**: Local file path to the image data file (compressed
-  zfs dump)
-  - **sha1**: The SHA1 for the image data file; to obtain the SHA1
-  hash use: `digest -a sha1 <file>`
+    - **path**: Local file path to the image data file (compressed
+      zfs dump)
+    - **sha1**: The SHA1 for the image data file; to obtain the SHA1
+      hash use: `digest -a sha1 <file>`
 
 The requirements section is recommended but not currently required, nor
 is it enforced.

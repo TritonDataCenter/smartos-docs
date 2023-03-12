@@ -48,8 +48,8 @@ see also: [DTrace](dtrace.md)
 ### SmartOS Tools
 
 - [Flame Graphs](http://dtrace.org/blogs/brendan/2011/12/16/flame-graphs/) (original article by Brendan Gregg)
-  - [source on GitHub](https://github.com/brendangregg/FlameGraph)
-  - [Flame on: Graphing hot paths through X server code](http://blogs.oracle.com/alanc/entry/flame_on_graphing_hot_paths)
+    - [source on GitHub](https://github.com/brendangregg/FlameGraph)
+    - [Flame on: Graphing hot paths through X server code](http://blogs.oracle.com/alanc/entry/flame_on_graphing_hot_paths)
 - [The Gregg Performance Series (videos)](http://smartos.org/2011/05/04/video-the-gregg-performance-series/):
   Tutorial videos about SmartOS performance tools: vmstat, mpstat, uptime.
 - [vfsstat(1m) – Report VFS read and write activity](https://github.com/TritonDataCenter/smartos-live/blob/master/man/src/vfsstat.1m.md)

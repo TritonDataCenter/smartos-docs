@@ -49,11 +49,11 @@ the overhead of gathering and presenting data.
 - [Solaris Performance and Tools][dt-books-03]: takes Solaris perf analysis
   further with DTrace, 440 pages (2006)
 - DTrace: the DTrace book of scripts and strategy, 1100 pages (2011).
-  - [Sample Chapter][dt-books-04]
-  - [Introduction to the DTrace Book][dt-books-05]
-  - [What's in the DTrace Book][dt-books-06]
-  - [Brendan's talk at BayLISA about DTrace and the DTrace book][dt-books-07]
-  - [Updated DTrace book intro, DTrace book and Solaris 11][dt-books-08]
+    - [Sample Chapter][dt-books-04]
+    - [Introduction to the DTrace Book][dt-books-05]
+    - [What's in the DTrace Book][dt-books-06]
+    - [Brendan's talk at BayLISA about DTrace and the DTrace book][dt-books-07]
+    - [Updated DTrace book intro, DTrace book and Solaris 11][dt-books-08]
 
 [dt-books-01]: http://dtrace.org/guide/preface.html
 [dt-books-02]: http://download.oracle.com/docs/cd/E19253-01/817-6223/817-6223.pdf

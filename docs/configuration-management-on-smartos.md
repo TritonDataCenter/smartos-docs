@@ -12,5 +12,6 @@ SmartOS **global zone**. There may or may not be applicability to using these
 tools within a Zone or VM.
 
 - [Using Ansible](using-ansible.md)
+- [Using CfEngine](using-cfengine.md)
 - [Using Chef](using-chef.md)
 - [Using Puppet](using-puppet.md)

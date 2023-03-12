@@ -15,19 +15,19 @@ got it to work with a few caveats.
 ## Caveats
 
 - no complex cpu topology
-  - passing `-smp 4` works
-  - passing `-smp 4,sockets=1,cores=2,threads=2` makes illumos kernel barf
+    - passing `-smp 4` works
+    - passing `-smp 4,sockets=1,cores=2,threads=2` makes illumos kernel barf
 - no vioif
-  - we're stuck with e1000 nic emulation which is not the fastest
+    - we're stuck with e1000 nic emulation which is not the fastest
 
 ## Setup
 
 ### Prerequisites
 
 - OmniOS r151012
-  - other versions should work too, but untested by me
+    - other versions should work too, but untested by me
 - kvmadm
-  - available in [obd](http://omnios.blackdot.be/en/index.shtml)
+    - available in [obd](http://omnios.blackdot.be/en/index.shtml)
     repository (mostly to make things easier to manage)
 
 ### Adding the additional repository

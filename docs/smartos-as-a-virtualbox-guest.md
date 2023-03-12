@@ -23,6 +23,8 @@ Some other recommended configuration changes are:
 When you boot the machine and do the initial configuration ensure that
 you use the secondary disk (likely named "c0t2d0") as your Zpool.
 
+<!-- This stuff is pretty old...is it even relevant anymore?
+
 ## Detailed Guide
 
 The following links detail setup, configuration, and runtime of SmartOS
@@ -46,3 +48,5 @@ these links is at your own risk.
 [intro-2]: http://troysunix.blogspot.com/2013/02/intro-smartos-setup-pt-2.html
 [intro-3]: http://troysunix.blogspot.com/2013/02/intro-smartos-setup-pt-3.html
 [intro-4]: http://troysunix.blogspot.com/2013/02/intro-smartos-setup-pt-4.html
+
+ -->

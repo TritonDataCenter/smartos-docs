@@ -20,7 +20,9 @@ on your own!
 - [Giving Windows VMs more processors](giving-windows-vms-more-processors.md)
 - [GPS backed NTP server](gps-backed-ntp-server.md)
 - [Hide processes and connections from unprivileged users on the system](hide-processes-and-connections-from-unprivileged-users-on-the-system.md)
+<!--
 - [Is SmartOS suitable for a file server](is-smartos-suitable-for-a-file-server.md)
+-->
 - [Joining SmartOS to an Active Directory domain](joining-smartos-to-an-active-directory-domain.md)
 - [Migrating from OpenIndiana to SmartOS](migrating-from-openindiana-to-smartos.md)
 - [NAT using Etherstubs](nat-using-etherstubs.md)

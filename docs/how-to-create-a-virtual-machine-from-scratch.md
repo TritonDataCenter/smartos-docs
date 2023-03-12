@@ -1,38 +1,70 @@
 # How to create a Virtual Machine in SmartOS
 
-In SmartOS, virtual machines are created using the `vmadm create` tool.
-This tool takes a JSON payload and creates a
-zone with the properties specified in the input JSON. Normal
-output is a series of single-line JSON objects with type set to one of:
+First, it's important to understand how Hardware Virtual Machines work in
+SmartOS.
 
-- success
-- failure
-- update
-- notice
+Using Linux (KVM) or FreeBSD (bhyve), commonly `virt-install` is used to
+create/install virtual machines. The `qemu` or `bhyve` command run in the same
+security context as the rest of the system.
 
-each object having at least the 'type' and 'message' fields. A message
-of type 'success' or 'failure' will be followed by the process exiting
-with the exit status 0 indicating success and all other exits indicating
-failure.
+On SmartOS however, virtual machines are run inside a zone. This zone, in many
+ways, resembels a native SmartOS zone, with some key differences.
 
-    vmadm create -f <filename.json>
+* The zone is granted access to the vmm device, either `/dev/kvm` or
+  `/dev/bhyve`, depending on the zone brand
+* The zone has severely restricted capabilities. Processes in this zone are
+  prevented from:
+    * Modifying the filesystem
+    * Accessing the network
+    * Creating new processes
+    * List processes, or get information about other processes
+    * Sending signals to processes outside of its session group
+
+The analogue for Linux and FreeBSD would be as though you're running `qemu`
+in a container or `bhyve` in a jail (although without the restricted
+environment described above). On Linux or FreeBSD you'd create the
+container/jail, log into it and then execute `virt-install`. On SmartOS, these
+details are abstracted away so that for most purposes the zone containing the
+VM is almost invisible.
+
+With that understanding, we can now create an instance capable of booting
+from an ISO image.
 
 ## Getting Started
 
 You will need
 
-- The latest copy of SmartOS, available from
+* The latest copy of SmartOS, available from
   <https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos.html>
   (release details [here](download-smartos.md))
-- The ISO of your OS of choice
-- A VNC client
+* The ISO of your OS of choice
+* A VNC client
 
 ## The Machine JSON Description
 
 Save the code snippet below to a file called "vmspec.json". You can make
 changes to the networks and other variables as appropriate. This is by
 no means an exhaustive list of all options. For all options see
-[vmadm(1m)](https://smartos.org/man/1m/vmadm). (Sizes are listed in MiB)
+[vmadm(8)](https://smartos.org/man/8/vmadm). (Sizes are listed in MiB)
+
+**Note:** Creating images from scratch works best with KVM. KVM instances
+provide a DHCP server for the guest, and a VNC endpoint for the operator.
+Using Bhyve will work also, but networking must be configured manually and
+the guest OS console must be on the first serial port.
+
+When using this method to create new images, as long as the installed guest
+can retrieve networking from [`customer_metadata`][mdata] and configure itself
+non-interactively, the resulting image can be used with either KVM or bhyve,
+regardless of which brand was used to create it.
+
+The rest of this guid will assume KVM.
+
+[mdata]: customer_metadata.md
+
+This is an example JSON payload that can be used to create an empty KVM
+instance. The `autoboot` property is set to `false` because this payload
+does not yet provide a bootable media. It is important to note that this
+instance is *not* cloned from an image.
 
     {
       "brand": "kvm",
@@ -59,44 +91,32 @@ no means an exhaustive list of all options. For all options see
       ]
     }
 
-When installing OS's that do not ship with `virtio` support instead of using
-`virtio` on the disk for the model use `ide` and `e1000` for the network
-model.
+**Note:** When installing an operating system that does not ship with `virtio`
+support, set `model` to `ide` for disks and `e1000` for nics.
 
 ## Create the Empty Virtual Machine
 
-Create the empty virtual machine using the create-machine tool. Please
-note that the virtual machine will not be running.
+Create the empty virtual machine using `vmadm`. Due to the `"autoboot": false`
+setting, the machine will not be running.
 
-    vmadm create
-
-Note the UUID in the last step. This UUID is the ID of the VM and will
+Note the UUID printed after creation. This UUID is the ID of the VM and will
 be used to reference it for the rest of its lifecycle.
 
-<!-- markdownlint-disable line-length -->
-
     $ vmadm create < vmspec.json
-    {"percent":1,"type":"update","message":"checking and applying defaults to payload"}
-    {"percent":2,"type":"update","message":"checking required datasets"}
-    {"percent":28,"type":"update","message":"we have all necessary datasets"}
-    {"percent":29,"type":"update","message":"creating volumes"}
-    {"percent":51,"type":"update","message":"creating zone container"}
-    {"percent":94,"type":"update","message":"storing zone metadata"}
-    {"uuid":"b8ab5fc1-8576-45ef-bb51-9826b52a4651","type":"success","message":"created VM"}
-
-<!-- markdownlint-enable line-length -->
+    Successfully created VM b8ab5fc1-8576-45ef-bb51-9826b52a4651
 
 ## Copy your OS ISO to the zone
 
-The path to the ISO image in the json is relative to the root of the zone.
+The path to the ISO image in the json is relative to the root of the zone that
+will execute the `qemu` command, so you'll need to place the ISO image in the
+root if the VM zone.
 
     cd /zones/b8ab5fc1-8576-45ef-bb51-9826b52a4651/root/
-    wget http://mirrors.debian.com/path_to_an_iso/debian.iso
+    curl -O http://mirrors.debian.com/path_to_an_iso/debian.iso
 
-## Ensure permissions are correct on the ISO
-
-    chown root debian.iso
-    chmod u+r debian.iso
+From the global zone perspective, place the file in the directory
+`/zones/<instance_uuid>/root/`. From the perspective of the instance the ISO
+will be referred to as `/<filename>.iso`.
 
 ## Boot the VM from the ISO Image
 
@@ -105,10 +125,10 @@ the lifecycle of a virtual machine after it already exists. We will boot
 the virtual machine we have just created, but tell it to boot off of the
 ISO image the first time it comes up.
 
-    vmadm boot b8ab5fc1-8576-45ef-bb51-9826b52a4651 order=cd,once=d cdrom=/debian.iso,ide
+    vmadm boot b8ab5fc1-8576-45ef-bb51-9826b52a4651 order=cd,once=d cdrom=/image.iso,ide
 
-Please note that the path for the ISO image will be the relative path of
-the ISO to the zone you are in. This is why it starts with the '/'
+**Note:** The path for the ISO image will be the relative path of the ISO to
+the zone you are in. This is why it starts with the `/`.
 
 ## Use VNC to Connect to the VM
 
@@ -124,43 +144,21 @@ append a section to print specificially.
       }
     }
 
-Your VM is now running. You can shutdown your virtual machine and it
-will still remain on disk. To learn more about managing the lifecycle of
-a virtual machine, run `vmadm --help`.
+The IP printed will be the IP of the SmartOS global zone which brokers the
+VNC connection to the VM. You should be able to connect to the reported VNC
+port from your workstation.
 
-## Troubleshooting
+Your VM is now running. You can shutdown your virtual machine and the ISO
+will remain available to the zone. Typically at this point you would perform
+the OS installation via the VNC console. When finished, if you are going to
+create an image from this instance be sure to remove unique identifiers
+such as the hostname, networking, and private keys that should be generated
+by hosts as they boot the new image.
 
-### Zone Networking Issues
+If the guest OS is Linux or Windows you will probably want to install the
+[Triton VM Guest Tools][vm-tools]. For other operating systems you should be
+able to compile the [mdata-client][md-client] for accessing
+[`customer_metadata`][mdata].
 
-If you are running SmartOS as a guest vm then you might have networking
-issues with your zones. In order to fix this we need to create a
-bridge.
-If you look at
-<https://github.com/TritonDataCenter/smartos-overlay/blob/master/lib/svc/method/net-physical#L179>
-You can see that the script will create a bridge for vmare products but
-if you are using VirtualBox or Parallells then you need to do it
-manually.
-
-<!-- markdownlint-disable line-length -->
-
-    $ ifconfig -a
-    e1000g0: flags=1100943<UP,BROADCAST,RUNNING,PROMISC,MULTICAST,ROUTER,IPv4> mtu 1500 index 2
-            inet 10.216.214.7 netmask ffffff00 broadcast 10.216.214.255
-            ether 8:0:27:e1:35:cb
-    $ dladm create-bridge -l e1000g0 vboxbr
-
-<!-- markdownlint-enable line-length -->
-
-Your zones should now be able to access the network. You don't need to
-change the `nic_tag` for any of the zones, leave them as `admin` or
-`external`.
-
-There is a way to make this happen on boot with my adding an smf script
-to `/opt/custom/smf`. Here is a nice write up that shows you how it's
-done.
-<http://www.psychicfriends.net/blog/archives/2012/03/21/smartosorg_run_things_at_boot.html#003979>
-
-## Further Reading
-
-Those versed in JavaScript can learn a lot more by reading the
-[vmadm.js source](https://github.com/TritonDataCenter/smartos-live/blob/master/src/vm/sbin/vmadm.js).
+[vm-tools]: https://github.com/TritonDataCenter/sdc-vmtools
+[md-client]: https://github.com/TritonDataCenter/mdata-client

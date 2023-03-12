@@ -2,15 +2,15 @@
 
 ## Latest Release
 
-* [Download SmartOS ISO][download-iso] - For running in Virtual Box, VMware,
+* [ISO Image][download-iso] - For running in Virtual Box, VMware,
   or booting hardware from read-only media.
-* [Download SmartOS USB Image][download-usb] - For booting on real hardware
+* [USB Image][download-usb] - For booting on real hardware
   using read/write media.
-* [Download SmartOS VMware VM][download-vmx] - Ready-made image for VMware.
+* [VMware VM Image][download-vmx] - Ready-made image for VMware.
   (Note: Do not use the first disk presented during disk selection (`c0t0d0`).
   This is the boot media and overwriting it will make the machine not boot
   anymore).
-* [Download SmartOS Platform Archive][download-pi] - Platform image only. This
+* [Platform Archive][download-pi] - Platform image only. This
   is not a bootable media, but can be extracted to existing bootable
   media such as a USB drive or a PXE server.
 * [View a list of all objects for the latest release][latest] - This includes
@@ -34,12 +34,13 @@ If you already have SmartOS installed, see [Upgrading SmartOS][upgrade].
 
 ## Using These Images
 
-Once you've downloaded an image, please read the [Getting Started with
-SmartOS][getting-started] guide for information on getting up to speed
-quickly and refer to one of the following pages applicable to your
-preferred installation type:
+Once you've downloaded an image, please read the [Quick Start][qs] and
+[Getting Started][getting-started] guides for information on getting up to speed
+quickly and refer to one of the following pages applicable to your preferred
+installation type:
 
 [getting-started]: getting-started-with-smartos.md
+[qs]: smartos-quick-start-guide.md
 
 * [Creating a SmartOS Bootable USB Key][create-usb]
 * [SmartOS as a VMware Guest][vmware-guest]

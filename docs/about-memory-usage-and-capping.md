@@ -47,21 +47,21 @@ The following pseudocode describes how `getvmusage()` calculates the RSS
 for a zone.
 
 - For each process:
-  - Figure out process's zone
-    - For each segment in process's address space:
-      - If segment is private:
-        - Lookup anons in the amp.
-        - For incore pages not previously visited each of the process's zones,
-          add incore pagesize to each zone. Anon's with a refcnt of 1 can
-          be assummed to be not previously visited.
-        - For address ranges without anons in the amp:
-          - Lookup pages in underlying vnode.
-          - For incore pages not previously visited for each of the process's
-            zones, add incore pagesize to each zone.
-      - If segment is shared:
-        - Lookup pages in the shared amp or vnode.
-        - For incore pages not previously visited for each of
-          the process's zones, add incore pagesize to each zone.
+    - Figure out process's zone
+        - For each segment in process's address space:
+            - If segment is private:
+                - Lookup anons in the amp.
+                - For incore pages not previously visited each of the process's zones,
+                  add incore pagesize to each zone. Anon's with a refcnt of 1 can
+                  be assummed to be not previously visited.
+                - For address ranges without anons in the amp:
+                    - Lookup pages in underlying vnode.
+                    - For incore pages not previously visited for each of the process's
+                  zones, add incore pagesize to each zone.
+            - If segment is shared:
+                - Lookup pages in the shared amp or vnode.
+                - For incore pages not previously visited for each of
+                  the process's zones, add incore pagesize to each zone.
 
 Because both the `/proc` and the `getvmusage()` RSS calculation are
 looking at processes at a point in time, it is possible for the numbers

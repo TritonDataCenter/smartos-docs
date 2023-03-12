@@ -22,7 +22,7 @@ based on [illumos][illumos].  It supports two types of virtualization:
 [type1-vmm]: http://en.wikipedia.org/wiki/Hypervisor
 [illumos]: https://illumos.org
 
-- **OS Virtual Machines** (Zones): A light-weight virtualization
+- **OS Virtual Machines** (Zones, Containers): A light-weight virtualization
   solution offering a complete and secure userland environment
   on a single global kernel, offering true bare metal performance
   and all the features illumos has, namely dynamic introspection
@@ -105,11 +105,11 @@ improve the documentation for other users in the community.
 
 ## About Triton
 
-SmartOS is a fundamental component of the [Triton Data
-Center](http://www.tritondatacenter.com/triton/) (Triton) product. Triton
-source and images are available for at no cost and powers several
-public and private clouds around the globe, namely the [MNX Public
-Cloud](http://mnx.io).  As you use SmartOS you
+SmartOS is a fundamental component of the
+[Triton Data Center](http://www.tritondatacenter.com/triton/) (Triton) product.
+Triton source and images are available for at no cost and powers several
+public and private clouds around the globe, namely the
+[MNX Public Cloud](http://mnx.io).  As you use SmartOS you
 will come across hooks that are used by Triton, such as file systems
 and services named "smartdc".
 

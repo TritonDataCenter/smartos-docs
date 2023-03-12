@@ -59,11 +59,10 @@ options which are fully described in the
 important are:
 
 - `brand`: This must be set to "joyent" for Zones
-- `image_uuid`: The UUID of the image you are using as a template
-  (images were previously called "datasets")
-- `alias`: An arbitrary name displayed in `vmadm list` output in
+- `image_uuid`: The UUID of the image you are using
+- `alias`: (required) An arbitrary name displayed in `vmadm list` output in
   addition to the UUID
-- `hostname`: Hostname that will be set within the zone
+- `hostname`: (optional) Hostname that will be set within the zone
 - `max_physical_memory`: Amount of RAM (RSS) available to the zone
   in MB
 - `quota`: Amount of disk space in GB
@@ -73,23 +72,9 @@ important are:
 
 Here is an example json payload.
 
-    {
-     "brand": "joyent",
-     "image_uuid": "643de2c0-672e-11e7-9a3f-ff62fd3708f8",
-     "alias": "web01",
-     "hostname": "web01",
-     "max_physical_memory": 512,
-     "quota": 20,
-     "resolvers": ["8.8.8.8", "208.67.220.220"],
-     "nics": [
-      {
-        "nic_tag": "admin",
-        "ip": "10.88.88.52",
-        "netmask": "255.255.255.0",
-        "gateway": "10.88.88.2"
-      }
-     ]
-    }
+<!-- markdownlint-disable no-inline-html -->
+<script src="https://tritondatacenter.github.io/emgithub/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fbahamat%2Fsmartos-flair%2Fblob%2Fmaster%2Ftemplates%2Fbase-64.json&style=default&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showCopy=on"></script>
+<!-- markdownlint-ensable no-inline-html -->
 
 #### Passing SSH keys to the VM
 

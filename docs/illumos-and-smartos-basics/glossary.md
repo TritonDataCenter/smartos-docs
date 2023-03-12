@@ -97,9 +97,9 @@ A URL, the end of an API that communicates with the rest of the world.
 ## Global Zone
 
 The native name of the system that holds all the other [zones](glossary.md#zone)
-in a [compute node](glossary.md#compute-node) or a [headnode](glossary.md#headnode)
-. The operating system which is running directly on bare metal. This is a
-Solaris term.
+in a [compute node](glossary.md#compute-node) or a
+[headnode](glossary.md#headnode). The operating system which is running directly
+on bare metal and controlls the hypervisor.
 
 ## Headnode
 
@@ -115,11 +115,12 @@ virtual servers. It controls the provisioning and maintenance of
 
 ## Instances
 
-A single virtual execution environment. This can be a zone, or virtual machine.
+A single virtual execution environment. This can be a zone, container, or
+virtual machine.
 
 ## IP-KVM
 
-Keyboard/video/mouse.
+Keyboard/video/mouse over IP.
 
 ## IaaS
 
@@ -145,8 +146,8 @@ on the system.
 
 ## KVM
 
-Kernel virtual machine: a virtual machine implementation using the operating
-system's kernel. Ported to illumos from Linux. -
+Kernel-based Virtual Machine: a virtual machine implementation using the
+operating system's kernel. Ported to illumos from Linux. -
 [wikipedia](https://en.wikipedia.org/wiki/Kernel-based_Virtual_Machine)
 
 ## LAN
@@ -188,8 +189,8 @@ files in a dataset that belongs exclusively to a particular zone.
 
 ## Network virtualization
 
-A set of features in OpenSolaris, Illumos and SmartOS which provides an internal
-network virtualization and quality of service scenario. -
+A set of features in OpenSolaris, Illumos, and SmartOS which provides an
+internal network virtualization and quality of service scenario. -
 [wikipedia](https://en.wikipedia.org/wiki/OpenSolaris_Network_Virtualization_and_Resource_Control)
 
 ## NIC
@@ -292,7 +293,8 @@ Software as a Service.
 
 ## SDC
 
-SmartDataCenter.
+SmartDataCenter. Triton is formerly known as SmartDataCenter. The abbreviations
+"smartdc" and "sdc" are used extensively throughout SmartOS and Triton.
 
 ## SLA
 
@@ -316,6 +318,12 @@ A template is a named set of files and scripts used to generate a deployable
 "dataset generator", and the fact that it's versioned means that generations of
 the same dataset type can be generated. Templates may be published to a
 Templates API, which also provides dataset generating services.
+
+## Triton Data Center
+
+A collection of API services for managing tens to hundreds or thousands of
+compute nodes. Triton is an orchestration suite used for managing an entire
+datacenter worth of comput nodes.
 
 ## UUID
 

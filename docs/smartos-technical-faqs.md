@@ -15,10 +15,10 @@ found in the
 
 ## Where's top?
 
-SmartOS uses 'prstat' instead of top; it understands SmartOS better and
+SmartOS uses `prstat` instead of top; it understands SmartOS better and
 has lower overhead. 'prstat -Z' is a popular invocation, although there
 are many other command-line options; see the [prstat man
-page](http://www.illumos.org/man/1m/prstat) for more details.
+page](http://www.illumos.org/man/8/prstat) for more details.
 
 ## How do I start or stop system services?
 
@@ -46,22 +46,6 @@ some common commands:
 
 [How to create a KVM VM ( Hypervisor virtualized machine ) in SmartOS](how-to-create-an-hvm-zone.md)
 
-## Where's &lt;common tool&gt;?
-
-The current SmartOS release is fairly stripped down. You can add more
-goodies using [pkgsrc/pkgin](working-with-packages.md).
-
-## What about AMD support?
-
-You can use SmartOS with zones on AMD Hardware. KVM on AMD is currently
-not supported. Bhyve on AMD is supported, but not well tested.
-
-We at Joyent have no plans to add this (for sheer lack of time), but
-it's being worked on in the community.
-
-There are [eait-images](http://imgapi.uqcloud.net/builds) with AMD KVM
-support.
-
 ## If I use a USB Key to boot, how can I upgrade SmartOS safely later?
 
 The USB key is just a FAT32 filesystem with grub installed on it. It's a
@@ -76,24 +60,6 @@ in a new platform directory to platform.new ( or platform.date or
 whatever ), edit boot/grub/menu.list to point at the right place ( you
 can even add new menu entries ) and boot.
 
-## Is it possible to use Joyent's KVM datasets without SmartDataCenter (SDC)?
-
-It is,  but you're likely better off making your own dataset by
-following these
-[instructions](how-to-create-an-hvm-zone.md)
-Without SDC you'll need to restart the vm and login into the guest in
-single user mode via grub in order to set the root ssh keys. SDC uses
-some 'magic' to setup these ssh keys for its customers.
-
-Once you're happy with this guest VM, halt it, take a zfs snapshot. This
-snapshot can then be used as the dataset for future VMs without having
-to install the guest OS again. Detailed instructions are
-[here](managing-images.md)
-
-(For some newer Joyent-distributed KVM images, you can set root's SSH
-authorized keys using `customer_metadata` - see "Passing SSH Keys to the
-VM" on [How to create an HVM VM in SmartOS](how-to-create-an-hvm-zone.md).
-
 <!-- markdownlint-disable line-length -->
 ## How do I automate setting up hostnames/static networking at deploy-time for Linux datasets?
 <!-- markdownlint-enable line-length -->
@@ -107,4 +73,4 @@ the VM json spec.
 
 `#illumos` and `#smartos` on `irc.libera.chat`.
 
-email: `smartos [at] joyent [dot] com`
+email: `smartos [at] tritondatacenter [dot] com`

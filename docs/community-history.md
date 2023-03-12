@@ -205,8 +205,8 @@ Straughan](http://www.beginningwithi.com/comments/)*
 - Ailing Sun was bought by Oracle in 2009, with the acquisition
   closing in February 2010
 - Sun was concisely eulogized by Scott McNealy:
-  - *Kicked butt, had fun, didnʼt cheat, loved our customers,
-    changed computing forever.*
+    - *Kicked butt, had fun, didnʼt cheat, loved our customers,
+      changed computing forever.*
 - After the acquisition closed, it became clear that Scottʼs eulogy
   was (ironically?) the antithesis of Oracle
 - Over 2010, it became clear that Oracle had absolutely *no* interest
@@ -236,13 +236,13 @@ copyright Andre van Eyssen*
 
 - On Friday, August 13th, 2010, an internal memo was circulated by the
   putative Solaris leadership:
-  - *We will distribute updates to approved CDDL or other open
-    source-licensed code following full releases of our enterprise
-    Solaris operating system. In this manner, new technology
-    innovations will show up in our releases before anywhere else.*
-    ***We will no longer distribute source code for the entirety of
-    the Solaris operating system in real-time*** *while it is
-    developed, on a nightly basis.*
+    - *We will distribute updates to approved CDDL or other open
+      source-licensed code following full releases of our enterprise
+      Solaris operating system. In this manner, new technology
+      innovations will show up in our releases before anywhere else.*
+      ***We will no longer distribute source code for the entirety of
+      the Solaris operating system in real-time*** *while it is
+      developed, on a nightly basis.*
 - Greatest act of cowardice in the history of open source: this was
   never publicly announced; it was simply leaked
 - Updates silently stopped on August 18th, 2010
@@ -361,8 +361,8 @@ copyright Andre van Eyssen*
 - We value the freedom to fork over governance; code over discussion;
   innovation over democracy
 - David Clark of IETF fame put it best (h/t @kebesays):
-  - *We reject: kings, presidents and voting*
-  - *We believe in: rough consensus and running code*
+    - *We reject: kings, presidents and voting*
+    - *We believe in: rough consensus and running code*
 - Instead of a BDFL, we have a benevolent oligarchy — and so far we
   have achieved consensus with little effort
 - We value *utility*; we donʼt do things for their own sake!

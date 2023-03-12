@@ -1,11 +1,12 @@
 # KVM
 
-<!-- markdownlint-disable no-inline-html -->
-<div class="youtube-player">
-  <iframe Wtype="text/html" src="https://www.youtube.com/embed/mzz_NehKaMo"
-    frameborder="0" allowfullscreen></iframe>
-</div>
-<!-- markdownlint-enable no-inline-html -->
+SmartOS includes the KVM kernel virtual machine manager, originally ported
+from [Linux](https://www.linux-kvm.org/page/Main_Page). KVM supports most Intel
+and AMD processors for running hardware based virtual machines.
+
+In general, [Bhyve](bhyve) is preferred, but KVM has wider compatibility with
+operating systems and is somewhat easier to use when building HVM images that
+can run in either KVM or Bhyve.
 
 ## SmartOS: Virtualization with ZFS and KVM
 
@@ -14,8 +15,3 @@ LWN.net, an excellent deep dive for Linux users by Koen Vervloesem
 concludes that: "For Linux users who were interested in these Solaris
 technologies but wouldn't want to lose their favorite hypervisor KVM,
 SmartOS and OpenIndiana are now able offer the best of both worlds."
-
-## Videos
-
-[Video: Experiences Porting KVM to SmartOS](http://smartos.org/2011/09/23/video-experiences-porting-kvm-to-smartos/)
-Joyent VP of Engineering Bryan Cantrill speaks at the KVM Forum, Aug 15, 2011.

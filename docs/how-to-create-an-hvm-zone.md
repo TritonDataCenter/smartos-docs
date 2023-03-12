@@ -4,55 +4,59 @@ SmartOS has two different virtual machine monitors: [KVM](kvm.md) and
 [Bhyve](bhyve.md), collectively referred to as **HVM**
 (**H**ardware **V**irtual **M**achine) instances. There are differences with
 the implementation, and each has its advantages, but for the most part,
-operators manage them in almost exactly the same way.
+operators manage them in almost exactly the same way. In most cases, Bhyve is
+preferred.
 
 ## Creating HVM VMs
 
-Before creating a new KVM VM, a zone template image must be imported.
-KVM templates are ZFS zvol snapshots with a (typically)
+Before creating a new VM, an image must be imported.
+VM images are ZFS zvol snapshots with a (typically)
 freely-distributable operating system such as a Linux variant
-pre-installed. Images are available through the imgadm tool.
+pre-installed. Images are available through the imgadm tool. In most cases
+VM images may be used with either Bhyve or KVM.
 
-You will then be able to create and install zones and virtual machines
-using `vmadm create`.
+You will then be able to create instances using `vmadm`.
 
-To list all available KVM images from Joyent:
+To list all available VM images:
 
     imgadm avail type=zvol
 
-Note that KVM images usually say something like "linux" or "bsd" in the
-"OS" column of this output and "zvol" as the "TYPE".
+VM images will report the OS as "linux" or "bsd" and the TYPE as "zvol".
+For most distributions there will be both HVM (zvol) and LX (lx-dataset) images
+available.
 
-"smartos" images (zone templates) and images with "LX" in their names
-(datasets for use with LX-branded zones) aren't appropriate for the
-process being described here. These images cannot be used to create KVM VM's.
+"SmartOS" (zone-dataset) and LX (lx-dataset) images aren't appropriate for the
+process being described here. These images cannot be used to create HVM's.
 
 To list all local images installed in on your SmartOS host:
 
     imgadm list
 
-To import an image from Joyent, use the UUID of the image (from
-`imgadm avail`):
+To import an image, use the UUID of the image (from `imgadm avail`):
 
     imgadm import UUID
 
 The image is now downloaded and installed at zones/UUID.
 
-`vmadm create` is a tool for fast provisioning of zones and KVM VMs; it
+`vmadm` is a tool for fast provisioning all instance types. It
 takes a json payload and clones an image into a working virtual machine.
 
 To use `vmadm create` you must first start by creating your VM/zone
 definition file, for instance copying this in to /tmp/myvmspec
-(substituting the image\_uuid, network information, and machine
+(substituting the `image_uuid`, network information, and machine
 dimensions that are appropriate):
 
-This example sets the brand to `kvm`, to create a KVM zone. To use
-Bhyve, set the brand to `bhyve`.
+This example sets the brand to `bhyve`, to create a Bhyve zone. To use
+KVM, set the brand to `kvm`.
+
+The first disk is always 10GB and comes from the image properties. Additional
+disks should be used if more space is needed. In this example, a 25GB disk
+is included. The second disk will usually be mounted at `/data`.
 
     {
-      "brand": "kvm",
+      "brand": "bhyve",
       "resolvers": [
-        "208.67.222.222",
+        "8.8.8.8",
         "8.8.4.4"
       ],
       "ram": "512",
@@ -72,6 +76,10 @@ Bhyve, set the brand to `bhyve`.
           "image_uuid": "3162a91e-8b5d-11e2-a78f-9780813f9142",
           "boot": true,
           "model": "virtio"
+        },
+        {
+          "model": "virtio",
+          "size": 25600,
         }
       ]
     }
@@ -91,10 +99,9 @@ booted.
 Once you have created the VM with `vmadm create`, you can see your VM's
 console.
 
-For images provide by Joyent, you can simply use
+    vmadm console <UUID>
 
-    zlogin <UUID>
-
+<!--
 For KVM, there is also a vnc server port available for each zone.
 
     # vmadm info <UUID> vnc
@@ -106,8 +113,7 @@ For KVM, there is also a vnc server port available for each zone.
       }
     }
 
-Connect to that VNC service with your local workstation's VNC
-viewer.
+Connect to that VNC service with your local workstation's VNC viewer.
 ![VNC Session](attachments/755505/1146943.png)
 
 Be aware that the VNC console service is NOT authenticated, and is intended
@@ -118,6 +124,7 @@ you're exposing, and apply firewall rules as necessary.
 RealVNC VNC Viewer will crash when connecting unless you set FullColour to
 True in the options.  On Windows make sure to go to Options, click Advanced,
 go to the Expert tab and set FullColour to True.
+-->
 
 ### Passing cloud-init data to the VM
 

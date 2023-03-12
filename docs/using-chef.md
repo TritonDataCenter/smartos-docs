@@ -1,40 +1,31 @@
 # Using Chef
 
-(If you prefer to be educated by video, try these:
-[SmartOS: An SA Primer](http://www.youtube.com/watch?v=dxZExLeJz2I) and/or
-[SmartOS Operations – Ben Rockwood at illumos Day](http://www.youtube.com/watch?v=96PGoXHli3Q))
-
-By far the most popular solution for managing SmartOS configuration is
-[Opscode Chef](http://www.opscode.com). It is a very powerful tool with
-a very active community of users. Here you'll learn about the various
-ways in which you can utilize Chef to manage your SmartOS nodes.
-
 Before we dig into the various components and procedures, lets briefly
 consider the various combinations of options available to you. These
 methods can be mixed-and-matched to fit your specific situation. Please
 consider the following:
 
 - Chef Client Installation. Options available include:
-  - **The illumos Ops Omnibus Spin**: Discussed below, this is our
-    binary distribution of Chef to simplify and speed installation
-  - **Install pkgsrc's Ruby, then install the Chef Gem**: This is a
-    more complex solution which takes more time and consume far more
-    disk, but if wish to leverage pkgsrc in other ways, such as
-    installing Nagios for example, it may be a viable option
-- Cookbook Distribution &amp; Orchestration
-  - **Hosted Chef & Knife**: In this case you would orchestrate
-    using the `knife` utility. This includes sending cookbooks to
-    the Opscode Platform, bootstrapping new nodes with Knife
-    Bootstrap Templates, and running the `chef-client` as a daemon
-    which executes on a regular schedule finding and applying
-    changes to your cookbooks.
-  - **Chef Solo & Scripts**: In this case you would create a custom
-    bash bootstrap script, hosted on a web server accessible to the
-    nodes, which would be responsible for installing Chef on the
-    node, configuring it, and creating an SMF service to
-    wrap chef-solo. The cookbooks would be stored on the web server
-    as a tarball which would be downloaded on each chef-solo run
-    which is initiated manually by restarting the Chef SMF service.
+    - **The illumos Ops Omnibus Spin**: Discussed below, this is our
+      binary distribution of Chef to simplify and speed installation
+    - **Install pkgsrc's Ruby, then install the Chef Gem**: This is a
+      more complex solution which takes more time and consume far more
+      disk, but if wish to leverage pkgsrc in other ways, such as
+      installing Nagios for example, it may be a viable option
+- Cookbook Distribution & Orchestration
+    - **Hosted Chef & Knife**: In this case you would orchestrate
+      using the `knife` utility. This includes sending cookbooks to
+      the Opscode Platform, bootstrapping new nodes with Knife
+      Bootstrap Templates, and running the `chef-client` as a daemon
+      which executes on a regular schedule finding and applying
+      changes to your cookbooks.
+    - **Chef Solo & Scripts**: In this case you would create a custom
+      bash bootstrap script, hosted on a web server accessible to the
+      nodes, which would be responsible for installing Chef on the
+      node, configuring it, and creating an SMF service to
+      wrap chef-solo. The cookbooks would be stored on the web server
+      as a tarball which would be downloaded on each chef-solo run
+      which is initiated manually by restarting the Chef SMF service.
 
 As I said, these options can be mixed and matched. For instance, if you
 opt to use Knife to bootstrap a node, you may use a bootstrap template
@@ -44,16 +35,16 @@ many possible combinations and it would be possible to explore all of
 them. Therefore, we will present some details here on some of the
 concepts and you can use them in whichever order is best for you.
 
-## The Joyent smartos_cookbooks Github Repo
+## The smartos_cookbooks Github Repo
 
 Many of the tools and cookbooks referenced on this page can be found in
 the
-[`joyent/smartos_cookbooks`](https://github.com/TritonDataCenter/smartos_cookbooks)
+[`smartos_cookbooks`](https://github.com/TritonDataCenter/smartos_cookbooks)
 Github repository.
 
 For cookbooks and scripts to be used with SmartMachines/Zones, please
 refer to the
-[`joyent/smartmachine_cookbooks`](https://github.com/TritonDataCenter/smartmachine_cookbooks)
+[`smartmachine_cookbooks`](https://github.com/TritonDataCenter/smartmachine_cookbooks)
 repo.
 
 ## Installing Chef

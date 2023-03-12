@@ -1,10 +1,12 @@
 # ZFS
 
 <!-- markdownlint-disable no-inline-html -->
+<!-- This video is privaet now.
 <div class="youtube-player">
   <iframe type="text/html" src="https://www.youtube.com/embed/6F9bscdqRpo"
     frameborder="0" allowfullscreen></iframe>
 </div>
+-->
 <!-- markdownlint-enable no-inline-html -->
 
 ZFS keeps your data safe and makes data and disk administration fast
@@ -90,6 +92,9 @@ Videos:
 [vid-14]: http://www.youtube.com/watch?v=MLTX1i7UEL4&t=8m18s
 [vid-15]: http://www.youtube.com/watch?v=MLTX1i7UEL4&t=18m50s
 
+<!-- These links to the smartos blog are dead. The blog is defunct and lost
+     to history. RIP smartos.org/blog.
+
 ## ZFS in SmartOS
 
 - [SmartOS ZFS Architecture][smartos-zfs-arch]
@@ -97,6 +102,8 @@ Videos:
 
 [smartos-zfs-arch]: http://smartos.org/2012/08/21/789/
 [running-without-rpool]: http://smartos.org/2013/01/22/new-video-running-without-a-zfs-root-pool/
+
+-->
 
 ## Learning and Using ZFS
 

@@ -1,3 +1,10 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# Copyright 2020 Joyent, Inc.
+# Copyright 2023 MNX Cloud, Inc.
+
 export PATH:=$(PWD)/node_modules/.bin:$(PWD)/py-venv/bin/:$(PATH)
 SHELL:=/bin/bash
 
@@ -17,6 +24,9 @@ check:
 
 build:
 	sh -c "mkdocs build"
+
+serve-loop:
+	sh -c "while : ; do mkdocs serve ; sleep 1 ; done"
 
 serve:
 	sh -c "mkdocs serve"

@@ -127,6 +127,7 @@ See:
 
 - [How to Create a Zone](how-to-create-a-zone.md)
 - [How to Create an HVM Zone](how-to-create-an-hvm-zone.md)
+- [How to create an LX Brand Zone](lx-branded-zones.md)
 
 ## Getting an instances properties
 
