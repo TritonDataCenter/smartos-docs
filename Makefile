@@ -8,7 +8,12 @@
 export PATH:=$(PWD)/node_modules/.bin:$(PWD)/py-venv/bin/:$(PATH)
 SHELL:=/bin/bash
 
-.PHONY: clean deps deploy serve
+.PHONY: clean deps deploy serve dynamic-targets
+
+DYNAMIC_TARGETS = docs/CODE_OF_CONDUCT.md
+
+docs/CODE_OF_CONDUCT.md:
+	curl -sf -L -o docs/CODE_OF_CONDUCT.md https://github.com/TritonDataCenter/illumos-joyent/raw/master/CODE_OF_CONDUCT.md
 
 deps: node_modules py-venv
 
@@ -19,11 +24,10 @@ py-venv: requirements.txt
 	virtualenv py-venv
 	source py-venv/bin/activate; pip install -r requirements.txt
 
-check:
+check: clean-dynamic
 	sh -c "markdownlint-cli2 **/docs/*.md"
 
-build:
-	curl -sf -L -o docs/CODE_OF_CONDUCT.md https://github.com/TritonDataCenter/illumos-joyent/raw/master/CODE_OF_CONDUCT.md
+build: ${DYNAMIC_TARGETS}
 	sh -c "mkdocs build"
 
 serve-loop:
@@ -31,6 +35,9 @@ serve-loop:
 
 serve:
 	sh -c "mkdocs serve"
+
+clean-dynamic:
+	rm -f $(DYNAMIC_TARGETS)
 
 clean:
 	rm -rf mode_modules py-venv

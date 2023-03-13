@@ -2,3 +2,6 @@
 node_modules
 py-venv
 site
+
+# This content is downloaded from external sources
+docs/CODE_OF_CONDUCT.md
