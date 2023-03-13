@@ -19,12 +19,11 @@ metadata operations:
     key2
     root@cf7514d9:~# mdata-get key1
     val1
+    root@cf7514d9:~# mdata-put key3 val3
     root@cf7514d9:~# mdata-list
     key1
     key2
-    root@cf7514d9:~# mdata-put key3 val3
-    root@cf7514d9:~# mdata-get key2
-    val2
+    key3
     root@cf7514d9:~# mdata-delete key2
     root@cf7514d9:~# mdata-list
     key1
