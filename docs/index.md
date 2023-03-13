@@ -83,6 +83,29 @@ tools, `imgadm` and `vmadm`, accept and return all data in JSON
 format.  This provides a simple, consistent, and programmatic
 interface for creating and managing VM's.
 
+## Code of Conduct
+
+As a participant of the illumos community, all projects related to Triton
+(including SmartOS, Triton, Manta, etc.) we have adopted the illumos
+[Code of Conduct][coc].
+
+[coc]: CODE_OF_CONDUCT.md
+
+### Scope
+
+The scope of the code of conduct extends to SmartOS, Triton, and Manta resources
+including [mailing lists, chat, social media][soc], and
+[GitHub repositories][gh].
+
+[soc]: mailing-lists-and-irc.md
+[gh]: https://github.com/TritonDataCenter/
+
+### Enforcement
+
+Conduct violations involving the Triton community may be reported by contacting
+<conduct@tritondatacenter.com> instead of, or in addition to
+<conduct@illumos.org> as the case may be warranted.
+
 ## How to Use this Site
 
 This documentation can provide you with a variety of resources for users at

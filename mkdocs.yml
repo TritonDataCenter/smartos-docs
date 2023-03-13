@@ -105,6 +105,7 @@ nav:
         - "Debugging problems": "debugging.md"
         - "LX Brand Development": "lx-dev.md"
     - "The SmartOS Community":
+        - "Code of Conduct": "CODE_OF_CONDUCT.md"
         - "Mailing Lists, Forums, and Chat": "mailing-lists-and-irc.md"
         - "History": "community-history.md"
         - "Community Experiments": "community-experiments.md"

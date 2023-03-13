@@ -23,6 +23,7 @@ check:
 	sh -c "markdownlint-cli2 **/docs/*.md"
 
 build:
+	curl -sf -L -o docs/CODE_OF_CONDUCT.md https://github.com/TritonDataCenter/illumos-joyent/raw/master/CODE_OF_CONDUCT.md
 	sh -c "mkdocs build"
 
 serve-loop:
