@@ -101,7 +101,7 @@ files/directories.
 ### Services in `maintenance` State
 
 A service will be moved to `maintenance` state if it exits 10 times within
-10 seconds. This is usually do to an error. The program may be crashing, or it
+10 seconds. This is usually due to an error. The program may be crashing, or it
 may be exiting due to a configuration error.
 
 In order to determine the cause of the error, you will need to examine the logs.
