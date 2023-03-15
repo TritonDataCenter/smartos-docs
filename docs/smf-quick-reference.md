@@ -215,11 +215,11 @@ The start method is used to start the service and may be as simple as invoking
 the desired command.
 
 The stop method is used to stop the service and may be as simple as the special
-`:kill`, which will send signals to the processes in the service group.
+`:kill` key word, which will send signals to the processes in the service group.
 
 Often, the start and stop method are combined into a shell script that accepts
 start and stop subcommands. This is very similar to System V init scripts that
-you are used to.
+you are likely familiar with.
 
 SMF method script *should* source the file `/lib/svc/share/smf_include.sh`
 which includes a library of features. See the contents of that file for details.
@@ -244,8 +244,13 @@ Or:
 
 After import, run `svcs` to check the status of your service.
 
+### Removing Services
+
 To remove a service you need to:
 
 * Stop the service (`svcadm disable <fmri>`)
 * Delete the manifest (`rm /opt/custom/smf/<manifest>.xml`)
 * Delete the service (`svccfg delete <frmr>`)
+
+Note: Removing services other than those in `/opt/custom/smf` will likely have
+undesirable affects and is not recommended.
