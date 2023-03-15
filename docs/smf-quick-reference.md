@@ -71,6 +71,14 @@ that the boot up preference will not be changed.
     svcadm disable -t <fmri>
     svcadm enable -t <fmri>
 
+After a config change you will likely need to `restart` the associated service.
+Restarting a service calls the service's `stop` method, then the `start`
+method without modifying the desired state.
+Note: Restarting a service that is not `online` has no affect. See below for
+troubleshooting `offline` and `maintenance` states.
+
+    svcadm restart <fmri>
+
 ## Troubleshooting Service Failures
 
 A service that is enabled but not running will either be in `offline` or
