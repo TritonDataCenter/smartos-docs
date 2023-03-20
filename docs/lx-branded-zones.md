@@ -103,5 +103,5 @@ DHCPv6 as appropriate. You may also need to manually run
 
 ## Development
 
-See [LX Brand Devleopment](lx-dev) for information about developing and/or
+See [LX Brand Devleopment](lx-dev.md) for information about developing and/or
 debugging LX support.
