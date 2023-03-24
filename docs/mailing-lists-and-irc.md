@@ -45,7 +45,7 @@ of something and need advice.
 
 Most of the community can also be found on social networks.
 
-* [@smartos.org@hostux.social](https://hostux.social/@smartosorg) SmartOS
+* [@smartosorg@hostux.social](https://hostux.social/@smartosorg) SmartOS
   specific Mastodon account for news and commentary
 * [@triton_dc@hostux.social](https://hostux.social/@triton_dc) Triton
   specific Mastodon account for news and commentary
