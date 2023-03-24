@@ -43,13 +43,15 @@ of something and need advice.
 
 ## Other Resources
 
-Most of the community can also be found on Twitter. Some other Twitter
-sources of SmartOS news include:
+Most of the community can also be found on social networks.
 
+* [@smartos.org@hostux.social](https://hostux.social/@smartosorg) SmartOS
+  specific Mastodon account for news and commentary
+* [@triton_dc.org@hostux.social](https://hostux.social/@triton_dc) Triton
+  specific Mastodon account for news and commentary
 * [@smartosorg](https://twitter.com/joyentsmartos) SmartOS specific
   twitter account for news and commentary
 * [@Triton_DC](https://twitter.com/SmartDataCenter) Triton specific
   twitter account for news and commentary
 
-When tweeting about SmartOS, consider using the
-[#smartos Hashtag.](https://twitter.com/#!/search/?q=%23smartos)
+When posting about SmartOS, consider using the `#smartos` Hashtag!
