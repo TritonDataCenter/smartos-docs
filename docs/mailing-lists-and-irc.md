@@ -47,7 +47,7 @@ Most of the community can also be found on social networks.
 
 * [@smartos.org@hostux.social](https://hostux.social/@smartosorg) SmartOS
   specific Mastodon account for news and commentary
-* [@triton_dc.org@hostux.social](https://hostux.social/@triton_dc) Triton
+* [@triton_dc@hostux.social](https://hostux.social/@triton_dc) Triton
   specific Mastodon account for news and commentary
 * [@smartosorg](https://twitter.com/joyentsmartos) SmartOS specific
   twitter account for news and commentary
