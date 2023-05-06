@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/TritonDataCenter/smartos-docs#readme",
   "dependencies": {
-    "markdownlint-cli2": "^0.6.0"
+    "markdownlint-cli2": "^0.7.1"
   }
 }
