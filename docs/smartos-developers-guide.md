@@ -12,7 +12,6 @@ Developer.
 - [Contributing to SmartOS][dev-01]
 - [Building SmartOS on SmartOS][dev-02]
 - [Extending smartos-live][dev-03]
-- [3rd Party SmartOS Extensions][dev-04]
 - [Community Experiments][dev-05]
 - [Building Individual Drivers in SmartOS][dev-06]
 - [Porting Network Device Drivers from FreeBSD][dev-07]
@@ -24,7 +23,6 @@ Developer.
 [dev-01]: https://github.com/TritonDataCenter/smartos-live#contributing
 [dev-02]: https://github.com/TritonDataCenter/smartos-live#building-smartos
 [dev-03]: extending-smartos-live.md
-[dev-04]: 3rd-party-smartos-extensions.md
 [dev-05]: community-experiments.md
 [dev-06]: building-individual-drivers-in-smartos.md
 [dev-07]: porting-network-device-drivers-from-freebsd.md
