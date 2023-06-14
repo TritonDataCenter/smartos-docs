@@ -44,7 +44,7 @@ Valid config keys:
 | `<nic_tag>XX_vlan_id`  | VLAN ID number (`2` - `4096`)          |
 
 The `<nic_tag>_nic` key is the only parameter necessary to define a nic_tag. In
-general, it is not recomended that the global zone plumb an interface one very
+general, it is not recomended that the global zone plumb an interface on every
 nic_tag.
 
 To configure an interface over a nic_tag, it needs to be assigned an *instance
