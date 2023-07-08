@@ -31,7 +31,7 @@ view already installed packages. Use `pkgin in somepackage` to install a
 package. All software will be installed under `/opt/local` and should
 therefore be included in your path.
 
-[installing]: https://pkgsrc.smartos.org/illumos
+[installing]: https://pkgsrc.smartos.org/install-on-illumos/
 
 ## Using `pkgin`
 
