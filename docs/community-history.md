@@ -377,7 +377,7 @@ Start playing around with the code: <http://src.illumos.org> or
 <https://github.com/illumos/illumos-gate>
 
 If youʼre looking for something to do or have questions, donʼt hesitate
-to ask: Mailing list: developer@lists.illumos.org IRC: `#illumos` on
+to ask: Mailing list: <developer@lists.illumos.org> IRC: `#illumos` on
 `irc.libera.chat`.
 
 <!--

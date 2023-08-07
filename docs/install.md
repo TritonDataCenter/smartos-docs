@@ -15,8 +15,10 @@ Here's a basic example of this process. Note, this example uses the serial
 console, so the `loader` screen looks less fancy than you would see with an
 attached display.
 
+<!-- markdownlint-disable no-inline-html -->
 <script id="asciicast-bqSpbAEbcdGhCs3FiO55WtZbr"
   src="https://asciinema.org/a/bqSpbAEbcdGhCs3FiO55WtZbr.js" async></script>
+<!-- markdownlint-enable no-inline-html -->
 
 ## Networking
 

@@ -24,7 +24,7 @@ py-venv: requirements.txt
 	virtualenv py-venv
 	source py-venv/bin/activate; pip install -r requirements.txt
 
-check: clean-dynamic
+check: deps clean-dynamic
 	sh -c "markdownlint-cli2 **/docs/*.md"
 
 build: ${DYNAMIC_TARGETS}
