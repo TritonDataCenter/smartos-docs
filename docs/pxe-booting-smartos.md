@@ -35,7 +35,7 @@ or by compiling your own with an embedded script.
 SmartOS is also included in the [netboot.xyz][xyz] boot menu. Selecting SmartOS
 from the netboot.xyz menu will chain load the `netboot.smartos.org` ipxe script.
 
-Whether you use a bas iPXE image or a `netboot.xyz` image is largely up to
+Whether you use a base iPXE image or a `netboot.xyz` image is largely up to
 preference.
 
 [xyz]: https://netboot.xyz/
