@@ -305,8 +305,9 @@ Other options to know about are:
 
 ### Stripped down dnsmasq, tftp-hpa, pxegrub
 
-The example code in this section uses a very old image and hasn't been tested in a while. If you end up using this section as a guide, try using a
- modern image. If you succeed, please update the `image_uuid`.
+The example code in this section uses a very old image and hasn't been tested
+in a while. If you end up using this section as a guide, try using a modern
+image. If you succeed, please update the `image_uuid`.
 
 ### Motivation
 
