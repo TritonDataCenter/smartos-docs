@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 # Copyright 2020 Joyent, Inc.
-# Copyright 2023 MNX Cloud, Inc.
+# Copyright 2024 MNX Cloud, Inc.
 
 site_name: "SmartOS Documentation"
 site_url: "https://docs.smartos.org/"
@@ -45,6 +45,7 @@ nav:
             - "SmartOS as a VMware Guest": "smartos-as-a-vmware-guest.md"
             - "SmartOS as a VirtualBox Guest": "smartos-as-a-virtualbox-guest.md"
             - "Installation Walkthrough": "install.md"
+            - "Non-interactive Installation": "non-interactive-install.md"
         - "Getting Started with SmartOS": "getting-started-with-smartos.md"
         - "Virtual Instances":
             - "How to create a native SmartOS Instance": "how-to-create-a-zone.md"
