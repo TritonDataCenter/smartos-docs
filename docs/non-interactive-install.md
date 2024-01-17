@@ -109,7 +109,7 @@ non-responsive. Skipping this check will avoid a delay in those cases.
 ### zpool_layout
 
 This determines the zpool layout using the `disklayout` tool. You can use
-`disklaout` on a running SmartOS system to preview the layout that will be
+`disklayout` on a running SmartOS system to preview the layout that will be
 generated for various disk configurations.
 
 With each layout, the systemw ill attempt to intelligently assign storage,
