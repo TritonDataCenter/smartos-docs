@@ -1,8 +1,8 @@
 # Non-interactive Installation of SmartOS
 
-SmartOS installation can be automated either fully or partially non-interactive.
-This is similar to kickstart, jumpstart, installerconfig, or other unattended
-installation methods used by many operating systems.
+SmartOS installation can be automated to be either fully or partially
+non-interactive. This is similar to kickstart, jumpstart, installerconfig, or
+other unattended installation methods used by many operating systems.
 
 On SmartOS this is done with an `answers.json` file. The answer file must be
 placed at `private/answers.json` of the installation media and be valid JSON.
@@ -48,12 +48,13 @@ etc.) must be done post-setup in `/usbkey/config`.
 This key must be present to indicate non-interactive install is desired. If
 this key is missing, setup will silently block waiting for the user to press
 Enter. This can be useful if you want the system to boot up and be ready to
-install, but wait for an operator
+install, but wait for an operator before proceeding.
 
 ### skip_instructions
 
 If set to `true` setup will not display instructional text for each section of
-setup. If this key is not set `true` setup will block waiting for user input.
+setup. If this key is not set `true` setup will block waiting for user input
+before beginning.
 
 ### simple_headers
 
@@ -83,11 +84,12 @@ This key is required, even if `admin_ip` is set to `dhcp`.
 
 If `admin_ip` is set to `dhcp` then this should be set to `none`.
 
-If `admin_ip` is set to an IP address then this must be set to an IP address.
+If `admin_ip` is set to an IP address then this must be set to the correct
+gateway IP address.
 
 ### dns_resolver1, dns_resolver2
 
-This must be valid IP addresses that will act as recursive resolvers. DNS
+These must be valid IP addresses that will act as recursive resolvers. DNS
 resolvers will be checked for connectivity.
 
 ### dns_search
@@ -112,26 +114,27 @@ This determines the zpool layout using the `disklayout` tool. You can use
 `disklayout` on a running SmartOS system to preview the layout that will be
 generated for various disk configurations.
 
-With each layout, the systemw ill attempt to intelligently assign storage,
-spare, log, and cache devices automatically. See [`disklayout(8)`][1] for more
-information.
+The system will attempt to intelligently assign storage, spare, log, and cache
+devices automatically based on the specified layout type. See
+[`disklayout(8)`][1] for more information.
 
 [1]: https://smartos.org/man/8/disklayout
 
 Not all values supported by `disklayout` are valid during setup. The only valid
 values recognizd by setup are:
 
-**default**: The default layout suggested by SmartOS will be used.
+**default**: The default layout suggested by SmartOS will be used. The actual
+layout will vary depending on the number and type of storage devices attached.
 
-**mirror**: Requires a minimum of two disks. SmartOS will do its best to pair
-up devices into an array of mirrors. E.g., if there are four disks then there
-will be two, two-way mirrors. If there are six disks there will be three,
-two-way mirrors. If there is an odd number of disks then one disk will be a
+**mirror**: Requires a minimum of two devices. SmartOS will do its best to pair
+up devices into an array of mirrors. E.g., if there are four devices then there
+will be two, two-way mirrors. If there are six devices there will be three,
+two-way mirrors. If there is an odd number of devices then one device will be a
 spare.
 
-**raidz2**: Requires a minimum of five disks. SmartOS will do its best to create
-an array of raidz2 vdevs. If there are sufficient disks, multiple raidz2 vdevs
-will be created.
+**raidz2**: Requires a minimum of five devices. SmartOS will do its best to
+create an array of raidz2 vdevs. If there are sufficient devices, multiple
+raidz2 vdevs will be created.
 
 **manual**: While technically a valid value, this will cause the installer
 to drop to a shell for the operator to create the pool using `zpool create`.
