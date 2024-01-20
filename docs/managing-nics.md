@@ -16,6 +16,9 @@ Some commonly used nic_tags are described in the table below:
 | internal | Connectivity to an "intranet"        |
 | underlay | VXLAN / Software Defined Networking  |
 
+The only required nic tag is `admin` which will be configured by default.
+Use the command `nictagadm` to list nic tags.
+
 Because nic_tags are just a text string, it can be anything you want. Nothing
 prevents you from having a `dmz` or `private`. If you use Juniper network
 hardware, you may prever `trust` and `untrust`.
@@ -31,8 +34,8 @@ and will not be described here).
 
 Valid config keys:
 
-| Key Name               | Value |
-| ---------------------- | --- |
+| Key Name               | Value                                  |
+| ---------------------- | -------------------------------------- |
 | `<nic_tag>_nic`        | The MAC address of the physical NIC    |
 | `<nic_tag>XX_ip`       | A valid IPv4 address or `dhcp`         |
 | `<nic_tag>XX_ip6`      | A valid IPv6 address or `addrconf`     |
