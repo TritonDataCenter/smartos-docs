@@ -5,8 +5,8 @@ users.
 
 ## SmartOS Specific Man Pages
 
-- [vmadm(8)](https://github.com/TritonDataCenter/smartos-live/blob/master/src/vm/man/vmadm.8.md)
-- [imgadm(8)](https://github.com/TritonDataCenter/smartos-live/blob/master/src/img/man/imgadm.8.md)
+- [vmadm(8)](https://smartos.org/man/8/vmadm)
+- [imgadm(8)](https://smartos.org/man/8/imgadm)
 
 Cheat Sheets
 

@@ -120,11 +120,11 @@ are also deleted.
 
     **Important:** `-r` is the displayed resource name, `-s` is the share
     location, `smb` is the file system export type. See
-    [`sharemgr(1M)`][sharemgr-1m] for additional options.
+    [`sharemgr(8)`][sharemgr-8] for additional options.
 
 12. Test with a CIFS client
 
-[sharemgr-1m]: https://smartos.org/man/1m/sharemgr
+[sharemgr-8]: https://smartos.org/man/8/sharemgr
 
 ## Advertising SMB Services via Bonjour
 

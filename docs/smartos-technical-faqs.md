@@ -18,7 +18,7 @@ found in the
 SmartOS uses `prstat` instead of top; it understands SmartOS better and
 has lower overhead. 'prstat -Z' is a popular invocation, although there
 are many other command-line options; see the [prstat man
-page](http://www.illumos.org/man/8/prstat) for more details.
+page](http://smartos.org/man/8/prstat) for more details.
 
 ## How do I start or stop system services?
 

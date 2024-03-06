@@ -1,9 +1,9 @@
 # Managing Instances with `vmadm`
 
 This page describes some common tasks, and some tips & trics for using
-[vmadm(1M)][vmadm-man] to manage instances.
+[vmadm(8)][vmadm-man] to manage instances.
 
-[vmadm-man]: https://smartos.org/man/1m/vmadm
+[vmadm-man]: https://smartos.org/man/8/vmadm
 
 ## Listing instances
 
@@ -237,7 +237,7 @@ with an alias that starts with 'a' or 'b':
 ## Modifying an instance
 
 Many attributes can be updated live without needing a restart. See
-[`vmadm(1M)`][vmadm-man] details.
+[`vmadm(8)`][vmadm-man] details.
 
 Here we can see that the quota set on the instance is 20GB. The quota value
 returned by `vmadm` is the same value returned by `zfs`.
@@ -530,11 +530,11 @@ do a full send.
 
 <!-- markdownlint-enable line-length -->
 
-See [`zfs(1M)`][zfs-man] for information about additional send options. In
+See [`zfs(8)`][zfs-man] for information about additional send options. In
 particular, read up on resumable transfers. This helps if you have a large
 dataset and/or an unreliable network.
 
-[zfs-man]: https://smartos.org/man/1m/zfs
+[zfs-man]: https://smartos.org/man/8/zfs
 
 On the destination compute node, attach the zone. This will move the zone from
 `configured` to `stopped`. Note: You don't need to explictly copy or create the
