@@ -120,7 +120,7 @@ are also deleted.
 
     **Important:** `-r` is the displayed resource name, `-s` is the share
     location, `smb` is the file system export type. See
-    [`sharemgr(1M)`][sharemgr-1m] for additional options.
+    [`sharemgr(8)`][sharemgr-8] for additional options.
 
 12. Test with a CIFS client
 
