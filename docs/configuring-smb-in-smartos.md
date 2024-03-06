@@ -124,7 +124,7 @@ are also deleted.
 
 12. Test with a CIFS client
 
-[sharemgr-1m]: https://smartos.org/man/1m/sharemgr
+[sharemgr-8]: https://smartos.org/man/8/sharemgr
 
 ## Advertising SMB Services via Bonjour
 

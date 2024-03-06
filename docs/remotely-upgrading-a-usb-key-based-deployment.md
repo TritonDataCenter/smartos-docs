@@ -92,7 +92,7 @@ document for the correct link and expected MD5 sums.
 
 #### Find and Mount the USB Key
 
-The [diskinfo(1M)](https://smartos.org/man/1M/diskinfo) command displays
+The [diskinfo(8)](https://smartos.org/man/8/diskinfo) command displays
 information about the physical disks (or other storage devices) attached
 to the system.  We can use this tool to find the disk device that
 represents the USB key. By default, the tool will display a table of all

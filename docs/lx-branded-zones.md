@@ -5,7 +5,7 @@ machine. These are known in SmartOS as LX brand zones. LX Brand Zones run using
 the illumos kernel, not the Linux kernel, so while almost all user-land programs
 behave correctly, some kernel interfaces will not be present. If you need
 kernel facilities not present (e.g., nested containers, or iptables control,
-etc.) it is recommended that you instead use a [VM](how-toc-create-an-hvm-zone)
+etc.) it is recommended that you instead use a [VM](how-to-create-an-hvm-zone)
 instead.
 
 If you don't need extra kernel facilities, you may find that LX brand zones

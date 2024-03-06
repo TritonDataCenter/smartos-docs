@@ -24,7 +24,7 @@ we look at how to create your own private image server.
 
 The default image server is <https://images.smartos.org>. You can edit
 this list of sources using the `imgadm sources -a <URL>` command,
-as documented in [imgadm(1m)](https://smartos.org/man/1m/imgadm). Using
+as documented in [imgadm(8)](https://smartos.org/man/8/imgadm). Using
 the command `imgadm update`, you'll cause the local cache
 (`/var/db/imgadm/imgcache.json`) to be updated with the available
 images on the servers found in your sources.list. Once your local cache

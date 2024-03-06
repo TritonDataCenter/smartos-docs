@@ -55,7 +55,7 @@ You will reference this image's UUID when you create the zone manifest.
 
 A manifest is a JSON object which describes your zone. There are many
 options which are fully described in the
-[vmadm(1m)](https://smartos.org/man/1m/vmadm) man page. The most
+[vmadm(8)](https://smartos.org/man/8/vmadm) man page. The most
 important are:
 
 - `brand`: This must be set to "joyent" for Zones
@@ -120,6 +120,6 @@ or
     zlogin UUID
 
 Please refer to the manpage for
-[vmadm(1m)](https://smartos.org/man/1m/vmadm) and
+[vmadm(8)](https://smartos.org/man/8/vmadm) and
 [zlogin(1)](https://smartos.org/man/1/zlogin) respectively, for the
 escape sequence to exit out of console mode.
