@@ -14,7 +14,6 @@ There are two features of SmartOS that make it attractive for a NAS:
    ever be corrupted. If it is, just re-flash it, and you are off and
    running again.
 
-
 Here are some approaches that have been used successfully:
 
 1. Create a zone. To support Windows and Mac clients either run CIFS or
