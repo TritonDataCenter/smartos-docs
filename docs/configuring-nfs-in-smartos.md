@@ -3,9 +3,7 @@
 <!-- markdownlint-disable line-length -->
 
 NFS (network file system) provides access to remote filesystems which
-appear similar to local resources on client hosts. Currently on
-SmartOS, NFS can only be served from the **global zone**. It is highly
-recomended to use [SMB](configuring-smb-in-smartos.md) in zones instead.
+appear similar to local resources on client hosts.
 
 The following focuses on NFS server and client configurations in SmartOS.
 Our host details are:
