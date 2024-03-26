@@ -14,30 +14,6 @@ There are two features of SmartOS that make it attractive for a NAS:
    ever be corrupted. If it is, just re-flash it, and you are off and
    running again.
 
-But there are a couple of issues that make implementing a NAS
-problematic.
-
-First, NFS is available only in the global zone (GZ). It seems this will
-be fixed someday. But for now it means we can only NFS share filesystems
-out of the GZ. The NFS share information is stored in the ZFS datasets,
-so the persistence issue doesn't bite us here. If all you need is NFS
-file sharing, SmartOS is an excellent solution. But most people need to
-support Windows and/or Apple clients.
-
-Second, the transient nature of the GZ. It is possible to install
-packages (such as Samba or Netatalk) in the GZ and work around the
-persistence issue, but this contradicts the design and intention of
-SmartOS and it is not recommended. The SmartOS way is to keep the GZ
-pristine and light -- just ZFS and management of virtual machines -- and
-do everything else in the VMs.
-
-For these reasons, someone looking for a straight NAS is probably better
-served using another platform, such as OmniOS, perhaps using Napp-it to
-simplify management.
-
-But if you also need virtualization, SmartOS starts to become much more
-attractive, and it may be worthwhile to workaround the above problems.
-
 Here are some approaches that have been used successfully:
 
 1. Create a zone. To support Windows and Mac clients either run CIFS or
