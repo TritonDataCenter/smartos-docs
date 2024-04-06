@@ -79,7 +79,7 @@ is included. The second disk will usually be mounted at `/data`.
         },
         {
           "model": "virtio",
-          "size": 25600,
+          "size": 25600
         }
       ]
     }
