@@ -1,20 +1,25 @@
 # Allowing user CRUD in the global zone
 
-Note: This does not seem to work properly anymore.
-
 ## Introduction
 
 This script manifest and method extend the lofs mounts that are included
-in Joyent's svc:/system/filesystem/smartdc SMF service
+in SmartOS's svc:/system/filesystem/smartdc SMF service
 (`/lib/svc/manifest/system/filesystem/joyent-fs.xml`) to include
-`/etc/passwd` and `/etc/group`, along with logic to keep the analogs in
-`/usbkey/` in sync with the active system variants in `/etc/`.
+`/etc/passwd` and `/etc/group`. Note that because these become lofs mounts,
+tools like `useradd` will not work.
 
 Place both files in `/opt/custom/smf`, and when you would like to
 add/modify/delete system users in the global zone, run `svcadm
 disable mount_usbkey_userfiles` and make your changes. When you are
 finished, run `svcadm enable mount_usbkey_userfiles` to bring the
 system back into 'normal' working mode.
+
+### User/Group Management tasks
+
+Because the necessary files are lofs mounted, tools like `useradd` will not
+work. Instead, modify the files in their source location (`/usbkey/passwd`,
+`/usbkey/group`, `/usbkey/shadow`) and then restart the
+`mount_usbkey_userfiles` service.
 
 ### Manifest
 
@@ -50,7 +55,7 @@ system back into 'normal' working mode.
 
 ### Method
 
-`mount\_usbkey\_userfiles` (must be executable)
+`mount_usbkey_userfiles` (must be executable)
 
     #!/usr/bin/bash
 
