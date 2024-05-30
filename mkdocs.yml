@@ -47,6 +47,7 @@ nav:
             - "Installation Walkthrough": "install.md"
             - "Non-interactive Installation": "non-interactive-install.md"
         - "Getting Started with SmartOS": "getting-started-with-smartos.md"
+        - "Installing the SmartOS Web UI": "web-interface.md"
         - "Virtual Instances":
             - "How to create a native SmartOS Instance": "how-to-create-a-zone.md"
             - "How to create a Hardware Virtual Machine": "how-to-create-an-hvm-zone.md"
