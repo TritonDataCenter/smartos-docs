@@ -5,14 +5,13 @@ simply exposing SmartOS primitives via a web interface for the purposes of
 managing instances and aims to make simpler tasks much more approachable for new
 users, as well as make more complex tasks easier for advanced users.
 
-In all cases, the Web UI simply exposes what's already available in SmartOS
-in a more inviting way.
-
 Note that while we have tried to make sure SmartOS features are represented in
 the Web UI, not all features are yet exposed. And due to the nature of SmartOS
 being much more free form than Triton, it's possible that you may have a
-configuration on an instance or image that causes errors in the UI. Please
-report these errors so that we may correct this.
+configuration on an instance or image that causes errors in the UI.
+[Please report these][i] errors so that we may correct this.
+
+[i]: https://github.com/TritonDataCenter/smartos-ui/issues
 
 ## Installation
 
@@ -47,7 +46,8 @@ may be replaced with a custom certificate if you choose.
 
 ## The `uiadm` command
 
-The `uiadm` command can be used to upgrade or uninstall the Web UI.
+The `uiadm` command can be used to upgrade or uninstall the Web UI. It uses the
+following subcommands.
 
 <!-- markdownlint-disable line-length -->
 
