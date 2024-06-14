@@ -57,4 +57,6 @@ enabling multicore roughly halves the boot time.
 
 ![UTM Network Tab](/assets/images/smartos-utm-network-tab.png)
 
-Install SmartOS following the [normal installation process](https://docs.smartos.org/install/)
+### Installation 
+
+Install SmartOS following the [normal installation process](/install/)
