@@ -2,21 +2,30 @@
 
 ## Detailed Guide
 
-Currently installing SmartOS on UTM with Apple Silicon is not stable.
+Currently installing SmartOS on UTM with Apple Silicon is experimental.
 If you are new to SmartOS and want to try in a VM, it would be best to try this
-on a host with x86_64 architecture (Intel/AMD).
-The instructions here are intended for testing and development use cases.
+on a host with x86_64 architecture (Intel/AMD). The instructions here are
+intended for testing and development use cases.
 
-Issues users have encountered include long boot times and failure to create
-zones once installed.
-A recent test took approximately 15 minutes from boot menu to install screen
-enabling multicore roughly halves the boot time.
+Because running SmartOS under UTM on Apple Sillicon requires using full
+emulation, the experience is not as good as it would be using x86_64 hardware.
+Issues users have encountered include tasks taking a very long time and zones
+failing to provision or boot.
 
-1. Download and verify the latest SmartOS iso image from the [downloads page](https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos.html)
+The settings below should be sufficient to get a SmartOS vm running under UTM.
+There may be additional performance improvements to be made, and the guidance
+may require updates as changes are made to UTM.
+
+Note: KVM and bhyve guests are not supported when running under full emulation.
+
+1. Download and verify the latest SmartOS iso image from the
+  [downloads page][dl]
 1. In UTM, click "Create a New Virtual Machine"
 1. Select "Emulate"
 1. Select "Other"
 1. Under "Boot ISO Image" choose the image you downloaded
+
+[dl]: https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/smartos.html
 
 ### Settings
 
@@ -70,10 +79,12 @@ enabling multicore roughly halves the boot time.
 - The default built in terminal can be used that will open when the VM is started
 - TCP Server Connection can also be used to select a port and connect over TCP
 - PseudoTTY can also be used which can then be used with the `screen` command
-- For more information on serial devices in UTM please refer to the [UTM documentation](https://docs.getutm.app/settings-apple/devices/serial/)
+- For more information on serial devices in UTM please refer to the
+[UTM documentation](https://docs.getutm.app/settings-apple/devices/serial/)
 
 ![Devices Tab](/assets/images/smartos-utm-devices-tab.png)
 
 ### Installation
 
-Install SmartOS following the [normal installation process](/install/)
+From here, install SmartOS following the
+[normal installation process](/install/).
