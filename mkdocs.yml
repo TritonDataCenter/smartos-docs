@@ -44,6 +44,7 @@ nav:
             - "Creating a SmartOS Bootable USB Key": "creating-a-smartos-bootable-usb-key.md"
             - "SmartOS as a VMware Guest": "smartos-as-a-vmware-guest.md"
             - "SmartOS as a VirtualBox Guest": "smartos-as-a-virtualbox-guest.md"
+            - "SmartOS as a UTM Guest on Apple Silicon": "smartos-as-a-utm-guest.md"
             - "Installation Walkthrough": "install.md"
             - "Non-interactive Installation": "non-interactive-install.md"
         - "Getting Started with SmartOS": "getting-started-with-smartos.md"
