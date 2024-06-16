@@ -128,7 +128,7 @@ Before you begin, [download the image](download-smartos.md).
 
         umount /media/USBKEY
         gunzip smartos-$RELEASE-usb.img.gz
-        dd if=smartos-$RELEASE-usb.img of=/dev/rdsk/c2t0d0p0 bs=1024k
+        dd if=smartos-$RELEASE-usb.img of=/dev/rdsk/c6t0d0p0 bs=1024k
 
 ## FreeBSD
 
