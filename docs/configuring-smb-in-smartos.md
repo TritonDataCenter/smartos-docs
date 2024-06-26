@@ -121,6 +121,9 @@ are also deleted.
     **Important:** `-r` is the displayed resource name, `-s` is the share
     location, `smb` is the file system export type. See
     [`sharemgr(8)`][sharemgr-8] for additional options.
+    If that command fails, try running
+    `sharemgr create -P smb smb`
+    and then try again.
 
 12. Test with a CIFS client
 
