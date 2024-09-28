@@ -2,6 +2,8 @@
 
 ## Detailed Guide
 
+[UTM](https://mac.getutm.app/) is a virtual machine host for macOS based on QEMU.
+
 Currently installing SmartOS on UTM with Apple Silicon is experimental.
 If you are new to SmartOS and want to try in a VM, it would be best to try this
 on a host with x86_64 architecture (Intel/AMD). The instructions here are
