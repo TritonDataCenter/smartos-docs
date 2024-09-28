@@ -192,7 +192,10 @@ The process of creating a KVM image looks like this:
 1. Create and customize a KVM instance as you wish
 2. Purge and ready the instance
 3. Halt the VM: `vmadm stop <UUID>`
-4. Snapshot the disk0 ZVol: `zfs snapshot zones/<UUID>-disk0@image`
+4. Snapshot the disk0 ZVol: `zfs snapshot zones/<UUID>-disk0@image`.
+If you get an `out of space` error, set `flexible_disk_size` to a high enough
+number to accommodate the snapshot:
+`vmadm update <UUID> flexible_disk_size=<high enough number>`
 5. Dump & Compress the dataset: `zfs send zones/<UUID>-disk0@image | gzip > image_name.zvol.gz`
 
 You can now import the image locally via imgadm or transfer it to an
