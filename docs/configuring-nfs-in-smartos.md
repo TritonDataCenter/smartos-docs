@@ -25,11 +25,9 @@ commands for our SmartMachine client VM (vm100):
     cn112 [0] /usr/sbin/zfs create -p -o quota=1.5g -o
     > sharenfs='rw=@172.25.0.0/24:@172.25.1.0/25,ro=@172.25.1.128/25,root=172.25.0.100'
     > zones/nfs/c9fd4db6-5da0-4b0d-8c7a-87c55b10caff vm100 [0] /usr/sbin/mount -Fnfs -o rw,intr
-    > 172.25.0.49:/zones/nfs/c9fd4db6-5da0-4b0d-8c7a-87c55b10caff /mnt/n
-fs-pool
+    > 172.25.0.49:/zones/nfs/c9fd4db6-5da0-4b0d-8c7a-87c55b10caff /mnt/nfs-pool
     vm100 [0] /opt/local/bin/grep nfs-pool /etc/vfstab
-    172.25.0.49:/zones/nfs/c9fd4db6-5da0-4b0d-8c7a-87c55b10caff - /mnt/n
-fs-pool nfs - yes -
+    172.25.0.49:/zones/nfs/c9fd4db6-5da0-4b0d-8c7a-87c55b10caff - /mnt/nfs-pool nfs - yes -
 
 In the following setup, I include necessary network configuration
 details since neither the server nor the client are currently

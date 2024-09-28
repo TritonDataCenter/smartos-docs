@@ -63,6 +63,7 @@ SmartOS can run in a virtual machine. However, if nested virtualization is
 unavailable, some HVM features will not function.
 
 See:
+
 - [SmartOS as a VMWare Guest](smartos-as-a-vmware-guest.md)
 - [SmartOS as a VirtualBox Guest](smartos-as-a-virtualbox-guest.md)
 - [SmartOS as a UTM Guest on Apple Silicon](smartos-as-a-utm-guest.md)
