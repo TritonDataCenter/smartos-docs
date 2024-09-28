@@ -2,7 +2,7 @@
 
 ## Latest Release
 
-* [ISO Image][download-iso] - For running in Virtual Box, VMware,
+* [ISO Image][download-iso] - For running in Virtual Box, VMware, UTM for Apple Silicon
   or booting hardware from read-only media.
 * [USB Image][download-usb] - For booting on real hardware
   using read/write media.

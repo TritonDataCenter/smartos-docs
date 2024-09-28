@@ -57,5 +57,12 @@ SmartOS requires an Intel CPU with [VT-x extensions][vtx] or AMD CPU with
 [vtx]:http://en.wikipedia.org/wiki/VT-x#Intel_virtualization_.28VT-x.29
 [amdv]: https://en.wikipedia.org/wiki/X86_virtualization#AMD_virtualization_(AMD-V)
 
+### Virtualized SmartOS
+
 SmartOS can run in a virtual machine. However, if nested virtualization is
 unavailable, some HVM features will not function.
+
+See:
+- [SmartOS as a VMWare Guest](smartos-as-a-vmware-guest.md)
+- [SmartOS as a VirtualBox Guest](smartos-as-a-virtualbox-guest.md)
+- [SmartOS as a UTM Guest on Apple Silicon](smartos-as-a-utm-guest.md)
