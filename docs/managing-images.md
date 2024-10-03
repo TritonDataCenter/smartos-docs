@@ -198,6 +198,21 @@ The process of creating a KVM image looks like this:
 You can now import the image locally via imgadm or transfer it to an
 image server.
 
+### Creating a Custom Bhyve Image
+
+The process of creating a Bhyve image looks like this:
+
+1. Create and customize a Bhyve instance as you wish
+2. Purge and ready the instance
+3. Halt the VM: `vmadm stop <UUID>`
+4. Make sure there is enough room for a snapshot:
+   `vmadm update <UUID> flexible_disk_size=<double the size of the disk>`
+5. Snapshot the disk0 ZVol: `zfs snapshot zones/<UUID>/disk0@image`
+6. Dump & Compress the dataset: `zfs send zones/<UUID>/disk0@image | gzip > image_name.zvol.gz`
+
+You can now import the image locally via imgadm or transfer it to an
+image server.
+
 ### Importing Images Locally
 
 Typically images are downloaded from an image server, however they can
