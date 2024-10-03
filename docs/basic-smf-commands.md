@@ -258,7 +258,7 @@ case to figure out which ipf.conf ipfilter is using:
 Using SMF to uncover information about a service is easy.
 
 <!-- markdownlint-disable line-length -->
-| Command          | Description
+| Command          | Description |
 | ---------------- | ----------------------------------------------------- |
 | `svcs -a`        | List all services for this SmartMachine, including disabled services. |
 | `svcs -x`        | List explanations for all services that are running but not enabled or services that are preventing another service from running. |

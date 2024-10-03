@@ -1228,7 +1228,7 @@ For example, here are some common Linux commands that work differently.
 <!-- markdownlint-disable line-length -->
 
 | Command | What's different on a Smart Machine |
-| ------- | ------------------------------------------------------------
+| ------- | ------------------------------------------------------------ |
 | `df`    | On most SmartOS image this is set up to use the GNU version. Use `/usr/bin/df` for the native version. |
 | `lsof`  | SmartMachines use a different collection of tools to examine processes. See [Examining processes and memory](#examining-processes-and-memory) later in this topic. |
 | `ping`  | Returns whether a host responds or not.  Use `ping -s` to get a continuous response.   |
@@ -1248,7 +1248,7 @@ more about them by looking at the `proc` man page.
 <!-- markdownlint-disable line-length -->
 
 | Tool       | Description |
-| ---------- | ---------------------------------------------------------
+| ---------- | --------------------------------------------------------- |
 | `prstat`   | This tool displays the active processes like `top` does on Linux systems. `prstat -Z` will provide you with a summary of your instance's status. |
 | `pgrep`    | Returns a list of process IDs (PIDs) of processes that match a pattern or meet certain conditions. |
 | `pkill`    | Kills the processes that match a pattern or meet certain conditions. |
