@@ -4,9 +4,6 @@ SmartOS installation can be automated to be either fully or partially
 non-interactive. This is similar to kickstart, jumpstart, installerconfig, or
 other unattended installation methods used by many operating systems.
 
-On SmartOS this is done with an `answers.json` file. The answer file must be
-placed at `private/answers.json` of the installation media and be valid JSON.
-
 An example `answers.json` file looks like this:
 
 ```json
@@ -31,6 +28,9 @@ An example `answers.json` file looks like this:
   "skip_final_confirm": true
 }
 ```
+
+The answer file *must* be valid JSON. If there are parsing errors the entire
+file will be ignored.
 
 ## Supported Keys
 
@@ -171,3 +171,63 @@ The system hostname.
 If set to `true`, setpu will skip the final confirmation. If missing or set to
 any other value setup will display a summary and prompt for confirmation before
 anything is applied.
+
+## Where to put the answers.json file
+
+The `answers.json` file can be supplied in one of three ways.
+
+* On the install media
+* As a boot module via Loader
+* As a boot module via iPXE
+
+### On the install media
+
+The answer file may be placed at `private/answers.json` of the installation
+media. For USB media this is simply a matter of mounting the installer and
+copying the file. For ISO media, you will need to build your own ISO.
+
+For example, if you mount a USB at `/mnt/usbkey` to copy in the `answer.json`
+file, it should be copied to `/mnt/usbkey/private/answers.json`.
+
+### As a boot mdoule via Loader
+
+The answer file may be loaded as a boot module via Loader. This should be added
+to `loader.conf.local`.
+
+```conf
+answers_json_load=YES
+answers_json_type=file
+answers_json_name=/local/answers.json
+answers_json_flags="name=answers.json"
+```
+
+The `answer_json_name` path is relative to the device root. For example, if you
+mount a USB at `/mnt/usbkey` to copy in the `answer.json` file, it should be
+`/mnt/usbkey/local/answers.json`.
+
+**Note:** This example is somewhat redundant because it example shows the file
+being on the install media at `private/answers.json`, which will already be
+loaded just by being on the install media.
+
+See [Modifying Boot Files](/modifying-boot-files) for more information.
+
+### As a boot module via iPXE
+
+The answer file may be loaded via iPXE. This should be loaded via HTTP. To
+use HTTPS to download the module you must have an iPXE binary with compiled in
+support for TLS.
+
+```ipxe
+module http://netboot.example.com/my/answers.json type=file name=answers.json
+module http://netboot.example.com/my/answers.json.hash type=file name=answers.json.hash
+```
+
+The `answers.json.hash` is optional. If you include it, the content must be the
+SHA1 hash of the `answers.json` file. iPXE wil use the hash to verify that the
+module has been downloaded correctly.
+
+The following command can be used to create the hash file.
+
+```sh
+printf '%s' $(digest -a sha1 answers.json) > answers.json.hash
+```
