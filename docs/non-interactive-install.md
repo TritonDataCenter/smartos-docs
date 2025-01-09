@@ -159,7 +159,7 @@ will be installed during setup.
 This string will be used to generate a password hash added to the `shadow`
 file for the `root` user.
 
-**Note:** Leaving the `answer.json` file on the USB with the `root_password`
+**Note:** Leaving the `answers.json` file on the USB with the `root_password`
 will expose the password to anyone who has access to the file.
 
 ### hostname
@@ -186,7 +186,7 @@ The answer file may be placed at `private/answers.json` of the installation
 media. For USB media this is simply a matter of mounting the installer and
 copying the file. For ISO media, you will need to build your own ISO.
 
-For example, if you mount a USB at `/mnt/usbkey` to copy in the `answer.json`
+For example, if you mount a USB at `/mnt/usbkey` to copy in the `answers.json`
 file, it should be copied to `/mnt/usbkey/private/answers.json`.
 
 ### As a boot mdoule via Loader
@@ -201,8 +201,8 @@ answers_json_name=/local/answers.json
 answers_json_flags="name=answers.json"
 ```
 
-The `answer_json_name` path is relative to the device root. For example, if you
-mount a USB at `/mnt/usbkey` to copy in the `answer.json` file, it should be
+The `answers_json_name` path is relative to the device root. For example, if you
+mount a USB at `/mnt/usbkey` to copy in the `answers.json` file, it should be
 `/mnt/usbkey/local/answers.json`.
 
 **Note:** This example is somewhat redundant because it example shows the file
