@@ -47,14 +47,15 @@ Now we want loader to prepare this file as a bootfs module.
     cat << EOF >> boot/loader.conf.local
     etc_system_load=YES
     etc_system_type=file
-    etc_system_name=/bootfs/etc/system
+    etc_system_name=/boot/bootfs/etc/system
     etc_system_flags="name=/etc/system"
     EOF
 
 The prefix (`etc_system_*`) is arbitrary, though often named after the module.
 For each file you want, you’d want a `*_load`, `*_type`, `*_name` and `*_flag`
 line specified. The `*_name` parameter is the path to the file for loader to
-use; the name *flag* is the `/system/boot/...` path you want the modified file
+use and is relative to the volume root (i.e., relative to the mount point);
+the name *flag* is the `/system/boot/...` path you want the modified file
 to be available at after booting.
 
 ## Booting With Supplemental Modules
