@@ -7,8 +7,8 @@ communities.
 
 ## Mailing Lists & Forums
 
-The best place to talk about SmartOS is the [smartos*discuss mailing
-list](https://smartos.topicbox.com/groups/smartos*discuss). If you wish
+The best place to talk about SmartOS is the [smartos-discuss mailing
+list](https://smartos.topicbox.com/groups/smartos-discuss). If you wish
 to send mail to the list you'll need to join, but you can view and
 search the archives online without being a member. The discussion list
 is the best way to find a broad range of people who may be working on
@@ -17,11 +17,12 @@ the same problems or have answered the same questions you have.
 There are also other related mailing lists for software included in, or
 related to, SmartOS; e.g.,
 
-* [illumos Mailing Lists](https://illumos.org/docs/community/lists/)
+* [SmartOS Mailing List](https://smartos.topicbox.com/groups/smartos-discuss)
 * [Triton Data Center](https://smartdatacenter.topicbox.com/groups/sdc*discuss)
   (Compute Service built on SmartOS)
 * [Manta Object Storage](https://mantastorage.topicbox.com/groups/manta*discuss)
   (Object Storage built on SmartOS)
+* [Other illumos Mailing Lists](https://illumos.org/docs/community/lists/)
 * Reddit
     * [r/smartos](https://reddit.com/r/smartos)
     * [r/illumos](https://reddit.com/r/illumos)
