@@ -15,21 +15,11 @@ configuration on an instance or image that causes errors in the UI.
 
 ## Installation
 
-To install the web interface, download and run the installer.
+You can use `uiadm` to install the web interface:
 
 ```sh
-curl -O https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/ui-installer.sh
-bash ./ui-installer.sh
+uiadm install latest
 ```
-
-Or, the quick and dirty way:
-
-<!-- markdownlint-disable line-length -->
-
-```sh
-curl https://us-central.manta.mnx.io/Joyent_Dev/public/SmartOS/ui-installer.sh | bash
-```
-<!-- markdownlint-enable line-length -->
 
 ## Accessing the Web UI
 
