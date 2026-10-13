@@ -158,7 +158,10 @@ For full details, see the SmartOS [Metadata Dictionary][dd].
 #### `cloud-init:`
 
 The `cloud-init:` namespace is reserved for the `cloud-config` system. The
-only supported key is `cloud-init:user-data`.
+supported keys are `cloud-init:user-data` and, for bhyve instances created from
+images that use cloud-init's NoCloud datasource, `cloud-init:network-config`.
+See [Using Cloud-init with NoCloud Compatible
+Images](using-nocloud-compatible-images.md).
 
 The exact behavior of `cloud-init` will depend on the version installed in the
 image you are using. Not all images will have `cloud-init` installed.
