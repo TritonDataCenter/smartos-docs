@@ -31,8 +31,9 @@ based on [illumos][illumos].  It supports two types of virtualization:
   solution for running a variety of guest OS's including Linux,
   Windows, \*BSD, Plan9 and more
 
-SmartOS is a "live OS", it is always booted via PXE, ISO, or USB
-Key and runs entirely from memory, allowing the local disks to be
+SmartOS is a "live OS" — it is always booted from a read-only disk image
+(provided via PXE, ISO, USB key, or a ZFS pool)
+and runs entirely from memory, allowing the local disks to be
 used entirely for hosting virtual machines without wasting disks
 for the root OS.  This architecture has a variety of advantages
 including increased security, no need for patching, fast upgrades
